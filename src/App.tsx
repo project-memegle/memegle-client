@@ -2,7 +2,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import HomePage from './pages/Home.tsx';
 import LogIn from './pages/LogIn.tsx';
-import Result from './pages/Result';
+import Result from './pages/Result.tsx';
 import SignUp from './pages/SignUp.tsx';
 import Root from './pages/Root.tsx';
 
