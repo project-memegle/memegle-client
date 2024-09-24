@@ -6,6 +6,8 @@ import Result from './pages/Result.tsx';
 import SignUp from './pages/SignUp.tsx';
 import NotFoundPage from './pages/NotFound.tsx';
 
+import './scss/common.scss';
+
 const Router = createBrowserRouter([
     {
         path: '/',
