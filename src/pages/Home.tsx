@@ -1,4 +1,5 @@
 import logo from '../assets/logo.svg';
+import CategoryBox from '../components/UI/CategoryBox';
 import SearchInput from '../components/UI/SearchInput';
 
 export default function HomePage() {
@@ -10,24 +11,12 @@ export default function HomePage() {
                 <p>이미지를 선택하면 이미지가 복사됩니다</p>
             </section>
             <section className="category__section">
-                <article className="category__box favorite">
-                    <p className="category__box-title">즐겨찾기</p>
-                </article>
-                <article className="category__box favorite">
-                    <p className="category__box-title">즐겨찾기</p>
-                </article>
-                <article className="category__box favorite">
-                    <p className="category__box-title">즐겨찾기</p>
-                </article>
-                <article className="category__box favorite">
-                    <p className="category__box-title">즐겨찾기</p>
-                </article>
-                <article className="category__box favorite">
-                    <p className="category__box-title">즐겨찾기</p>
-                </article>
-                <article className="category__box favorite">
-                    <p className="category__box-title">즐겨찾기</p>
-                </article>
+                <CategoryBox category="favorite" />
+                <CategoryBox category="mudo" />
+                <CategoryBox category="digiMon" />
+                <CategoryBox category="gif" />
+                <CategoryBox category="temp1" />
+                <CategoryBox category="temp2" />
             </section>
         </main>
     );
