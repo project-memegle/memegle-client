@@ -1,7 +1,11 @@
 export default function SearchInput() {
+    function clickHandler() {
+        location.href = '/result';
+    }
+
     return (
         <form className="form">
-            <button>
+            <button onClick={clickHandler}>
                 <svg
                     width="17"
                     height="16"

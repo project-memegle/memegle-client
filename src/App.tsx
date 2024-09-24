@@ -13,15 +13,26 @@ const Router = createBrowserRouter([
         path: '/',
         element: <HomePage />,
         errorElement: <NotFoundPage />,
-        children: [
-            {
-                index: true,
-                element: <HomePage />,
-            },
-            { path: 'login', element: <LogIn /> },
-            { path: 'result', element: <Result /> },
-            { path: 'signup', element: <SignUp /> },
-        ],
+        // children: [
+        //     { path: 'result', element: <Result /> },
+        //     { path: 'login', element: <LogIn /> },
+        //     { path: 'signup', element: <SignUp /> },
+        // ],
+    },
+    {
+        path: '/result',
+        element: <Result />,
+        errorElement: <NotFoundPage />,
+    },
+    {
+        path: '/login',
+        element: <LogIn />,
+        errorElement: <NotFoundPage />,
+    },
+    {
+        path: '/signup',
+        element: <SignUp />,
+        errorElement: <NotFoundPage />,
     },
 ]);
 
