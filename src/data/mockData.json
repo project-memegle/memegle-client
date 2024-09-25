@@ -1,0 +1,78 @@
+{
+  "success": true,
+  "status": "OK",
+  "code": 200,
+  "message": "Data retrieved successfully",
+  "results": [
+    {
+      "id": 1,
+      "imageUrl": "https://picsum.photos/id/1/200/300",
+      "imageCategory": "mudo",
+      "createdAt": "2024-09-25T07:18:16.673Z",
+      "modifiedAt": "2024-09-25T07:18:16.673Z"
+    },
+    {
+      "id": 2,
+      "imageUrl": "https://picsum.photos/id/1/200/300",
+      "imageCategory": "gif",
+      "createdAt": "2024-09-24T14:12:05.123Z",
+      "modifiedAt": "2024-09-24T14:12:05.123Z"
+    },
+    {
+      "id": 3,
+      "imageUrl": "https://picsum.photos/id/1/200/300",
+      "imageCategory": "digiMon",
+      "createdAt": "2024-09-23T09:30:45.456Z",
+      "modifiedAt": "2024-09-23T09:30:45.456Z"
+    },
+    {
+      "id": 4,
+      "imageUrl": "https://picsum.photos/id/1/200/300",
+      "imageCategory": "favorite",
+      "createdAt": "2024-09-22T16:20:35.789Z",
+      "modifiedAt": "2024-09-22T16:20:35.789Z"
+    },
+    {
+      "id": 5,
+      "imageUrl": "https://picsum.photos/id/1/200/300",
+      "imageCategory": "temp1",
+      "createdAt": "2024-09-21T08:15:25.456Z",
+      "modifiedAt": "2024-09-21T08:15:25.456Z"
+    },
+    {
+      "id": 6,
+      "imageUrl": "https://picsum.photos/id/1/200/300",
+      "imageCategory": "temp2",
+      "createdAt": "2024-09-20T10:45:12.345Z",
+      "modifiedAt": "2024-09-20T10:45:12.345Z"
+    },
+    {
+      "id": 7,
+      "imageUrl": "https://picsum.photos/id/1/200/300",
+      "imageCategory": "mudo",
+      "createdAt": "2024-09-19T11:25:00.678Z",
+      "modifiedAt": "2024-09-19T11:25:00.678Z"
+    },
+    {
+      "id": 8,
+      "imageUrl": "https://picsum.photos/id/1/200/300",
+      "imageCategory": "favorite",
+      "createdAt": "2024-09-18T09:10:20.123Z",
+      "modifiedAt": "2024-09-18T09:10:20.123Z"
+    },
+    {
+      "id": 9,
+      "imageUrl": "https://picsum.photos/id/1/200/300",
+      "imageCategory": "digiMon",
+      "createdAt": "2024-09-17T12:30:40.456Z",
+      "modifiedAt": "2024-09-17T12:30:40.456Z"
+    },
+    {
+      "id": 10,
+      "imageUrl": "https://picsum.photos/id/1/200/300",
+      "imageCategory": "gif",
+      "createdAt": "2024-09-16T14:55:55.678Z",
+      "modifiedAt": "2024-09-16T14:55:55.678Z"
+    }
+  ]
+}

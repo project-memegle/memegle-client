@@ -1,49 +1,32 @@
-type favouriteType = 'favorite';
-type mudoType = 'mudo';
-type digiMonType = 'digiMon';
-type gifType = 'gif';
-type tempType = 'temp1';
-type temp2Type = 'temp2';
+import { useNavigate } from 'react-router-dom';
 
-type categoryType =
-    | favouriteType
-    | mudoType
-    | digiMonType
-    | gifType
-    | tempType
-    | temp2Type;
+type CategoryType = 'favorite' | 'mudo' | 'digiMon' | 'gif' | 'temp1' | 'temp2';
 
 interface CategoryBoxProps {
-    category: categoryType;
-}
-
-function clickHandler() {
-    location.href = '/result';
+    category: CategoryType;
 }
 
 export default function CategoryBox({ category }: CategoryBoxProps) {
-    const keyword = function keywordHandler(category: categoryType) {
-        switch (category) {
-            case 'favorite':
-                return '즐겨찾기';
-            case 'mudo':
-                return '무한도전';
-            case 'digiMon':
-                return '디지몬';
-            case 'gif':
-                return 'GIF';
-            case 'temp1':
-                return '임시1';
-            case 'temp2':
-                return '임시2';
-            default:
-                return '';
-        }
+    const navigate = useNavigate();
+
+    function clickHandler() {
+        navigate(`/result/${category}`);
+    }
+
+    const keywordMap: Record<CategoryType, string> = {
+        favorite: '즐겨찾기',
+        mudo: '무한도전',
+        digiMon: '디지몬',
+        gif: 'GIF',
+        temp1: '임시1',
+        temp2: '임시2',
     };
+
+    const keyword = keywordMap[category] || '';
 
     return (
         <article className={`category__box ${category}`} onClick={clickHandler}>
-            <p className="category__box-title">{keyword(category)}</p>
+            <p className="category__box-title">{keyword}</p>
         </article>
     );
 }
