@@ -1,35 +1,41 @@
 import { useState, useEffect } from 'react';
 
-function useFetch<T>(url: string) {
+function useFetchHandler<T>(input: string | T) {
     const [data, setData] = useState<T | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-
-    console.log('====================================');
-    console.log('useFetch url', url);
-    console.log('====================================');
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                if (typeof input === 'string') {
+                    const response = await fetch(input);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const result = await response.json();
+                    setData(result);
+                } else {
+                    // Simulate a delay for mock data
+                    setTimeout(() => {
+                        setData(input);
+                        setLoading(false);
+                    }, 1000);
                 }
-                const result = await response.json();
-                setData(result);
             } catch (error) {
                 setError((error as Error).message);
             } finally {
-                setLoading(false);
+                if (typeof input === 'string') {
+                    setLoading(false);
+                }
             }
         };
 
         fetchData();
-    }, [url]);
+    }, [input]);
 
     return { data, loading, error };
 }
 
-export default useFetch;
+export default useFetchHandler;

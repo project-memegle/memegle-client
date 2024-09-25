@@ -15,7 +15,7 @@ export default function SearchSection() {
                 <img className="logo" src={String(logo)} alt="logo" />
             </button>
             <SearchInput />
-            <p>이미지를 선택하면 이미지가 복사됩니다</p>
+            <p className='home__text'>이미지를 선택하면 이미지가 복사됩니다</p>
         </section>
     );
 }
