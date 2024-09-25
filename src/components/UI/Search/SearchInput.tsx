@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import useNavigateHandler from '../../../hooks/useNavigateHandler';
 
 export default function SearchInput() {
-    const navigate = useNavigate();
+    const navigate = useNavigateHandler('/result');
 
     function clickHandler() {
-        navigate('/result');
+        navigate();
     }
 
     return (

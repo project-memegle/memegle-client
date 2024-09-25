@@ -1,16 +1,16 @@
-import { useNavigate } from 'react-router-dom';
+import useNavigateHandler from '../../../hooks/useNavigateHandler';
 
 type CategoryType = 'favorite' | 'mudo' | 'digiMon' | 'gif' | 'temp1' | 'temp2';
 
-interface CategoryBoxProps {
+interface CategoryItemProps {
     category: CategoryType;
 }
 
-export default function CategoryBox({ category }: CategoryBoxProps) {
-    const navigate = useNavigate();
+export default function CategoryItem({ category }: CategoryItemProps) {
+    const navigate = useNavigateHandler(`/result/${category}`);
 
     function clickHandler() {
-        navigate(`/result/${category}`);
+        navigate();
     }
 
     const keywordMap: Record<CategoryType, string> = {
