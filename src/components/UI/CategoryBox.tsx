@@ -17,6 +17,10 @@ interface CategoryBoxProps {
     category: categoryType;
 }
 
+function clickHandler() {
+    location.href = '/result';
+}
+
 export default function CategoryBox({ category }: CategoryBoxProps) {
     const keyword = function keywordHandler(category: categoryType) {
         switch (category) {
@@ -38,7 +42,7 @@ export default function CategoryBox({ category }: CategoryBoxProps) {
     };
 
     return (
-        <article className={`category__box ${category}`}>
+        <article className={`category__box ${category}`} onClick={clickHandler}>
             <p className="category__box-title">{keyword(category)}</p>
         </article>
     );
