@@ -24,15 +24,19 @@ interface MockData {
 export default function Result() {
     const params = useParams<{ category: string }>();
     const category = params.category;
-    const { data, loading, error } = useFetchHandler<MockData>(mockData); // Use mockData directly
+    const { data, loading, error } = useFetchHandler<MockData | null>(mockData); // Use mockData directly
 
     let content: ReactNode;
 
     if (loading) {
         content = <LoadingSpinner />;
-    } else if (error) {
+    }
+
+    if (error) {
         content = <div>Error: {error}</div>;
-    } else {
+    }
+
+    if (data && data?.results.length <= 0) {
         const categoryData = data?.results.find(
             (item) => item.imageCategory === category
         );
@@ -42,6 +46,15 @@ export default function Result() {
             <img src={imageUrl} alt="img" />
         ) : (
             <p>No image found for the category "{category}".</p>
+        );
+    }
+    if (data && data?.results.length > 0) {
+        content = (
+            <div>
+                {data.results.map((item) => (
+                    <img key={item.id} src={item.imageUrl} alt="img" />
+                ))}
+            </div>
         );
     }
 

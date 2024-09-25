@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-function useFetchHandler<T>(input: string | T) {
+function useFetchHandler<T>(url: string | T) {
     const [data, setData] = useState<T | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -9,8 +9,8 @@ function useFetchHandler<T>(input: string | T) {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                if (typeof input === 'string') {
-                    const response = await fetch(input);
+                if (typeof url === 'string') {
+                    const response = await fetch(url);
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
@@ -19,21 +19,21 @@ function useFetchHandler<T>(input: string | T) {
                 } else {
                     // Simulate a delay for mock data
                     setTimeout(() => {
-                        setData(input);
+                        setData(url);
                         setLoading(false);
                     }, 1000);
                 }
             } catch (error) {
                 setError((error as Error).message);
             } finally {
-                if (typeof input === 'string') {
+                if (typeof url === 'string') {
                     setLoading(false);
                 }
             }
         };
 
         fetchData();
-    }, [input]);
+    }, [url]);
 
     return { data, loading, error };
 }
