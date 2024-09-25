@@ -1,0 +1,77 @@
+.category__section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2열로 고정 */
+  grid-template-rows: repeat(3, 1fr); /* 3행으로 고정 */
+  gap: 1em;
+}
+
+.category__item {
+  background-image: url("your-image.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 200px;
+  border-radius: 20px;
+  overflow: hidden; /* 자식 요소가 넘치지 않게 */
+
+  &:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+
+  &:hover::before {
+    background-color: rgba(0, 0, 0, 0.7); /* Darker background on hover */
+  }
+}
+
+.category__item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 검은색 투명도 */
+  z-index: 1; /* 배경 위에 오도록 */
+  border-radius: 20px; /* 부모 요소와 동일한 border-radius 적용 */
+}
+
+.category__item * {
+  position: relative;
+  z-index: 2; /* 오버레이 위에 내용이 표시되도록 */
+}
+
+.category__item.favorite {
+  background-image: url("../../../public/tempImages/test1.jpeg");
+}
+
+.category__item.digiMon {
+  background-image: url("../../../public/tempImages/test2.jpeg");
+}
+
+.category__item.gif {
+  background-image: url("../../../public/tempImages/test3.jpeg");
+}
+
+.category__item.temp1 {
+  background-image: url("../../../public/tempImages/test4.jpeg");
+}
+
+.category__item.temp2 {
+  background-image: url("../../../public/tempImages/test5.jpeg");
+}
+
+.category__item.mudo {
+  background-image: url("../../../public/tempImages/test6.jpeg");
+}
+
+.category__item-title {
+  color: #fff;
+  font-size: 36px;
+  font-weight: 700;
+}

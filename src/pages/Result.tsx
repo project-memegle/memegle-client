@@ -4,6 +4,7 @@ import useFetchHandler from '../hooks/useFetchHandler'; // Adjust the path as ne
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import mockData from '../data/mockData.json';
 import { ReactNode } from 'react';
+import ResultSection from '../components/UI/Result/ResultSection';
 
 interface MockDataItem {
     id: number;
@@ -48,23 +49,19 @@ export default function Result() {
             <p>No image found for the category "{category}".</p>
         );
     }
+
     if (data && data?.results.length > 0) {
-        content = (
-            <div>
-                {data.results.map((item) => (
-                    <img key={item.id} src={item.imageUrl} alt="img" />
-                ))}
-            </div>
+        const categoryData = data.results.filter(
+            (item) => item.imageCategory === category
         );
+
+        content = <ResultSection {...categoryData} />;
     }
 
     return (
         <main className="home__main">
             <SearchSection />
-            <section>
-                <h1>This is ResultPage. The category is {category}</h1>
-                {content}
-            </section>
+            {content}
         </main>
     );
 }

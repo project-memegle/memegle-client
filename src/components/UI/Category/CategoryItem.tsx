@@ -25,8 +25,11 @@ export default function CategoryItem({ category }: CategoryItemProps) {
     const keyword = keywordMap[category] || '';
 
     return (
-        <article className={`category__box ${category}`} onClick={clickHandler}>
-            <p className="category__box-title">{keyword}</p>
+        <article
+            className={`category__item ${category}`}
+            onClick={clickHandler}
+        >
+            <p className="category__item-title">{keyword}</p>
         </article>
     );
 }
