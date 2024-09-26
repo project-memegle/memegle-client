@@ -1,8 +1,20 @@
+import { useState } from 'react';
+import LogIn from '../../../pages/LogIn';
+
 export default function Header() {
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    function showModal() {
+        setModalIsOpen(true);
+    }
+
+    function hideModal() {
+        setModalIsOpen(false);
+    }
+
     return (
         <header>
-            <h1>My App</h1>
-            <button className="logIn__button">로그인</button>
+            {modalIsOpen && <LogIn onClose={hideModal} />}
+            <button onClick={showModal}>로그인</button>
         </header>
     );
 }
