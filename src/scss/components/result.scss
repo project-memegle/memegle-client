@@ -1,17 +1,11 @@
-.result__section > div {
+.result__section {
   display: grid;
-  grid-template-columns: repeat(4, minmax(50px, 1fr)); /* 4열 고정, 최소 크기 50px */
-  grid-auto-rows: minmax(50px, auto); /* 행 크기는 자동 조절, 최소 크기 50px */
+  grid-template-columns: repeat(4, minmax(50px, 1fr));
+  grid-auto-rows: minmax(50px, auto);
   gap: 1em;
 }
 
 .result__item {
-  aspect-ratio: 1 / 1; /* 가로 세로 비율 1:1 */
-  background-image: url("your-image.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,6 +13,10 @@
   height: 200px;
   border-radius: 20px;
   overflow: hidden; /* 자식 요소가 넘치지 않게 */
+
+  & img {
+    height: 100%;
+  }
 
   &:hover {
     transform: scale(1.05);
