@@ -7,10 +7,10 @@ interface CategoryItemProps {
 }
 
 export default function CategoryItem({ category }: CategoryItemProps) {
-    const navigate = useNavigateHandler(`/result/${category}`);
+    const navigate = useNavigateHandler();
 
     function clickHandler() {
-        navigate();
+        navigate(`/result/${category}`);
     }
 
     const keywordMap: Record<CategoryType, string> = {

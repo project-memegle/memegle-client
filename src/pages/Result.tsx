@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import SearchSection from '../components/UI/Search/SearchSection';
-import useFetchHandler from '../hooks/useFetchHandler'; // Adjust the path as necessary
+import useFetchHandler from '../hooks/useFetchHandler';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import mockData from '../data/mockData.json';
 import { ReactNode } from 'react';

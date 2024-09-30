@@ -5,6 +5,10 @@ import LogIn from './pages/LogIn';
 import Result from './pages/Result';
 import SignUp from './pages/SignUp';
 import NotFoundPage from './pages/NotFound';
+import Notification from './pages/Notification.tsx';
+import Favorite from './pages/FindPassword.tsx';
+import FindId from './pages/FindId.tsx';
+import FindPassword from './pages/FindPassword.tsx';
 
 const router = createBrowserRouter([
     {
@@ -17,17 +21,25 @@ const router = createBrowserRouter([
                 element: <HomePage />,
             },
             {
+                path: 'notifications',
+                element: <Notification />,
+            },
+            {
                 path: 'result',
                 element: <Result />,
                 children: [{ path: ':category', element: <Result /> }],
             },
             {
-                path: 'login',
-                element: <LogIn />,
+                path: 'favorite',
+                element: <Favorite />,
             },
             {
-                path: 'signup',
-                element: <SignUp />,
+                path: 'findid',
+                element: <FindId />,
+            },
+            {
+                path: 'findpassword',
+                element: <FindPassword />,
             },
         ],
     },
