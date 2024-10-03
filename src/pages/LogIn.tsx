@@ -1,7 +1,5 @@
 import { ChangeEvent, useCallback, useState } from 'react';
-import axios from 'axios';
-
-import useInput from '../hooks/useInput';
+import axios, { AxiosResponse } from 'axios';
 import useNavigateHandler from '../hooks/useNavigateHandler';
 import ValidationMessages from '../components/UI/Validations/ValidationMessages';
 import validateId from '../components/UI/Validations/ValidateId';
@@ -16,8 +14,7 @@ export default function LogIn() {
     const [passwordError, setPasswordError] = useState(
         ValidationMessages.REQUIRED_PASSWORD
     );
-    const [loginError, setLoginError] = useState(false);
-    const [loginSuccess, setLoginSuccess] = useState(false);
+    const [message, setMessage] = useState('');
 
     const onChangeId = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +30,7 @@ export default function LogIn() {
         (e: ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value;
             const error = validateId(value);
-            setId(value);
+            setPassword(value);
             setIdError(error);
         },
         [setPassword, setPasswordError]
@@ -42,22 +39,20 @@ export default function LogIn() {
     const onSubmit = useCallback(
         (e) => {
             e.preventDefault();
-            setLoginError(false);
-            setLoginSuccess(false);
+            setMessage('');
             axios
                 .post('/login', {
                     id,
                     password,
                 })
-                .then((response) => {
+                .then((response: AxiosResponse) => {
                     console.log('response :', response);
-                    setLoginSuccess(true);
+                    setMessage(response.data.message); // Assuming the success message is in response.data.message
                 })
                 .catch((error) => {
                     console.log(error);
-                    setLoginError(true);
-                })
-                .finally(() => {});
+                    setMessage(error.response?.data?.message); // Assuming the error message is in error.response.data.message
+                });
         },
         [id, password]
     );
@@ -69,28 +64,6 @@ export default function LogIn() {
     function findPassword() {
         navigate('/findpassword');
     }
-
-    const handleLogIn = async () => {
-        try {
-            const response = await axios.post('/login', {
-                id,
-                password,
-            });
-            // 로그인 성공
-            setMessage('success');
-            // 여기서 추가 작업 (예: 토큰 저장, 페이지 이동 등)을 할 수 있습니다.
-        } catch (error) {
-            if (axios.isAxiosError(error) && error.response) {
-                // 서버가 반환한 오류 메시지를 출력
-                setMessage(
-                    `fail: ${error.response.data.message || 'Unknown error'}`
-                );
-            } else {
-                // 네트워크 오류 등
-                setMessage('fail');
-            }
-        }
-    };
 
     return (
         <>
@@ -119,14 +92,11 @@ export default function LogIn() {
                         onChange={onChangePassword}
                     />
                 </div>
-                <button
-                    className="login__button"
-                    type="submit"
-                    onClick={handleLogIn}
-                >
+                <button className="login__button" type="submit">
                     로그인
                 </button>
             </form>
+            {message && <p>{message}</p>}
             <section>
                 <button onClick={findId}>아이디 찾기</button>
                 <button onClick={findPassword}>비밀번호 찾기</button>
