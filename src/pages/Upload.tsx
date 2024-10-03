@@ -13,10 +13,21 @@ export default function FileUpload() {
             'image/png',
             'image/webp',
         ];
-        if (selectedFile && allowedTypes.includes(selectedFile.type)) {
+        const maxSizeInMB = 5;
+        const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
+        if (selectedFile) {
+            if (!allowedTypes.includes(selectedFile.type)) {
+                alert('허용되지 않는 파일 형식입니다.');
+                return;
+            }
+
+            if (selectedFile.size > maxSizeInBytes) {
+                alert('파일 크기가 5MB를 초과합니다.');
+                return;
+            }
+
             setFile(selectedFile);
-        } else {
-            alert('허용되지 않는 파일 형식입니다.');
         }
     };
 
