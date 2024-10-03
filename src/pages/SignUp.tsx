@@ -1,55 +1,70 @@
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import axios from 'axios';
-import useInput from '../hooks/useInput';
 import validateId from '../components/UI/Validations/ValidateId';
 import validatePassword from '../components/UI/Validations/ValidatePassword';
 import ValidationMessages from '../components/UI/Validations/ValidationMessages';
-import validateMatchValue from '../components/UI/Validations/ValidateMatchValue';
 import validateNickname from '../components/UI/Validations/ValidateNickname';
 
 export default function SignUp() {
-    const [id, onChangeId] = useInput('');
-    const [idError, setIdError] = useState('');
-    const [nickname, onChangeNickname] = useInput('');
-    const [nicknameError, setNicknameError] = useState('');
-    const [password, onChangePassword] = useInput('');
-    const [passwordCheck, onChangePasswordCheck] = useInput('');
-    const [passwordError, setPasswordError] = useState('');
-    const [mismatchError, setMismatchError] = useState(false);
+    const [id, setId] = useState('');
+    const [idError, setIdError] = useState(ValidationMessages.REQUIRED_ID);
+    const [nickname, setNickname] = useState('');
+    const [nicknameError, setNicknameError] = useState(
+        ValidationMessages.REQUIRED_NICKNAME
+    );
+    const [password, setPassword] = useState('');
+    const [passwordCheck, setPasswordCheck] = useState('');
+    const [passwordError, setPasswordError] = useState(
+        ValidationMessages.REQUIRED_PASSWORD
+    );
     const [signUpError, setSignUpError] = useState('');
     const [signupSuccess, setSignupSuccess] = useState('');
 
-    const handlePasswordChange = useCallback(
+    const onChangeId = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
-            onChangePassword(e);
-            setMismatchError(e.target.value !== passwordCheck);
+            const value = e.target.value;
+            const error = validateId(value);
+            setId(value);
+            setIdError(error);
         },
-        [onChangePassword, passwordCheck]
+        [setId, setIdError]
     );
 
-    const handlePasswordCheckChange = useCallback(
+    const onChangeNickname = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
-            onChangePasswordCheck(e);
-            setMismatchError(e.target.value !== password);
+            const value = e.target.value;
+            const error = validateNickname(value);
+            setNickname(value);
+            setNicknameError(error);
         },
-        [onChangePasswordCheck, password]
+        [setNickname, setNicknameError]
+    );
+
+    const onChangePassword = useCallback(
+        (e: ChangeEvent<HTMLInputElement>) => {
+            const value = e.target.value;
+            const error = validatePassword(value, passwordCheck);
+            setPassword(value);
+            setPasswordError(error);
+        },
+        [setPassword, setPasswordError, passwordCheck]
+    );
+
+    const onChangePasswordCheck = useCallback(
+        (e: ChangeEvent<HTMLInputElement>) => {
+            const value = e.target.value;
+            const error = validatePassword(password, value);
+            setPasswordCheck(value);
+            setPasswordError(error);
+        },
+        [setPasswordCheck, setPasswordError, password]
     );
 
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            const idError = validateId(id);
-            const passwordError = validatePassword(password);
-            const nicknameError = validateNickname(nickname);
-            const mismatchError = validateMatchValue(password, passwordCheck);
 
-            setIdError(idError);
-            setPasswordError(passwordError);
-            setNicknameError(nicknameError);
-            setMismatchError(mismatchError);
-
-            if (idError || passwordError || mismatchError || nicknameError) {
-                setSignUpError(ValidationMessages.INVALID_FORM);
+            if (idError || passwordError || nicknameError) {
                 return;
             }
 
@@ -101,6 +116,7 @@ export default function SignUp() {
     return (
         <form onSubmit={onSubmit}>
             <div>
+                {idError && <p>{idError}</p>}
                 <label htmlFor="id">아이디</label>
                 <input
                     name="id"
@@ -110,9 +126,9 @@ export default function SignUp() {
                     value={id}
                     onChange={onChangeId}
                 />
-                {idError && <p>{idError}</p>}
             </div>
             <div>
+                {nicknameError && <p>{nicknameError}</p>}
                 <label htmlFor="nickname">닉네임</label>
                 <input
                     name="nickname"
@@ -122,9 +138,9 @@ export default function SignUp() {
                     value={nickname}
                     onChange={onChangeNickname}
                 />
-                {nicknameError && <p>{nicknameError}</p>}
             </div>
             <div>
+                {passwordError && <p>{passwordError}</p>}
                 <label htmlFor="password">비밀번호</label>
                 <input
                     name="password"
@@ -132,7 +148,7 @@ export default function SignUp() {
                     id="password"
                     placeholder="비밀번호"
                     value={password}
-                    onChange={handlePasswordChange}
+                    onChange={onChangePassword}
                 />
                 <label htmlFor="password-check">비밀번호 확인</label>
                 <input
@@ -141,10 +157,8 @@ export default function SignUp() {
                     id="password-check"
                     placeholder="비밀번호 확인"
                     value={passwordCheck}
-                    onChange={handlePasswordCheckChange}
+                    onChange={onChangePasswordCheck}
                 />
-                {passwordError && <p>{passwordError}</p>}
-                {mismatchError && <p>{mismatchError}</p>}
             </div>
             {signUpError && <p>{signUpError}</p>}
             {signupSuccess && <p>{signupSuccess}</p>}

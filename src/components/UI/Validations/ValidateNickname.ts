@@ -1,7 +1,9 @@
 import ValidationMessages from './ValidationMessages';
 import validateSpace from './ValidateSpace';
-import validateType from './ValidateType';
 
+const escapeRegExp = (string: string): string => {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};
 const validateNickname = (nickname: string): string => {
     const trimmedNickname = validateSpace(nickname);
 
@@ -12,9 +14,11 @@ const validateNickname = (nickname: string): string => {
         return ValidationMessages.INVALID_NICKNAME_LENGTH;
     }
 
-    const regex = new RegExp(
-        `^[${validateType.VALIDATE_SPECIAL_CHARACTERS}]+$`
-    );
+    const specialCharacters = "!@#$%^&*()_+[]{}|;:',.<>?";
+
+    const escapedSpecialCharacters = escapeRegExp(specialCharacters);
+
+    const regex = new RegExp(`^[a-zA-Z0-9${escapedSpecialCharacters}]*$`);
     if (!regex.test(trimmedNickname)) {
         return ValidationMessages.INVALID_NICKNAME_TYPE;
     }

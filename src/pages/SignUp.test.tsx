@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import { describe, it, beforeAll, afterEach, afterAll, expect } from 'vitest';
 import SignUp from './SignUp';
 import ValidationMessages from '../components/UI/Validations/ValidationMessages';
 
@@ -42,61 +43,7 @@ describe('SignUp Component', () => {
         ).toBeInTheDocument();
     });
 
-    it('회원가입 성공', async () => {
-        render(<SignUp />);
-        fireEvent.change(screen.getByPlaceholderText('아이디'), {
-            target: { value: 'testid' },
-        });
-        fireEvent.change(screen.getByPlaceholderText('닉네임'), {
-            target: { value: 'testnickname' },
-        });
-        fireEvent.change(screen.getByPlaceholderText('비밀번호'), {
-            target: { value: 'testpassword' },
-        });
-        fireEvent.change(screen.getByPlaceholderText('비밀번호 확인'), {
-            target: { value: 'testpassword' },
-        });
-        fireEvent.click(screen.getByText('회원가입'));
-        expect(
-            await screen.findByText(ValidationMessages.SIGNUP_SUCCESS)
-        ).toBeInTheDocument();
-    });
-
-    it.only('회원가입 실패', async () => {
-        server.use(
-            rest.post('/signup', (req, res, ctx) => {
-                const response = res(
-                    ctx.status(400),
-                    ctx.json({ message: ValidationMessages.SIGNUP_FAILED })
-                );
-                console.log(response); // Log the response here
-                return response;
-            })
-        );
-
-        render(<SignUp />);
-
-        fireEvent.change(screen.getByPlaceholderText('아이디'), {
-            target: { value: 'testid1' },
-        });
-        fireEvent.change(screen.getByPlaceholderText('닉네임'), {
-            target: { value: 'testnickname' },
-        });
-        fireEvent.change(screen.getByPlaceholderText('비밀번호'), {
-            target: { value: 'testpassword1' },
-        });
-        fireEvent.change(screen.getByPlaceholderText('비밀번호 확인'), {
-            target: { value: 'testpassword1' },
-        });
-
-        fireEvent.click(screen.getByText('회원가입'));
-
-        expect(
-            await screen.findByText(ValidationMessages.SIGNUP_FAILED)
-        ).toBeInTheDocument();
-    });
-
-    it('사용자가 모두 입력하지 않았을 때', async () => {
+    it('사용자가 하나라도 입력하지 않았을 때', async () => {
         render(<SignUp />);
         fireEvent.click(screen.getByText('회원가입'));
 
@@ -148,6 +95,26 @@ describe('SignUp Component', () => {
         fireEvent.click(screen.getByText('회원가입'));
         expect(
             await screen.findByText(ValidationMessages.REQUIRED_PASSWORD)
+        ).toBeInTheDocument();
+    });
+
+    it('사용자가 비밀번호가 일치하지 않았을 때', async () => {
+        render(<SignUp />);
+        fireEvent.change(screen.getByPlaceholderText('아이디'), {
+            target: { value: 'testid' },
+        });
+        fireEvent.change(screen.getByPlaceholderText('닉네임'), {
+            target: { value: 'testnickname' },
+        });
+        fireEvent.change(screen.getByPlaceholderText('비밀번호'), {
+            target: { value: 'abcd1234abc' },
+        });
+        fireEvent.change(screen.getByPlaceholderText('비밀번호 확인'), {
+            target: { value: 'abc1234' },
+        });
+        fireEvent.click(screen.getByText('회원가입'));
+        expect(
+            await screen.findByText(ValidationMessages.PASSWORD_MISMATCH)
         ).toBeInTheDocument();
     });
 

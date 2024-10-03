@@ -1,17 +1,43 @@
-import { useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import axios from 'axios';
 
 import useInput from '../hooks/useInput';
 import useNavigateHandler from '../hooks/useNavigateHandler';
+import ValidationMessages from '../components/UI/Validations/ValidationMessages';
+import validateId from '../components/UI/Validations/ValidateId';
+import validatePassword from '../components/UI/Validations/ValidatePassword';
 
 export default function LogIn() {
     const navigate = useNavigateHandler();
 
-    const [id, onChangeId] = useInput('');
-    const [password, onChangePassword] = useInput('');
+    const [id, setId] = useState('');
+    const [idError, setIdError] = useState(ValidationMessages.REQUIRED_ID);
+    const [password, setPassword] = useState('');
+    const [passwordError, setPasswordError] = useState(
+        ValidationMessages.REQUIRED_PASSWORD
+    );
     const [loginError, setLoginError] = useState(false);
     const [loginSuccess, setLoginSuccess] = useState(false);
-    const [message, setMessage] = useState('');
+
+    const onChangeId = useCallback(
+        (e: ChangeEvent<HTMLInputElement>) => {
+            const value = e.target.value;
+            const error = validateId(value);
+            setId(value);
+            setIdError(error);
+        },
+        [setId, setIdError]
+    );
+
+    const onChangePassword = useCallback(
+        (e: ChangeEvent<HTMLInputElement>) => {
+            const value = e.target.value;
+            const error = validateId(value);
+            setId(value);
+            setIdError(error);
+        },
+        [setPassword, setPasswordError]
+    );
 
     const onSubmit = useCallback(
         (e) => {
@@ -43,6 +69,7 @@ export default function LogIn() {
     function findPassword() {
         navigate('/findpassword');
     }
+
     const handleLogIn = async () => {
         try {
             const response = await axios.post('/login', {
@@ -64,11 +91,12 @@ export default function LogIn() {
             }
         }
     };
+
     return (
         <>
             <form onSubmit={onSubmit}>
                 <div>
-                    {!id && <p>아이디를 입력해주세요.</p>}
+                    {idError && <p>{idError}</p>}
                     <label htmlFor="id"></label>
                     <input
                         name="id"
@@ -80,7 +108,7 @@ export default function LogIn() {
                     />
                 </div>
                 <div>
-                    {!password && <p>비밀번호를 입력해주세요.</p>}
+                    {passwordError && <p>{passwordError}</p>}
                     <label htmlFor="password"></label>
                     <input
                         name="password"
@@ -98,7 +126,6 @@ export default function LogIn() {
                 >
                     로그인
                 </button>
-                {message && <p>{message}</p>}
             </form>
             <section>
                 <button onClick={findId}>아이디 찾기</button>

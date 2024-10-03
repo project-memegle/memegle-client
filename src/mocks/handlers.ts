@@ -27,11 +27,13 @@ export const handlers = [
         const { username, nickname, password } = req.body as SignupRequest;
 
         if (username && nickname && password) {
+            console.log('회원가입 통신 성공');
             return res(
                 ctx.status(200),
                 ctx.json({ message: ValidationMessages.SIGNUP_SUCCESS })
             );
         } else {
+            console.log('회원가입 통신 실패');
             return res(
                 ctx.status(400),
                 ctx.json({
