@@ -9,6 +9,7 @@ import Notification from './pages/Notification.tsx';
 import Favorite from './pages/FindPassword.tsx';
 import FindId from './pages/FindId.tsx';
 import FindPassword from './pages/FindPassword.tsx';
+import Upload from './pages/Upload.tsx';
 
 const router = createBrowserRouter([
     {
@@ -30,8 +31,20 @@ const router = createBrowserRouter([
                 children: [{ path: ':category', element: <Result /> }],
             },
             {
+                path: 'login',
+                element: <LogIn />,
+            },
+            {
+                path: 'signup',
+                element: <SignUp />,
+            },
+            {
                 path: 'favorite',
                 element: <Favorite />,
+            },
+            {
+                path: 'upload',
+                element: <Upload />,
             },
             {
                 path: 'findid',

@@ -29,6 +29,7 @@ const Modal = forwardRef<ModalHandle, ModalProps>(function Modal(
     });
 
     // Below, the onClose prop is set on <dialog> to handle the case that the user closes the modal via a built-in mechanism (ESC key)
+    console.log(document.getElementById('modal-root')!);
     return createPortal(
         <dialog ref={dialog} className="modal" onClose={onClose}>
             {children}

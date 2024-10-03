@@ -1,156 +1,156 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import axios from 'axios';
-
-import Modal, { ModalHandle } from '../components/UI/Modal/ModalSection';
 import useInput from '../hooks/useInput';
+import validateId from '../components/UI/Validations/ValidateId';
+import validatePassword from '../components/UI/Validations/ValidatePassword';
+import ValidationMessages from '../components/UI/Validations/ValidationMessages';
+import validateMatchValue from '../components/UI/Validations/ValidateMatchValue';
+import validateNickname from '../components/UI/Validations/ValidateNickname';
 
-type SignUpProps = {
-    onClose: () => void;
-};
-
-export default function SignUp({ onClose }: SignUpProps) {
-    const modal = useRef<ModalHandle>(null);
-
-    useEffect(() => {
-        if (modal.current) {
-            modal.current.open();
-        }
-    }, []);
-
+export default function SignUp() {
     const [id, onChangeId] = useInput('');
-    const [name, onChangeName] = useInput('');
+    const [idError, setIdError] = useState('');
     const [nickname, onChangeNickname] = useInput('');
-    const [password, , setPassword] = useInput('');
-    const [passwordCheck, , setPasswordCheck] = useInput('');
-    const [mismatchError, setMismatchError] = useState('');
+    const [nicknameError, setNicknameError] = useState('');
+    const [password, onChangePassword] = useInput('');
+    const [passwordCheck, onChangePasswordCheck] = useInput('');
+    const [passwordError, setPasswordError] = useState('');
+    const [mismatchError, setMismatchError] = useState(false);
     const [signUpError, setSignUpError] = useState('');
-    const [signupSuccess, setSignupSuccess] = useState(false);
+    const [signupSuccess, setSignupSuccess] = useState('');
 
-    //useCallback을 사용함으로써 불필요한 재렌더링을 방지한다.
-
-    const onChangePassword = useCallback(
-        (e) => {
-            setPassword(e.target.value);
+    const handlePasswordChange = useCallback(
+        (e: ChangeEvent<HTMLInputElement>) => {
+            onChangePassword(e);
             setMismatchError(e.target.value !== passwordCheck);
         },
-        [passwordCheck]
+        [onChangePassword, passwordCheck]
     );
 
-    const onChangePasswordCheck = useCallback(
-        (e) => {
-            setPasswordCheck(e.target.value);
+    const handlePasswordCheckChange = useCallback(
+        (e: ChangeEvent<HTMLInputElement>) => {
+            onChangePasswordCheck(e);
             setMismatchError(e.target.value !== password);
         },
-        [password]
+        [onChangePasswordCheck, password]
     );
 
     const onSubmit = useCallback(
-        (e) => {
+        async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            if (!mismatchError && nickname) {
-                console.log('서버로 회원가입하기');
+            const idError = validateId(id);
+            const passwordError = validatePassword(password);
+            const nicknameError = validateNickname(nickname);
+            const mismatchError = validateMatchValue(password, passwordCheck);
+
+            setIdError(idError);
+            setPasswordError(passwordError);
+            setNicknameError(nicknameError);
+            setMismatchError(mismatchError);
+
+            if (idError || passwordError || mismatchError || nicknameError) {
+                setSignUpError(ValidationMessages.INVALID_FORM);
+                return;
+            }
+
+            if (nickname && id && password && passwordCheck) {
+                console.log('서버로 회원가입하기 요청');
+
                 setSignUpError('');
-                axios
-                    .post('http://localhost:3095/api/users', {
+                try {
+                    const response = await axios.post('/signup', {
                         id,
                         nickname,
                         password,
-                    })
-                    .then((response) => {
-                        console.log(response);
-                        setSignupSuccess(true);
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        setSignUpError(error.response.data);
-                    })
-                    .finally(() => {});
+                    });
+                    console.log(response);
+                    setSignupSuccess(ValidationMessages.SIGNUP_SUCCESS);
+                } catch (error) {
+                    console.log(error);
+                    switch (error) {
+                        case '400':
+                            setSignUpError(ValidationMessages.SIGNUP_FAILED);
+                            break;
+                        case '40001':
+                            setSignUpError(ValidationMessages.INVALID_FORM);
+                            break;
+                        case '40002':
+                            setSignUpError(ValidationMessages.EXIST_ID);
+                            break;
+                        case '40401':
+                            setSignUpError(ValidationMessages.NO_RESOURCE);
+                            break;
+                        case '40102':
+                            setSignUpError(
+                                ValidationMessages.INVALID_PASSWORD_LENGTH
+                            );
+                            break;
+                        case '50000':
+                            setSignUpError(ValidationMessages.SERVER_ERROR);
+                            break;
+                        default:
+                            setSignUpError(ValidationMessages.UNKNOWN_ERROR);
+                            break;
+                    }
+                }
             }
         },
-        [id, name, nickname, password, passwordCheck]
+        [id, nickname, password, passwordCheck]
     );
 
     return (
-        <>
-            <Modal ref={modal} onClose={onClose}>
-                <section className="modal__container">
-                    <form onSubmit={onSubmit}>
-                        <div>
-                            <label htmlFor="id"></label>
-                            {!id && <p>아이디를 입력해주세요.</p>}
-                            <input
-                                name="id"
-                                id="id"
-                                type="text"
-                                placeholder="아이디"
-                                value={id}
-                                onChange={onChangeId}
-                            />
-                        </div>
-                        <div>
-                            {!name && <p>이름을 입력해주세요.</p>}
-                            <label htmlFor="name"></label>
-                            <input
-                                name="name"
-                                id="name"
-                                type="text"
-                                placeholder="이름"
-                                value={name}
-                                onChange={onChangeName}
-                            />
-                        </div>
-                        <div>
-                            {!nickname && <p>닉네임을 입력해주세요.</p>}
-                            <label htmlFor="nickname"></label>
-                            <input
-                                name="nickname"
-                                id="nickname"
-                                type="text"
-                                placeholder="닉네임"
-                                value={nickname}
-                                onChange={onChangeNickname}
-                            />
-                        </div>
-                        <div>
-                            {!password && !passwordCheck && (
-                                <p>비밀번호를 입력해주세요.</p>
-                            )}
-                            {mismatchError && (
-                                <p>비밀번호가 일치하지 않습니다.</p>
-                            )}
-                            <div>
-                                <label htmlFor="password"></label>
-                                <input
-                                    name="password"
-                                    type="password"
-                                    id="password"
-                                    placeholder="비밀번호"
-                                    value={password}
-                                    onChange={onChangePassword}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="password-check"></label>
-                                <input
-                                    name="password-check"
-                                    type="password"
-                                    id="password-check"
-                                    placeholder="비밀번호 확인"
-                                    value={passwordCheck}
-                                    onChange={onChangePasswordCheck}
-                                />
-                            </div>
-                        </div>
-
-                        <button className="signup__button" type="submit">
-                            회원가입
-                        </button>
-                    </form>
-                    <section>
-                        <button onClick={onClose}>닫기</button>
-                    </section>
-                </section>
-            </Modal>
-        </>
+        <form onSubmit={onSubmit}>
+            <div>
+                <label htmlFor="id">아이디</label>
+                <input
+                    name="id"
+                    id="id"
+                    type="text"
+                    placeholder="아이디"
+                    value={id}
+                    onChange={onChangeId}
+                />
+                {idError && <p>{idError}</p>}
+            </div>
+            <div>
+                <label htmlFor="nickname">닉네임</label>
+                <input
+                    name="nickname"
+                    id="nickname"
+                    type="text"
+                    placeholder="닉네임"
+                    value={nickname}
+                    onChange={onChangeNickname}
+                />
+                {nicknameError && <p>{nicknameError}</p>}
+            </div>
+            <div>
+                <label htmlFor="password">비밀번호</label>
+                <input
+                    name="password"
+                    type="password"
+                    id="password"
+                    placeholder="비밀번호"
+                    value={password}
+                    onChange={handlePasswordChange}
+                />
+                <label htmlFor="password-check">비밀번호 확인</label>
+                <input
+                    name="password-check"
+                    type="password"
+                    id="password-check"
+                    placeholder="비밀번호 확인"
+                    value={passwordCheck}
+                    onChange={handlePasswordCheckChange}
+                />
+                {passwordError && <p>{passwordError}</p>}
+                {mismatchError && <p>{mismatchError}</p>}
+            </div>
+            {signUpError && <p>{signUpError}</p>}
+            {signupSuccess && <p>{signupSuccess}</p>}
+            <button className="signup__button" type="submit">
+                회원가입
+            </button>
+        </form>
     );
 }

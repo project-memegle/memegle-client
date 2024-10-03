@@ -1,46 +1,35 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import axios from 'axios';
 
-import Modal, { ModalHandle } from '../components/UI/Modal/ModalSection';
 import useInput from '../hooks/useInput';
 import useNavigateHandler from '../hooks/useNavigateHandler';
 
-type LoginProps = {
-    onClose: () => void;
-};
-
-export default function SignUp({ onClose }: LoginProps) {
-    const modal = useRef<ModalHandle>(null);
+export default function LogIn() {
     const navigate = useNavigateHandler();
-
-    useEffect(() => {
-        if (modal.current) {
-            modal.current.open();
-        }
-    }, []);
 
     const [id, onChangeId] = useInput('');
     const [password, onChangePassword] = useInput('');
-    const [loginError, setLoginError] = useState('');
+    const [loginError, setLoginError] = useState(false);
     const [loginSuccess, setLoginSuccess] = useState(false);
+    const [message, setMessage] = useState('');
 
     const onSubmit = useCallback(
         (e) => {
             e.preventDefault();
-            console.log('서버로 로그인하기');
-            setLoginError('');
+            setLoginError(false);
+            setLoginSuccess(false);
             axios
-                .post('http://localhost:3095/api/users', {
+                .post('/login', {
                     id,
                     password,
                 })
                 .then((response) => {
-                    console.log(response);
+                    console.log('response :', response);
                     setLoginSuccess(true);
                 })
                 .catch((error) => {
                     console.log(error);
-                    setLoginError(error.response.data);
+                    setLoginError(true);
                 })
                 .finally(() => {});
         },
@@ -48,55 +37,73 @@ export default function SignUp({ onClose }: LoginProps) {
     );
 
     function findId() {
-        onClose();
         navigate('/findid');
     }
 
     function findPassword() {
-        onClose();
         navigate('/findpassword');
     }
-
+    const handleLogIn = async () => {
+        try {
+            const response = await axios.post('/login', {
+                id,
+                password,
+            });
+            // 로그인 성공
+            setMessage('success');
+            // 여기서 추가 작업 (예: 토큰 저장, 페이지 이동 등)을 할 수 있습니다.
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                // 서버가 반환한 오류 메시지를 출력
+                setMessage(
+                    `fail: ${error.response.data.message || 'Unknown error'}`
+                );
+            } else {
+                // 네트워크 오류 등
+                setMessage('fail');
+            }
+        }
+    };
     return (
         <>
-            <Modal ref={modal} onClose={onClose}>
-                <section className="modal__container">
-                    <form onSubmit={onSubmit}>
-                        <div>
-                            {!id && <p>아이디를 입력해주세요.</p>}
-                            <label htmlFor="id"></label>
-                            <input
-                                name="id"
-                                id="id"
-                                type="text"
-                                placeholder="아이디"
-                                value={id}
-                                onChange={onChangeId}
-                            />
-                        </div>
-                        <div>
-                            {!password && <p>비밀번호를 입력해주세요.</p>}
-                            <label htmlFor="password"></label>
-                            <input
-                                name="password"
-                                type="password"
-                                id="password"
-                                placeholder="비밀번호"
-                                value={password}
-                                onChange={onChangePassword}
-                            />
-                        </div>
-                        <button className="signup__button" type="submit">
-                            로그인
-                        </button>
-                    </form>
-                    <section>
-                        <button onClick={onClose}>닫기</button>
-                        <button onClick={findId}>아이디 찾기</button>
-                        <button onClick={findPassword}>비밀번호 찾기</button>
-                    </section>
-                </section>
-            </Modal>
+            <form onSubmit={onSubmit}>
+                <div>
+                    {!id && <p>아이디를 입력해주세요.</p>}
+                    <label htmlFor="id"></label>
+                    <input
+                        name="id"
+                        id="id"
+                        type="text"
+                        placeholder="아이디"
+                        value={id}
+                        onChange={onChangeId}
+                    />
+                </div>
+                <div>
+                    {!password && <p>비밀번호를 입력해주세요.</p>}
+                    <label htmlFor="password"></label>
+                    <input
+                        name="password"
+                        type="password"
+                        id="password"
+                        placeholder="비밀번호"
+                        value={password}
+                        onChange={onChangePassword}
+                    />
+                </div>
+                <button
+                    className="login__button"
+                    type="submit"
+                    onClick={handleLogIn}
+                >
+                    로그인
+                </button>
+                {message && <p>{message}</p>}
+            </form>
+            <section>
+                <button onClick={findId}>아이디 찾기</button>
+                <button onClick={findPassword}>비밀번호 찾기</button>
+            </section>
         </>
     );
 }
