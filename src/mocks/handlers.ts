@@ -4,8 +4,7 @@ export const handlers = [
     rest.post('/login', (req, res, ctx) => {
         return res(ctx.status(200), ctx.json({ data: 'success' }));
     }),
-    
-    rest.post('/signup', (req, res, ctx) => {
+    rest.post('/login', (req, res, ctx) => {
         return res(ctx.status(200), ctx.json({ data: 'success' }));
     }),
 ];

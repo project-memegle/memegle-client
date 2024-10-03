@@ -10,8 +10,6 @@ server.listen({
     onUnhandledRequest: 'warn',
 });
 
-server.printHandlers();
-
 describe('LogIn Component', () => {
     // 테스트 서버 시작 및 종료
     beforeAll(() => server.listen());

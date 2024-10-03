@@ -27,6 +27,8 @@ export default function LogIn() {
     );
 
     const onChangePassword = useCallback(
+
+        
         (e: ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value;
             const error = validateId(value);
