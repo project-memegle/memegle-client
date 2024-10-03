@@ -17,7 +17,10 @@ const style: CSSProperties = {
 
 interface CardItem {
     id: number;
-    text: string;
+    imageUrl: string;
+    imageCategory: string;
+    createdAt: string;
+    modifiedAt: string;
 }
 
 export interface CardState {
@@ -27,13 +30,17 @@ export interface CardState {
 
 function buildCardData() {
     const cardsById: Record<string, CardItem> = {};
-    const cardsByIndex: CardItem[] = [];
-
-    for (let i = 0; i < 1000; i += 1) {
-        const card = { id: i, text: faker.internet.userName() };
-        cardsById[card.id] = card;
-        cardsByIndex[i] = card;
-    }
+    const cardsByIndex: CardItem[] = fakeDataArray.map((card, index) => {
+        const newCard: CardItem = {
+            id: card.id,
+            imageUrl: card.imageUrl,
+            imageCategory: card.imageCategory,
+            createdAt: card.createdAt,
+            modifiedAt: card.modifiedAt,
+        };
+        cardsById[newCard.id] = newCard;
+        return newCard;
+    });
 
     return {
         cardsById,
@@ -71,7 +78,7 @@ export class Container extends Component<
                         <Card
                             key={card.id}
                             id={card.id}
-                            text={card.text}
+                            imageUrl={card.imageUrl}
                             moveCard={this.moveCard}
                         />
                     ))}

@@ -13,12 +13,20 @@ const style: CSSProperties = {
 };
 
 export interface CardProps {
-    id: any;
-    text: string;
-    moveCard: (draggedId: string, id: string) => void;
+    id: number;
+    imageUrl: string;
+    imageCategory: string;
+    createdAt: string;
+    modifiedAt: string;
+
+    moveCard: (draggedId: number, id: number) => void;
 }
 
-export const Card: FC<CardProps> = memo(function Card({ id, text, moveCard }) {
+export const Card: FC<CardProps> = memo(function Card({
+    id,
+    imageUrl,
+    moveCard,
+}) {
     const ref = useRef(null);
     const [{ isDragging, handlerId }, connectDrag] = useDrag({
         type: ItemTypes.CARD,
@@ -34,7 +42,7 @@ export const Card: FC<CardProps> = memo(function Card({ id, text, moveCard }) {
 
     const [, connectDrop] = useDrop({
         accept: ItemTypes.CARD,
-        hover({ id: draggedId }: { id: string; type: string }) {
+        hover({ id: draggedId }: { id: number }) {
             if (draggedId !== id) {
                 moveCard(draggedId, id);
             }
@@ -47,7 +55,7 @@ export const Card: FC<CardProps> = memo(function Card({ id, text, moveCard }) {
     const containerStyle = useMemo(() => ({ ...style, opacity }), [opacity]);
     return (
         <div ref={ref} style={containerStyle} data-handler-id={handlerId}>
-            {text}
+            <img src={imageUrl} alt={imageUrl} />
         </div>
     );
 });
