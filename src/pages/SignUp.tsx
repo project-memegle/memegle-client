@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import axios from 'axios';
 import validateId from '../components/UI/Validations/ValidateId';
-import validatePassword from '../components/UI/Validations/ValidatePassword';
+import validatePassword from '../components/UI/Validations/ValidateLogInPassword';
 import ValidationMessages from '../components/UI/Validations/ValidationMessages';
 import validateNickname from '../components/UI/Validations/ValidateNickname';
 

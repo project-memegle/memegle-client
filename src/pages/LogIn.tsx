@@ -1,9 +1,9 @@
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import useNavigateHandler from '../hooks/useNavigateHandler';
 import ValidationMessages from '../components/UI/Validations/ValidationMessages';
 import validateId from '../components/UI/Validations/ValidateId';
-import validatePassword from '../components/UI/Validations/ValidatePassword';
+import validateLogInPassword from '../components/UI/Validations/ValidateLogInPassword';
 
 export default function LogIn() {
     const navigate = useNavigateHandler();
@@ -27,11 +27,9 @@ export default function LogIn() {
     );
 
     const onChangePassword = useCallback(
-
-        
         (e: ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value;
-            const error = validateId(value);
+            const error = validateLogInPassword(value);
             setPassword(value);
             setIdError(error);
         },
@@ -39,7 +37,7 @@ export default function LogIn() {
     );
 
     const onSubmit = useCallback(
-        (e) => {
+        (e: FormEvent<HTMLFormElement>): void => {
             e.preventDefault();
             setMessage('');
             axios

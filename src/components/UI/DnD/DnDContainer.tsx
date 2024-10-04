@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker';
 import update from 'immutability-helper';
 import type { CSSProperties } from 'react';
 import { Component } from 'react';
@@ -19,8 +18,6 @@ interface CardItem {
     id: number;
     imageUrl: string;
     imageCategory: string;
-    createdAt: string;
-    modifiedAt: string;
 }
 
 export interface CardState {
@@ -35,8 +32,6 @@ function buildCardData() {
             id: card.id,
             imageUrl: card.imageUrl,
             imageCategory: card.imageCategory,
-            createdAt: card.createdAt,
-            modifiedAt: card.modifiedAt,
         };
         cardsById[newCard.id] = newCard;
         return newCard;
@@ -78,6 +73,7 @@ export class Container extends Component<
                         <Card
                             key={card.id}
                             id={card.id}
+                            imageCategory={card.imageCategory}
                             imageUrl={card.imageUrl}
                             moveCard={this.moveCard}
                         />
@@ -87,7 +83,7 @@ export class Container extends Component<
         );
     }
 
-    private moveCard = (id: string, afterId: string): void => {
+    private moveCard = (id: number, afterId: number): void => {
         const { cardsById, cardsByIndex } = this.cardState;
 
         const card = cardsById[id] as CardItem;

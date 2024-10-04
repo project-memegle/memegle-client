@@ -61,7 +61,11 @@ export default function FileUpload() {
                     onChange={onChangeFile}
                     accept=".gif,.jpg,.jpeg,.png,.webp"
                 />
-                <input type="submit" />
+                <div>
+                    <label htmlFor="category">카테고리</label>
+                    <input id="category" type="text" />
+                </div>
+                <button type="submit">업로드 하기</button>
             </form>
         </div>
     );

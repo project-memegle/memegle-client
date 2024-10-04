@@ -16,9 +16,6 @@ export interface CardProps {
     id: number;
     imageUrl: string;
     imageCategory: string;
-    createdAt: string;
-    modifiedAt: string;
-
     moveCard: (draggedId: number, id: number) => void;
 }
 
