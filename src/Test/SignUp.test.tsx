@@ -1,13 +1,15 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import axios from 'axios';
 import SignUp from '../pages/SignUp';
-import ValidationMessages from '../components/UI/Validations/ValidationMessages';
+import ValidationMessages from '../components/Validations/ValidationMessages';
 
 jest.mock('axios');
 
-describe('SignUp Component', () => {
+describe('회원가입 성공시', () => {
     beforeEach(() => {
-        jest.clearAllMocks();
+        (axios.post as jest.Mock).mockImplementation(() =>
+            Promise.resolve({ data: { message: 'success' } })
+        );
     });
 
     it('회원가입 폼 렌더링 테스트', () => {
@@ -121,11 +123,20 @@ describe('SignUp Component', () => {
         );
         expect(message).toBeInTheDocument();
     });
+});
 
+describe('회원가입 실패시', () => {
     it('회원가입 실패 시 메시지 확인', async () => {
-        const mockPost = axios.post as jest.Mock;
-        mockPost.mockRejectedValue({
-            response: { data: { message: ValidationMessages.SIGNUP_FAILED } },
+        // Mock the API to return a 400 error with headers
+        (axios.post as jest.Mock).mockRejectedValue({
+            response: {
+                status: 400,
+                data: { message: 'Invalid request' },
+                headers: {
+                    'content-type': 'application/json',
+                    'x-custom-header': 'custom-value',
+                },
+            },
         });
 
         render(<SignUp />);
@@ -143,9 +154,8 @@ describe('SignUp Component', () => {
         });
         fireEvent.click(screen.getByText('회원가입'));
 
-        const message = await screen.findByText(
-            ValidationMessages.SIGNUP_FAILED
-        );
-        expect(message).toBeInTheDocument();
+        // Check if the correct error message is displayed
+        const errorMessage = await screen.findByText('Invalid request');
+        expect(errorMessage).toBeInTheDocument();
     });
 });

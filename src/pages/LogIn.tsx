@@ -1,9 +1,9 @@
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 import useNavigateHandler from '../hooks/useNavigateHandler';
-import ValidationMessages from '../components/UI/Validations/ValidationMessages';
-import validateId from '../components/UI/Validations/ValidateId';
-import validateLogInPassword from '../components/UI/Validations/ValidateLogInPassword';
+import ValidationMessages from '../components/Validations/ValidationMessages';
+import validateId from '../components/Validations/ValidateId';
+import validateLogInPassword from '../components/Validations/ValidateLogInPassword';
 
 export default function LogIn() {
     const navigate = useNavigateHandler();
@@ -47,14 +47,31 @@ export default function LogIn() {
                 })
                 .then((response: AxiosResponse) => {
                     console.log('response :', response);
-                    setMessage(response.data.message); // Assuming the success message is in response.data.message
+                    setMessage(response.data.message);
                 })
-                .catch((error) => {
+                .catch((error: AxiosError) => {
                     console.log(error);
-                    setMessage(error.response?.data?.message); // Assuming the error message is in error.response.data.message
+                    if (axios.isAxiosError(error)) {
+                        switch (error.response?.status) {
+                            case 40000:
+                                setMessage(ValidationMessages.LOGIN_FAILED);
+                                break;
+                            case 40001:
+                                setMessage(ValidationMessages.INVALID_FORM);
+                                break;
+                            case 50000:
+                                setMessage(ValidationMessages.SERVER_ERROR);
+                                break;
+                            default:
+                                setMessage(ValidationMessages.UNKNOWN_ERROR);
+                                break;
+                        }
+                    } else {
+                        setMessage(ValidationMessages.UNKNOWN_ERROR);
+                    }
                 });
         },
-        [id, password]
+        [id, password, setMessage]
     );
 
     function findId() {

@@ -1,20 +1,22 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import axios from 'axios';
-import LogIn from '../pages/LogIn.tsx';
+import LogIn from '../pages/LogIn';
 import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
-import { describe, it, beforeEach } from '@jest/globals';
+import { describe, beforeEach } from '@jest/globals';
 
 jest.mock('axios');
 
 describe('LogIn Component', () => {
     beforeEach(() => {
-        jest.clearAllMocks();
+        (axios.post as jest.Mock).mockImplementation(() =>
+            Promise.resolve({ data: { message: 'success' } })
+        );
     });
 
-    it('로그인 성공 메시지 확인', async () => {
+    test('로그인 성공 메시지 확인', async () => {
         const mockPost = axios.post as jest.Mock;
-        mockPost.mockResolvedValue({ data: 'success' });
+        mockPost.mockResolvedValue({ data: { message: 'success' } });
 
         render(
             <MemoryRouter>
@@ -22,7 +24,6 @@ describe('LogIn Component', () => {
             </MemoryRouter>
         );
 
-        // Fill in the input fields
         fireEvent.change(screen.getByPlaceholderText('아이디'), {
             target: { value: 'testlogin1' },
         });
@@ -30,17 +31,25 @@ describe('LogIn Component', () => {
             target: { value: 'TestPassword1!' },
         });
 
-        // Submit the form
         fireEvent.click(screen.getByText('로그인'));
 
-        // 응답 메시지를 확인합니다.
         const message = await screen.findByText('success');
         expect(message).toBeInTheDocument();
     });
+});
 
-    it('로그인 실패 메시지 확인', async () => {
+describe('LogIn Component', () => {
+    beforeEach(() => {
+        (axios.post as jest.Mock).mockImplementation(() =>
+            Promise.resolve({ data: { message: 'fail' } })
+        );
+    });
+
+    test('로그인 실패 메시지 확인', async () => {
         const mockPost = axios.post as jest.Mock;
-        mockPost.mockRejectedValue(new Error('fail'));
+        mockPost.mockRejectedValue({
+            response: { data: { message: 'fail' } },
+        });
 
         render(
             <MemoryRouter>
@@ -48,7 +57,6 @@ describe('LogIn Component', () => {
             </MemoryRouter>
         );
 
-        // 잘못된 자격 증명으로 입력 필드에 값을 입력합니다.
         fireEvent.change(screen.getByPlaceholderText('아이디'), {
             target: { value: 'wrongId' },
         });
@@ -56,13 +64,9 @@ describe('LogIn Component', () => {
             target: { value: 'wrongPassword' },
         });
 
-        // 폼을 제출합니다.
         fireEvent.click(screen.getByText('로그인'));
 
-        // 응답 메시지를 확인합니다.
-        const message = await screen.findByText((content) =>
-            content.includes('fail')
-        );
+        const message = await screen.findByText('fail');
         expect(message).toBeInTheDocument();
     });
 });

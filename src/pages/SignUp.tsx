@@ -1,9 +1,9 @@
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
-import axios from 'axios';
-import validateId from '../components/UI/Validations/ValidateId';
-import validatePassword from '../components/UI/Validations/ValidateLogInPassword';
-import ValidationMessages from '../components/UI/Validations/ValidationMessages';
-import validateNickname from '../components/UI/Validations/ValidateNickname';
+import axios, { AxiosError } from 'axios';
+import validateId from '../components/Validations/ValidateId';
+import ValidationMessages from '../components/Validations/ValidationMessages';
+import validateNickname from '../components/Validations/ValidateNickname';
+import validateSignUpPassword from '../components/Validations/ValidateSignUpPassword';
 
 export default function SignUp() {
     const [id, setId] = useState('');
@@ -43,7 +43,7 @@ export default function SignUp() {
     const onChangePassword = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value;
-            const error = validatePassword(value, passwordCheck);
+            const error = validateSignUpPassword(value, passwordCheck);
             setPassword(value);
             setPasswordError(error);
         },
@@ -53,7 +53,7 @@ export default function SignUp() {
     const onChangePasswordCheck = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value;
-            const error = validatePassword(password, value);
+            const error = validateSignUpPassword(password, value);
             setPasswordCheck(value);
             setPasswordError(error);
         },
@@ -70,7 +70,6 @@ export default function SignUp() {
 
             if (nickname && id && password && passwordCheck) {
                 console.log('서버로 회원가입하기 요청');
-
                 setSignUpError('');
                 try {
                     const response = await axios.post('/signup', {
@@ -82,35 +81,51 @@ export default function SignUp() {
                     setSignupSuccess(ValidationMessages.SIGNUP_SUCCESS);
                 } catch (error) {
                     console.log(error);
-                    switch (error) {
-                        case '400':
-                            setSignUpError(ValidationMessages.SIGNUP_FAILED);
-                            break;
-                        case '40001':
-                            setSignUpError(ValidationMessages.INVALID_FORM);
-                            break;
-                        case '40002':
-                            setSignUpError(ValidationMessages.EXIST_ID);
-                            break;
-                        case '40401':
-                            setSignUpError(ValidationMessages.NO_RESOURCE);
-                            break;
-                        case '40102':
-                            setSignUpError(
-                                ValidationMessages.INVALID_PASSWORD_LENGTH
-                            );
-                            break;
-                        case '50000':
-                            setSignUpError(ValidationMessages.SERVER_ERROR);
-                            break;
-                        default:
-                            setSignUpError(ValidationMessages.UNKNOWN_ERROR);
-                            break;
+                    if (axios.isAxiosError(error)) {
+                        switch (error.response?.status) {
+                            case 400:
+                                setSignUpError(
+                                    ValidationMessages.SIGNUP_FAILED
+                                );
+                                break;
+                            case 40001:
+                                setSignUpError(ValidationMessages.INVALID_FORM);
+                                break;
+                            case 40002:
+                                setSignUpError(ValidationMessages.EXIST_ID);
+                                break;
+                            case 40401:
+                                setSignUpError(ValidationMessages.NO_RESOURCE);
+                                break;
+                            case 40102:
+                                setSignUpError(
+                                    ValidationMessages.INVALID_PASSWORD_LENGTH
+                                );
+                                break;
+                            case 50000:
+                                setSignUpError(ValidationMessages.SERVER_ERROR);
+                                break;
+                            default:
+                                setSignUpError(
+                                    ValidationMessages.UNKNOWN_ERROR
+                                );
+                                break;
+                        }
+                    } else {
+                        setSignUpError(ValidationMessages.UNKNOWN_ERROR);
                     }
                 }
             }
         },
-        [id, nickname, password, passwordCheck]
+        [
+            id,
+            nickname,
+            password,
+            passwordCheck,
+            idError,
+            passwordError,
+            nicknameError,
+        ]
     );
 
     return (
