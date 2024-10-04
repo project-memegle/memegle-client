@@ -1,27 +1,27 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { setupServer } from 'msw/node';
-import { handlers } from '../mocks/handlers.ts';
-import LogIn from './LogIn';
+import axios from 'axios';
+import LogIn from '../pages/LogIn.tsx';
 import { MemoryRouter } from 'react-router-dom';
-import { describe, it, beforeAll, afterEach, afterAll } from 'vitest';
 import '@testing-library/jest-dom';
-const server = setupServer(...handlers);
-server.listen({
-    onUnhandledRequest: 'warn',
-});
+import { describe, it, beforeEach } from '@jest/globals';
+
+jest.mock('axios');
 
 describe('LogIn Component', () => {
-    // 테스트 서버 시작 및 종료
-    beforeAll(() => server.listen());
-    afterEach(() => server.resetHandlers());
-    afterAll(() => server.close());
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
 
-    it.only('로그인 성공 메시지 확인', async () => {
+    it('로그인 성공 메시지 확인', async () => {
+        const mockPost = axios.post as jest.Mock;
+        mockPost.mockResolvedValue({ data: 'success' });
+
         render(
             <MemoryRouter>
                 <LogIn />
             </MemoryRouter>
         );
+
         // Fill in the input fields
         fireEvent.change(screen.getByPlaceholderText('아이디'), {
             target: { value: 'testlogin1' },
@@ -29,19 +29,25 @@ describe('LogIn Component', () => {
         fireEvent.change(screen.getByPlaceholderText('비밀번호'), {
             target: { value: 'TestPassword1!' },
         });
+
         // Submit the form
         fireEvent.click(screen.getByText('로그인'));
+
         // 응답 메시지를 확인합니다.
         const message = await screen.findByText('success');
         expect(message).toBeInTheDocument();
     });
 
     it('로그인 실패 메시지 확인', async () => {
+        const mockPost = axios.post as jest.Mock;
+        mockPost.mockRejectedValue(new Error('fail'));
+
         render(
             <MemoryRouter>
                 <LogIn />
             </MemoryRouter>
         );
+
         // 잘못된 자격 증명으로 입력 필드에 값을 입력합니다.
         fireEvent.change(screen.getByPlaceholderText('아이디'), {
             target: { value: 'wrongId' },
@@ -49,9 +55,10 @@ describe('LogIn Component', () => {
         fireEvent.change(screen.getByPlaceholderText('비밀번호'), {
             target: { value: 'wrongPassword' },
         });
+
         // 폼을 제출합니다.
         fireEvent.click(screen.getByText('로그인'));
-        screen.debug();
+
         // 응답 메시지를 확인합니다.
         const message = await screen.findByText((content) =>
             content.includes('fail')

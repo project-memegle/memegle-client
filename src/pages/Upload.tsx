@@ -1,7 +1,7 @@
 import axios from 'axios';
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
-export default function FileUpload() {
+export default function Upload() {
     const [file, setFile] = useState<File | undefined>();
 
     const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {

@@ -47,7 +47,6 @@ export const Card: FC<CardProps> = memo(function Card({
     });
 
     connectDrag(ref);
-    connectDrop(ref);
     const opacity = isDragging ? 0 : 1;
     const containerStyle = useMemo(() => ({ ...style, opacity }), [opacity]);
     return (
