@@ -3,8 +3,10 @@ import SearchSection from '../components/UI/Search/SearchSection';
 import useFetchHandler from '../hooks/useFetchHandler';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import mockData from '../data/mockData.json';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import ResultSection from '../components/UI/Result/ResultSection';
+import axios from 'axios';
+import ValidationMessages from 'components/Validations/ValidationMessages';
 
 interface MockDataItem {
     id: number;
@@ -26,6 +28,37 @@ export default function Result() {
     const params = useParams<{ category: string }>();
     const category = params.category;
     const { data, loading, error } = useFetchHandler<MockData | null>(mockData); // Use mockData directly
+    const [result, setResult] = useState('');
+    const [message, setMessage] = useState('');
+
+    useState(() => {
+        axios
+            .get('/images/category')
+            .then((response) => {
+                setResult(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+                if (axios.isAxiosError(error)) {
+                    switch (error.response?.status) {
+                        case 40001:
+                            setMessage(ValidationMessages.INVALID_FORM);
+                            break;
+                        case 40401:
+                            setMessage(ValidationMessages.MISSED_RESOURCE);
+                            break;
+                        case 50000:
+                            setMessage(ValidationMessages.SERVER_ERROR);
+                            break;
+                        default:
+                            setMessage(ValidationMessages.UNKNOWN_ERROR);
+                            break;
+                    }
+                } else {
+                    setMessage(ValidationMessages.UNKNOWN_ERROR);
+                }
+            });
+    });
 
     let content: ReactNode;
 

@@ -1,8 +1,10 @@
 import axios from 'axios';
+import ValidationMessages from 'components/Validations/ValidationMessages';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
 export default function Upload() {
     const [file, setFile] = useState<File | undefined>();
+    const [message, setMessage] = useState('');
 
     const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target.files?.[0];
@@ -45,10 +47,31 @@ export default function Upload() {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            alert('성공');
+            setMessage(response.data.message);
+            alert(message);
         } catch (error) {
-            alert('돌아가');
             console.log(error);
+            if (axios.isAxiosError(error)) {
+                switch (error.response?.status) {
+                    case 40001:
+                        setMessage(ValidationMessages.INVALID_FORM);
+                        break;
+                    case 40100:
+                        setMessage(ValidationMessages.INVALID_USER);
+                        break;
+                    case 40401:
+                        setMessage(ValidationMessages.MISSED_RESOURCE);
+                        break;
+                    case 50000:
+                        setMessage(ValidationMessages.SERVER_ERROR);
+                        break;
+                    default:
+                        setMessage(ValidationMessages.UNKNOWN_ERROR);
+                        break;
+                }
+            } else {
+                setMessage(ValidationMessages.UNKNOWN_ERROR);
+            }
         }
     };
 

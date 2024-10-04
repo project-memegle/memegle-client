@@ -21,6 +21,8 @@ const ValidationMessages: ValidationMessages = {
     NO_RESOURCE: '리소스를 찾을 수 없습니다.',
     SERVER_ERROR: '서버 에러입니다. 고객센터에 문의해주세요',
     UNKNOWN_ERROR: '알 수 없는 에러가 발생했습니다. 고객센터에 문의해주세요',
+    INVALID_USER: '인증 정보가 일치하지 않습니다.',
+    MISSED_RESOURCE: '리소스를 찾을 수 없습니다.',
 };
 
 export default ValidationMessages;
