@@ -17,7 +17,6 @@ function useFetchHandler<T>(url: string | T) {
                     const result = await response.json();
                     setData(result);
                 } else {
-                    // Simulate a delay for mock data
                     setTimeout(() => {
                         setData(url);
                         setLoading(false);

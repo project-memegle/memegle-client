@@ -8,8 +8,6 @@ import FakeData from '../../../data/mockData.json';
 
 const fakeDataArray = FakeData.results;
 
-console.log(fakeDataArray);
-
 const style: CSSProperties = {
     width: 400,
 };
@@ -27,6 +25,7 @@ export interface CardState {
 
 function buildCardData() {
     const cardsById: Record<string, CardItem> = {};
+
     const cardsByIndex: CardItem[] = fakeDataArray.map((card, index) => {
         const newCard: CardItem = {
             id: card.id,
@@ -41,6 +40,7 @@ function buildCardData() {
         cardsById,
         cardsByIndex,
     };
+    
 }
 
 export interface ContainerProps {}

@@ -31,7 +31,7 @@ export default function LogIn() {
             const value = e.target.value;
             const error = validateLogInPassword(value);
             setPassword(value);
-            setIdError(error);
+            setPasswordError(error);
         },
         [setPassword, setPasswordError]
     );
