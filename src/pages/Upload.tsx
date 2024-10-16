@@ -1,5 +1,5 @@
 import axios from 'axios';
-import ValidationMessages from 'components/Validations/ValidationMessages';
+import ValidationMessages from '../components/Validations/ValidationMessages';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
 export default function Upload() {

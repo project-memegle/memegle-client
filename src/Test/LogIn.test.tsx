@@ -4,6 +4,8 @@ import LogIn from '../pages/LogIn';
 import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import { describe, beforeEach } from '@jest/globals';
+import ValidationMessages from '../components/Validations/ValidationMessages';
+import { debug } from 'console';
 
 jest.mock('axios');
 
@@ -39,16 +41,10 @@ describe('LogIn Component', () => {
 });
 
 describe('LogIn Component', () => {
-    beforeEach(() => {
-        (axios.post as jest.Mock).mockImplementation(() =>
-            Promise.resolve({ data: { message: 'fail' } })
-        );
-    });
-
-    test('로그인 실패 메시지 확인', async () => {
+    test.only('로그인 실패 메시지 확인', async () => {
         const mockPost = axios.post as jest.Mock;
         mockPost.mockRejectedValue({
-            response: { data: { message: 'fail' } },
+            response: { code: 50000 },
         });
 
         render(
@@ -66,7 +62,10 @@ describe('LogIn Component', () => {
 
         fireEvent.click(screen.getByText('로그인'));
 
-        const message = await screen.findByText('fail');
+        const message = await screen.findByText(
+            ValidationMessages.SERVER_ERROR
+        );
         expect(message).toBeInTheDocument();
+        debug();
     });
 });

@@ -15,7 +15,6 @@ export default function LogIn() {
         ValidationMessages.REQUIRED_PASSWORD
     );
     const [message, setMessage] = useState('');
-
     const onChangeId = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value;
@@ -50,7 +49,7 @@ export default function LogIn() {
                     setMessage(response.data.message);
                 })
                 .catch((error: AxiosError) => {
-                    console.log(error);
+                    console.log(error.response);
                     if (axios.isAxiosError(error)) {
                         switch (error.response?.status) {
                             case 40000:

@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import CategoryItem from '../Category/CategoryItem';
 import axios from 'axios';
-import ValidationMessages from 'components/Validations/ValidationMessages';
+import ValidationMessages from '../../Validations/ValidationMessages';
 
 export default function CategorySection() {
     const [message, setMessage] = useState('');
     const [category, setCategory] = useState('');
-    
+
     useState(() => {
         axios
             .get('/images/category')

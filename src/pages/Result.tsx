@@ -6,7 +6,7 @@ import mockData from '../data/mockData.json';
 import { ReactNode, useState } from 'react';
 import ResultSection from '../components/UI/Result/ResultSection';
 import axios from 'axios';
-import ValidationMessages from 'components/Validations/ValidationMessages';
+import ValidationMessages from '../components/Validations/ValidationMessages';
 
 interface MockDataItem {
     id: number;
