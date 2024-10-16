@@ -4,9 +4,8 @@ import SideBar from './components/UI/SideBar/SideBar';
 
 function App() {
     return (
-        <div>
+        <div className='body__container'>
             <Header />
-            <SideBar />
             <Outlet />
         </div>
     );

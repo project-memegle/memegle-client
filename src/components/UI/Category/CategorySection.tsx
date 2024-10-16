@@ -47,6 +47,10 @@ export default function CategorySection() {
             <CategoryItem category="gif" />
             <CategoryItem category="temp1" />
             <CategoryItem category="temp2" />
+            <CategoryItem category="favorite" />
+            <CategoryItem category="mudo" />
+            <CategoryItem category="digiMon" />
+            <CategoryItem category="gif" />
         </section>
     );
 }

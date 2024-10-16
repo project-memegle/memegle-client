@@ -1,3 +1,7 @@
+.home__main {
+  padding: 16px;
+}
+
 .home__text {
   font-size: 16px;
   font-weight: 400;
@@ -5,13 +9,8 @@
   text-align: left;
   color: #838383;
 }
-.home__main {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: space-evenly;
 
-  & section:nth-child(2) {
-    width: 50%;
-  }
+.body__container {
+  width: 600px;
+  background-color: salmon;
 }

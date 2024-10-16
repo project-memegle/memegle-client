@@ -1,7 +1,10 @@
-import useNavigateHandler from '../../../hooks/useNavigateHandler';
+import SearchSection from '../Search/SearchSection';
+import logo from '../../../assets/logo.svg';
+import { useNavigate } from 'react-router-dom';
+import alertLogo from '../../../assets/icons/ic_alert.svg';
 
 export default function Header() {
-    const navigate = useNavigateHandler();
+    const navigate = useNavigate();
 
     function logOut() {
         alert('로그아웃');
@@ -21,12 +24,22 @@ export default function Header() {
     }
 
     return (
-        <header>
-            <button onClick={navigateToHome}>홈</button>
-            <button onClick={navigateToLogIn}>로그인</button>
-            <button onClick={() => logOut()}>로그아웃</button>
-            <button onClick={navigateToSignUp}>회원가입</button>
-            <button onClick={navigateToNotification}>알림</button>
+        <header className='header__container'>
+            <section className="header__containe-top">
+                <section>
+                    <button onClick={navigateToHome}>
+                        <img className="logo" src={String(logo)} alt="logo" />
+                    </button>
+                </section>
+                <section className='header__text'>
+                    <button onClick={navigateToLogIn}>로그인</button>
+                    {/* <button onClick={() => logOut()}>로그아웃</button> */}
+                    <button onClick={navigateToNotification}>
+                        <img src={String(alertLogo)} alt="alert" />
+                    </button>
+                </section>
+            </section>
+            <SearchSection />
         </header>
     );
 }

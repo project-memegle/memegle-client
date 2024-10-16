@@ -21,14 +21,11 @@
   height: var(--height-of-input);
   display: flex;
   align-items: center;
-  padding-inline: 0.8em;
   border-radius: var(--border-radius);
   transition: border-radius 0.5s ease;
-  background: var(--input-bg,#fff);
-  border: 1px solid #C2C2C2;
+  background: var(--input-bg, #fff);
+  border: 1px solid #c2c2c2;
   width: 100%;
-  margin-top: 15px;
-  margin-bottom: 10px;
 }
 /* styling of Input */
 .input {
@@ -39,7 +36,6 @@
   padding-inline: 0.5em;
   padding-block: 0.7em;
   border: none;
-
 }
 /* styling of animated border */
 .form:before {

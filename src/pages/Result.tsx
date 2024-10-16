@@ -91,10 +91,5 @@ export default function Result() {
         content = <ResultSection {...categoryData} />;
     }
 
-    return (
-        <main className="home__main">
-            <SearchSection />
-            {content}
-        </main>
-    );
+    return <main className="home__main">{content}</main>;
 }

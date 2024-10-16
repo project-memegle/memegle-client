@@ -4,7 +4,6 @@ import SearchSection from '../components/UI/Search/SearchSection';
 export default function HomePage() {
     return (
         <main className="home__main">
-            <SearchSection />
             <CategorySection />
         </main>
     );
