@@ -6,7 +6,8 @@ export default defineConfig({
     plugins: [react(), tsconfigPaths()],
     resolve: {
         alias: {
-            '@assets': '/src/assets',
+            '@memegle/assets': '/src/assets',
+            '@memegle/styles': '/src/scss/common.scss',
         },
     },
 });

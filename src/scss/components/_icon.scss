@@ -1,0 +1,31 @@
+@mixin styles() {
+  .c-icon {
+    font-variation-settings:
+      "FILL" 0,
+      "wght" 400,
+      "GRAD" 0,
+      "opsz" 48;
+    user-select: none;
+
+    &,
+    &--rounded {
+      @extend .material-symbols-rounded;
+    }
+
+    &--fill {
+      font-variation-settings:
+        "FILL" 1,
+        "wght" 400,
+        "GRAD" 0,
+        "opsz" 48;
+    }
+
+    &--bold {
+      font-variation-settings:
+        "FILL" 1,
+        "wght" 700,
+        "GRAD" 0,
+        "opsz" 48;
+    }
+  }
+}

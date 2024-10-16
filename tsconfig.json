@@ -7,7 +7,8 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-      "@assets/*": ["assets/*"]
+      "@memegle/assets": ["assets/*"],
+      "@memegle/styles": ["scss/*"],
     }
   }
 }

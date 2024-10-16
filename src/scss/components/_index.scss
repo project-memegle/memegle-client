@@ -1,0 +1,21 @@
+@use "button.scss";
+@use "category.scss";
+@use "header.scss";
+@use "home.scss";
+@use "icon.scss";
+@use "loadingSpinner.scss";
+@use "modal.scss";
+@use "result.scss";
+@use "searchInput.scss";
+
+@mixin styles() {
+  @include button.styles;
+  @include category.styles;
+  @include header.styles;
+  @include home.styles;
+  @include icon.styles;
+  @include loadingSpinner.styles;
+  @include modal.styles;
+  @include result.styles;
+  @include searchInput.styles;
+}

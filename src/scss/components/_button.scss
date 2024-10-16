@@ -1,0 +1,23 @@
+@mixin styles() {
+  button {
+    cursor: pointer;
+    border: none;
+    font-size: 1em;
+    font-weight: 700;
+    font-family: inherit;
+    background-color: transparent;
+    transition: border-color 0.25s;
+    color: #ffffff;
+    // padding: 0.6em 1.2em;
+  }
+
+  .button__absolute {
+    position: absolute;
+  }
+
+  @media (prefers-color-scheme: light) {
+    button {
+      // background-color: #f9f9f9;
+    }
+  }
+}

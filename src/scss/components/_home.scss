@@ -1,0 +1,18 @@
+@mixin styles() {
+  .home__main {
+    padding: 16px;
+    background-color: #efefef;
+  }
+
+  .home__text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 16px;
+    text-align: left;
+    color: #838383;
+  }
+
+  .body__container {
+    width: 600px;
+  }
+}

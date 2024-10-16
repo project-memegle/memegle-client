@@ -1,0 +1,30 @@
+@mixin styles() {
+  .header__container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 18px 16px;
+    background-color: #141517;
+
+    // position: fixed;
+    // width: inherit;
+    // top: 0;
+    // height: 124px;
+  }
+
+  .header__containe-top {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .header__text {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .c-icon {
+      font-size: 20px;
+      color: white;
+    }
+  }
+}
