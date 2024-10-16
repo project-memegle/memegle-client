@@ -23,14 +23,14 @@ export default function Header() {
     }
 
     return (
-        <header className="c-header header__container">
-            <section className="c-top-bar header__containe-top">
+        <header className="c-header">
+            <section className="c-top-bar">
                 <section className="c-top-bar__brand">
                     <button onClick={navigateToHome}>
                         <img className="logo" src={String(logo)} alt="logo" />
                     </button>
                 </section>
-                <section className="c-top-bar__user c-top-bar-user header__text">
+                <section className="c-top-bar__user c-top-bar-user">
                     <button
                         className="c-top-bar-user__log"
                         onClick={navigateToLogIn}
