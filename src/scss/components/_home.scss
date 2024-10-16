@@ -1,6 +1,10 @@
 @mixin styles() {
   .home__main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
     padding: 16px;
+    overflow-y: scroll;
     background-color: #efefef;
   }
 
@@ -13,6 +17,8 @@
   }
 
   .body__container {
-    width: 600px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
   }
 }
