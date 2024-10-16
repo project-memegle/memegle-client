@@ -1,55 +1,52 @@
-import useNavigateHandler from '../../../hooks/useNavigateHandler';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function SearchInput() {
-    const navigate = useNavigateHandler('/result');
+  const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState('');
 
-    function clickHandler() {
-        navigate();
-    }
+  function clickHandler(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    navigate('/result');
+  }
 
-    return (
-        <form className="form">
-            <button type="button" onClick={clickHandler}>
-                <svg
-                    width="17"
-                    height="16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    role="img"
-                    aria-label="Search"
-                >
-                    <path
-                        d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
-                        stroke="currentColor"
-                        strokeWidth={1.333}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    />
-                </svg>
-            </button>
-            <input
-                className="input"
-                placeholder="검색어를 입력해주세요"
-                required
-                type="text"
-            />
-            <button className="reset" type="reset">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    aria-label="Reset search"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                    />
-                </svg>
-            </button>
-        </form>
-    );
+  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setInputValue(event.target.value);
+  }
+
+  return (
+    <form className="form" onSubmit={(e) => e.preventDefault()}>
+      <div className="c-input">
+        <button
+          className="c-input__icon c-input__icon--front"
+          onClick={clickHandler}
+        >
+          <svg className="c-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <g>
+              <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+            </g>
+          </svg>
+        </button>
+        <input
+          className="c-input__input"
+          type="text"
+          placeholder="검색어를 입력해주세요"
+          value={inputValue}
+          onChange={handleInputChange}
+        />
+        {inputValue && (
+          <button
+            className="c-input__icon c-input__icon--back"
+            onClick={clickHandler}
+          >
+            <svg className="c-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <g>
+                <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+              </g>
+            </svg>
+          </button>
+        )}
+      </div>
+    </form>
+  );
 }
