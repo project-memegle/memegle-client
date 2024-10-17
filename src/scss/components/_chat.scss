@@ -1,0 +1,24 @@
+@mixin styles() {
+  .c-chat {
+    width: var(--container__max-width);
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .c-chat__icon {
+    position: fixed;
+    bottom: 20px;
+    right: calc((100% - var(--container__max-width)) / 2 + 20px); /* Adjust as needed */
+
+    height: 40px;
+    width: 40px;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+}

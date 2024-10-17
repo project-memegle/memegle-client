@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import useNavigateHandler from '../../../hooks/useNavigateHandler';
+import { useNavigate } from 'react-router-dom';
 
 type LogInItemProps = {
     loginId: string;
@@ -8,10 +8,10 @@ type LogInItemProps = {
 
 const LoginItem = forwardRef<HTMLInputElement, LogInItemProps>(
     function LoginItem({ loginId, password }, ref) {
-        const navigate = useNavigateHandler(`/`);
+        const navigate = useNavigate();
 
         function loginClickHandler() {
-            navigate();
+            navigate('/');
         }
 
         return (

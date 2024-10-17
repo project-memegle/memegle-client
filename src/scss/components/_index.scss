@@ -7,6 +7,7 @@
 @use "modal.scss";
 @use "result.scss";
 @use "searchInput.scss";
+@use "chat.scss";
 
 @mixin styles() {
   @include button.styles;
@@ -18,4 +19,5 @@
   @include modal.styles;
   @include result.styles;
   @include searchInput.styles;
+  @include chat.styles;
 }

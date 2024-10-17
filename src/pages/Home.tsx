@@ -1,5 +1,4 @@
 import CategorySection from '../components/UI/Category/CategorySection';
-import SearchSection from '../components/UI/Search/SearchSection';
 
 export default function HomePage() {
     return (
