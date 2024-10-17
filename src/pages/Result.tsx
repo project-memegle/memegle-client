@@ -1,5 +1,4 @@
 import { useParams } from 'react-router-dom';
-import SearchSection from '../components/UI/Search/SearchSection';
 import useFetchHandler from '../hooks/useFetchHandler';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import mockData from '../data/mockData.json';
@@ -88,7 +87,8 @@ export default function Result() {
             (item) => item.imageCategory === category
         );
 
-        content = <ResultSection {...categoryData} />;
+        // content = <ResultSection {...categoryData} />;
+        content = <LoadingSpinner />;
     }
 
     return <main className="home__main">{content}</main>;
