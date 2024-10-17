@@ -1,24 +1,33 @@
 @mixin styles() {
   .c-chat {
-    width: var(--container__max-width);
+    width: 100%;
+    max-width: var(--container__max-width);
     margin: 0 auto;
     position: relative;
   }
-
+  
+  /* Default styles for mobile devices */
   .c-chat__icon {
     position: fixed;
     bottom: 20px;
-    right: calc((100% - var(--container__max-width)) / 2 + 20px); /* Adjust as needed */
-
+    right: 20px;
     height: 40px;
     width: 40px;
     cursor: pointer;
     padding: 0;
     z-index: 1;
+  
     img {
       height: 100%;
       width: 100%;
       object-fit: contain;
+    }
+  }
+  
+  /* Styles for desktop devices */
+  @media (min-width: 768px) { /* Adjust the breakpoint as needed */
+    .c-chat__icon {
+      right: calc((100% - var(--container__max-width)) / 2 + 20px);
     }
   }
 }

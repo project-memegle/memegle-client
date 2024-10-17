@@ -18,7 +18,7 @@
     width: 100%;
     height: 160px;
     border-radius: 20px;
-    overflow: hidden; /* 자식 요소가 넘치지 않게 */
+    overflow: hidden;
 
     &:hover {
       transform: scale(1.05);
@@ -26,7 +26,7 @@
     }
 
     &:hover::before {
-      background-color: rgba(0, 0, 0, 0.7); /* Darker background on hover */
+      background-color: rgba(0, 0, 0, 0.7);
     }
   }
 
@@ -37,14 +37,14 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 검은색 투명도 */
-    z-index: 1; /* 배경 위에 오도록 */
-    border-radius: 20px; /* 부모 요소와 동일한 border-radius 적용 */
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    border-radius: 20px;
   }
 
   .category__item * {
     position: relative;
-    z-index: 2; /* 오버레이 위에 내용이 표시되도록 */
+    z-index: 1;
   }
 
   .category__item.favorite {
