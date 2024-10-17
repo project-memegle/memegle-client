@@ -87,8 +87,7 @@ export default function Result() {
             (item) => item.imageCategory === category
         );
 
-        // content = <ResultSection {...categoryData} />;
-        content = <LoadingSpinner />;
+        content = <ResultSection {...categoryData} />;
     }
 
     return <main className="home__main">{content}</main>;
