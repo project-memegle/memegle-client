@@ -3,6 +3,9 @@ type ValidationMessagesProps = Record<string, string>;
 
 // Create an object to store error messages
 const ValidationMessages: ValidationMessagesProps = {
+    DEFAULT_ID: '아이디',
+    DEFAULT_PASSWORD: '비밀번호',
+    DEFAULT_NICKNAME: '닉네임',
     REQUIRED_ID: '아이디를 입력해주세요.',
     INVALID_ID_LENGTH: '아이디는 최소 6자 이상이어야 합니다.',
     INVALID_ID_TYPE: '아이디는 영어와 숫자만 허용됩니다.',

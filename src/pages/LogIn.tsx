@@ -8,20 +8,19 @@ import validateLogInPassword from '../components/Validations/ValidateLogInPasswo
 export default function LogIn() {
     const navigate = useNavigateHandler();
 
-    const DEFAULT_ID = '아이디';
-    const DEFAULT_PASSWORD = '비밀번호';
-
     const [id, setId] = useState('');
-    const [idError, setIdError] = useState(DEFAULT_ID);
+    const [idError, setIdError] = useState(ValidationMessages.DEFAULT_ID);
     const [password, setPassword] = useState('');
-    const [passwordError, setPasswordError] = useState(DEFAULT_PASSWORD);
+    const [passwordError, setPasswordError] = useState(
+        ValidationMessages.DEFAULT_PASSWORD
+    );
     const [message, setMessage] = useState('');
     const onChangeId = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value;
             const error = validateId(value);
             setId(value);
-            setIdError(error || DEFAULT_ID);
+            setIdError(error || ValidationMessages.DEFAULT_ID);
         },
         [setId, setIdError]
     );
@@ -31,7 +30,7 @@ export default function LogIn() {
             const value = e.target.value;
             const error = validateLogInPassword(value);
             setPassword(value);
-            setPasswordError(error || DEFAULT_PASSWORD);
+            setPasswordError(error || ValidationMessages.DEFAULT_PASSWORD);
         },
         [setPassword, setPasswordError]
     );
@@ -81,13 +80,16 @@ export default function LogIn() {
     function findPassword() {
         navigate('/findpassword');
     }
+    function navigateToSignUp() {
+        navigate('/signup');
+    }
 
     return (
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
                 <div className="c-login__section">
                     <p>{idError}</p>
-                    <label htmlFor="id"></label>
+                    <label htmlFor="id">아이디</label>
                     <input
                         className="c-login__input"
                         name="id"
@@ -100,12 +102,13 @@ export default function LogIn() {
                 </div>
                 <div className="c-login__section">
                     <p>{passwordError}</p>
-                    <label htmlFor="password"></label>
+                    <label htmlFor="password">비밀번호</label>
                     <input
                         className="c-login__input"
                         name="password"
                         type="password"
                         id="password"
+                        
                         placeholder="비밀번호를 입력해주세요"
                         value={password}
                         onChange={onChangePassword}
@@ -120,6 +123,7 @@ export default function LogIn() {
                         로그인
                     </button>
                     <button
+                        onClick={navigateToSignUp}
                         className="button__rounded button__light"
                         type="submit"
                     >

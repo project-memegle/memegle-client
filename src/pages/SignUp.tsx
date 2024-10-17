@@ -7,15 +7,15 @@ import validateSignUpPassword from '../components/Validations/ValidateSignUpPass
 
 export default function SignUp() {
     const [id, setId] = useState('');
-    const [idError, setIdError] = useState(ValidationMessages.REQUIRED_ID);
+    const [idError, setIdError] = useState(ValidationMessages.DEFAULT_ID);
     const [nickname, setNickname] = useState('');
     const [nicknameError, setNicknameError] = useState(
-        ValidationMessages.REQUIRED_NICKNAME
+        ValidationMessages.DEFAULT_NICKNAME
     );
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     const [passwordError, setPasswordError] = useState(
-        ValidationMessages.REQUIRED_PASSWORD
+        ValidationMessages.DEFAULT_PASSWORD
     );
     const [signUpError, setSignUpError] = useState('');
     const [signupSuccess, setSignupSuccess] = useState('');
@@ -25,7 +25,7 @@ export default function SignUp() {
             const value = e.target.value;
             const error = validateId(value);
             setId(value);
-            setIdError(error);
+            setIdError(error || ValidationMessages.DEFAULT_ID);
         },
         [setId, setIdError]
     );
@@ -35,7 +35,7 @@ export default function SignUp() {
             const value = e.target.value;
             const error = validateNickname(value);
             setNickname(value);
-            setNicknameError(error);
+            setNicknameError(error || ValidationMessages.DEFAULT_NICKNAME);
         },
         [setNickname, setNicknameError]
     );
@@ -45,7 +45,7 @@ export default function SignUp() {
             const value = e.target.value;
             const error = validateSignUpPassword(value, passwordCheck);
             setPassword(value);
-            setPasswordError(error);
+            setPasswordError(error || ValidationMessages.DEFAULT_PASSWORD);
         },
         [setPassword, setPasswordError, passwordCheck]
     );
@@ -55,7 +55,7 @@ export default function SignUp() {
             const value = e.target.value;
             const error = validateSignUpPassword(password, value);
             setPasswordCheck(value);
-            setPasswordError(error);
+            setPasswordError(error || ValidationMessages.DEFAULT_PASSWORD);
         },
         [setPasswordCheck, setPasswordError, password]
     );
@@ -129,57 +129,76 @@ export default function SignUp() {
     );
 
     return (
-        <form onSubmit={onSubmit}>
-            <div>
-                {idError && <p>{idError}</p>}
-                <label htmlFor="id">아이디</label>
-                <input
-                    name="id"
-                    id="id"
-                    type="text"
-                    placeholder="아이디"
-                    value={id}
-                    onChange={onChangeId}
-                />
-            </div>
-            <div>
-                {nicknameError && <p>{nicknameError}</p>}
-                <label htmlFor="nickname">닉네임</label>
-                <input
-                    name="nickname"
-                    id="nickname"
-                    type="text"
-                    placeholder="닉네임"
-                    value={nickname}
-                    onChange={onChangeNickname}
-                />
-            </div>
-            <div>
-                {passwordError && <p>{passwordError}</p>}
-                <label htmlFor="password">비밀번호</label>
-                <input
-                    name="password"
-                    type="password"
-                    id="password"
-                    placeholder="비밀번호"
-                    value={password}
-                    onChange={onChangePassword}
-                />
-                <label htmlFor="password-check">비밀번호 확인</label>
-                <input
-                    name="password-check"
-                    type="password"
-                    id="password-check"
-                    placeholder="비밀번호 확인"
-                    value={passwordCheck}
-                    onChange={onChangePasswordCheck}
-                />
-            </div>
-            {signUpError && <p>{signUpError}</p>}
-            {signupSuccess && <p>{signupSuccess}</p>}
-            <button className="signup__button" type="submit">
-                회원가입
-            </button>
-        </form>
+        <div className="main__container">
+            <form className="c-login" onSubmit={onSubmit}>
+                <div className="c-login__section">
+                    <p>{idError}</p>
+                    <label htmlFor="id">아이디</label>
+                    <input
+                        className="c-login__input"
+                        name="id"
+                        id="id"
+                        type="text"
+                        placeholder="아이디"
+                        value={id}
+                        onChange={onChangeId}
+                    />
+                </div>
+                <div className="c-login__section">
+                    <p>{nicknameError}</p>
+                    <label htmlFor="nickname">닉네임</label>
+                    <input
+                        className="c-login__input"
+                        name="nickname"
+                        id="nickname"
+                        type="text"
+                        placeholder="닉네임"
+                        value={nickname}
+                        onChange={onChangeNickname}
+                    />
+                </div>
+                <div className="c-login__section">
+                    <p>{passwordError}</p>
+                    <section className="c-login__section-password">
+                        <div>
+                            <label htmlFor="password">비밀번호</label>
+                            <input
+                                className="c-login__input"
+                                name="password"
+                                type="password"
+                                id="password"
+                                placeholder="비밀번호"
+                                value={password}
+                                onChange={onChangePassword}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="password-check">
+                                비밀번호 확인
+                            </label>
+                            <input
+                                className="c-login__input"
+                                name="password-check"
+                                type="password"
+                                id="password-check"
+                                placeholder="비밀번호 확인"
+                                value={passwordCheck}
+                                onChange={onChangePasswordCheck}
+                            />
+                        </div>
+                    </section>
+                </div>
+                {signUpError && <p>{signUpError}</p>}
+                {signupSuccess && <p>{signupSuccess}</p>}
+                <section className="c-login__button-section">
+                    <button
+                        className="button__rounded button__light"
+                        type="submit"
+                    >
+                        회원가입
+                    </button>
+                </section>
+            </form>
+        </div>
     );
 }
