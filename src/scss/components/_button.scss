@@ -1,3 +1,5 @@
+@import "../settings/colors";
+
 @mixin styles() {
   button {
     cursor: pointer;
@@ -7,12 +9,42 @@
     font-family: inherit;
     background-color: transparent;
     transition: border-color 0.25s;
-    color: #ffffff;
+    color: $white;
     // padding: 0.6em 1.2em;
+    padding: 0.5em 1em;
   }
 
-  .button__absolute {
-    position: absolute;
+  .button {
+    &__absolute {
+      position: absolute;
+    }
+
+    &__dark {
+      background-color: $primary;
+
+      &:hover {
+        background-color: $secondary;
+      }
+    }
+    &__light {
+      background-color: $secondary;
+
+      &:hover {
+        background-color: $primary;
+      }
+    }
+
+    &__light-font {
+      color: $secondary;
+
+      &:hover {
+        color: $primary;
+      }
+    }
+
+    &__rounded {
+      border-radius: 8px;
+    }
   }
 
   @media (prefers-color-scheme: light) {

@@ -8,6 +8,8 @@
 @use "result.scss";
 @use "searchInput.scss";
 @use "chat.scss";
+@use "layout.scss";
+@use "login.scss";
 
 @mixin styles() {
   @include button.styles;
@@ -20,4 +22,6 @@
   @include result.styles;
   @include searchInput.styles;
   @include chat.styles;
+  @include layout.styles;
+  @include login.styles;
 }

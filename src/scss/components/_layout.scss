@@ -1,0 +1,16 @@
+@mixin styles() {
+  .main__container {
+    --main-padding: 16px;
+
+    padding: var(--main-padding);
+    background-color: var(--main__background-color);
+
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 16px;
+    overflow-y: scroll;
+    background-color: var(--main__background-color);
+    position: relative;
+  }
+}

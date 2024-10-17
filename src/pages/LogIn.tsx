@@ -8,19 +8,20 @@ import validateLogInPassword from '../components/Validations/ValidateLogInPasswo
 export default function LogIn() {
     const navigate = useNavigateHandler();
 
+    const DEFAULT_ID = '아이디';
+    const DEFAULT_PASSWORD = '비밀번호';
+
     const [id, setId] = useState('');
-    const [idError, setIdError] = useState(ValidationMessages.REQUIRED_ID);
+    const [idError, setIdError] = useState(DEFAULT_ID);
     const [password, setPassword] = useState('');
-    const [passwordError, setPasswordError] = useState(
-        ValidationMessages.REQUIRED_PASSWORD
-    );
+    const [passwordError, setPasswordError] = useState(DEFAULT_PASSWORD);
     const [message, setMessage] = useState('');
     const onChangeId = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value;
             const error = validateId(value);
             setId(value);
-            setIdError(error);
+            setIdError(error || DEFAULT_ID);
         },
         [setId, setIdError]
     );
@@ -30,7 +31,7 @@ export default function LogIn() {
             const value = e.target.value;
             const error = validateLogInPassword(value);
             setPassword(value);
-            setPasswordError(error);
+            setPasswordError(error || DEFAULT_PASSWORD);
         },
         [setPassword, setPasswordError]
     );
@@ -82,41 +83,61 @@ export default function LogIn() {
     }
 
     return (
-        <>
-            <form onSubmit={onSubmit}>
-                <div>
-                    {idError && <p>{idError}</p>}
+        <div className="main__container">
+            <form className="c-login" onSubmit={onSubmit}>
+                <div className="c-login__section">
+                    <p>{idError}</p>
                     <label htmlFor="id"></label>
                     <input
+                        className="c-login__input"
                         name="id"
                         id="id"
                         type="text"
-                        placeholder="아이디"
+                        placeholder="아이디를 입력해주세요"
                         value={id}
                         onChange={onChangeId}
                     />
                 </div>
-                <div>
-                    {passwordError && <p>{passwordError}</p>}
+                <div className="c-login__section">
+                    <p>{passwordError}</p>
                     <label htmlFor="password"></label>
                     <input
+                        className="c-login__input"
                         name="password"
                         type="password"
                         id="password"
-                        placeholder="비밀번호"
+                        placeholder="비밀번호를 입력해주세요"
                         value={password}
                         onChange={onChangePassword}
                     />
                 </div>
-                <button className="login__button" type="submit">
-                    로그인
-                </button>
+                {message && <p>{message}</p>}
+                <section className="c-login__button-section">
+                    <button
+                        className="button__rounded button__light"
+                        type="submit"
+                    >
+                        로그인
+                    </button>
+                    <button
+                        className="button__rounded button__light"
+                        type="submit"
+                    >
+                        회원가입
+                    </button>
+                    <section className="c-login__button-section-bottom">
+                        <button className="button__light-font" onClick={findId}>
+                            아이디 찾기
+                        </button>
+                        <button
+                            className="button__light-font"
+                            onClick={findPassword}
+                        >
+                            비밀번호 찾기
+                        </button>
+                    </section>
+                </section>
             </form>
-            {message && <p>{message}</p>}
-            <section>
-                <button onClick={findId}>아이디 찾기</button>
-                <button onClick={findPassword}>비밀번호 찾기</button>
-            </section>
-        </>
+        </div>
     );
 }

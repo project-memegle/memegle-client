@@ -5,7 +5,7 @@
     flex-grow: 1;
     padding: 16px;
     overflow-y: scroll;
-    background-color: #efefef;
+    background-color: var(--main__background-color);
 
     position: relative;
   }
