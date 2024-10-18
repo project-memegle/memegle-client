@@ -5,7 +5,7 @@ import LogIn from './pages/LogIn';
 import Result from './pages/Result';
 import SignUp from './pages/SignUp';
 import NotFoundPage from './pages/NotFound';
-import Notification from './pages/Notification.tsx';
+import Notification from './components/UI/Notification/Notification.tsx';
 import Favorite from './pages/Favorite.tsx';
 import FindId from './pages/FindId.tsx';
 import FindPassword from './pages/FindPassword.tsx';

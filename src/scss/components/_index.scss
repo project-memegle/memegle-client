@@ -10,6 +10,7 @@
 @use "chat.scss";
 @use "layout.scss";
 @use "login.scss";
+@use "notification.scss";
 
 @mixin styles() {
   @include button.styles;
@@ -24,4 +25,5 @@
   @include chat.styles;
   @include layout.styles;
   @include login.styles;
+  @include notification.styles;
 }

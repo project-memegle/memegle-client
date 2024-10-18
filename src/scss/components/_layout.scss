@@ -1,7 +1,5 @@
 @mixin styles() {
   .main__container {
-    --main-padding: 16px;
-
     padding: var(--main-padding);
     background-color: var(--main__background-color);
 

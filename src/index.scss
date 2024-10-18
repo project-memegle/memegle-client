@@ -17,6 +17,7 @@
 
   --container__max-width: 600px;
   --main__background-color: #efefef;
+  --main-padding: 16px;
 }
 
 a {
@@ -48,6 +49,25 @@ h1 {
 }
 input {
   box-sizing: border-box;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+/*
+  7. Avoid text overflows
+*/
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
 }
 
 @media (prefers-color-scheme: light) {
