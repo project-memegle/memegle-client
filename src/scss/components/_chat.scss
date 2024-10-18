@@ -1,49 +1,86 @@
 @import "../settings/colors";
 @mixin styles() {
   .c-chat {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
     width: 100%;
     max-width: var(--container__max-width);
     margin: 0 auto;
     position: relative;
 
+    .main__container {
+      padding-top: calc(var(--primary__font-size) * 3);
+    }
+
+    &__input {
+      display: flex;
+      flex-direction: column;
+      padding: var(--primary__padding);
+      text-indent: var(--c-input-input-indent);
+      border: 2px solid transparent;
+      outline: none;
+      background-color: #9e9ea7;
+      color: #0d0c22;
+      transition: 0.3s ease;
+
+      .c-input__input {
+        height: calc(var(--primary__font-size) * 3);
+        text-indent: var(--primary__font-size);
+      }
+    }
+
     &__item {
       display: inline-block;
       max-width: 90%;
-      padding: 20px 15px;
       border-radius: var(--primary__border-radius);
       clear: both;
+      display: flex;
+      gap: 0.5em;
 
-      &.incoming {
-        background-color: $white;
-        justify-content: flex-start;
-        padding-left: var(--primary__padding);
+      &-content {
+        padding: var(--primary__padding);
+        // border-radius: var(--primary__border-radius);
+      }
+      &-incoming {
         text-align: left;
         float: left;
-
+        align-items: flex-end;
         &-content {
+          border-radius: 20px 20px 20px 0;
           color: $secondary;
+          background-color: $white;
         }
       }
 
-      &.outgoing {
-        background-color: $read;
-        justify-content: flex-end;
-        padding-right: var(--primary__padding);
+      &-outgoing {
+        flex-direction: row-reverse;
+        align-items: flex-end;
+
         text-align: right;
         float: right;
 
         &-content {
+          border-radius: 20px 20px 0 20px;
+          background-color: $read;
           color: $secondary;
         }
       }
 
       &-date {
         color: $secondary;
+        font-size: 0.8em;
+      }
+
+      &-text {
+        margin: 0;
+        color: $primary;
       }
     }
   }
 
-  .c-chat__icon {
+  .c-chat__icon-button {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -61,7 +98,7 @@
   }
 
   @media (min-width: 768px) {
-    .c-chat__icon {
+    .c-chat__icon-button {
       right: calc((100% - var(--container__max-width)) / 2 + 20px);
     }
   }

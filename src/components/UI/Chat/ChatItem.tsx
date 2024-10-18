@@ -11,9 +11,15 @@ export default function ChatItem({
     chatDirection,
 }: ChatItemProps) {
     return (
-        <article className={`c-chat__item ${chatDirection}`}>
-            <p className="${chatDirection}-content">{content}</p>
-            <p className="c-chat__item-date">{date}</p>
-        </article>
+        <div>
+            <article className={`c-chat__item c-chat__item-${chatDirection}`}>
+                <div
+                    className={`c-chat__item-content c-chat__item-${chatDirection}-content`}
+                >
+                    <p className="c-chat__item-text">{content}</p>
+                </div>
+                <p className="c-chat__item-date">{date}</p>
+            </article>
+        </div>
     );
 }

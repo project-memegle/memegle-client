@@ -8,8 +8,8 @@ export default function ChatIcon() {
     }
 
     return (
-        <div className="c-chat">
-            <button onClick={iconClickHandler} className="c-chat__icon">
+        <div className="c-chat__icon">
+            <button onClick={iconClickHandler} className="c-chat__icon-button">
                 <img src={chatIcon} alt="chat" />
             </button>
         </div>
