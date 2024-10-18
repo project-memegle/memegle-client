@@ -1,12 +1,48 @@
+@import "../settings/colors";
 @mixin styles() {
   .c-chat {
     width: 100%;
     max-width: var(--container__max-width);
     margin: 0 auto;
     position: relative;
+
+    &__item {
+      display: inline-block;
+      max-width: 90%;
+      padding: 20px 15px;
+      border-radius: var(--primary__border-radius);
+      clear: both;
+
+      &.incoming {
+        background-color: $white;
+        justify-content: flex-start;
+        padding-left: var(--primary__padding);
+        text-align: left;
+        float: left;
+
+        &-content {
+          color: $secondary;
+        }
+      }
+
+      &.outgoing {
+        background-color: $read;
+        justify-content: flex-end;
+        padding-right: var(--primary__padding);
+        text-align: right;
+        float: right;
+
+        &-content {
+          color: $secondary;
+        }
+      }
+
+      &-date {
+        color: $secondary;
+      }
+    }
   }
-  
-  /* Default styles for mobile devices */
+
   .c-chat__icon {
     position: fixed;
     bottom: 20px;
@@ -16,16 +52,15 @@
     cursor: pointer;
     padding: 0;
     z-index: 1;
-  
+
     img {
       height: 100%;
       width: 100%;
       object-fit: contain;
     }
   }
-  
-  /* Styles for desktop devices */
-  @media (min-width: 768px) { /* Adjust the breakpoint as needed */
+
+  @media (min-width: 768px) {
     .c-chat__icon {
       right: calc((100% - var(--container__max-width)) / 2 + 20px);
     }

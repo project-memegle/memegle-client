@@ -10,6 +10,7 @@ import Favorite from './pages/Favorite.tsx';
 import FindId from './pages/FindId.tsx';
 import FindPassword from './pages/FindPassword.tsx';
 import Upload from './pages/Upload.tsx';
+import Chat from 'components/UI/Chat/Chat.tsx';
 
 const router = createBrowserRouter([
     {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
             {
                 path: 'login',
                 element: <LogIn />,
+            },
+            {
+                path: 'chat',
+                element: <Chat />,
             },
             {
                 path: 'signup',

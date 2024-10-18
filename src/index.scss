@@ -16,8 +16,10 @@
   -moz-osx-font-smoothing: grayscale;
 
   --container__max-width: 600px;
-  --main__background-color: #efefef;
-  --main-padding: 16px;
+  --primary__background-color: #efefef;
+  --primary__padding: var(--primary__font-size);
+  --primary__font-size: 16px;
+  --primary__border-radius: 8px;
 }
 
 a {

@@ -96,6 +96,12 @@ export default function FindId() {
                             className="button__light-font"
                             onClick={findPassword}
                         >
+                            본인인증
+                        </button>{' '}
+                        <button
+                            className="button__light-font"
+                            onClick={findPassword}
+                        >
                             비밀번호 찾기
                         </button>
                     </section>

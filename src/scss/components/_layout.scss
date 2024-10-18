@@ -1,14 +1,14 @@
 @mixin styles() {
   .main__container {
-    padding: var(--main-padding);
-    background-color: var(--main__background-color);
+    padding: var(--primary__padding);
+    background-color: var(--primary__background-color);
 
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     padding: 16px;
     overflow-y: scroll;
-    background-color: var(--main__background-color);
+    background-color: var(--primary__background-color);
     position: relative;
   }
 }

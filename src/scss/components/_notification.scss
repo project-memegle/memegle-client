@@ -3,7 +3,7 @@
 @mixin styles() {
   .c-notification {
     --color-read: #ffffe0;
-    background-color: var(--main__background-color);
+    background-color: var(--primary__background-color);
 
     display: flex;
     flex-direction: column;
@@ -14,7 +14,7 @@
     &__item {
       display: flex;
       justify-content: space-between;
-      padding: var(--main-padding);
+      padding: var(--primary__padding);
       background-color: $white;
 
       &-date {
