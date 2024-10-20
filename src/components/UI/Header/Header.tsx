@@ -32,7 +32,7 @@ export default function Header() {
                 </section>
                 <section className="c-top-bar__user c-top-bar-user">
                     <button
-                        className="c-top-bar-user__log"
+                        className="c-top-bar-user__log button__white-font"
                         onClick={navigateToLogIn}
                     >
                         로그인

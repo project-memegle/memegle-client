@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import closeIcon from '@memegle/assets/icons/ic_close.svg';
 
 export default function SearchInput() {
     const navigate = useNavigate();

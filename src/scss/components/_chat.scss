@@ -1,6 +1,8 @@
 @import "../settings/colors";
 @mixin styles() {
   .c-chat {
+    --c-chat__button-size: 25px;
+
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -17,6 +19,7 @@
     &__input {
       display: flex;
       flex-direction: column;
+      justify-content: center;
       padding: var(--primary__padding);
       text-indent: var(--c-input-input-indent);
       border: 2px solid transparent;
@@ -86,6 +89,20 @@
         rgba(17, 17, 26, 0.1) 0px 1px 0px,
         rgba(17, 17, 26, 0.1) 0px 8px 24px,
         rgba(17, 17, 26, 0.1) 0px 16px 48px;
+
+      & > button {
+        position: absolute;
+        right: calc(var(--primary__font-size) * 2);
+        display: flex;
+        font-size: var(--c-chat__button-size);
+        padding: 0;
+        transition: opacity 0.2s ease;
+        opacity: 0.5;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
     }
   }
 

@@ -9,7 +9,7 @@
     font-family: inherit;
     background-color: transparent;
     transition: border-color 0.25s;
-    color: $white;
+    // color: $white;
     padding: 0.7em 1em;
   }
 
@@ -27,9 +27,17 @@
     }
     &__light {
       background-color: $secondary;
-
+      color: $white;
       &:hover {
         background-color: $primary;
+      }
+    }
+
+    &__white-font {
+      color: $white;
+
+      &:hover {
+        color: $primary;
       }
     }
 

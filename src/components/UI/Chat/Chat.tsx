@@ -24,6 +24,9 @@ export default function Chat() {
                     type="text"
                     placeholder="메세지를 입력해주세요"
                 />
+                <button type="submit" name="Submit">
+                    <i className="c-icon">send</i>
+                </button>
             </form>
         </div>
     );
