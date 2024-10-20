@@ -17,9 +17,13 @@ export default function Chat() {
                     />
                 </section>
             </div>
-            <form action="" className="c-chat__input">
+            <form action="" className="c-chat__input c-chat__shadow">
                 <label htmlFor="">chat</label>
-                <input className="c-input__input" type="text" />
+                <input
+                    className="c-input__input"
+                    type="text"
+                    placeholder="메세지를 입력해주세요"
+                />
             </form>
         </div>
     );

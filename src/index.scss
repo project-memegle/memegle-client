@@ -4,7 +4,6 @@
 
 :root {
   font-family: "roboto", "Noto Sans Korean", sans-serif;
-
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
@@ -42,6 +41,7 @@ body {
     height: 100dvh;
     max-width: var(--container__max-width);
     max-height: 100dvh;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
 }
 
