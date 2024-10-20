@@ -9,7 +9,6 @@
     font-family: inherit;
     background-color: transparent;
     transition: border-color 0.25s;
-    // color: $white;
     padding: 0.7em 1em;
   }
 
@@ -35,10 +34,6 @@
 
     &__white-font {
       color: $white;
-
-      &:hover {
-        color: $primary;
-      }
     }
 
     &__light-font {
