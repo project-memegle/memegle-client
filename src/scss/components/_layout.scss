@@ -1,3 +1,5 @@
+@import "../settings/colors";
+
 @mixin styles() {
   .main__container {
     padding: var(--primary__padding);
@@ -10,5 +12,32 @@
     overflow-y: scroll;
     background-color: var(--primary__background-color);
     position: relative;
+  }
+
+  .error__container {
+    padding: calc(var(--primary__font-size) * 2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--primary__font-size) * 2);
+
+    h4 {
+      margin: 0;
+    }
+
+    button {
+      background: $primary;
+      color: $white;
+      border-radius: 16px;
+    }
+
+    & > div {
+      display: flex;
+      align-items: center;
+      gap: var(--primary__font-size);
+    }
   }
 }

@@ -1,4 +1,4 @@
-import useNavigateHandler from '../../../hooks/useNavigateHandler';
+import { useNavigate } from 'react-router-dom';
 
 type CategoryType = 'favorite' | 'mudo' | 'digiMon' | 'gif' | 'temp1' | 'temp2';
 
@@ -7,7 +7,7 @@ interface CategoryItemProps {
 }
 
 export default function CategoryItem({ category }: CategoryItemProps) {
-    const navigate = useNavigateHandler();
+    const navigate = useNavigate();
 
     function clickHandler() {
         navigate(`/result/${category}`);

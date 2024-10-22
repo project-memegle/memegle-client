@@ -4,9 +4,8 @@ import { RouterProvider } from 'react-router-dom';
 
 import '@memegle/styles';
 
-import router from './Router'; // Import default export
+import router from './Router';
 
-// Render the application directly
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <RouterProvider router={router} />

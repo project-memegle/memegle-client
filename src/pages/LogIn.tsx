@@ -1,12 +1,12 @@
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import useNavigateHandler from '../hooks/useNavigateHandler';
 import ValidationMessages from '../components/Validations/ValidationMessages';
 import validateId from '../components/Validations/ValidateId';
 import validateLogInPassword from '../components/Validations/ValidateLogInPassword';
+import { useNavigate } from 'react-router-dom';
 
 export default function LogIn() {
-    const navigate = useNavigateHandler();
+    const navigate = useNavigate();
 
     const [id, setId] = useState('');
     const [idError, setIdError] = useState(ValidationMessages.DEFAULT_ID);
@@ -108,7 +108,6 @@ export default function LogIn() {
                         name="password"
                         type="password"
                         id="password"
-                        
                         placeholder="비밀번호를 입력해주세요"
                         value={password}
                         onChange={onChangePassword}
