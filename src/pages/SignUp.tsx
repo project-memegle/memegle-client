@@ -4,6 +4,8 @@ import validateId from '../components/Validations/ValidateId';
 import ValidationMessages from '../components/Validations/ValidationMessages';
 import validateNickname from '../components/Validations/ValidateNickname';
 import validateSignUpPassword from '../components/Validations/ValidateSignUpPassword';
+import { handleApiError } from '../utils/handleApiError';
+import { SignUpDTO } from '../services/dto/SignUpDto';
 
 export default function SignUp() {
     const [id, setId] = useState('');
@@ -20,25 +22,19 @@ export default function SignUp() {
     const [signUpError, setSignUpError] = useState('');
     const [signupSuccess, setSignupSuccess] = useState('');
 
-    const onChangeId = useCallback(
-        (e: ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value;
-            const error = validateId(value);
-            setId(value);
-            setIdError(error || ValidationMessages.DEFAULT_ID);
-        },
-        [setId, setIdError]
-    );
+    const onChangeId = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        const error = validateId(value);
+        setId(value);
+        setIdError(error || ValidationMessages.DEFAULT_ID);
+    }, []);
 
-    const onChangeNickname = useCallback(
-        (e: ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value;
-            const error = validateNickname(value);
-            setNickname(value);
-            setNicknameError(error || ValidationMessages.DEFAULT_NICKNAME);
-        },
-        [setNickname, setNicknameError]
-    );
+    const onChangeNickname = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        const error = validateNickname(value);
+        setNickname(value);
+        setNicknameError(error || ValidationMessages.DEFAULT_NICKNAME);
+    }, []);
 
     const onChangePassword = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +43,7 @@ export default function SignUp() {
             setPassword(value);
             setPasswordError(error || ValidationMessages.DEFAULT_PASSWORD);
         },
-        [setPassword, setPasswordError, passwordCheck]
+        [passwordCheck]
     );
 
     const onChangePasswordCheck = useCallback(
@@ -57,7 +53,7 @@ export default function SignUp() {
             setPasswordCheck(value);
             setPasswordError(error || ValidationMessages.DEFAULT_PASSWORD);
         },
-        [setPasswordCheck, setPasswordError, password]
+        [password]
     );
 
     const onSubmit = useCallback(
@@ -69,51 +65,20 @@ export default function SignUp() {
             }
 
             if (nickname && id && password && passwordCheck) {
-                console.log('서버로 회원가입하기 요청');
                 setSignUpError('');
+
+                const userData: SignUpDTO = {
+                    loginId: id,
+                    nickname: nickname,
+                    password: password,
+                };
+
                 try {
-                    const response = await axios.post('/signup', {
-                        id,
-                        nickname,
-                        password,
-                    });
+                    const response = await axios.post('/signup', userData);
                     console.log(response);
                     setSignupSuccess(ValidationMessages.SIGNUP_SUCCESS);
                 } catch (error) {
-                    console.log(error);
-                    if (axios.isAxiosError(error)) {
-                        switch (error.response?.status) {
-                            case 400:
-                                setSignUpError(
-                                    ValidationMessages.SIGNUP_FAILED
-                                );
-                                break;
-                            case 40001:
-                                setSignUpError(ValidationMessages.INVALID_FORM);
-                                break;
-                            case 40002:
-                                setSignUpError(ValidationMessages.EXIST_ID);
-                                break;
-                            case 40401:
-                                setSignUpError(ValidationMessages.NO_RESOURCE);
-                                break;
-                            case 40102:
-                                setSignUpError(
-                                    ValidationMessages.INVALID_PASSWORD_LENGTH
-                                );
-                                break;
-                            case 50000:
-                                setSignUpError(ValidationMessages.SERVER_ERROR);
-                                break;
-                            default:
-                                setSignUpError(
-                                    ValidationMessages.UNKNOWN_ERROR
-                                );
-                                break;
-                        }
-                    } else {
-                        setSignUpError(ValidationMessages.UNKNOWN_ERROR);
-                    }
+                    handleApiError(error as AxiosError, setSignUpError);
                 }
             }
         },

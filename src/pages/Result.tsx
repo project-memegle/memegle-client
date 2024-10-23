@@ -44,7 +44,7 @@ export default function Result() {
                             setMessage(ValidationMessages.INVALID_FORM);
                             break;
                         case 40401:
-                            setMessage(ValidationMessages.MISSED_RESOURCE);
+                            setMessage(ValidationMessages.NO_RESOURCE);
                             break;
                         case 50000:
                             setMessage(ValidationMessages.SERVER_ERROR);

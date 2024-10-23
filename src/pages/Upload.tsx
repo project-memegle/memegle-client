@@ -60,7 +60,7 @@ export default function Upload() {
                         setMessage(ValidationMessages.INVALID_USER);
                         break;
                     case 40401:
-                        setMessage(ValidationMessages.MISSED_RESOURCE);
+                        setMessage(ValidationMessages.NO_RESOURCE);
                         break;
                     case 50000:
                         setMessage(ValidationMessages.SERVER_ERROR);
