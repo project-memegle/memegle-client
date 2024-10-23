@@ -7,9 +7,8 @@ jest.spyOn(axios, 'isAxiosError').mockImplementation(
 );
 describe('handleApiError', () => {
     let setMessage: jest.Mock;
-
     beforeEach(() => {
-        setMessage = jest.fn(); // setMessage를 모킹하여 메시지를 설정하는 함수로 사용
+        setMessage = jest.fn();
     });
 
     test.each([
@@ -20,7 +19,7 @@ describe('handleApiError', () => {
         const error: AxiosError = {
             isAxiosError: true,
             response: {
-                status: status, // 숫자로 변환하여 설정
+                status: status,
                 data: {},
                 headers: {},
             },
@@ -28,9 +27,7 @@ describe('handleApiError', () => {
             toJSON: () => ({}),
         } as AxiosError;
         console.log('error', error.response?.status);
-        handleApiError(error, setMessage); // 에러를 처리하는 함수 호출
-        // setMessage 호출 로그
-        console.log('setMessage calls:', setMessage.mock.calls);
-        expect(setMessage).toHaveBeenCalledWith(expectedMessage); // 올바른 메시지가 설정되었는지 확인
+        handleApiError(error, setMessage);
+        expect(setMessage).toHaveBeenCalledWith(expectedMessage);
     });
 });
