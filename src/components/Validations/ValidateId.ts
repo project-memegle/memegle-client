@@ -4,7 +4,9 @@ import validateType from './ValidateType';
 
 const validateId = (id: string) => {
     const trimmedId = ValidateSpace(id);
-
+    console.log('====================================');
+    console.log('validateId -> trimmedId', trimmedId);
+    console.log('====================================');
     if (!trimmedId) {
         return ValidationMessages.REQUIRED_ID;
     }

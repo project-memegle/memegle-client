@@ -22,23 +22,36 @@ export default function SignUp() {
     const [signUpError, setSignUpError] = useState('');
     const [signupSuccess, setSignupSuccess] = useState('');
 
-    const onChangeId = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        const error = validateId(value);
-        setId(value);
-        setIdError(error || ValidationMessages.DEFAULT_ID);
-    }, []);
+    const handleInputChange = (
+        setter: React.Dispatch<React.SetStateAction<string>>,
+        validator: (value: string) => string,
+        defaultMessage: string
+    ) => {
+        return (e: ChangeEvent<HTMLInputElement>) => {
+            const value = e.target.value.replace(/\s/g, ''); // 띄어쓰기 제거
+            const error = validator(value);
+            setter(value);
+            return error || defaultMessage;
+        };
+    };
 
-    const onChangeNickname = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        const error = validateNickname(value);
-        setNickname(value);
-        setNicknameError(error || ValidationMessages.DEFAULT_NICKNAME);
-    }, []);
+    const onChangeId = useCallback(
+        handleInputChange(setId, validateId, ValidationMessages.DEFAULT_ID),
+        []
+    );
+
+    const onChangeNickname = useCallback(
+        handleInputChange(
+            setNickname,
+            validateNickname,
+            ValidationMessages.DEFAULT_NICKNAME
+        ),
+        []
+    );
 
     const onChangePassword = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value;
+            const value = e.target.value.replace(/\s/g, ''); // 띄어쓰기 제거
             const error = validateSignUpPassword(value, passwordCheck);
             setPassword(value);
             setPasswordError(error || ValidationMessages.DEFAULT_PASSWORD);
@@ -48,7 +61,7 @@ export default function SignUp() {
 
     const onChangePasswordCheck = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value;
+            const value = e.target.value.replace(/\s/g, ''); // 띄어쓰기 제거
             const error = validateSignUpPassword(password, value);
             setPasswordCheck(value);
             setPasswordError(error || ValidationMessages.DEFAULT_PASSWORD);
