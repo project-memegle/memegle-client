@@ -18,7 +18,7 @@ const ValidationMessages: ValidationMessagesProps = {
     // Invalid field errors
     INVALID_ID_LENGTH: '아이디는 최소 6자 이상이어야 합니다.',
     INVALID_ID_TYPE: '아이디는 영어와 숫자만 허용됩니다.',
-    INVALID_PASSWORD_LENGTH: '비밀번호는 최소 8자 이상이어야 합니다.',
+    INVALID_PASSWORD_LENGTH: '비밀번호는 최소 8자 최대 20자 사이어야 합니다.',
     PASSWORD_MISMATCH: '비밀번호가 일치하지 않습니다.',
     INVALID_NICKNAME_LENGTH:
         '닉네임은 최소 8자 이상에서 10자 이하이어야 합니다.',

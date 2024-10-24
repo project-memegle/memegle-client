@@ -30,6 +30,7 @@ export default function SignUp() {
         return (e: ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value.replace(/\s/g, '');
             const error = validator(value);
+            setSignupSuccess('');
             valueSetter(value);
             errorSetter(error);
         };
@@ -70,22 +71,21 @@ export default function SignUp() {
             e.preventDefault();
 
             if (idError || passwordError || nicknameError) {
+                signUpError && setSignUpError(ValidationMessages.SIGNUP_ERROR);
                 return;
             }
 
             if (nickname && id && password && passwordCheck) {
                 setSignUpError('');
-
                 const userData: SignUpDTO = {
                     loginId: id,
                     nickname: nickname,
                     password: password,
                 };
-
+                setSignupSuccess(ValidationMessages.SIGNUP_SUCCESS);
                 try {
                     const response = await axios.post('/signup', userData);
                     console.log(response);
-                    setSignupSuccess(ValidationMessages.SIGNUP_SUCCESS);
                 } catch (error) {
                     handleApiError(error as AxiosError, setSignUpError);
                 }
