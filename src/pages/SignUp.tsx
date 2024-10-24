@@ -45,6 +45,7 @@ export default function SignUp() {
         handleInputChange(setNickname, setNicknameError, validateNickname),
         []
     );
+
     const onChangePassword = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value.replace(/\s/g, '');
@@ -57,6 +58,7 @@ export default function SignUp() {
         },
         [passwordCheck]
     );
+    
     const onChangePasswordCheck = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value.replace(/\s/g, '');
