@@ -6,7 +6,7 @@ import ValidationMessages from '../../components/Validations/ValidationMessages'
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-test('submits the form correctly and shows success message on API success', async () => {
+test('회원가입 APi 성공 테스트', async () => {
     // Mock the axios post request to return a successful response
     mockedAxios.post.mockResolvedValueOnce({ data: { message: 'Success' } });
 

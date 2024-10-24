@@ -1,13 +1,12 @@
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
-import axios, { AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import ValidationMessages from '../components/Validations/ValidationMessages';
 import validateId from '../components/Validations/ValidateId';
 import validateLogInPassword from '../components/Validations/ValidateLogInPassword';
 import { useNavigate } from 'react-router-dom';
-import { LogInDTO } from 'services/dto/LogInDto';
-import { handleApiError } from 'utils/handleApiError';
-import { getCookie, setCookie } from 'utils/cookies';
-import { env } from 'process';
+import { LogInDTO } from '../services/dto/LogInDto';
+import { handleApiError } from '../utils/handleApiError';
+import { getCookie, setCookie } from '../utils/cookies';
 
 export default function LogIn() {
     const navigate = useNavigate();
@@ -55,7 +54,6 @@ export default function LogIn() {
             }
 
             if (id && password) {
-                alert(ValidationMessages.LOGIN_SUCCESS);
                 setIdError('');
                 setPasswordError('');
                 const userData: LogInDTO = {
@@ -63,6 +61,7 @@ export default function LogIn() {
                     password: password,
                 };
                 try {
+                    alert(ValidationMessages.LOGIN_SUCCESS);
                     const response = await axios.post('/login', userData);
                     console.log(response);
 
