@@ -5,16 +5,22 @@ const validateSignUpPassword = (
     password: string,
     passwordCheck: string
 ): string => {
-    const trimmedPassword = ValidateSpace(password); // Remove all spaces
-    const trimmedPasswordCheck = ValidateSpace(passwordCheck); // Remove all spaces
+    const trimmedPassword = ValidateSpace(password);
+    const trimmedPasswordCheck = ValidateSpace(passwordCheck);
 
     if (!trimmedPassword || !trimmedPasswordCheck) {
         return ValidationMessages.REQUIRED_PASSWORD;
     }
-    if (trimmedPassword.length < 8 || trimmedPassword.length > 20) {
+    if (
+        trimmedPassword.length < 8 ||
+        trimmedPassword.length > 20 ||
+        trimmedPasswordCheck.length < 8 ||
+        trimmedPasswordCheck.length > 20
+    ) {
         return ValidationMessages.INVALID_PASSWORD_LENGTH;
     }
-
+    console.log('trimmedPassword:', trimmedPassword);
+    console.log('trimmedPasswordCheck:', trimmedPasswordCheck);
     if (trimmedPassword !== trimmedPasswordCheck) {
         return ValidationMessages.PASSWORD_MISMATCH;
     }

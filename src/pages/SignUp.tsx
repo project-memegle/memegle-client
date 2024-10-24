@@ -45,27 +45,30 @@ export default function SignUp() {
         handleInputChange(setNickname, setNicknameError, validateNickname),
         []
     );
-
     const onChangePassword = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value.replace(/\s/g, ''); // 띄어쓰기 제거
-            const error = validateSignUpPassword(value, passwordCheck);
+            const value = e.target.value.replace(/\s/g, '');
             setPassword(value);
+
+            const error = validateSignUpPassword(value, passwordCheck);
             setPasswordError(error);
+
+            console.log('password:', value, 'passwordError:', error);
         },
         [passwordCheck]
     );
-
     const onChangePasswordCheck = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value.replace(/\s/g, ''); // 띄어쓰기 제거
-            const error = validateSignUpPassword(password, value);
+            const value = e.target.value.replace(/\s/g, '');
             setPasswordCheck(value);
+
+            const error = validateSignUpPassword(password, value);
             setPasswordError(error);
+
+            console.log('password check:', value, 'passwordError:', error);
         },
         [password]
     );
-
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();

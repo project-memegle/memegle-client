@@ -53,18 +53,14 @@ describe('회원가입 렌더링 확인', () => {
         ).toBeInTheDocument();
     });
 
-    test.only('비밀번호 입력 필드에 잘못된 값 입력시 에러메세지 발생 확인', () => {
+    test('비밀번호 입력 필드에 잘못된 값 입력시 에러메세지 발생 확인', () => {
         render(<SignUp />);
 
-        // 비밀번호 입력 필드에 값 입력
-        const passwordInput = screen.getByLabelText(/비밀번호/i);
-        fireEvent.change(passwordInput, {
+        const passwordInputs = screen.getAllByLabelText(/비밀번호/i);
+        fireEvent.change(passwordInputs[0], {
             target: { value: 'asd' },
         });
-
-        // 비밀번호 확인 입력 필드에 다른 값 입력
-        const passwordCheckInput = screen.getByLabelText(/비밀번호 확인/i);
-        fireEvent.change(passwordCheckInput, {
+        fireEvent.change(passwordInputs[1], {
             target: { value: 'asd' },
         });
         // 에러 메시지가 화면에 나타나는지 확인
@@ -76,15 +72,11 @@ describe('회원가입 렌더링 확인', () => {
     test('비밀번호 확인 입력 필드에 비밀번호와 다른 값 입력시 에러메세지 발생 확인', () => {
         render(<SignUp />);
 
-        // 비밀번호 입력 필드에 값 입력
-        const passwordInput = screen.getByLabelText(/비밀번호/i);
-        fireEvent.change(passwordInput, {
+        const passwordInputs = screen.getAllByLabelText(/비밀번호/i);
+        fireEvent.change(passwordInputs[0], {
             target: { value: 'TestPassword1!' },
         });
-
-        // 비밀번호 확인 입력 필드에 다른 값 입력
-        const passwordCheckInput = screen.getByLabelText(/비밀번호 확인/i);
-        fireEvent.change(passwordCheckInput, {
+        fireEvent.change(passwordInputs[1], {
             target: { value: 'DifferentPassword1!' },
         });
 

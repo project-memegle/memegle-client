@@ -21,7 +21,7 @@ const ValidationMessages: ValidationMessagesProps = {
     INVALID_PASSWORD_LENGTH: '비밀번호는 최소 8자 최대 20자 사이어야 합니다.',
     PASSWORD_MISMATCH: '비밀번호가 일치하지 않습니다.',
     INVALID_NICKNAME_LENGTH:
-        '닉네임은 최소 8자 이상에서 10자 이하이어야 합니다.',
+        '닉네임은 최소 2자 이상에서 10자 이하이어야 합니다.',
     INVALID_NICKNAME_TYPE: '닉네임은 특수문자를 사용할 수 없습니다.',
     INVALID_FORM: '양식을 다시 확인해주세요.',
     INVALID_USER: '인증 정보가 일치하지 않습니다.',
