@@ -85,5 +85,10 @@
         justify-content: flex-end;
       }
     }
+
+    &__message {
+      margin: 0;
+      text-align: center;
+    }
   }
 }

@@ -41,6 +41,8 @@ const ValidationMessages: ValidationMessagesProps = {
     // Success messages
     SIGNUP_FAILED: '회원가입 실패',
     SIGNUP_SUCCESS: '회원가입 성공',
+    LOGIN_FAILED: '로그인 실패',
+    LOGIN_SUCCESS: '로그인 성공',
     NETWORK_ERROR:
         '네트워크 연결에 문제가 발생했습니다. 인터넷 연결을 확인하고 다시 시도해주세요.',
     TIMEOUT_ERROR: '요청 시간이 초과되었습니다. 다시 시도해주세요.',
