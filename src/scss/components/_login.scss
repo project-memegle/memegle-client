@@ -10,7 +10,7 @@
     display: flex;
     position: relative;
     flex-direction: column;
-
+    gap: var(--primary__padding);
     &__section {
       display: flex;
       flex-direction: column;

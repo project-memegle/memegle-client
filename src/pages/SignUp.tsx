@@ -9,43 +9,39 @@ import { SignUpDTO } from '../services/dto/SignUpDto';
 
 export default function SignUp() {
     const [id, setId] = useState('');
-    const [idError, setIdError] = useState(ValidationMessages.DEFAULT_ID);
+    const [idError, setIdError] = useState('');
     const [nickname, setNickname] = useState('');
-    const [nicknameError, setNicknameError] = useState(
-        ValidationMessages.DEFAULT_NICKNAME
-    );
+    const [nicknameError, setNicknameError] = useState('');
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
-    const [passwordError, setPasswordError] = useState(
-        ValidationMessages.DEFAULT_PASSWORD
-    );
+    const [passwordError, setPasswordError] = useState('');
     const [signUpError, setSignUpError] = useState('');
     const [signupSuccess, setSignupSuccess] = useState('');
 
+    const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
+    const DEFALUT_NICKNAME = ValidationMessages.DEFAULT_NICKNAME;
+    const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
+
     const handleInputChange = (
-        setter: React.Dispatch<React.SetStateAction<string>>,
-        validator: (value: string) => string,
-        defaultMessage: string
+        valueSetter: React.Dispatch<React.SetStateAction<string>>,
+        errorSetter: React.Dispatch<React.SetStateAction<string>>,
+        validator: (value: string) => string
     ) => {
         return (e: ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value.replace(/\s/g, ''); // 띄어쓰기 제거
+            const value = e.target.value.replace(/\s/g, '');
             const error = validator(value);
-            setter(value);
-            return error || defaultMessage;
+            valueSetter(value);
+            errorSetter(error);
         };
     };
 
     const onChangeId = useCallback(
-        handleInputChange(setId, validateId, ValidationMessages.DEFAULT_ID),
+        handleInputChange(setId, setIdError, validateId),
         []
     );
 
     const onChangeNickname = useCallback(
-        handleInputChange(
-            setNickname,
-            validateNickname,
-            ValidationMessages.DEFAULT_NICKNAME
-        ),
+        handleInputChange(setNickname, setNicknameError, validateNickname),
         []
     );
 
@@ -54,7 +50,7 @@ export default function SignUp() {
             const value = e.target.value.replace(/\s/g, ''); // 띄어쓰기 제거
             const error = validateSignUpPassword(value, passwordCheck);
             setPassword(value);
-            setPasswordError(error || ValidationMessages.DEFAULT_PASSWORD);
+            setPasswordError(error);
         },
         [passwordCheck]
     );
@@ -64,7 +60,7 @@ export default function SignUp() {
             const value = e.target.value.replace(/\s/g, ''); // 띄어쓰기 제거
             const error = validateSignUpPassword(password, value);
             setPasswordCheck(value);
-            setPasswordError(error || ValidationMessages.DEFAULT_PASSWORD);
+            setPasswordError(error);
         },
         [password]
     );
@@ -95,22 +91,14 @@ export default function SignUp() {
                 }
             }
         },
-        [
-            id,
-            nickname,
-            password,
-            passwordCheck,
-            idError,
-            passwordError,
-            nicknameError,
-        ]
+        [id, nickname, password, passwordCheck]
     );
 
     return (
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
                 <div className="c-login__section">
-                    <p>{idError}</p>
+                    <p>{idError ? idError : DEFAULT_ID}</p>
                     <label htmlFor="id">아이디</label>
                     <input
                         className="c-login__input"
@@ -123,7 +111,7 @@ export default function SignUp() {
                     />
                 </div>
                 <div className="c-login__section">
-                    <p>{nicknameError}</p>
+                    <p>{nicknameError ? nicknameError : DEFALUT_NICKNAME}</p>
                     <label htmlFor="nickname">닉네임</label>
                     <input
                         className="c-login__input"
@@ -136,7 +124,7 @@ export default function SignUp() {
                     />
                 </div>
                 <div className="c-login__section">
-                    <p>{passwordError}</p>
+                    <p>{passwordError ? passwordError : DEFAULT_PASSWORD}</p>
                     <section className="c-login__section-password">
                         <div>
                             <label htmlFor="password">비밀번호</label>
