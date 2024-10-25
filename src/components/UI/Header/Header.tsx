@@ -5,6 +5,7 @@ import { useAuth } from 'hooks/useAuth';
 
 export default function Header() {
     const navigate = useNavigate();
+    const auth = useAuth();
 
     function navigateToHome() {
         navigate('/');
@@ -16,7 +17,6 @@ export default function Header() {
     function navigateToNotification() {
         navigate('/notifications');
     }
-    const auth = useAuth();
 
     let logInButtonClick = () => {
         auth.login(() => {
