@@ -1,11 +1,10 @@
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
-import useNavigateHandler from '../hooks/useNavigateHandler';
 import ValidationMessages from '../components/Validations/ValidationMessages';
 import validateId from '../components/Validations/ValidateId';
 import validateLogInPassword from '../components/Validations/ValidateLogInPassword';
 export default function FindPassword() {
-    const navigate = useNavigateHandler();
+    const navigate = useNavigate();
 
     const [id, setId] = useState('');
     const [email, setEmail] = useState('');

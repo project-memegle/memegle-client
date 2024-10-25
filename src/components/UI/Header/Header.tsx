@@ -35,9 +35,20 @@ export default function Header() {
                         className="c-top-bar-user__log button__white-font"
                         onClick={navigateToLogIn}
                     >
-                        로그인
+                        업로드
                     </button>
-                    {/* <button className="c-top-bar-user__log" onClick={() => logOut()}>로그아웃</button> */}
+                    <button
+                        className="c-top-bar-user__log button__white-font"
+                        onClick={() => logOut()}
+                    >
+                        로그아웃
+                    </button>
+                    {/* <button
+                        className="c-top-bar-user__log button__white-font"
+                        onClick={navigateToLogIn}
+                    >
+                        로그인
+                    </button> */}
                     <button
                         className="c-top-bar-user__notification"
                         onClick={navigateToNotification}
