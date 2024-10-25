@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { addSearchHistory, SEARCH_HISTORY } from 'utils/localstorage';
 
 export default function SearchInput() {
     const navigate = useNavigate();
@@ -7,11 +8,20 @@ export default function SearchInput() {
 
     function clickHandler(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
+        addSearchHistory(inputValue);
         navigate('/result');
     }
 
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-        setInputValue(event.target.value);
+        const trimmedValue = event.target.value.trim();
+        if (trimmedValue !== '') {
+            setInputValue(event.target.value);
+        }
+    }
+
+    function removeInputValue(event: React.MouseEvent<HTMLButtonElement>) {
+        event.preventDefault();
+        setInputValue('');
     }
 
     return (
@@ -33,7 +43,7 @@ export default function SearchInput() {
                 {inputValue && (
                     <button
                         className="c-input__icon c-input__icon--back"
-                        onClick={clickHandler}
+                        onClick={removeInputValue}
                     >
                         <i className="c-icon">close</i>
                     </button>
