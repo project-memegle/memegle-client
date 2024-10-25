@@ -2,12 +2,15 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 
-import '@memegle/styles';
-
 import router from './Router';
+import { ProvideAuth } from 'components/auth/ProvideAuth';
+
+import '@memegle/styles';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <RouterProvider router={router} />
+        <ProvideAuth>
+            <RouterProvider router={router} />
+        </ProvideAuth>
     </StrictMode>
 );

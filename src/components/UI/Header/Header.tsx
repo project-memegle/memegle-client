@@ -1,6 +1,7 @@
 import SearchSection from '../Search/SearchSection';
 import logo from '../../../assets/logo.svg';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from 'hooks/useAuth';
 
 export default function Header() {
     const navigate = useNavigate();
@@ -21,6 +22,20 @@ export default function Header() {
     function navigateToNotification() {
         navigate('/notifications');
     }
+    const auth = useAuth();
+
+    let logInButtonClick = () => {
+        auth.login(() => {
+            console.log('사용자 로그인😎');
+            // Additional logic after login can be added here
+        });
+    };
+    let logOutButtonClick = () => {
+        auth.logout(() => {
+            console.log('사용자 로그아웃😒');
+            // Additional logic after login can be added here
+        });
+    };
 
     return (
         <header className="c-header">
@@ -39,16 +54,16 @@ export default function Header() {
                     </button>
                     <button
                         className="c-top-bar-user__log button__white-font"
-                        onClick={() => logOut()}
+                        onClick={logOutButtonClick}
                     >
                         로그아웃
                     </button>
-                    {/* <button
+                    <button
                         className="c-top-bar-user__log button__white-font"
-                        onClick={navigateToLogIn}
+                        onClick={logInButtonClick}
                     >
                         로그인
-                    </button> */}
+                    </button>
                     <button
                         className="c-top-bar-user__notification"
                         onClick={navigateToNotification}

@@ -1,6 +1,10 @@
-import { createContext, useContext } from 'react';
+import { useContext } from 'react';
+import { authContext } from '../components/auth/ProvideAuth';
 
-const authContext = createContext<string | null>(null);
-export function useAuth() {
-    return useContext(authContext);
-}
+export const useAuth = () => {
+    const context = useContext(authContext);
+    if (!context) {
+        throw new Error('useAuth must be used within a ProvideAuth');
+    }
+    return context;
+};

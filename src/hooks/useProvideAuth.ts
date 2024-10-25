@@ -2,11 +2,11 @@ import { useState } from 'react';
 
 const fakeAuth = {
     isAuthenticated: false,
-    signin(cb: () => void) {
+    login(cb: () => void) {
         fakeAuth.isAuthenticated = true;
         setTimeout(cb, 100); // fake async
     },
-    signout(cb: () => void) {
+    logout(cb: () => void) {
         fakeAuth.isAuthenticated = false;
         setTimeout(cb, 100);
     },
@@ -15,15 +15,15 @@ const fakeAuth = {
 export function useProvideAuth() {
     const [user, setUser] = useState<string | null>(null);
 
-    const signin = (cb: () => void) => {
-        fakeAuth.signin(() => {
+    const login = (cb: () => void) => {
+        fakeAuth.login(() => {
             setUser('User');
             cb();
         });
     };
 
-    const signout = (cb: () => void) => {
-        fakeAuth.signout(() => {
+    const logout = (cb: () => void) => {
+        fakeAuth.logout(() => {
             setUser(null);
             cb();
         });
@@ -31,7 +31,7 @@ export function useProvideAuth() {
 
     return {
         user,
-        signin,
-        signout,
+        login,
+        logout,
     };
 }
