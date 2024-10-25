@@ -11,6 +11,7 @@ import FindId from './pages/FindId.tsx';
 import FindPassword from './pages/FindPassword.tsx';
 import Upload from './pages/Upload.tsx';
 import Chat from 'components/UI/Chat/Chat.tsx';
+import PrivateRoute from 'components/auth/PrivateRoute.tsx';
 
 const router = createBrowserRouter([
     {
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'notifications',
-                element: <Notification />,
+                element: <PrivateRoute element={<Notification />} />,
             },
             {
                 path: 'result',
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'chat',
-                element: <Chat />,
+                element: <PrivateRoute element={<Chat />} />,
             },
             {
                 path: 'signup',
@@ -49,7 +50,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'upload',
-                element: <Upload />,
+                element: <PrivateRoute element={<Upload />} />,
             },
             {
                 path: 'findid',
