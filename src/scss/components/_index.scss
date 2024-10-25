@@ -11,6 +11,7 @@
 @use "layout.scss";
 @use "login.scss";
 @use "notification.scss";
+@use "upload.scss";
 
 @mixin styles() {
   @include button.styles;
@@ -26,4 +27,5 @@
   @include layout.styles;
   @include login.styles;
   @include notification.styles;
+  @include upload.styles;
 }

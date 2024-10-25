@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`회원가입 컴포넌트 렌더링 테스트 1`] = `
+<DocumentFragment>
+  <div
+    class="main__container"
+  >
+    <form
+      class="c-login"
+    >
+      <div
+        class="c-login__section"
+      >
+        <p>
+          아이디
+        </p>
+        <label
+          for="id"
+        >
+          아이디
+        </label>
+        <input
+          class="c-login__input"
+          id="id"
+          name="id"
+          placeholder="아이디"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        class="c-login__section"
+      >
+        <p>
+          닉네임
+        </p>
+        <label
+          for="nickname"
+        >
+          닉네임
+        </label>
+        <input
+          class="c-login__input"
+          id="nickname"
+          name="nickname"
+          placeholder="닉네임"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        class="c-login__section"
+      >
+        <p>
+          비밀번호
+        </p>
+        <section
+          class="c-login__section-password"
+        >
+          <div>
+            <label
+              for="password"
+            >
+              비밀번호
+            </label>
+            <input
+              class="c-login__input"
+              id="password"
+              name="password"
+              placeholder="비밀번호"
+              type="password"
+              value=""
+            />
+          </div>
+          <div>
+            <label
+              for="password-check"
+            >
+              비밀번호 확인
+            </label>
+            <input
+              class="c-login__input"
+              id="password-check"
+              name="password-check"
+              placeholder="비밀번호 확인"
+              type="password"
+              value=""
+            />
+          </div>
+        </section>
+      </div>
+      <section
+        class="c-login__button-section"
+      >
+        <button
+          class="button__rounded button__light"
+          type="submit"
+        >
+          회원가입
+        </button>
+      </section>
+    </form>
+  </div>
+</DocumentFragment>
+`;

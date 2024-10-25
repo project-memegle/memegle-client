@@ -1,11 +1,13 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import ValidationMessages from '../components/Validations/ValidationMessages';
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { handleApiError } from 'utils/handleApiError';
+import { TagInput } from 'components/UI/Upload/Upload_tag';
 
 export default function Upload() {
     const [file, setFile] = useState<File | undefined>();
-    const [message, setMessage] = useState('');
-
+    const [errorMessage, setErrorMessage] = useState('');
+    const [fileName, setFileName] = useState<string>('파일을 선택하세요');
     const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target.files?.[0];
         const allowedTypes = [
@@ -36,7 +38,7 @@ export default function Upload() {
     const upload = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!file) {
-            alert('파일을 선택하세요');
+            setErrorMessage('파일을 선택하세요');
             return;
         }
         const formData = new FormData();
@@ -47,48 +49,54 @@ export default function Upload() {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            setMessage(response.data.message);
-            alert(message);
+            console.log(response);
         } catch (error) {
-            console.log(error);
-            if (axios.isAxiosError(error)) {
-                switch (error.response?.status) {
-                    case 40001:
-                        setMessage(ValidationMessages.INVALID_FORM);
-                        break;
-                    case 40100:
-                        setMessage(ValidationMessages.INVALID_USER);
-                        break;
-                    case 40401:
-                        setMessage(ValidationMessages.NO_RESOURCE);
-                        break;
-                    case 50000:
-                        setMessage(ValidationMessages.SERVER_ERROR);
-                        break;
-                    default:
-                        setMessage(ValidationMessages.UNKNOWN_ERROR);
-                        break;
-                }
-            } else {
-                setMessage(ValidationMessages.UNKNOWN_ERROR);
-            }
+            handleApiError(error as AxiosError, setErrorMessage);
         }
     };
 
     return (
-        <div>
-            <form onSubmit={upload} encType="multipart/form-data">
-                <input
-                    type="file"
-                    name="userfile"
-                    onChange={onChangeFile}
-                    accept=".gif,.jpg,.jpeg,.png,.webp"
-                />
-                <div>
-                    <label htmlFor="category">카테고리</label>
-                    <input id="category" type="text" />
-                </div>
-                <button type="submit">업로드 하기</button>
+        <div className="main__container">
+            <form
+                onSubmit={upload}
+                encType="multipart/form-data"
+                className="c-upload"
+            >
+                <section className="file-upload">
+                    <div className="file-upload__area">
+                        <i className="file-upload__icon c-icon">upload_file</i>
+                        <h4>파일을 드래그하여 업로드하세요</h4>
+                    </div>
+                    <div className="file-upload__list">
+                        <div className="file-info">
+                            <span className="material-icons-outlined file-icon">
+                                description
+                            </span>
+                            <span className="file-name"> </span> |
+                            <span className="file-size"> </span>
+                        </div>
+                        <span className="material-icons remove-file-icon">
+                            delete
+                        </span>
+                        <div className="progress-bar"> </div>
+                    </div>
+                    <button type="button" className="file-upload__button">
+                        Upload
+                    </button>
+                </section>
+                <TagInput />
+                <section className="file-cateogry"></section>
+                <section className="c-login__button-section">
+                    <button
+                        className="button__rounded button__light"
+                        type="submit"
+                    >
+                        이미지 업로드 요청
+                    </button>
+                    {errorMessage && (
+                        <p className="font-warning">{errorMessage}</p>
+                    )}
+                </section>
             </form>
         </div>
     );

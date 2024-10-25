@@ -1,3 +1,5 @@
+@import "../settings/colors";
+
 @mixin styles() {
   @font-face {
     font-family: "Material Symbols Rounded";
@@ -107,5 +109,11 @@
       white-space: nowrap;
       word-wrap: normal;
     }
+  }
+
+  .font-warning {
+    margin: 0;
+    text-align: center;
+    color: $warning;
   }
 }

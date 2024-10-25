@@ -6,18 +6,12 @@ import { useAuth } from 'hooks/useAuth';
 export default function Header() {
     const navigate = useNavigate();
 
-    function logOut() {
-        alert('로그아웃');
-    }
-
     function navigateToHome() {
         navigate('/');
     }
-    function navigateToLogIn() {
-        navigate('/login');
-    }
-    function navigateToSignUp() {
-        navigate('/signup');
+
+    function navigateToUpload() {
+        navigate('/upload');
     }
     function navigateToNotification() {
         navigate('/notifications');
@@ -54,7 +48,7 @@ export default function Header() {
                             </button>
                             <button
                                 className="c-top-bar-user__log button__white-font"
-                                onClick={navigateToLogIn}
+                                onClick={navigateToUpload}
                             >
                                 업로드
                             </button>

@@ -58,7 +58,7 @@ export default function SignUp() {
         },
         [passwordCheck]
     );
-    
+
     const onChangePasswordCheck = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value.replace(/\s/g, '');
