@@ -3,6 +3,7 @@ import ValidationMessages from '../components/Validations/ValidationMessages';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { handleApiError } from 'utils/handleApiError';
 import { TagInput } from 'components/UI/Upload/Upload_tag';
+import { CategoryInput } from 'components/UI/Upload/Upload_category';
 
 export default function Upload() {
     const [file, setFile] = useState<File | undefined>();
@@ -85,7 +86,7 @@ export default function Upload() {
                     </button>
                 </section>
                 <TagInput />
-                <section className="file-cateogry"></section>
+                <CategoryInput />
                 <section className="c-login__button-section">
                     <button
                         className="button__rounded button__light"

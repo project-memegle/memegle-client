@@ -8,6 +8,7 @@
     flex-direction: column;
     .file-upload {
       margin-top: var(--primary__padding);
+      margin-bottom: var(--primary__padding);
       background-color: $white;
       padding: calc(var(--primary__padding) * 2);
       border-radius: 40px;
