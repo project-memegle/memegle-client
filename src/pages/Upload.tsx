@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import ValidationMessages from '../components/Validations/ValidationMessages';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { handleApiError } from 'utils/handleApiError';
 import { TagInput } from 'components/UI/Upload/Upload_tag';
 import { CategoryInput } from 'components/UI/Upload/Upload_category';
@@ -9,6 +9,8 @@ export default function Upload() {
     const [file, setFile] = useState<File | undefined>();
     const [errorMessage, setErrorMessage] = useState('');
     const [fileName, setFileName] = useState<string>('파일을 선택하세요');
+    const [imageUrl, setImageUrl] = useState<string | undefined>();
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target.files?.[0];
         const allowedTypes = [
@@ -33,6 +35,8 @@ export default function Upload() {
             }
 
             setFile(selectedFile);
+            setFileName(selectedFile.name);
+            setImageUrl(URL.createObjectURL(selectedFile));
         }
     };
 
@@ -55,7 +59,9 @@ export default function Upload() {
             handleApiError(error as AxiosError, setErrorMessage);
         }
     };
-
+    const handleUploadButtonClick = () => {
+        fileInputRef.current?.click();
+    };
     return (
         <div className="main__container">
             <form
@@ -65,24 +71,36 @@ export default function Upload() {
             >
                 <section className="file-upload">
                     <div className="file-upload__area">
-                        <i className="file-upload__icon c-icon">upload_file</i>
-                        <h4>파일을 드래그하여 업로드하세요</h4>
+                        {imageUrl ? (
+                            <>
+                                <img
+                                    src={imageUrl}
+                                    alt="Uploaded file preview"
+                                    className="file-upload__preview"
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <i className="file-upload__icon c-icon">
+                                    upload_file
+                                </i>
+                                <h4>파일을 드래그하여 업로드하세요</h4>
+                                <input
+                                    className="file-upload__input"
+                                    type="file"
+                                    onChange={onChangeFile}
+                                    ref={fileInputRef}
+                                />
+                            </>
+                        )}
                     </div>
-                    <div className="file-upload__list">
-                        <div className="file-info">
-                            <span className="material-icons-outlined file-icon">
-                                description
-                            </span>
-                            <span className="file-name"> </span> |
-                            <span className="file-size"> </span>
-                        </div>
-                        <span className="material-icons remove-file-icon">
-                            delete
-                        </span>
-                        <div className="progress-bar"> </div>
-                    </div>
-                    <button type="button" className="file-upload__button">
-                        Upload
+
+                    <button
+                        type="button"
+                        onClick={handleUploadButtonClick}
+                        className="file-upload__button"
+                    >
+                        이미지 업로드
                     </button>
                 </section>
                 <TagInput />

@@ -22,15 +22,23 @@
       gap: calc(var(--primary__font-size) * 2);
       &__icon {
         font-size: 2.625em;
+        padding-top: var(--primary__padding);
+      }
+
+      &__input {
+        display: none;
+      }
+
+      &__preview {
+        max-width: 100%;
       }
 
       &__area {
-        border: 2px dashed $primary;
+        // border: 2px dashed $primary;
         border-radius: 40px;
         width: 350px;
         text-align: center;
-        padding-top: var(--primary__padding);
-
+        overflow: hidden;
         .upload-icon {
           font-size: 50px;
         }
@@ -56,48 +64,7 @@
         padding: 7.5px 50px;
         cursor: pointer;
       }
-
-      &__list {
-        color: #f7fff7;
-        background-color: $primary;
-        transition: all 1s;
-        width: 390px;
-        position: relative;
-        display: none;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        border-radius: 25px;
-        cursor: pointer;
-
-        .file-info {
-          display: flex;
-          align-items: center;
-          font-size: 15px;
-        }
-        .file-icon {
-          margin-right: 10px;
-        }
-        .file-name,
-        .file-size {
-          padding: 0 3px;
-        }
-        .remove-file-icon {
-          cursor: pointer;
-        }
-        .progress-bar {
-          display: flex;
-          position: absolute;
-          bottom: 0;
-          left: 4.5%;
-          width: 0;
-          height: 5px;
-          border-radius: 25px;
-          background-color: #4bb543;
-        }
-      }
     }
-
     .file-tag {
       outline: none;
       border: 2px solid $primary;
