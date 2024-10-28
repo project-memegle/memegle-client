@@ -5,7 +5,7 @@ import mockData from '../data/mockData.json';
 import { ReactNode, useEffect, useState } from 'react';
 import ResultSection from '../components/UI/Result/ResultSection';
 import { deleteSearchHistroy, getSearchHistory } from 'utils/localStorage';
-
+import emptyIcon from '@memegle/assets/images/ic_result_empty.png';
 interface MockDataItem {
     id: number;
     imageUrl: string;
@@ -35,11 +35,9 @@ export default function Result() {
     const [content, setContent] = useState<ReactNode>(null);
 
     useEffect(() => {
-        // searchTerm이 변경될 때 로컬 스토리지에서 검색 기록을 가져와서 갱신합니다.
         setSearchHistory(getSearchHistory());
     }, [searchTerm]);
 
-    // 검색 기록에서 태그 제거
     function handleTagRemove(index: number) {
         const newSearchHistory = searchHistory.filter((_, i) => i !== index);
         deleteSearchHistroy(index);
@@ -60,7 +58,10 @@ export default function Result() {
                 categoryData.length > 0 ? (
                     <ResultSection {...categoryData} />
                 ) : (
-                    <p>검색 결과가 없습니다</p>
+                    <div className="c-result__emtpy">
+                        <h4>검색 결과가 없습니다</h4>
+                        <img src={emptyIcon} alt="empty" />
+                    </div>
                 )
             );
         }

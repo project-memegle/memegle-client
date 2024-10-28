@@ -81,7 +81,6 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                             >
                                 업로드
                             </button>
-
                             <button
                                 className="c-top-bar-user__notification"
                                 onClick={navigateToNotification}
