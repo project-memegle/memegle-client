@@ -1,15 +1,17 @@
-type localStorageType = {
-    key: 'string';
-    value: 'string';
+import { Nullable } from './nullable';
+
+type LocalStorageItem = {
+    key: string;
+    value: string;
 };
 
 export const SEARCH_HISTORY = 'SEARCH_HISTORY';
 
-export function setLocalStorage({ key, value }: localStorageType): void {
+export function setLocalStorage({ key, value }: LocalStorageItem): void {
     localStorage.setItem(key, value);
 }
 
-export function getLocalStorage(key: string): string | null {
+export function getLocalStorage(key: string): Nullable<string> {
     return localStorage.getItem(key);
 }
 
@@ -30,6 +32,14 @@ export function addSearchHistory(value: string): void {
     const history = getSearchHistory();
     if (trimmedValue && !history.includes(trimmedValue)) {
         history.push(trimmedValue);
+        localStorage.setItem(SEARCH_HISTORY, JSON.stringify(history));
+    }
+}
+
+export function deleteSearchHistroy(index: number): void {
+    const history = getSearchHistory();
+    if (index >= 0 && index < history.length) {
+        history.splice(index, 1);
         localStorage.setItem(SEARCH_HISTORY, JSON.stringify(history));
     }
 }

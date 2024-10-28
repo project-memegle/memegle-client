@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addSearchHistory, SEARCH_HISTORY } from 'utils/localstorage';
+import { addSearchHistory } from 'utils/localStorage';
 
 export default function SearchInput() {
     const navigate = useNavigate();
@@ -13,10 +13,7 @@ export default function SearchInput() {
     }
 
     function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-        const trimmedValue = event.target.value.trim();
-        if (trimmedValue !== '') {
-            setInputValue(event.target.value);
-        }
+        setInputValue(event.target.value);
     }
 
     function removeInputValue(event: React.MouseEvent<HTMLButtonElement>) {

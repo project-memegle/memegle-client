@@ -75,7 +75,7 @@ export function TagInput() {
 
     const renderTags = () => {
         return tags.map((tag, index) => (
-            <li key={index} className="tag">
+            <li key={index} className="tag-list__item">
                 {tag}
                 <span
                     className="cross"

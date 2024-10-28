@@ -2,11 +2,16 @@ import { useParams } from 'react-router-dom';
 import useFetchHandler from '../hooks/useFetchHandler';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import mockData from '../data/mockData.json';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import ResultSection from '../components/UI/Result/ResultSection';
 import axios, { AxiosError } from 'axios';
 import ValidationMessages from '../components/Validations/ValidationMessages';
 import { handleApiError } from 'utils/handleApiError';
+import {
+    deleteLocalStorage,
+    deleteSearchHistroy,
+    getSearchHistory,
+} from 'utils/localStorage';
 
 interface MockDataItem {
     id: number;
@@ -30,8 +35,9 @@ export default function Result() {
     const { data, loading, error } = useFetchHandler<MockData | null>(mockData); // Use mockData directly
     const [result, setResult] = useState('');
     const [message, setMessage] = useState('');
+    const [searchHistory, setSearchHistory] = useState<string[]>([]);
 
-    useState(() => {
+    useEffect(() => {
         axios
             .get('/images/category')
             .then((response) => {
@@ -40,7 +46,18 @@ export default function Result() {
             .catch((error) => {
                 handleApiError(error as AxiosError, setMessage);
             });
-    });
+    }, [searchHistory]);
+
+    useEffect(() => {
+        setSearchHistory(getSearchHistory());
+    }, []);
+
+    function handleTagRemove(index: number) {
+        const newSearchHistory = searchHistory.filter((_, i) => i !== index);
+        deleteSearchHistroy(index);
+        setSearchHistory(newSearchHistory);
+        console.log('Updated search history:', newSearchHistory); // Add console log
+    }
 
     let content: ReactNode;
 
@@ -51,7 +68,6 @@ export default function Result() {
     if (error) {
         content = <div>Error: {error}</div>;
     }
-
     if (data && data?.results.length <= 0) {
         const categoryData = data?.results.find(
             (item) => item.imageCategory === category
@@ -73,5 +89,22 @@ export default function Result() {
         content = <ResultSection {...categoryData} />;
     }
 
-    return <main className="home__main">{content}</main>;
+    return (
+        <main className="home__main c-result">
+            <section className="c-result__searchHistory">
+                <ul className="tag-list">
+                    {searchHistory.map((tag, index) => (
+                        <li className="tag-list__item" key={index}>
+                            {tag}
+                            <span
+                                className="cross"
+                                onClick={() => handleTagRemove(index)}
+                            ></span>
+                        </li>
+                    ))}
+                </ul>
+            </section>
+            {content}
+        </main>
+    );
 }
