@@ -1,4 +1,12 @@
 @import "../settings/colors";
+@mixin tag-style {
+  background: $primary;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.5rem;
+}
 
 @mixin styles() {
   .tag-list {
@@ -10,14 +18,20 @@
     flex-wrap: wrap;
     align-items: center;
 
+    list-style: none;
+    &__clear {
+      @include tag-style;
+      opacity: 0.5;
+      button {
+        color: $white;
+      }
+      &:hover {
+        color: $white;
+      }
+    }
     &__item {
       padding-left: 0.8rem;
-      background: $primary;
-      border-radius: 100px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin: 0.5rem;
+      @include tag-style;
       color: $white;
     }
 

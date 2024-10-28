@@ -4,7 +4,11 @@ import LoadingSpinner from '../components/UI/LoadingSpinner';
 import mockData from '../data/mockData.json';
 import { ReactNode, useEffect, useState } from 'react';
 import ResultSection from '../components/UI/Result/ResultSection';
-import { deleteSearchHistroy, getSearchHistory } from 'utils/localStorage';
+import {
+    clearSearchHistory as clearLocalStorageSearchHistory,
+    deleteSearchHistroy,
+    getSearchHistory,
+} from 'utils/localStorage';
 import emptyIcon from '@memegle/assets/images/ic_result_empty.png';
 interface MockDataItem {
     id: number;
@@ -43,6 +47,10 @@ export default function Result() {
         deleteSearchHistroy(index);
         setSearchHistory(newSearchHistory);
     }
+    function clearSearchHistory() {
+        clearLocalStorageSearchHistory();
+        setSearchHistory([]);
+    }
 
     useEffect(() => {
         if (loading) {
@@ -80,6 +88,13 @@ export default function Result() {
                             ></span>
                         </li>
                     ))}
+                    {searchHistory.length > 0 && (
+                        <li className="tag-list__clear">
+                            <button onClick={clearSearchHistory}>
+                                전체삭제
+                            </button>
+                        </li>
+                    )}
                 </ul>
             </section>
             {content}

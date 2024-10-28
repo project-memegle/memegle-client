@@ -43,3 +43,7 @@ export function deleteSearchHistroy(index: number): void {
         localStorage.setItem(SEARCH_HISTORY, JSON.stringify(history));
     }
 }
+
+export function clearSearchHistory(): void {
+    localStorage.removeItem(SEARCH_HISTORY);
+}

@@ -13,11 +13,10 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
     const navigate = useNavigate();
     const auth = useAuth();
 
-    // 검색어 입력 중 상태를 유지하는 로컬 상태
     const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setLocalSearchTerm(event.target.value); // 로컬 상태만 업데이트
+        setLocalSearchTerm(event.target.value);
     };
 
     const handleSearchSubmit = (event: React.FormEvent) => {
@@ -25,7 +24,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
         const trimmedTerm = localSearchTerm.trim();
 
         if (trimmedTerm) {
-            onSearch(trimmedTerm); // submit 시에만 부모 상태 업데이트
+            onSearch(trimmedTerm);
             addSearchHistory(trimmedTerm);
             navigate('/result');
         }
