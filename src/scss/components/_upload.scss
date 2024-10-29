@@ -20,6 +20,24 @@
         rgba(0, 0, 0, 0.24) 0px 10px 20px,
         rgba(0, 0, 0, 0.28) 0px 6px 6px;
       gap: calc(var(--primary__font-size) * 2);
+      position: relative;
+      &__delete {
+        padding: 0;
+        width: calc(var(--primary__font-size) * 3);
+        right: calc(var(--primary__font-size) * 2);
+        top: var(--primary__font-size);
+        background: $primary;
+        position: absolute;
+        border-radius: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 0.5;
+        .c-icon {
+          font-size: calc(var(--primary__font-size) * 2);
+          color: $white;
+        }
+      }
       &__icon {
         font-size: 2.625em;
         padding-top: var(--primary__padding);

@@ -40,6 +40,12 @@ export default function Upload() {
         }
     };
 
+    const resetFile = () => {
+        setFile(undefined);
+        setFileName('파일을 선택하세요');
+        setImageUrl(undefined);
+    };
+
     const upload = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!file) {
@@ -70,6 +76,9 @@ export default function Upload() {
                 className="c-upload"
             >
                 <section className="file-upload">
+                    <button className="file-upload__delete" onClick={resetFile}>
+                        <i className="c-icon">delete</i>
+                    </button>
                     <div className="file-upload__area">
                         {imageUrl ? (
                             <>
@@ -94,7 +103,6 @@ export default function Upload() {
                             </>
                         )}
                     </div>
-
                     <button
                         type="button"
                         onClick={handleUploadButtonClick}
