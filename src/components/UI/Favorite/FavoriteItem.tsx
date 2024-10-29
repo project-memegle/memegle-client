@@ -24,16 +24,9 @@ const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
                 {...props}
             >
                 <img
+                    className="c-favorite-item__img"
                     src={item.imageUrl}
                     alt={`img-${item.id}`}
-                    style={{
-                        borderRadius: '8px',
-                        boxShadow: isDragging
-                            ? 'none'
-                            : 'rgb(63 63 68 / 5%) 0px 0px 0px 1px, rgb(34 33 81 / 15%) 0px 1px 3px 0px',
-                        maxWidth: '100%',
-                        objectFit: 'cover',
-                    }}
                 />
             </article>
         );

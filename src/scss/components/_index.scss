@@ -13,6 +13,7 @@
 @use "notification.scss";
 @use "upload.scss";
 @use "tag.scss";
+@use "favorite.scss";
 
 @mixin styles() {
   @include button.styles;
@@ -30,4 +31,5 @@
   @include notification.styles;
   @include upload.styles;
   @include tag.styles;
+  @include favorite.styles;
 }

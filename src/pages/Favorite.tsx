@@ -35,19 +35,16 @@ export default function Favorite() {
     const [items, setItems] = useState<TItem[]>(defaultItems);
     const [activeItem, setActiveItem] = useState<TItem>();
 
-    // for input methods detection
     const sensors = useSensors(
         useSensor(PointerSensor),
         useSensor(TouchSensor)
     );
 
-    // triggered when dragging starts
     const handleDragStart = (event: DragStartEvent) => {
         const { active } = event;
         setActiveItem(items.find((item) => item.id === active.id));
     };
 
-    // triggered when dragging ends
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
         if (!over) return;
@@ -86,40 +83,17 @@ export default function Favorite() {
                 onDragEnd={handleDragEnd}
                 onDragCancel={handleDragCancel}
             >
+                <button
+                    className="c-favorite__button"
+                    onClick={handleButtonClick}
+                >
+                    변경사항 저장하기
+                </button>
                 <SortableContext items={items} strategy={rectSortingStrategy}>
-                    <div
-                        style={{
-                            display: 'grid',
-                            gridTemplateColumns: `repeat(4, 1fr)`,
-                            gridGap: 16,
-                            maxWidth: '800px',
-                            margin: '16px auto 48px',
-                        }}
-                    >
+                    <div className="c-favorite__grid">
                         {items.map((item) => (
                             <FavoriteItemWrapper key={item.id} item={item} />
                         ))}
-                    </div>
-                    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                        <button
-                            onClick={handleButtonClick}
-                            style={{
-                                appearance: 'none',
-                                fontFamily: 'inherit',
-                                display: 'inline-block',
-                                border: '0',
-                                borderRadius: '5px',
-                                background: '#14af21',
-                                color: '#fff',
-                                padding: '10px 16px',
-                                fontSize: '1rem',
-                                textDecoration: 'none',
-                                cursor: 'pointer',
-                                width: '100%',
-                            }}
-                        >
-                            Save this order
-                        </button>
                     </div>
                 </SortableContext>
                 <DragOverlay adjustScale style={{ transformOrigin: '0 0 ' }}>
