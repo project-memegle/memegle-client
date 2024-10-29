@@ -2,7 +2,7 @@ import { useState } from 'react';
 import CategoryItem from '../Category/CategoryItem';
 import axios, { AxiosError } from 'axios';
 import { handleApiError } from 'utils/handleApiError';
-import FavoriteItem from '../Favorite/FavoriteItem';
+import FavoriteSection from '../Favorite/FavoriteSection';
 
 export default function CategorySection() {
     const [message, setMessage] = useState('');
@@ -22,7 +22,7 @@ export default function CategorySection() {
 
     return (
         <section className="category__section">
-            <FavoriteItem />
+            <FavoriteSection />
             <CategoryItem category="mudo" />
             <CategoryItem category="digiMon" />
             <CategoryItem category="gif" />
