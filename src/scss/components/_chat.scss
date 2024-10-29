@@ -11,7 +11,9 @@
     max-width: var(--container__max-width);
     margin: 0 auto;
     position: relative;
-
+    label {
+      display: none;
+    }
     .main__container {
       padding-top: calc(var(--primary__font-size) * 3);
     }

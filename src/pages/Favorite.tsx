@@ -1,16 +1,11 @@
-import { SortableStressTest as Example } from '../components/UI/DnD/DnDtest';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import FavoriteItem from 'components/UI/Favorite/FavoriteItem';
 
 export default function Favorite() {
     return (
-        <div className="favorite-container">
-            <h1>Favorite Images</h1>
-            <div>
-                <DndProvider backend={HTML5Backend}>
-                    <Example />
-                </DndProvider>
-            </div>
-        </div>
+        <main className="home__main c-favorite">
+            <section className="c-favorite__section result__section">
+                <FavoriteItem />
+            </section>
+        </main>
     );
 }
