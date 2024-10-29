@@ -3,10 +3,12 @@ import CategoryItem from '../Category/CategoryItem';
 import axios, { AxiosError } from 'axios';
 import { handleApiError } from 'utils/handleApiError';
 import FavoriteSection from '../Favorite/FavoriteSection';
+import { useNavigate } from 'react-router-dom';
 
 export default function CategorySection() {
     const [message, setMessage] = useState('');
     const [category, setCategory] = useState('');
+    const navigate = useNavigate();
 
     useState(() => {
         axios
@@ -19,10 +21,17 @@ export default function CategorySection() {
                 handleApiError(error as AxiosError, setMessage);
             });
     });
-
+    function navigateToFavoriteItem() {
+        navigate('/favorite');
+    }
     return (
         <section className="category__section">
-            <FavoriteSection />
+            <article
+                className="category__item favorite"
+                onClick={navigateToFavoriteItem}
+            >
+                <p className="category__item-title">즐겨찾기</p>
+            </article>
             <CategoryItem category="mudo" />
             <CategoryItem category="digiMon" />
             <CategoryItem category="gif" />
