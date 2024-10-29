@@ -11,9 +11,12 @@ const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
         const styles: CSSProperties = {
             opacity: isOpacityEnabled ? '0.4' : '1',
             cursor: isDragging ? 'grabbing' : 'grab',
-            lineHeight: '0.5',
             transform: isDragging ? 'scale(1.05)' : 'scale(1)',
             ...style,
+        };
+        const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
+            event.stopPropagation();
+            alert('이미지 삭제');
         };
 
         return (
@@ -23,8 +26,14 @@ const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
                 style={styles}
                 {...props}
             >
+                <div
+                    className="c-favorite__item-delete"
+                    onClick={handleDeleteClick}
+                >
+                    <i className="c-icon">delete</i>
+                </div>
                 <img
-                    className="c-favorite-item__img"
+                    className="c-favorite__item-img"
                     src={item.imageUrl}
                     alt={`img-${item.id}`}
                 />
