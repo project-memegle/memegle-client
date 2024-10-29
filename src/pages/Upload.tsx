@@ -11,8 +11,14 @@ export default function Upload() {
     const [fileName, setFileName] = useState<string>('파일을 선택하세요');
     const [imageUrl, setImageUrl] = useState<string | undefined>();
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [isDragging, setIsDragging] = useState<boolean>(false);
+
     const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target.files?.[0];
+        handleFile(selectedFile);
+    };
+
+    const handleFile = (selectedFile: File | undefined) => {
         const allowedTypes = [
             'image/gif',
             'image/jpeg',
@@ -65,9 +71,33 @@ export default function Upload() {
             handleApiError(error as AxiosError, setErrorMessage);
         }
     };
+
     const handleUploadButtonClick = () => {
         fileInputRef.current?.click();
     };
+
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragging(true);
+    };
+
+    const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragging(false);
+    };
+
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragging(false);
+        const selectedFile = e.dataTransfer.files?.[0];
+        handleFile(selectedFile);
+    };
+
     return (
         <div className="main__container">
             <form
@@ -75,13 +105,22 @@ export default function Upload() {
                 encType="multipart/form-data"
                 className="c-upload"
             >
-                <section className="file-upload">
-                    <button className="file-upload__delete" onClick={resetFile}>
-                        <i className="c-icon">delete</i>
-                    </button>
+                <section
+                    className={`file-upload ${isDragging ? 'dragging' : ''}`}
+                    onDragOver={handleDragOver}
+                    onDragEnter={handleDragEnter}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                >
                     <div className="file-upload__area">
                         {imageUrl ? (
                             <>
+                                <button
+                                    className="file-upload__delete"
+                                    onClick={resetFile}
+                                >
+                                    <i className="c-icon">delete</i>
+                                </button>
                                 <img
                                     src={imageUrl}
                                     alt="Uploaded file preview"
