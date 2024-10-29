@@ -2,13 +2,14 @@ import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import ValidationMessages from '../components/Validations/ValidationMessages';
 import validateId from '../components/Validations/ValidateId';
-import validateLogInPassword from '../components/Validations/ValidateLogInPassword';
+import { handleApiError } from 'utils/handleApiError';
+import { useNavigate } from 'react-router-dom';
 export default function FindId() {
-    const navigate = useNavigate();
-
     const [id, setId] = useState('');
     const [idError, setIdError] = useState(ValidationMessages.DEFAULT_NICKNAME);
     const [message, setMessage] = useState('');
+
+    const navigate = useNavigate();
     const onChangeId = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value;
@@ -32,40 +33,16 @@ export default function FindId() {
                     setMessage(response.data.message);
                 })
                 .catch((error: AxiosError) => {
-                    console.log(error.response);
-                    if (axios.isAxiosError(error)) {
-                        switch (error.response?.status) {
-                            case 40000:
-                                setMessage(ValidationMessages.LOGIN_FAILED);
-                                break;
-                            case 40001:
-                                setMessage(ValidationMessages.INVALID_FORM);
-                                break;
-                            case 50000:
-                                setMessage(ValidationMessages.SERVER_ERROR);
-                                break;
-                            default:
-                                setMessage(ValidationMessages.UNKNOWN_ERROR);
-                                break;
-                        }
-                    } else {
-                        setMessage(ValidationMessages.UNKNOWN_ERROR);
-                    }
+                    handleApiError(error as AxiosError, setMessage);
                 });
         },
         [id, setMessage]
     );
 
-    function findId() {
-        navigate('/findid');
-    }
-
     function findPassword() {
         navigate('/findpassword');
     }
-    function navigateToSignUp() {
-        navigate('/signup');
-    }
+
     return (
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
@@ -77,7 +54,7 @@ export default function FindId() {
                         name="id"
                         id="id"
                         type="text"
-                        placeholder="닉네임을 입력해주세요"
+                        placeholder={ValidationMessages.REQUIRED_NICKNAME}
                         value={id}
                         onChange={onChangeId}
                     />

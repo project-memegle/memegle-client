@@ -2,7 +2,8 @@ import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import ValidationMessages from '../components/Validations/ValidationMessages';
 import validateId from '../components/Validations/ValidateId';
-import validateLogInPassword from '../components/Validations/ValidateLogInPassword';
+import { handleApiError } from 'utils/handleApiError';
+import { useNavigate } from 'react-router-dom';
 export default function FindPassword() {
     const navigate = useNavigate();
 
@@ -46,24 +47,7 @@ export default function FindPassword() {
                 })
                 .catch((error: AxiosError) => {
                     console.log(error.response);
-                    if (axios.isAxiosError(error)) {
-                        switch (error.response?.status) {
-                            case 40000:
-                                setMessage(ValidationMessages.LOGIN_FAILED);
-                                break;
-                            case 40001:
-                                setMessage(ValidationMessages.INVALID_FORM);
-                                break;
-                            case 50000:
-                                setMessage(ValidationMessages.SERVER_ERROR);
-                                break;
-                            default:
-                                setMessage(ValidationMessages.UNKNOWN_ERROR);
-                                break;
-                        }
-                    } else {
-                        setMessage(ValidationMessages.UNKNOWN_ERROR);
-                    }
+                    handleApiError(error as AxiosError, setMessage);
                 });
         },
         [id, setMessage]
@@ -82,7 +66,7 @@ export default function FindPassword() {
                         name="id"
                         id="id"
                         type="text"
-                        placeholder="아이디를 입력해주세요"
+                        placeholder={ValidationMessages.REQUIRED_ID}
                         value={id}
                         onChange={onChangeId}
                     />
@@ -95,7 +79,7 @@ export default function FindPassword() {
                         name="id"
                         id="id"
                         type="text"
-                        placeholder="이메일을 입력해주세요"
+                        placeholder={ValidationMessages.REQUIRED_EMAIL}
                         value={id}
                         onChange={onChangeId}
                     />

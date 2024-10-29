@@ -11,6 +11,7 @@ const ValidationMessages: ValidationMessagesProps = {
 
     // Required field errors
     REQUIRED_ID: '아이디를 입력해주세요.',
+    REQUIRED_EMAIL: '이메일을 입력해주세요.',
     REQUIRED_PASSWORD: '비밀번호를 입력해주세요.',
     REQUIRED_VERIFY_CODE: '인증번호를 입력해주세요.',
     REQUIRED_NICKNAME: '닉네임을 입력해주세요.',
@@ -49,6 +50,10 @@ const ValidationMessages: ValidationMessagesProps = {
     CONNECTION_REFUSED: '서버에 연결할 수 없습니다. 나중에 다시 시도해주세요.',
     SERVICE_UNAVAILABLE:
         '서비스가 현재 이용 불가합니다. 잠시 후 다시 시도해주세요.',
+
+    // File upload errors
+    INVALID_FILE_FORMAT: '허용되지 않는 파일 형식입니다.',
+    INVALID_FILE_SIZE: '파일 크기가 5MB를 초과합니다.'
 };
 
 export default ValidationMessages;

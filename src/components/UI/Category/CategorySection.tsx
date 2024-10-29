@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import CategoryItem from '../Category/CategoryItem';
-import axios from 'axios';
-import ValidationMessages from '../../Validations/ValidationMessages';
+import axios, { AxiosError } from 'axios';
+import { handleApiError } from 'utils/handleApiError';
 
 export default function CategorySection() {
     const [message, setMessage] = useState('');
@@ -15,27 +15,7 @@ export default function CategorySection() {
             })
             .catch((error) => {
                 console.log(error);
-                if (axios.isAxiosError(error)) {
-                    switch (error.response?.status) {
-                        case 40000:
-                            setMessage(ValidationMessages.INVALID_FORM);
-                            break;
-                        case 40001:
-                            setMessage(ValidationMessages.INVALID_FORM);
-                            break;
-                        case 40100:
-                            setMessage(ValidationMessages.INVALID_USER);
-                            break;
-                        case 50000:
-                            setMessage(ValidationMessages.SERVER_ERROR);
-                            break;
-                        default:
-                            setMessage(ValidationMessages.UNKNOWN_ERROR);
-                            break;
-                    }
-                } else {
-                    setMessage(ValidationMessages.UNKNOWN_ERROR);
-                }
+                handleApiError(error as AxiosError, setMessage);
             });
     });
 

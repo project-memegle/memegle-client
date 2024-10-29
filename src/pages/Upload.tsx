@@ -31,12 +31,12 @@ export default function Upload() {
 
         if (selectedFile) {
             if (!allowedTypes.includes(selectedFile.type)) {
-                alert('허용되지 않는 파일 형식입니다.');
+                alert(ValidationMessages.INVALID_FILE_FORMAT);
                 return;
             }
 
             if (selectedFile.size > maxSizeInBytes) {
-                alert('파일 크기가 5MB를 초과합니다.');
+                alert(ValidationMessages.INVALID_FILE_SIZE);
                 return;
             }
 
