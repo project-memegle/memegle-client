@@ -18,7 +18,7 @@ const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
 
         return (
             <article
-                className="category__item"
+                className="c-favorite__item"
                 ref={ref}
                 style={styles}
                 {...props}
