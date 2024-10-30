@@ -13,8 +13,8 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 200px;
-    border-radius: calc(var(--primary__font-size) / 2);
+    height: var(--primary__item-height);
+    border-radius: var(--primary__border-radius);
     overflow: hidden;
     position: relative;
 
@@ -33,7 +33,7 @@
     &-copy {
       z-index: 1;
       opacity: 0.8;
-      border-radius: 8px;
+      border-radius: var(--primary__border-radius);
       width: calc(var(--primary__font-size) * 2.25);
       height: calc(var(--primary__font-size) * 2.25);
       top: calc(var(--primary__font-size) / 2);

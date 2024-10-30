@@ -45,7 +45,7 @@
     }
 
     &__rounded {
-      border-radius: 8px;
+      border-radius: var(--primary__border-radius);
     }
   }
 

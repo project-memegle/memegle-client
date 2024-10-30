@@ -24,11 +24,11 @@ export default function ResultItem({ id, imageUrl }: ResultItemProp) {
     }
 
     return (
-        <article className="result__item">
+        <article className="result__item" onClick={copyImage}>
             <div className="result__item-copy">
                 <i className="c-icon">file_copy</i>
             </div>
-            <img src={imageUrl} alt={`img-${id}`} onClick={copyImage} />
+            <img src={imageUrl} alt={`img-${id}`} />
             {toast && (
                 <ToastMessage
                     message={toastMessage}

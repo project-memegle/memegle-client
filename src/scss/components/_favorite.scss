@@ -12,8 +12,9 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      height: 160px;
-      border-radius: 20px;
+      height: var(--primary__item-height);
+      border-radius: var(--primary__border-radius);
+
       overflow: hidden;
 
       &-delete {
@@ -45,7 +46,6 @@
           box-shadow: none;
         }
         &:hover {
-          // transform: scale(1.05);
           cursor: pointer;
         }
 
@@ -61,7 +61,7 @@
           width: 100%;
           height: 100%;
           z-index: 1;
-          border-radius: 20px;
+          border-radius: var(--primary__border-radius);
         }
       }
     }
@@ -71,7 +71,7 @@
       font-family: inherit;
       display: inline-block;
       border: 0;
-      border-radius: calc(var(--primary__font-size) / 2);
+      border-radius: var(--primary__border-radius);
       background: $primary;
       color: #fff;
       padding: 10px 16px;
