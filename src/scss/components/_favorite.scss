@@ -83,7 +83,7 @@
 
     &__grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: var(--primary__grid-column);
       grid-gap: var(--primary__font-size);
       margin: var(--primary__font-size) auto calc(var(--primary__font-size) * 3);
       // max-width: 800px;

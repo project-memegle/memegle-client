@@ -67,7 +67,6 @@ export default function Result() {
                     <ResultSection {...categoryData} />
                 ) : (
                     <div className="c-result__emtpy">
-                        <h4>검색 결과가 없습니다</h4>
                         <img src={emptyIcon} alt="empty" />
                     </div>
                 )
