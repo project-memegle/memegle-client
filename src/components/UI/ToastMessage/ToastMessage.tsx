@@ -8,7 +8,7 @@ interface ToastMessageProps {
 
 const ToastMessage: React.FC<ToastMessageProps> = ({
     message,
-    duration = 3000,
+    duration = 1500,
     onClose,
 }) => {
     useEffect(() => {

@@ -1,5 +1,7 @@
 import { TItem } from 'pages/Favorite';
-import { CSSProperties, forwardRef, HTMLAttributes } from 'react';
+import { CSSProperties, forwardRef, HTMLAttributes, useState } from 'react';
+import ToastMessage from '../ToastMessage/ToastMessage';
+import ValidationMessages from 'components/Validations/ValidationMessages';
 
 type FavoriteItemProps = {
     item: TItem;
@@ -8,6 +10,9 @@ type FavoriteItemProps = {
 } & HTMLAttributes<HTMLDivElement>;
 const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
     ({ item, isOpacityEnabled, isDragging, style, ...props }, ref) => {
+        const [toast, setToast] = useState(false);
+        const [toastMessage, setToastMessage] = useState('');
+
         const styles: CSSProperties = {
             opacity: isOpacityEnabled ? '0.4' : '1',
             cursor: isDragging ? 'grabbing' : 'grab',
@@ -15,10 +20,19 @@ const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
             ...style,
         };
         const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
-            console.log('asdasd',event);
             event.stopPropagation();
-            alert('이미지 삭제');
+            handleToast();
         };
+
+        async function handleToast() {
+            try {
+                setToastMessage(ValidationMessages.SUCCESS_DELETE_IMG);
+                setToast(true);
+            } catch (error) {
+                setToastMessage(ValidationMessages.FAILED_EVENT);
+                setToast(true);
+            }
+        }
 
         return (
             <article
@@ -38,6 +52,12 @@ const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
                     src={item.imageUrl}
                     alt={`img-${item.id}`}
                 />
+                {toast && (
+                    <ToastMessage
+                        message={toastMessage}
+                        onClose={() => setToast(false)}
+                    />
+                )}
             </article>
         );
     }

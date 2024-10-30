@@ -18,7 +18,7 @@ export default function ResultItem({ id, imageUrl }: ResultItemProp) {
             setToastMessage(ValidationMessages.SUCCESS_COPY_IMG);
             setToast(true);
         } catch (error) {
-            setToastMessage(ValidationMessages.FAILED_COPY_IMG);
+            setToastMessage(ValidationMessages.FAILED_EVENT);
             setToast(true);
         }
     }
