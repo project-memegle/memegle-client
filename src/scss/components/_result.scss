@@ -20,18 +20,18 @@
 
     & img {
       height: 100%;
+
+      &:hover {
+        transform: scale(1.05);
+      }
     }
 
     &:hover {
-      opacity: 0.8;
       cursor: pointer;
     }
 
-    &:hover::before {
-      background-color: rgba(0, 0, 0, 0.7);
-    }
-
     &-copy {
+      z-index: 1;
       opacity: 0.8;
       border-radius: 8px;
       width: calc(var(--primary__font-size) * 2.25);
