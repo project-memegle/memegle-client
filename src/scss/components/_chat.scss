@@ -108,15 +108,23 @@
     }
   }
 
-  .c-chat__icon-button {
+  .c-chat__icon {
     position: fixed;
+    z-index: 1;
+    width: var(--container__max-width);
+    background: grey;
+    bottom: 0;
+    right: calc(var(--container__max-width) * 50%);
+  }
+
+  .c-chat__icon-button {
+    position: absolute;
     bottom: 20px;
     right: 20px;
     height: 40px;
     width: 40px;
     cursor: pointer;
     padding: 0;
-    z-index: 1;
 
     img {
       height: 100%;
@@ -127,7 +135,7 @@
 
   @media (min-width: 768px) {
     .c-chat__icon-button {
-      right: calc((100% - var(--container__max-width)) / 2 + 20px);
+      // right: calc((100% - var(--container__max-width)) / 2 + 20px);
     }
   }
 }

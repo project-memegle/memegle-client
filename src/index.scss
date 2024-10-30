@@ -23,6 +23,9 @@
   --primary__color: #141517;
   --primary__border-radius: 8px;
   --primary__item-height: 200px;
+  --primary__item-gap: 1em;
+  --primary__grid-column: 1fr 1fr 1fr;
+  --primary__grid-row: minmax(50px, auto);
 }
 
 a {
@@ -64,6 +67,10 @@ select {
   font: inherit;
 }
 
+button:hover {
+  cursor: pointer;
+}
+
 p,
 h1,
 h2,
@@ -95,5 +102,18 @@ h6 {
   }
   a:hover {
     color: #747bff;
+  }
+}
+
+@media (max-width: 600px) {
+  #root {
+    box-shadow: none; /* 필요에 따라 그림자 제거 */
+    --container__max-width: 100%;
+    --primary__grid-column: 1fr 1fr;
+  }
+}
+
+@media (max-width: 320px) {
+  #root {
   }
 }

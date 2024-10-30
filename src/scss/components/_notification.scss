@@ -17,6 +17,10 @@
       padding: var(--primary__padding);
       background-color: $white;
 
+      &:hover {
+        cursor: pointer;
+      }
+
       &-date {
         color: $secondary;
       }

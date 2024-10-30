@@ -15,7 +15,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: var(--primary__item-height);
+    height: calc(var(--primary__font-size) * 10);
     border-radius: var(--primary__border-radius);
 
     overflow: hidden;
@@ -38,7 +38,7 @@
       height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
       z-index: 1;
-      border-radius: 20px;
+      border-radius: var(--primary__border-radius);
     }
 
     & * {
