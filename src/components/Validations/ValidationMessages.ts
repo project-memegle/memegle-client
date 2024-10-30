@@ -53,7 +53,14 @@ const ValidationMessages: ValidationMessagesProps = {
 
     // File upload errors
     INVALID_FILE_FORMAT: '허용되지 않는 파일 형식입니다.',
-    INVALID_FILE_SIZE: '파일 크기가 5MB를 초과합니다.'
+    INVALID_FILE_SIZE: '파일 크기가 5MB를 초과합니다.',
+
+    //copyImgToClipboard errors
+    SUCCESS_COPY_IMG: '이미지가 복사되었습니다.',
+    //copyImgToClipboard success
+    FAILED_COPY_IMG: '다시 시도해주세요',
+
+    INVALID_BROWSER: '해당 브라우저에서 지원되지 않습니다',
 };
 
 export default ValidationMessages;

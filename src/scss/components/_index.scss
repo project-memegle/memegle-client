@@ -14,6 +14,7 @@
 @use "upload.scss";
 @use "tag.scss";
 @use "favorite.scss";
+@use "toast.scss";
 
 @mixin styles() {
   @include button.styles;
@@ -32,4 +33,5 @@
   @include upload.styles;
   @include tag.styles;
   @include favorite.styles;
+  @include toast.styles;
 }
