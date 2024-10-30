@@ -15,6 +15,7 @@ const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
             ...style,
         };
         const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
+            console.log('asdasd',event);
             event.stopPropagation();
             alert('이미지 삭제');
         };

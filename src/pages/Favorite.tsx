@@ -36,11 +36,17 @@ export default function Favorite() {
     const [activeItem, setActiveItem] = useState<TItem>();
 
     const sensors = useSensors(
-        useSensor(PointerSensor),
-        useSensor(TouchSensor)
+        // useSensor(PointerSensor),
+        useSensor(TouchSensor),
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                distance: 10,
+            },
+        })
     );
 
     const handleDragStart = (event: DragStartEvent) => {
+        console.log('qweqwe', event);
         const { active } = event;
         setActiveItem(items.find((item) => item.id === active.id));
     };
