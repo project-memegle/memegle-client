@@ -26,10 +26,10 @@ export default function CategoryItem({ category }: CategoryItemProps) {
 
     return (
         <article
-            className={`category__item ${category}`}
+            className={`c-category__item ${category}`}
             onClick={clickHandler}
         >
-            <p className="category__item-title">{keyword}</p>
+            <p className="c-category__item-title">{keyword}</p>
         </article>
     );
 }

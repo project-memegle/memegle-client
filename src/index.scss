@@ -1,7 +1,6 @@
 @use "@memegle/styles" as memegle;
 
 @include memegle.core();
-
 :root {
   font-family: "roboto", "Noto Sans Korean", sans-serif;
   line-height: 1.5;
@@ -26,6 +25,9 @@
   --primary__item-gap: 1em;
   --primary__grid-column: 1fr 1fr 1fr;
   --primary__grid-row: minmax(50px, auto);
+}
+html {
+  min-width: 320px;
 }
 
 a {
@@ -115,5 +117,13 @@ h6 {
 
 @media (max-width: 320px) {
   #root {
+    --container__max-width: 320px;
+    --primary__grid-column: 1fr;
+    width: 320px;
+    min-width: 320px;
+  }
+
+  .home__main {
+    overflow-y: visible;
   }
 }

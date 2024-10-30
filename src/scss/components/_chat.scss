@@ -132,10 +132,4 @@
       object-fit: contain;
     }
   }
-
-  @media (min-width: 768px) {
-    .c-chat__icon-button {
-      // right: calc((100% - var(--container__max-width)) / 2 + 20px);
-    }
-  }
 }

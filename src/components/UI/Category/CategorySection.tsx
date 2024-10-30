@@ -2,7 +2,6 @@ import { useState } from 'react';
 import CategoryItem from '../Category/CategoryItem';
 import axios, { AxiosError } from 'axios';
 import { handleApiError } from 'utils/handleApiError';
-import FavoriteSection from '../Favorite/FavoriteSection';
 import { useNavigate } from 'react-router-dom';
 
 export default function CategorySection() {
@@ -25,12 +24,12 @@ export default function CategorySection() {
         navigate('/favorite');
     }
     return (
-        <section className="category__section">
+        <section className="c-category">
             <article
-                className="category__item favorite"
+                className="c-category__item favorite"
                 onClick={navigateToFavoriteItem}
             >
-                <p className="category__item-title">즐겨찾기</p>
+                <p className="c-category__item-title">즐겨찾기</p>
             </article>
             <CategoryItem category="mudo" />
             <CategoryItem category="digiMon" />
