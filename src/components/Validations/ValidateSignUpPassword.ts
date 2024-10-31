@@ -19,8 +19,6 @@ const validateSignUpPassword = (
     ) {
         return ValidationMessages.INVALID_PASSWORD_LENGTH;
     }
-    console.log('trimmedPassword:', trimmedPassword);
-    console.log('trimmedPasswordCheck:', trimmedPasswordCheck);
     if (trimmedPassword !== trimmedPasswordCheck) {
         return ValidationMessages.PASSWORD_MISMATCH;
     }

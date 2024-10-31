@@ -42,9 +42,10 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
     }
 
     let logInButtonClick = () => {
-        auth.login(() => {
-            console.log('사용자 로그인😎');
-        });
+        // auth.login(() => {
+        //     console.log('사용자 로그인😎');
+        // });
+        navigate('/login');
     };
     let logOutButtonClick = () => {
         auth.logout(() => {

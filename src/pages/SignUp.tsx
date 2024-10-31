@@ -6,6 +6,7 @@ import validateNickname from '../components/Validations/ValidateNickname';
 import validateSignUpPassword from '../components/Validations/ValidateSignUpPassword';
 import { handleApiError } from '../utils/handleApiError';
 import { SignUpDTO } from '../services/dto/SignUpDto';
+import { post } from 'utils/fetcher';
 
 export default function SignUp() {
     const [id, setId] = useState('');
@@ -53,8 +54,6 @@ export default function SignUp() {
 
             const error = validateSignUpPassword(value, passwordCheck);
             setPasswordError(error);
-
-            console.log('password:', value, 'passwordError:', error);
         },
         [passwordCheck]
     );
@@ -66,8 +65,6 @@ export default function SignUp() {
 
             const error = validateSignUpPassword(password, value);
             setPasswordError(error);
-
-            console.log('password check:', value, 'passwordError:', error);
         },
         [password]
     );
@@ -89,7 +86,7 @@ export default function SignUp() {
                 };
                 setSignupSuccess(ValidationMessages.SIGNUP_SUCCESS);
                 try {
-                    const response = await axios.post('/signup', userData);
+                    const response = await post('/users/sign/up', userData);
                     console.log(response);
                 } catch (error) {
                     handleApiError(error as AxiosError, setSignUpError);

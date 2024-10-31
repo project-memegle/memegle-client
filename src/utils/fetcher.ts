@@ -1,7 +1,8 @@
 import axios, { AxiosHeaders, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { getCookie, setCookie } from './cookies';
 
-const baseURL = import.meta.env.BASE_URL;
+const baseURL = import.meta.env.VITE_BASE_URL;
+console.log('Base URL:', baseURL); // Base URL 출력
 const ACCESS_TOKEN = 'access_token';
 const REFRESH_TOKEN = 'refresh_token';
 // 인스턴스 생성
