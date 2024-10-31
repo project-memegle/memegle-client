@@ -8,6 +8,7 @@ type FavoriteItemProps = {
     isOpacityEnabled?: boolean;
     isDragging?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
+
 const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
     ({ item, isOpacityEnabled, isDragging, style, ...props }, ref) => {
         const [toast, setToast] = useState(false);

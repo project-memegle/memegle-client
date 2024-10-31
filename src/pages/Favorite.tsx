@@ -18,17 +18,23 @@ import FavoriteItem from 'components/UI/Favorite/FavoriteItem';
 import FavoriteItemWrapper from 'components/UI/Favorite/FavoriteItemWrapper';
 import { useState } from 'react';
 
+import image1 from '@memegle/assets/images/jpeg/test1.jpeg';
+import image2 from '@memegle/assets/images/jpeg/test2.jpeg';
+import image3 from '@memegle/assets/images/jpeg/test3.jpeg';
+import image4 from '@memegle/assets/images/jpeg/test4.jpeg';
+import image5 from '@memegle/assets/images/jpeg/test5.jpeg';
+
 export type TItem = {
     id: number;
     imageUrl: string;
 };
 
 const defaultItems = [
-    { id: 1, imageUrl: '../public/tempImages/test2.jpeg' },
-    { id: 2, imageUrl: '../public/tempImages/test1.jpeg' },
-    { id: 3, imageUrl: '../public/tempImages/test3.jpeg' },
-    { id: 4, imageUrl: '../public/tempImages/test4.jpeg' },
-    { id: 5, imageUrl: '../public/tempImages/test5.jpeg' },
+    { id: 1, imageUrl: image1 },
+    { id: 2, imageUrl: image2 },
+    { id: 3, imageUrl: image3 },
+    { id: 4, imageUrl: image4 },
+    { id: 5, imageUrl: image5 },
 ];
 
 export default function Favorite() {
@@ -46,7 +52,6 @@ export default function Favorite() {
     );
 
     const handleDragStart = (event: DragStartEvent) => {
-        console.log('qweqwe', event);
         const { active } = event;
         setActiveItem(items.find((item) => item.id === active.id));
     };

@@ -1,4 +1,4 @@
-import chatIcon from '@memegle/assets/icons/ic_chat.svg';
+import chatIcon from '@memegle/assets/icons/svg/ic_chat.svg';
 import { useNavigate } from 'react-router-dom';
 
 export default function ChatIcon() {
