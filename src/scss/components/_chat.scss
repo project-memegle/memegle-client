@@ -1,4 +1,4 @@
-@import "../settings/colors";
+@import "../settings/colors.scss";
 @mixin styles() {
   .c-chat {
     --c-chat__button-size: 25px;

@@ -5,13 +5,13 @@ import LogIn from './pages/LogIn';
 import Result from './pages/Result';
 import SignUp from './pages/SignUp';
 import NotFoundPage from './pages/NotFound';
-import Notification from './components/UI/Notification/Notification.tsx';
-import Favorite from './pages/Favorite.tsx';
-import FindId from './pages/FindId.tsx';
-import FindPassword from './pages/FindPassword.tsx';
-import Upload from './pages/Upload.tsx';
-import Chat from 'components/UI/Chat/Chat.tsx';
-import PrivateRoute from 'components/auth/PrivateRoute.tsx';
+import Notification from './components/UI/Notification/Notification';
+import Favorite from './pages/Favorite';
+import FindId from './pages/FindId';
+import FindPassword from './pages/FindPassword';
+import Upload from './pages/Upload';
+import Chat from 'components/UI/Chat/Chat';
+import PrivateRoute from 'components/auth/PrivateRoute';
 
 const router = createBrowserRouter([
     {

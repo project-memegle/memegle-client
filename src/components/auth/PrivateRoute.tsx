@@ -1,6 +1,6 @@
 // PrivateRoute.tsx
 import { useAuth } from 'hooks/useAuth';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { Navigate } from 'react-router-dom';
 
 interface PrivateRouteProps {
