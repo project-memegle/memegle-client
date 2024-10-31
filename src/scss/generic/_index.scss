@@ -1,0 +1,5 @@
+@use "fonts.scss";
+
+@mixin styles() {
+  @include fonts.styles;
+}

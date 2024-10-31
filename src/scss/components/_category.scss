@@ -1,0 +1,88 @@
+@mixin styles() {
+  .c-category {
+    --c-category-grid-columns: repeat(2, 1fr);
+    --c-category-grid-rows: repeat(5, 1fr);
+
+    display: grid;
+    grid-template-columns: var(--c-category-grid-columns); /* 2열로 고정 */
+    grid-template-rows: var(--c-category-grid-rows); /* 5행으로 고정 */
+    gap: var(--primary__item-gap);
+
+    &__item {
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: calc(var(--primary__font-size) * 10);
+      border-radius: var(--primary__border-radius);
+
+      overflow: hidden;
+
+      &-title {
+        color: #fff;
+        font-size: calc(var(--primary__font-size) * 2.25);
+        font-weight: 700;
+      }
+
+      &:hover {
+        // transform: scale(1.05);
+        cursor: pointer;
+      }
+
+      &:hover::before {
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+        border-radius: var(--primary__border-radius);
+      }
+
+      & * {
+        position: relative;
+        z-index: 1;
+      }
+    }
+  }
+
+  .c-category__item.favorite {
+    background-image: url("../../../public/tempImages/test1.jpeg");
+  }
+
+  .c-category__item.digiMon {
+    background-image: url("../../../public/tempImages/test2.jpeg");
+  }
+
+  .c-category__item.gif {
+    background-image: url("../../../public/tempImages/test3.jpeg");
+  }
+
+  .c-category__item.temp1 {
+    background-image: url("../../../public/tempImages/test4.jpeg");
+  }
+
+  .c-category__item.temp2 {
+    background-image: url("../../../public/tempImages/test5.jpeg");
+  }
+
+  .c-category__item.mudo {
+    background-image: url("../../../public/tempImages/test6.jpeg");
+  }
+}
+@media (max-width: 320px) {
+  .c-category {
+    --c-category-grid-columns: 1fr;
+    --c-category-grid-rows: 1fr;
+  }
+}

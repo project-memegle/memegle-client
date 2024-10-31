@@ -1,0 +1,98 @@
+@import "../settings/colors";
+
+@mixin styles() {
+  .c-login {
+    --c-login-login-height: 35px;
+    --c-login-front-icon-size: calc(var(--c-login-login-height) * 0.5);
+    --c-login-front-icon-padding: calc(var(--c-login-front-icon-size) * 0.5);
+    --c-login-login-indent: 16px;
+
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    gap: var(--primary__padding);
+    &__section {
+      display: flex;
+      flex-direction: column;
+
+      &-password {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8em;
+
+        input {
+          width: 100%;
+          width: 100%;
+        }
+      }
+    }
+
+    &__icon {
+      padding: 0;
+      position: absolute;
+      height: 100%;
+      width: var(--c-login-login-indent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &--back {
+        right: 0;
+      }
+
+      > .c-icon {
+        font-size: var(--c-login-front-icon-size);
+        line-height: 1;
+        color: #9e9ea7;
+      }
+    }
+
+    &__input {
+      padding: 1.5em 0;
+      height: var(--c-login-login-height);
+      text-indent: var(--c-login-login-indent);
+      border: 2px solid transparent;
+      border-radius: 8px;
+      outline: none;
+      background-color: #f3f3f4;
+      color: #0d0c22;
+      transition: 0.3s ease;
+      border: 2px solid $secondary;
+
+      &::placeholder {
+        color: $secondary;
+      }
+
+      &:focus,
+      &:focus,
+      &:hover {
+        outline: none;
+        border-color: rgba(0, 48, 73, 0.4);
+        background-color: $white;
+        box-shadow: 0 0 0 4px rgb(0 48 73 / 10%);
+      }
+    }
+
+    &__button-section {
+      margin-top: 1.5em;
+      gap: 1.5em;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+
+      &-bottom {
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+
+    &__message {
+      margin: 0;
+      text-align: center;
+    }
+
+    label {
+      display: none;
+    }
+  }
+}

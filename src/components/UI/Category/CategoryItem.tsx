@@ -1,4 +1,4 @@
-import useNavigateHandler from '../../../hooks/useNavigateHandler';
+import { useNavigate } from 'react-router-dom';
 
 type CategoryType = 'favorite' | 'mudo' | 'digiMon' | 'gif' | 'temp1' | 'temp2';
 
@@ -7,10 +7,10 @@ interface CategoryItemProps {
 }
 
 export default function CategoryItem({ category }: CategoryItemProps) {
-    const navigate = useNavigateHandler(`/result/${category}`);
+    const navigate = useNavigate();
 
     function clickHandler() {
-        navigate();
+        navigate(`/result/${category}`);
     }
 
     const keywordMap: Record<CategoryType, string> = {
@@ -26,10 +26,10 @@ export default function CategoryItem({ category }: CategoryItemProps) {
 
     return (
         <article
-            className={`category__item ${category}`}
+            className={`c-category__item ${category}`}
             onClick={clickHandler}
         >
-            <p className="category__item-title">{keyword}</p>
+            <p className="c-category__item-title">{keyword}</p>
         </article>
     );
 }

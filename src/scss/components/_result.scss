@@ -1,0 +1,62 @@
+@import "../settings/colors";
+
+@mixin styles() {
+  .result__section {
+    display: grid;
+    grid-template-columns: var(--primary__grid-column);
+    grid-auto-rows: var(--primary__grid-row);
+    gap: var(--primary__item-gap);
+  }
+
+  .result__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: var(--primary__item-height);
+    border-radius: var(--primary__border-radius);
+    overflow: hidden;
+    position: relative;
+    background-color: var(--primary__color);
+    & img {
+      height: 100%;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &-copy {
+      z-index: 1;
+      opacity: 0.8;
+      border-radius: var(--primary__border-radius);
+      width: calc(var(--primary__font-size) * 2.25);
+      height: calc(var(--primary__font-size) * 2.25);
+      top: calc(var(--primary__font-size) / 2);
+      right: calc(var(--primary__font-size) / 2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      background-color: $white;
+      .c-icon {
+        font-size: 1.5em;
+      }
+    }
+  }
+
+  .c-result__emtpy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    img {
+      width: calc(var(--primary__font-size) * 23);
+    }
+  }
+}

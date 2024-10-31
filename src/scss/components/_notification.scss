@@ -1,0 +1,32 @@
+@import "../settings/colors";
+
+@mixin styles() {
+  .c-notification {
+    --color-read: #ffffe0;
+    background-color: var(--primary__background-color);
+
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-y: scroll;
+    position: relative;
+    gap: 2px;
+    &__item {
+      display: flex;
+      justify-content: space-between;
+      padding: var(--primary__padding);
+      background-color: $white;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &-date {
+        color: $secondary;
+      }
+      &.new {
+        background-color: var(--color-read);
+      }
+    }
+  }
+}

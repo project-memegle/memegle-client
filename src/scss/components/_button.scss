@@ -1,0 +1,57 @@
+@import "../settings/colors";
+
+@mixin styles() {
+  button {
+    cursor: pointer;
+    border: none;
+    font-size: 1em;
+    font-weight: 700;
+    font-family: inherit;
+    background-color: transparent;
+    transition: border-color 0.25s;
+    padding: 0.7em 1em;
+  }
+
+  .button {
+    &__absolute {
+      position: absolute;
+    }
+
+    &__dark {
+      background-color: $primary;
+
+      &:hover {
+        background-color: $secondary;
+      }
+    }
+    &__light {
+      background-color: $secondary;
+      color: $white;
+      &:hover {
+        background-color: $primary;
+      }
+    }
+
+    &__white-font {
+      color: $white;
+    }
+
+    &__light-font {
+      color: $secondary;
+
+      &:hover {
+        color: $primary;
+      }
+    }
+
+    &__rounded {
+      border-radius: var(--primary__border-radius);
+    }
+  }
+
+  @media (prefers-color-scheme: light) {
+    button {
+      // background-color: #f9f9f9;
+    }
+  }
+}

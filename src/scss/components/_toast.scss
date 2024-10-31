@@ -1,0 +1,98 @@
+@import "../settings/colors";
+
+@mixin styles() {
+  .c-toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: $primary;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    opacity: 0.9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__container {
+      display: flex;
+      width: 100%;
+      max-width: var(--container__max-width);
+
+      &-layout {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+
+        p {
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  .slide-top-in {
+    -webkit-animation: slide-top-in 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    animation: slide-top-in 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  .slide-top-out {
+    -webkit-animation: slide-top-out 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    animation: slide-top-out 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  @-webkit-keyframes slide-top-in {
+    0% {
+      -webkit-transform: translate(-50%, 100px); /* 애니메이션 시작 위치 */
+      transform: translate(-50%, 100px); /* 애니메이션 시작 위치 */
+      opacity: 0; /* 투명도 시작 값 */
+    }
+    100% {
+      -webkit-transform: translate(-50%, 0); /* 애니메이션 끝 위치 */
+      transform: translate(-50%, 0); /* 애니메이션 끝 위치 */
+      opacity: 1; /* 투명도 끝 값 */
+    }
+  }
+
+  @keyframes slide-top-in {
+    0% {
+      -webkit-transform: translate(-50%, 100px); /* 애니메이션 시작 위치 */
+      transform: translate(-50%, 100px); /* 애니메이션 시작 위치 */
+      opacity: 0; /* 투명도 시작 값 */
+    }
+    100% {
+      -webkit-transform: translate(-50%, 0); /* 애니메이션 끝 위치 */
+      transform: translate(-50%, 0); /* 애니메이션 끝 위치 */
+      opacity: 1; /* 투명도 끝 값 */
+    }
+  }
+
+  @-webkit-keyframes slide-top-out {
+    0% {
+      -webkit-transform: translate(-50%, 0); /* 애니메이션 시작 위치 */
+      transform: translate(-50%, 0); /* 애니메이션 시작 위치 */
+      opacity: 1; /* 투명도 시작 값 */
+    }
+    100% {
+      -webkit-transform: translate(-50%, 100px); /* 애니메이션 끝 위치 */
+      transform: translate(-50%, 100px); /* 애니메이션 끝 위치 */
+      opacity: 0; /* 투명도 끝 값 */
+    }
+  }
+
+  @keyframes slide-top-out {
+    0% {
+      -webkit-transform: translate(-50%, 0); /* 애니메이션 시작 위치 */
+      transform: translate(-50%, 0); /* 애니메이션 시작 위치 */
+      opacity: 1; /* 투명도 시작 값 */
+    }
+    100% {
+      -webkit-transform: translate(-50%, 100px); /* 애니메이션 끝 위치 */
+      transform: translate(-50%, 100px); /* 애니메이션 끝 위치 */
+      opacity: 0; /* 투명도 끝 값 */
+    }
+  }
+}

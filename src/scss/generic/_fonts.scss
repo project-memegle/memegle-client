@@ -1,0 +1,119 @@
+@import "../settings/colors";
+
+@mixin styles() {
+  @font-face {
+    font-family: "Material Symbols Rounded";
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/materialsymbolsrounded/v212/syl7-zNym6YjUruM-QrEh7-nyTnjDwKNJ_190FjpZIvLgyidOK7BDB_Qb9vUdV6_gjDK-P3JuF_Zs-obHph2-jOcZTKPqw.woff2)
+      format("woff2");
+  }
+
+  @font-face {
+    font-family: "Material Symbols Rounded";
+    font-style: normal;
+    font-weight: 700;
+    src: url(https://fonts.gstatic.com/s/materialsymbolsrounded/v212/syl7-zNym6YjUruM-QrEh7-nyTnjDwKNJ_190FjpZIvLgyidOK7BDB_Qb9vUdV6_gjDK-P3JuF_Zs-obHph2-jOcgjWPqw.woff2)
+      format("woff2");
+  }
+
+  @font-face {
+    font-family: "Noto Sans Korean";
+    font-style: normal;
+    unicode-range: U+AC00-D7AF;
+    font-weight: 300;
+    src: url("@memegle/assets/fonts/Korean/NotoSansKR-Light.ttf") format("truetype");
+  }
+
+  @font-face {
+    font-family: "Noto Sans Korean";
+    font-style: normal;
+    unicode-range: U+AC00-D7AF;
+    font-weight: 400;
+    src: url("@memegle/assets/fonts/Korean/NotoSansKR-Medium.ttf") format("truetype");
+  }
+
+  @font-face {
+    font-family: "Noto Sans Korean";
+    font-style: normal;
+    unicode-range: U+AC00-D7AF;
+    font-weight: 600;
+    src: url("@memegle/assets/fonts/Korean/NotoSansKR-SemiBold.ttf") format("truetype");
+  }
+
+  @font-face {
+    font-family: "Noto Sans Korean";
+    font-style: normal;
+    unicode-range: U+AC00-D7AF;
+    font-weight: 700;
+    src: url("@memegle/assets/fonts/Korean/NotoSansKR-Bold.ttf") format("truetype");
+  }
+
+  @font-face {
+    font-family: "roboto";
+    font-style: normal;
+    unicode-range: U+0030-0039, U+0041-005A, U+0061-007A;
+    font-weight: 400;
+    src: url("@memegle/assets/fonts/English/Roboto-Regular.ttf") format("truetype");
+  }
+
+  @font-face {
+    font-family: "roboto";
+    font-style: normal;
+    unicode-range: U+0030-0039, U+0041-005A, U+0061-007A;
+    font-weight: 700;
+    src: url("@memegle/assets/fonts/English/Roboto-Bold.ttf") format("truetype");
+  }
+
+  @font-face {
+    font-family: "roboto";
+    font-style: normal;
+    unicode-range: U+0030-0039, U+0041-005A, U+0061-007A;
+    font-weight: 300;
+    src: url("@memegle/assets/fonts/English/Roboto-Thin.ttf") format("truetype");
+  }
+
+  @font-face {
+    font-family: "roboto";
+    font-style: normal;
+    unicode-range: U+0030-0039, U+0041-005A, U+0061-007A;
+    font-weight: 500;
+    src: url("@memegle/assets/fonts/English/Roboto-Medium.ttf") format("truetype");
+  }
+
+  @font-face {
+    font-family: "roboto";
+    font-style: italic;
+    unicode-range: U+0030-0039, U+0041-005A, U+0061-007A;
+    font-weight: 400;
+    src: url("@memegle/assets/fonts/English/Roboto-Italic.ttf") format("truetype");
+  }
+
+  .material-symbols {
+    &-rounded {
+      display: inline-block;
+      direction: ltr;
+      font-family: "Material Symbols Rounded";
+      -webkit-font-feature-settings: "liga";
+      -webkit-font-smoothing: antialiased;
+      font-style: normal;
+      font-variation-settings:
+        "FILL" 0,
+        "wght" 400,
+        "GRAD" 0,
+        "opsz" 48;
+      font-weight: normal;
+      letter-spacing: normal;
+      /* line-height: 1; */
+      text-transform: none;
+      white-space: nowrap;
+      word-wrap: normal;
+    }
+  }
+
+  .font-warning {
+    margin: 0;
+    text-align: center;
+    color: $warning;
+  }
+}

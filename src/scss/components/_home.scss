@@ -1,0 +1,27 @@
+@mixin styles() {
+  .home__main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 16px;
+    overflow-y: scroll;
+    background-color: var(--primary__background-color);
+
+    position: relative;
+  }
+
+  .home__text {
+    font-size: var(primary__font-size);
+    font-weight: 400;
+    line-height: var(primary__font-size);
+    text-align: left;
+    color: #838383;
+  }
+
+  .body__container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+  }
+}
