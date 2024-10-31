@@ -10,13 +10,4 @@ export default defineConfig({
             '@memegle/styles': '/src/scss/common.scss',
         },
     },
-    server: {
-        proxy: {
-            '/apis/client': {
-                target: 'http://54.180.109.203:8080',
-                changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/apis\/client/, ''),
-            },
-        },
-    },
 });
