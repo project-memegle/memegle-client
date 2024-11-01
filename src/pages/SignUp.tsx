@@ -3,12 +3,12 @@ import { AxiosError } from 'axios';
 import validateId from '../components/Validations/ValidateId';
 import ValidationMessages from '../components/Validations/ValidationMessages';
 import validateNickname from '../components/Validations/ValidateNickname';
-import { handleApiError } from '../utils/handleApiError';
 import { SignUpDTO } from '../services/dto/SignUpDto';
-import { post } from '../utils/fetcher';
-import { errorInputCheck } from '../utils/errorInputCheck';
-import handleInputChange from '../utils/handleInputChange';
+import { errorInputCheck } from '../utils/Event/errorInputCheck';
+import handleInputChange from '../utils/Event/handleInputChange';
 import passwordCheckHandler from '../utils/SignUp/passwordCheckHandler';
+import { post } from 'utils/API/fetcher';
+import { handleApiError } from 'utils/API/handleApiError';
 
 export default function SignUp() {
     const DEFAULT_ID = ValidationMessages.DEFAULT_ID;

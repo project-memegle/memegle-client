@@ -1,7 +1,7 @@
 import logo from '../../../assets/logo.svg';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from 'hooks/useAuth';
-import { addSearchHistory } from 'utils/localStorage';
+import { addSearchHistory } from 'utils/Storage/localStorage';
 import { useState } from 'react';
 
 interface HeaderProps {

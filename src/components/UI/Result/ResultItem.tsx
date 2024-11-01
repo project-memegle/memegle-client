@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { copyImgToClipboard } from 'utils/copyImageToClipboard';
+import { copyImgToClipboard } from 'utils/Event/copyImageToClipboard';
 import ToastMessage from '../ToastMessage/ToastMessage';
 import ValidationMessages from 'components/Validations/ValidationMessages';
 

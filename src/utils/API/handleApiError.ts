@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import ValidationMessages from '../components/Validations/ValidationMessages';
+import ValidationMessages from 'components/Validations/ValidationMessages';
 
 const errorMessages: Record<number, string> = {
     40000: ValidationMessages.LOGIN_FAILED,

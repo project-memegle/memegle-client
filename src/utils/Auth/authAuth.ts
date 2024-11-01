@@ -1,4 +1,4 @@
-import { getCookie } from './cookies';
+import { getCookie } from 'utils/Storage/cookies';
 
 const ACCESS_TOKEN = 'access_token';
 

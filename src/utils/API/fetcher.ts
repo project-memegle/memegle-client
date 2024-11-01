@@ -1,6 +1,6 @@
 import axios, { AxiosHeaders, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { getCookie, setCookie } from './cookies';
-import { getAccessToken } from './authAuth';
+import { getAccessToken } from 'utils/Auth/authAuth';
+import { getCookie, setCookie } from 'utils/Storage/cookies';
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 const ACCESS_TOKEN = 'access_token';

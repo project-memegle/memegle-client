@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 import Header from './components/UI/Header/Header';
 import ChatIcon from 'components/UI/Chat/ChatIcon';
 import { useEffect, useState } from 'react';
-import { addSearchHistory, getSearchHistory } from 'utils/localStorage';
+import { addSearchHistory, getSearchHistory } from 'utils/Storage/localStorage';
 
 function App() {
     const [searchTerm, setSearchTerm] = useState('');

@@ -1,9 +1,9 @@
 import axios, { AxiosError } from 'axios';
 import ValidationMessages from '../components/Validations/ValidationMessages';
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import { handleApiError } from 'utils/handleApiError';
 import { TagInput } from 'components/UI/Upload/Upload_tag';
 import { CategoryInput } from 'components/UI/Upload/Upload_category';
+import { handleApiError } from 'utils/API/handleApiError';
 
 export default function Upload() {
     const [file, setFile] = useState<File | undefined>();

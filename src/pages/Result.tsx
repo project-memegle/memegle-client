@@ -3,11 +3,7 @@ import useFetchHandler from '../hooks/useFetchHandler';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import { ReactNode, useEffect, useState } from 'react';
 import ResultSection from '../components/UI/Result/ResultSection';
-import {
-    clearSearchHistory as clearLocalStorageSearchHistory,
-    deleteSearchHistroy,
-    getSearchHistory,
-} from 'utils/localStorage';
+
 import emptyIcon from '@memegle/assets/images/png/ic_result_empty.png';
 
 import image1 from '@memegle/assets/images/jpeg/test1.jpeg';
@@ -21,6 +17,11 @@ import image8 from '@memegle/assets/images/jpeg/test8.jpeg';
 import image9 from '@memegle/assets/images/jpeg/test9.jpeg';
 import image10 from '@memegle/assets/images/jpeg/test10.jpeg';
 import image11 from '@memegle/assets/images/jpeg/test11.jpeg';
+import {
+    clearSearchHistory as clearLocalStorageSearchHistory,
+    deleteSearchHistroy,
+    getSearchHistory,
+} from 'utils/Storage/localStorage';
 
 const mockData = {
     success: true,

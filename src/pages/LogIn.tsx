@@ -5,13 +5,13 @@ import validateId from '../components/Validations/ValidateId';
 import validateLogInPassword from '../components/Validations/ValidateLogInPassword';
 import { useNavigate } from 'react-router-dom';
 import { LogInRequestDTO, LogInResponseDTO } from '../services/dto/LogInDto';
-import { handleApiError } from '../utils/handleApiError';
-import { setCookie } from '../utils/cookies';
-import handleInputChange from '../utils/handleInputChange';
-import { errorInputCheck } from '../utils/errorInputCheck';
-import { post } from 'utils/fetcher';
-import { getEnvVariableAsNumber } from 'utils/numberUntils';
-import { resetErrors } from 'utils/resetError';
+import { setCookie } from '../utils/Storage/cookies';
+import handleInputChange from '../utils/Event/handleInputChange';
+import { errorInputCheck } from '../utils/Event/errorInputCheck';
+import { getEnvVariableAsNumber } from 'utils/Storage/numberUntils';
+import { resetErrors } from 'utils/Event/resetError';
+import { post } from 'utils/API/fetcher';
+import { handleApiError } from 'utils/API/handleApiError';
 
 export default function LogIn() {
     const navigate = useNavigate();

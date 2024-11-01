@@ -1,12 +1,12 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import ValidationMessages from '../components/Validations/ValidationMessages';
-import { handleApiError } from 'utils/handleApiError';
 import { useNavigate } from 'react-router-dom';
-import handleInputChange from 'utils/handleInputChange';
+import handleInputChange from 'utils/Event/handleInputChange';
 import validateNickname from 'components/Validations/ValidateNickname';
-import { errorInputCheck } from 'utils/errorInputCheck';
-import { post } from 'utils/fetcher';
+import { errorInputCheck } from 'utils/Event/errorInputCheck';
+import { post } from 'utils/API/fetcher';
+import { handleApiError } from 'utils/API/handleApiError';
 export default function FindId() {
     const navigate = useNavigate();
 

@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import ValidationMessages from '../../components/Validations/ValidationMessages'; // Adjust the import path as necessary
 import LogIn from '../../pages/LogIn';
-import { setCookie, getCookie } from '../../utils/cookies';
+import { setCookie, getCookie } from '../../utils/Storage/cookies';
 import { MemoryRouter } from 'react-router-dom';
 jest.mock('../../utils/cookies');
 jest.mock('axios');

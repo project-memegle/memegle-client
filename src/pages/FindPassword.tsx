@@ -2,12 +2,12 @@ import { FormEvent, useCallback, useRef, useState } from 'react';
 import { AxiosResponse, AxiosError } from 'axios';
 import ValidationMessages from '../components/Validations/ValidationMessages';
 import validateId from '../components/Validations/ValidateId';
-import { handleApiError } from '../utils/handleApiError';
 import { useNavigate } from 'react-router-dom';
-import { post } from '../utils/fetcher';
-import handleInputChange from 'utils/handleInputChange';
+import handleInputChange from 'utils/Event/handleInputChange';
 import validateEmail from 'components/Validations/ValidateEmail';
-import { errorInputCheck } from 'utils/errorInputCheck';
+import { errorInputCheck } from 'utils/Event/errorInputCheck';
+import { handleApiError } from 'utils/API/handleApiError';
+import { post } from 'utils/API/fetcher';
 export default function FindPassword() {
     const navigate = useNavigate();
 

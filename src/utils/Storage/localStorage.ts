@@ -1,4 +1,4 @@
-import { Nullable } from './nullable';
+import { Nullable } from './Type/nullable';
 
 type LocalStorageItem = {
     key: string;

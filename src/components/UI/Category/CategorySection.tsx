@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import CategoryItem from '../Category/CategoryItem';
 import axios, { AxiosError } from 'axios';
-import { handleApiError } from 'utils/handleApiError';
 import { useNavigate } from 'react-router-dom';
+import { handleApiError } from 'utils/API/handleApiError';
 
 export default function CategorySection() {
     const [message, setMessage] = useState('');
