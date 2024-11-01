@@ -10,7 +10,7 @@ import Favorite from './pages/Favorite';
 import FindId from './pages/FindId';
 import FindPassword from './pages/FindPassword';
 import Upload from './pages/Upload';
-import Chat from 'components/UI/Chat/Chat';
+import Chat from 'pages/Chat';
 import PrivateRoute from 'components/auth/PrivateRoute';
 
 const router = createBrowserRouter([

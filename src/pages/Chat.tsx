@@ -1,4 +1,4 @@
-import ChatItem from './ChatItem';
+import ChatItem from '../components/UI/Chat/ChatItem';
 
 export default function Chat() {
     return (
