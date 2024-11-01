@@ -1,99 +1,99 @@
-import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import { FormEvent, useCallback, useRef, useState } from 'react';
+import { AxiosError } from 'axios';
 import validateId from '../components/Validations/ValidateId';
 import ValidationMessages from '../components/Validations/ValidationMessages';
 import validateNickname from '../components/Validations/ValidateNickname';
-import validateSignUpPassword from '../components/Validations/ValidateSignUpPassword';
 import { handleApiError } from '../utils/handleApiError';
 import { SignUpDTO } from '../services/dto/SignUpDto';
 import { post } from 'utils/fetcher';
+import { errorInputCheck } from 'utils/errorInputCheck';
+import handleInputChange from 'utils/handleInputChange';
+import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
 
 export default function SignUp() {
-    const [id, setId] = useState('');
-    const [idError, setIdError] = useState('');
-    const [nickname, setNickname] = useState('');
-    const [nicknameError, setNicknameError] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordCheck, setPasswordCheck] = useState('');
-    const [passwordError, setPasswordError] = useState('');
-    const [signUpError, setSignUpError] = useState('');
-    const [signupSuccess, setSignupSuccess] = useState('');
-
     const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
     const DEFALUT_NICKNAME = ValidationMessages.DEFAULT_NICKNAME;
     const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
 
-    const handleInputChange = (
-        valueSetter: React.Dispatch<React.SetStateAction<string>>,
-        errorSetter: React.Dispatch<React.SetStateAction<string>>,
-        validator: (value: string) => string
-    ) => {
-        return (e: ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value.replace(/\s/g, '');
-            const error = validator(value);
-            setSignupSuccess('');
-            valueSetter(value);
-            errorSetter(error);
-        };
-    };
+    const [idError, setIdError] = useState(DEFAULT_ID);
+    const [nicknameError, setNicknameError] = useState(DEFALUT_NICKNAME);
+    const [passwordError, setPasswordError] = useState(DEFAULT_PASSWORD);
+
+    const [id, setId] = useState('');
+    const [nickname, setNickname] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordCheck, setPasswordCheck] = useState('');
+    const [signUpError, setSignUpError] = useState('');
+    const [signupSuccess, setSignupSuccess] = useState('');
+
+    const idInputRef = useRef<HTMLInputElement>(null);
+    const nicknameInputRef = useRef<HTMLInputElement>(null);
+    const passwordInputRef = useRef<HTMLInputElement>(null);
+    const passwordCheckInputRef = useRef<HTMLInputElement>(null);
 
     const onChangeId = useCallback(
-        handleInputChange(setId, setIdError, validateId),
+        handleInputChange(setId, setIdError, validateId, () =>
+            setSignupSuccess('')
+        ),
         []
     );
 
     const onChangeNickname = useCallback(
-        handleInputChange(setNickname, setNicknameError, validateNickname),
+        handleInputChange(setNickname, setNicknameError, validateNickname, () =>
+            setSignupSuccess('')
+        ),
         []
     );
 
     const onChangePassword = useCallback(
-        (e: ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value.replace(/\s/g, '');
-            setPassword(value);
-
-            const error = validateSignUpPassword(value, passwordCheck);
-            setPasswordError(error);
-        },
+        passwordCheckHandler(setPassword, passwordCheck, setPasswordError, () =>
+            setSignupSuccess('')
+        ),
         [passwordCheck]
     );
 
     const onChangePasswordCheck = useCallback(
-        (e: ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value.replace(/\s/g, '');
-            setPasswordCheck(value);
-
-            const error = validateSignUpPassword(password, value);
-            setPasswordError(error);
-        },
+        passwordCheckHandler(setPasswordCheck, password, setPasswordError, () =>
+            setSignupSuccess('')
+        ),
         [password]
     );
+
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-
-            if (idError || passwordError || nicknameError) {
+            if (idError || nicknameError || passwordError) {
+                if (idError) errorInputCheck(idInputRef.current);
+                else if (nicknameError)
+                    errorInputCheck(nicknameInputRef.current);
+                else if (passwordError)
+                    errorInputCheck(passwordInputRef.current);
                 signUpError && setSignUpError(ValidationMessages.SIGNUP_ERROR);
                 return;
             }
 
             if (nickname && id && password && passwordCheck) {
                 setSignUpError('');
-                const userData: SignUpDTO = {
-                    loginId: id,
-                    nickname: nickname,
-                    password: password,
-                };
+                const userData: SignUpDTO = { loginId: id, nickname, password };
                 setSignupSuccess(ValidationMessages.SIGNUP_SUCCESS);
                 try {
-                    const response = await post('/users/sign/up', userData);
+                    const response = post('/users/sign/up', userData);
                     console.log(response);
                 } catch (error) {
                     handleApiError(error as AxiosError, setSignUpError);
                 }
             }
         },
-        [id, nickname, password, passwordCheck]
+        [
+            id,
+            nickname,
+            password,
+            passwordCheck,
+            idError,
+            passwordError,
+            nicknameError,
+            signUpError,
+        ]
     );
 
     return (
@@ -103,6 +103,7 @@ export default function SignUp() {
                     <p>{idError ? idError : DEFAULT_ID}</p>
                     <label htmlFor="id">아이디</label>
                     <input
+                        ref={idInputRef}
                         className="c-login__input"
                         name="id"
                         id="id"
@@ -116,6 +117,7 @@ export default function SignUp() {
                     <p>{nicknameError ? nicknameError : DEFALUT_NICKNAME}</p>
                     <label htmlFor="nickname">닉네임</label>
                     <input
+                        ref={nicknameInputRef}
                         className="c-login__input"
                         name="nickname"
                         id="nickname"
@@ -131,6 +133,7 @@ export default function SignUp() {
                         <div>
                             <label htmlFor="password">비밀번호</label>
                             <input
+                                ref={passwordInputRef}
                                 className="c-login__input"
                                 name="password"
                                 type="password"
@@ -145,6 +148,7 @@ export default function SignUp() {
                                 비밀번호 확인
                             </label>
                             <input
+                                ref={passwordCheckInputRef}
                                 className="c-login__input"
                                 name="password-check"
                                 type="password"

@@ -1,11 +1,11 @@
 import axios, { AxiosHeaders, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { getCookie, setCookie } from './cookies';
+import { getAccessToken } from './authAuth';
 
 const baseURL = import.meta.env.VITE_BASE_URL;
-console.log('Base URL:', baseURL); // Base URL 출력
 const ACCESS_TOKEN = 'access_token';
 const REFRESH_TOKEN = 'refresh_token';
-// 인스턴스 생성
+
 const instance = axios.create({
     baseURL,
     timeout: 10000,
@@ -14,7 +14,7 @@ const instance = axios.create({
 // 요청 인터셉터 추가
 instance.interceptors.request.use(
     (config) => {
-        const token = getCookie(ACCESS_TOKEN); // 쿠키에서 access_token 가져오기
+        const token = getAccessToken();
 
         if (token) {
             // 헤더가 정의되어 있지 않으면 빈 객체로 초기화

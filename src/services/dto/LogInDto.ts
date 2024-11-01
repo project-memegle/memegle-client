@@ -1,9 +1,9 @@
-export interface LogInDTO {
+export interface LogInRequestDTO {
     loginId: string;
     password: string;
 }
 
-export const sampleUserData: LogInDTO = {
-    loginId: 'testLoginId1',
-    password: 'TestPassword1!',
-};
+export interface LogInResponseDTO {
+    access_token: string;
+    refresh_token: string;
+}
