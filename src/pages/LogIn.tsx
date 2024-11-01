@@ -99,28 +99,28 @@ export default function LogIn() {
             <form className="c-login" onSubmit={onSubmit}>
                 <div className="c-login__section">
                     <p>{idError ? idError : DEFAULT_ID}</p>
-                    <label htmlFor="id">아이디</label>
+                    <label htmlFor="id">{DEFAULT_ID}</label>
                     <input
                         ref={idInputRef}
                         className="c-login__input"
                         name="id"
                         id="id"
                         type="text"
-                        placeholder="아이디를 입력해주세요"
+                        placeholder={ValidationMessages.REQUIRED_ID}
                         value={id}
                         onChange={onChangeId}
                     />
                 </div>
                 <div className="c-login__section">
                     <p>{passwordError ? passwordError : DEFAULT_PASSWORD}</p>
-                    <label htmlFor="password">비밀번호</label>
+                    <label htmlFor="password">{DEFAULT_PASSWORD}</label>
                     <input
                         ref={passwordInputRef}
                         className="c-login__input"
                         name="password"
                         type="password"
                         id="password"
-                        placeholder="비밀번호를 입력해주세요"
+                        placeholder={ValidationMessages.REQUIRED_PASSWORD}
                         value={password}
                         onChange={onChangePassword}
                     />
@@ -143,13 +143,13 @@ export default function LogIn() {
                     <section className="c-login__button-section-bottom">
                         <button
                             className="button__light-font"
-                            onClick={() => navigate('/findpassword')}
+                            onClick={() => navigate('/findid')}
                         >
                             아이디 찾기
                         </button>
                         <button
                             className="button__light-font"
-                            onClick={() => navigate('/findid')}
+                            onClick={() => navigate('/findpassword')}
                         >
                             비밀번호 찾기
                         </button>

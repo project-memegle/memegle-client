@@ -1,42 +1,50 @@
-import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback, useRef, useState } from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import ValidationMessages from '../components/Validations/ValidationMessages';
-import validateId from '../components/Validations/ValidateId';
 import { handleApiError } from 'utils/handleApiError';
 import { useNavigate } from 'react-router-dom';
+import handleInputChange from 'utils/handleInputChange';
+import validateNickname from 'components/Validations/ValidateNickname';
+import { errorInputCheck } from 'utils/errorInputCheck';
+import { post } from 'utils/fetcher';
 export default function FindId() {
-    const [id, setId] = useState('');
-    const [idError, setIdError] = useState(ValidationMessages.DEFAULT_NICKNAME);
+    const navigate = useNavigate();
+
+    const DEFAULT_NICKNAME = ValidationMessages.DEFAULT_NICKNAME;
+
+    const [nickname, setNickname] = useState('');
+    const [nicknameError, setNicknameError] = useState(DEFAULT_NICKNAME);
     const [message, setMessage] = useState('');
 
-    const navigate = useNavigate();
-    const onChangeId = useCallback(
-        (e: ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value;
-            const error = validateId(value);
-            setId(value);
-            setIdError(error || ValidationMessages.DEFAULT_ID);
-        },
-        [setId, setIdError]
+    const nicknameInputRef = useRef<HTMLInputElement>(null);
+
+    const onChangeNickname = useCallback(
+        handleInputChange(setNickname, setNicknameError, validateNickname),
+        []
     );
 
     const onSubmit = useCallback(
         (e: FormEvent<HTMLFormElement>): void => {
             e.preventDefault();
-            setMessage('');
-            axios
-                .post('/login', {
-                    id,
+            if (nicknameError) {
+                errorInputCheck(nicknameInputRef.current);
+            }
+            if (nickname) {
+                setMessage('');
+                post('/find/id', {
+                    nickname,
                 })
-                .then((response: AxiosResponse) => {
-                    console.log('response :', response);
-                    setMessage(response.data.message);
-                })
-                .catch((error: AxiosError) => {
-                    handleApiError(error as AxiosError, setMessage);
-                });
+                    .then((response: AxiosResponse) => {
+                        console.log('response :', response);
+                        setMessage(response.data.message);
+                    })
+                    .catch((error: AxiosError) => {
+                        console.log(error.response);
+                        handleApiError(error as AxiosError, setMessage);
+                    });
+            }
         },
-        [id, setMessage]
+        [nickname]
     );
 
     function findPassword() {
@@ -47,16 +55,17 @@ export default function FindId() {
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
                 <div className="c-login__section">
-                    <p>{idError}</p>
-                    <label htmlFor="id">닉네임</label>
+                    <p>{nicknameError ? nicknameError : DEFAULT_NICKNAME}</p>
+                    <label htmlFor="nickname">닉네임</label>
                     <input
+                        ref={nicknameInputRef}
                         className="c-login__input"
-                        name="id"
-                        id="id"
+                        name="nickname"
+                        id="nickname"
                         type="text"
                         placeholder={ValidationMessages.REQUIRED_NICKNAME}
-                        value={id}
-                        onChange={onChangeId}
+                        value={nickname}
+                        onChange={onChangeNickname}
                     />
                 </div>
                 {message && <p>{message}</p>}
