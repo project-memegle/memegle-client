@@ -1,4 +1,4 @@
-import { handleApiError } from '../../utils/handleApiError';
+import { handleApiError } from 'utils/API/handleApiError';
 import ValidationMessages from '../../components/Validations/ValidationMessages';
 
 jest.mock('axios');
