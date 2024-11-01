@@ -4,10 +4,10 @@ import { useAuth } from 'hooks/useAuth';
 import { addSearchHistory } from 'utils/localStorage';
 import { useState } from 'react';
 
-type HeaderProps = {
+interface HeaderProps {
     searchTerm: string;
     onSearch: (term: string) => void;
-};
+}
 
 export default function Header({ searchTerm, onSearch }: HeaderProps) {
     const navigate = useNavigate();
@@ -30,22 +30,11 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
         }
     };
 
-    function navigateToHome() {
-        navigate('/');
-    }
-
-    function navigateToUpload() {
-        navigate('/upload');
-    }
-    function navigateToNotification() {
-        navigate('/notifications');
-    }
-
     let logInButtonClick = () => {
-        // auth.login(() => {
-        //     console.log('사용자 로그인😎');
-        // });
-        navigate('/login');
+        auth.login(() => {
+            console.log('사용자 로그인😎');
+        });
+        // navigate('/login');
     };
     let logOutButtonClick = () => {
         auth.logout(() => {
@@ -62,7 +51,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
         <header className="c-header">
             <section className="c-top-bar">
                 <section className="c-top-bar__brand">
-                    <button onClick={navigateToHome}>
+                    <button onClick={() => navigate('/')}>
                         <img className="logo" src={String(logo)} alt="logo" />
                     </button>
                 </section>
@@ -77,13 +66,13 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                             </button>
                             <button
                                 className="c-top-bar-user__log button__white-font"
-                                onClick={navigateToUpload}
+                                onClick={() => navigate('/upload')}
                             >
                                 업로드
                             </button>
                             <button
                                 className="c-top-bar-user__notification"
-                                onClick={navigateToNotification}
+                                onClick={() => navigate('/notification')}
                             >
                                 <i className="c-icon">notifications</i>
                             </button>

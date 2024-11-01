@@ -217,7 +217,7 @@ export default function Result() {
         if (loading) {
             setContent(<LoadingSpinner />);
         } else if (error) {
-            setContent(<div>Error: {error}</div>);
+            setContent(<p>{error}</p>);
         } else if (data && data.results.length > 0) {
             const categoryData = data.results.filter(
                 (item) => item.imageCategory === category

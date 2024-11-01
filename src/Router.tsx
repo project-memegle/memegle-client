@@ -24,7 +24,7 @@ const router = createBrowserRouter([
                 element: <HomePage />,
             },
             {
-                path: 'notifications',
+                path: 'notification',
                 element: <PrivateRoute element={<Notification />} />,
             },
             {

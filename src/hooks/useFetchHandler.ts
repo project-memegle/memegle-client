@@ -28,11 +28,8 @@ function useFetchHandler<T>(
                     const result = await response.json();
                     setData(result);
                 } else {
-                    // mock 데이터 바로 사용
-                    setTimeout(() => {
-                        setData(url);
-                        setLoading(false);
-                    }, 1000);
+                    setData(url);
+                    setLoading(false);
                 }
             } catch (error) {
                 setError((error as Error).message);
