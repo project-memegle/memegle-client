@@ -1,4 +1,4 @@
-@import "../settings/colors.scss";
+@use "../settings/colors" as colors;
 
 @mixin styles() {
   .c-toast {
@@ -6,7 +6,7 @@
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: $primary;
+    background-color: colors.$primary;
     color: #fff;
     padding: 10px 20px;
     border-radius: 20px;

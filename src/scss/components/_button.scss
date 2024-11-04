@@ -1,4 +1,4 @@
-@import "../settings/colors.scss";
+@use "../settings/colors" as colors;
 
 @mixin styles() {
   button {
@@ -18,29 +18,29 @@
     }
 
     &__dark {
-      background-color: $primary;
+      background-color: colors.$primary;
 
       &:hover {
-        background-color: $secondary;
+        background-color: colors.$secondary;
       }
     }
     &__light {
-      background-color: $secondary;
-      color: $white;
+      background-color: colors.$secondary;
+      color: colors.$white;
       &:hover {
-        background-color: $primary;
+        background-color: colors.$primary;
       }
     }
 
     &__white-font {
-      color: $white;
+      color: colors.$white;
     }
 
     &__light-font {
-      color: $secondary;
+      color: colors.$secondary;
 
       &:hover {
-        color: $primary;
+        color: colors.$primary;
       }
     }
 

@@ -1,4 +1,4 @@
-@import "../settings/colors.scss";
+@use "../settings/colors" as colors;
 @mixin styles() {
   .c-chat {
     --c-chat__button-size: 25px;
@@ -54,8 +54,8 @@
         align-items: flex-end;
         &-content {
           border-radius: 20px 20px 20px 0;
-          color: $secondary;
-          background-color: $white;
+          color: colors.$secondary;
+          background-color: colors.$white;
         }
       }
 
@@ -68,19 +68,19 @@
 
         &-content {
           border-radius: 20px 20px 0 20px;
-          background-color: $read;
-          color: $secondary;
+          background-color: colors.$read;
+          color: colors.$secondary;
         }
       }
 
       &-date {
-        color: $secondary;
+        color: colors.$secondary;
         font-size: 0.8em;
       }
 
       &-text {
         margin: 0;
-        color: $primary;
+        color: colors.$primary;
       }
     }
 

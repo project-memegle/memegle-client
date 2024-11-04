@@ -1,6 +1,6 @@
-@import "../settings/colors.scss";
+@use "../settings/colors" as colors;
 @mixin tag-style {
-  background: $primary;
+  background: colors.$primary;
   border-radius: 100px;
   display: flex;
   align-items: center;
@@ -23,16 +23,16 @@
       @include tag-style;
       opacity: 0.5;
       button {
-        color: $white;
+        color: colors.$white;
       }
       &:hover {
-        color: $white;
+        color: colors.$white;
       }
     }
     &__item {
       padding-left: 0.8rem;
       @include tag-style;
-      color: $white;
+      color: colors.$white;
     }
 
     .cross {

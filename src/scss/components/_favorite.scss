@@ -1,4 +1,4 @@
-@import "../settings/colors.scss";
+@use "../settings/colors" as colors;
 
 @mixin styles() {
   .c-favorite {
@@ -23,13 +23,13 @@
         right: calc(var(--primary__font-size) / 2);
         z-index: 3;
         .c-icon {
-          color: $white;
+          color: colors.$white;
           font-size: 1.5rem;
           cursor: pointer;
           z-index: 2;
 
           &:hover {
-            color: $warning;
+            color: colors.$warning;
           }
         }
       }
@@ -72,7 +72,7 @@
       display: inline-block;
       border: 0;
       border-radius: var(--primary__border-radius);
-      background: $primary;
+      background: colors.$primary;
       color: #fff;
       padding: 10px 16px;
       font-size: 1rem;

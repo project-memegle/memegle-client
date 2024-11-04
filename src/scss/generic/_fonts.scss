@@ -1,4 +1,4 @@
-@import "../settings/colors.scss";
+@use "../settings/colors" as colors;
 
 @mixin styles() {
   @font-face {
@@ -114,6 +114,6 @@
   .font-warning {
     margin: 0;
     text-align: center;
-    color: $warning;
+    color: colors.$warning;
   }
 }

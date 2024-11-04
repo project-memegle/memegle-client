@@ -1,4 +1,4 @@
-@import "../settings/colors.scss";
+@use "../settings/colors" as colors;
 
 @mixin styles() {
   .c-upload {
@@ -9,7 +9,7 @@
     .file-upload {
       margin-top: var(--primary__padding);
       margin-bottom: var(--primary__padding);
-      background-color: $white;
+      background-color: colors.$white;
       padding: calc(var(--primary__padding) * 2);
       border-radius: 40px;
       display: flex;
@@ -26,7 +26,7 @@
         width: calc(var(--primary__font-size) * 3);
         right: calc(var(--primary__font-size) * 2);
         top: var(--primary__font-size);
-        background: $primary;
+        background: colors.$primary;
         position: absolute;
         border-radius: 100px;
         display: flex;
@@ -35,7 +35,7 @@
         opacity: 0.5;
         .c-icon {
           font-size: calc(var(--primary__font-size) * 2);
-          color: $white;
+          color: colors.$white;
         }
       }
       &__icon {
@@ -52,7 +52,7 @@
       }
 
       &__area {
-        // border: 2px dashed $primary;
+        // border: 2px dashed colors.$primary;
         border-radius: 40px;
         width: 350px;
         text-align: center;
@@ -62,7 +62,7 @@
         }
 
         .browse-files-text {
-          color: $primary;
+          color: colors.$primary;
           font-weight: bolder;
           cursor: pointer;
         }
@@ -72,7 +72,7 @@
         }
       }
       &__button {
-        background-color: $primary;
+        background-color: colors.$primary;
         color: #f7fff7;
         display: flex;
         align-items: center;
@@ -85,7 +85,7 @@
     }
     .file-tag {
       outline: none;
-      border: 2px solid $primary;
+      border: 2px solid colors.$primary;
       border-radius: 5px;
       transition: all 0.2s;
       cursor: text;
@@ -94,18 +94,18 @@
       position: relative;
 
       &.active {
-        border: 2px solid $primary;
+        border: 2px solid colors.$primary;
       }
 
       &__label {
         position: absolute;
         margin-left: var(--primary__padding);
-        color: $primary;
+        color: colors.$primary;
         transition: all 0.1s;
       }
       &__label.active {
         top: -11px;
-        color: $primary;
+        color: colors.$primary;
         font-size: 13px;
         background-color: var(--primary__background-color);
       }
@@ -116,7 +116,7 @@
         margin-left: 0.5rem;
         background: transparent;
         font-size: 20px;
-        color: $primary;
+        color: colors.$primary;
       }
     }
   }

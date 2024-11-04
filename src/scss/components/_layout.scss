@@ -1,4 +1,4 @@
-@import "../settings/colors.scss";
+@use "../settings/colors" as colors;
 
 @mixin styles() {
   .main__container {
@@ -28,8 +28,8 @@
     }
 
     button {
-      background: $primary;
-      color: $white;
+      background: colors.$primary;
+      color: colors.$white;
       border-radius: 16px;
     }
 

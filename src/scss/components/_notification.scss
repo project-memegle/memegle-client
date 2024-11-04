@@ -1,4 +1,4 @@
-@import "../settings/colors.scss";
+@use "../settings/colors" as colors;
 
 @mixin styles() {
   .c-notification {
@@ -15,14 +15,14 @@
       display: flex;
       justify-content: space-between;
       padding: var(--primary__padding);
-      background-color: $white;
+      background-color: colors.$white;
 
       &:hover {
         cursor: pointer;
       }
 
       &-date {
-        color: $secondary;
+        color: colors.$secondary;
       }
       &.new {
         background-color: var(--color-read);
