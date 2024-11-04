@@ -174,7 +174,6 @@ export default function Verification() {
                         </p>
                     </section>
                 )}
-                {message && <p>{message}</p>}
                 <section className="c-login__button-section">
                     <button className="button__rounded button__orange">
                         이메일 인증

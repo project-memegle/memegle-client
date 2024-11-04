@@ -63,7 +63,7 @@ const ValidationMessages: ValidationMessagesProps = {
     SUCCESS_COPY_IMG: '이미지가 복사되었습니다.',
     // success delete image
     SUCCESS_DELETE_IMG: '해당 이미지를 삭제했습니다',
-    FAILED_EVENT: '다시 시도해주세요',
+    FAILED_EVENT: '잠시후 다시 시도해주세요',
 
     // Browser compatibility errors
 

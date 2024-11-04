@@ -10,6 +10,8 @@ import passwordCheckHandler from '../utils/SignUp/passwordCheckHandler';
 import { post } from 'utils/API/fetcher';
 import { handleApiError } from 'utils/API/handleApiError';
 import { useNavigate } from 'react-router-dom';
+import { setSessionStorages } from 'utils/Storage/sessionStorage';
+import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 
 export default function SignUp() {
     const navigate = useNavigate();
@@ -21,6 +23,9 @@ export default function SignUp() {
     const [idError, setIdError] = useState(DEFAULT_ID);
     const [nicknameError, setNicknameError] = useState(DEFALUT_NICKNAME);
     const [passwordError, setPasswordError] = useState(DEFAULT_PASSWORD);
+
+    const [toastMessage, setToastMessage] = useState('');
+    const [toast, setToast] = useState(false);
 
     const [id, setId] = useState('');
     const [nickname, setNickname] = useState('');
@@ -61,6 +66,20 @@ export default function SignUp() {
         ),
         [password]
     );
+
+    const onClickVerification = useCallback(() => {
+        try {
+            setSessionStorages({ key: 'id', value: id });
+            setSessionStorages({ key: 'password', value: password });
+            setSessionStorages({ key: 'nickname', value: nickname });
+            navigate('/verification');
+        } catch (error) {
+            setToastMessage(ValidationMessages.FAILED_EVENT);
+            setToast(true);
+        }
+    }, [id, password, nickname, navigate]);
+
+    // ... 다른 코드들 ...
 
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
@@ -176,9 +195,7 @@ export default function SignUp() {
                     <button
                         className="button__rounded button__orange"
                         type="button"
-                        onClick={() => {
-                            navigate('/verification');
-                        }}
+                        onClick={onClickVerification}
                     >
                         본인인증
                     </button>
@@ -187,6 +204,12 @@ export default function SignUp() {
                     </button>
                 </section>
             </form>
+            {toast && (
+                <ToastMessage
+                    message={toastMessage}
+                    onClose={() => setToast(false)}
+                />
+            )}
         </div>
     );
 }
