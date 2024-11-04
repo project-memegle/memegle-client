@@ -1,5 +1,5 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import ValidationMessages from '../components/Validations/ValidationMessages';
 import validateId from '../components/Validations/ValidateId';
 import validateLogInPassword from '../components/Validations/ValidateLogInPassword';
@@ -62,14 +62,17 @@ export default function LogIn() {
                     password: password,
                 };
                 try {
-                    alert(ValidationMessages.LOGIN_SUCCESS);
-                    const response = await post<
-                        LogInResponseDTO,
-                        LogInRequestDTO
-                    >('/login', userData);
-                    console.log(response);
+                    const response: AxiosResponse<LogInResponseDTO> =
+                        await post<LogInResponseDTO, LogInRequestDTO>(
+                            '/users/sign/in',
+                            userData
+                        );
 
-                    // 서버로부터 access_token과 refresh_token을 받아옴
+                    console.log(
+                        'Authorization Header:',
+                        response.headers['authorization']
+                    );
+
                     const {
                         access_token: accessToken,
                         refresh_token: refreshToken,

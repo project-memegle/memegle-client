@@ -79,6 +79,7 @@ export default function SignUp() {
                 try {
                     const response = post('/users/sign/up', userData);
                     console.log(response);
+                    console.log('회원 가입 성공');
                 } catch (error) {
                     handleApiError(error as AxiosError, setSignUpError);
                 }
