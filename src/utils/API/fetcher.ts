@@ -9,7 +9,7 @@ const REFRESH_TOKEN = 'refresh_token';
 const instance = axios.create({
     baseURL,
     timeout: 10000,
-    withCredentials: true,
+    // withCredentials: true,
 });
 
 // 요청 인터셉터 추가

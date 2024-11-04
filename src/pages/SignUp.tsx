@@ -9,8 +9,11 @@ import handleInputChange from '../utils/Event/handleInputChange';
 import passwordCheckHandler from '../utils/SignUp/passwordCheckHandler';
 import { post } from 'utils/API/fetcher';
 import { handleApiError } from 'utils/API/handleApiError';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
+    const navigate = useNavigate();
+
     const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
     const DEFALUT_NICKNAME = ValidationMessages.DEFAULT_NICKNAME;
     const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
@@ -79,7 +82,6 @@ export default function SignUp() {
                 try {
                     const response = post('/users/sign/up', userData);
                     console.log(response);
-                    console.log('회원 가입 성공');
                 } catch (error) {
                     handleApiError(error as AxiosError, setSignUpError);
                 }
@@ -164,10 +166,23 @@ export default function SignUp() {
                 {signUpError && <p>{signUpError}</p>}
                 {signupSuccess && <p>{signupSuccess}</p>}
                 <section className="c-login__button-section">
+                    <div>
+                        <p>
+                            본인 인증을 완료한 회원만이 아이디 및 비밀번호 찾기
+                            서비스를 이용할 수 있습니다.
+                        </p>
+                        <p>본인 인증 없이도 회원 가입이 가능합니다.</p>
+                    </div>
                     <button
-                        className="button__rounded button__light"
-                        type="submit"
+                        className="button__rounded button__orange"
+                        type="button"
+                        onClick={() => {
+                            navigate('/verification');
+                        }}
                     >
+                        본인인증
+                    </button>
+                    <button className="button__rounded button__light">
                         회원가입
                     </button>
                 </section>

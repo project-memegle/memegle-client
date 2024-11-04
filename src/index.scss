@@ -60,7 +60,17 @@ h1 {
 }
 input {
   box-sizing: border-box;
+
+  &:disabled {
+    background-color: #f3f3f4;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
 }
+
+
 
 input,
 button,

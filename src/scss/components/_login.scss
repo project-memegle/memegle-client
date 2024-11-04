@@ -14,7 +14,8 @@
     &__section {
       display: flex;
       flex-direction: column;
-
+      justify-content: center;
+      position: relative;
       &-password {
         display: flex;
         flex-direction: column;
@@ -24,6 +25,31 @@
           width: 100%;
           width: 100%;
         }
+      }
+
+      &-verification {
+        display: flex;
+        gap: 0.8em;
+        align-items: stretch;
+
+        & > div {
+          flex-grow: 2;
+        }
+        input {
+          width: 100%;
+        }
+
+        button {
+          flex-shrink: 0;
+          color: colors.$white;
+        }
+      }
+
+      &-timer {
+        position: absolute;
+        right: var(--primary__font-size);
+        color: colors.$orange;
+        font-weight: 700;
       }
     }
 

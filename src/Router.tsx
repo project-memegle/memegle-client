@@ -12,6 +12,7 @@ import FindPassword from './pages/FindPassword';
 import Upload from './pages/Upload';
 import Chat from 'pages/Chat';
 import PrivateRoute from 'components/auth/PrivateRoute';
+import Verification from 'pages/Verification';
 
 const router = createBrowserRouter([
     {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
             {
                 path: 'findpassword',
                 element: <FindPassword />,
+            },
+            {
+                path: 'verification',
+                element: <Verification />,
             },
         ],
     },

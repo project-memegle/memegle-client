@@ -11,7 +11,7 @@ const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(trimmedEmail)) {
-        return ValidationMessages.INVALID_EMAIL;
+        return ValidationMessages.INVALID_EMAIL_TYPE;
     }
 
     return '';

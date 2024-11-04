@@ -10,6 +10,10 @@
     background-color: transparent;
     transition: border-color 0.25s;
     padding: 0.7em 1em;
+
+    &:disabled:hover {
+      cursor: not-allowed;
+    }
   }
 
   .button {
@@ -23,17 +27,41 @@
       &:hover {
         background-color: colors.$secondary;
       }
+      &:disabled:hover {
+        background-color: colors.$primary; // 기본 배경색 유지
+      }
     }
+
     &__light {
       background-color: colors.$secondary;
       color: colors.$white;
       &:hover {
         background-color: colors.$primary;
       }
+      &:disabled:hover {
+        background-color: colors.$secondary; // 기본 배경색 유지
+        color: colors.$white; // 기본 글자색 유지
+      }
+    }
+
+    &__orange {
+      background-color: colors.$orange;
+      color: colors.$white;
+
+      &:hover {
+        background-color: colors.$orange-hover;
+      }
+      &:disabled:hover {
+        background-color: colors.$orange; // 기본 배경색 유지
+        color: colors.$white; // 기본 글자색 유지
+      }
     }
 
     &__white-font {
       color: colors.$white;
+      &:disabled:hover {
+        color: colors.$white; // 기본 글자색 유지
+      }
     }
 
     &__light-font {
@@ -41,6 +69,9 @@
 
       &:hover {
         color: colors.$primary;
+      }
+      &:disabled:hover {
+        color: colors.$secondary; // 기본 글자색 유지
       }
     }
 
