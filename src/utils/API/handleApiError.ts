@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import ValidationMessages from 'components/Validations/ValidationMessages';
+import { handleErrorPage } from 'pages/Error';
 
 const errorMessages: Record<number, string> = {
     40000: ValidationMessages.LOGIN_FAILED,
@@ -23,6 +24,7 @@ export const handleAxiosError = (
                 ? errorMessages[status]
                 : ValidationMessages.UNKNOWN_ERROR;
         setMessage(message);
+        handleErrorPage(message);
     } else {
         setMessage(ValidationMessages.UNKNOWN_ERROR);
     }
@@ -38,7 +40,9 @@ const handleNetworkError = (
     error: Error,
     setMessage: (message: string) => void
 ) => {
-    const message = networkErrorMessages[error.message];
+    const message =
+        networkErrorMessages[error.message] || ValidationMessages.UNKNOWN_ERROR;
+    handleErrorPage(message);
     setMessage(message);
 };
 

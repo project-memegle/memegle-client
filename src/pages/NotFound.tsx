@@ -1,5 +1,4 @@
-import { useNavigate } from 'react-router-dom';
-import notfoundIcon from '@memegle/assets/images/png/ic_404.png';
+import notfoundIcon from '@memegle/assets/images/png/img_404.png';
 import Header from 'components/UI/Header/Header';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 export default function NotFoundPage() {

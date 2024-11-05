@@ -3,7 +3,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import ResultSection from './ResultSection';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
 
-import emptyIcon from '@memegle/assets/images/png/ic_result_empty.png';
+import emptyIcon from '@memegle/assets/images/png/img_result_empty.png';
 
 import { PageableDTO } from 'services/dto/Pageable';
 import { get } from 'utils/API/fetcher';
@@ -15,6 +15,8 @@ import {
     getSearchHistory,
 } from 'utils/Storage/localStorage';
 import { ResultItemDTO, ResultSectionDTO } from 'services/dto/ResultDto';
+import { handleApiError } from 'utils/API/handleApiError';
+import { AxiosError } from 'axios';
 
 type OutletContextType = { searchTerm: string; searchHistory: string[] };
 
@@ -25,9 +27,9 @@ export default function Result() {
 
     const { searchTerm, searchHistory: initialSearchHistory } =
         useOutletContext<OutletContextType>();
-
     const [searchHistory, setSearchHistory] =
         useState<string[]>(initialSearchHistory);
+
     const [content, setContent] = useState<ReactNode>(null);
     const [resultData, setResultData] = useState<ResultItemDTO[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -56,7 +58,12 @@ export default function Result() {
             criteria: 'CREATED_AT',
         };
 
+        console.log('====================================');
+        console.log('it is called');
+        console.log('====================================');
+
         const fetchCategories = async () => {
+            setLoading(true);
             try {
                 const queryParams = new URLSearchParams({
                     imageCategory: lastKeyword,
@@ -64,16 +71,15 @@ export default function Result() {
                     size: pageData.size.toString(),
                     criteria: pageData.criteria,
                 });
-
                 const response = await get<ResultSectionDTO>(
                     `/images/category?${queryParams.toString()}`
                 );
                 console.log('Result:', response.data);
                 setResultData(response.data.results);
-                setLoading(false);
             } catch (error) {
                 console.error('Error fetching categories:', error);
-                setError('Error fetching categories');
+                handleApiError(error as AxiosError, setError);
+            } finally {
                 setLoading(false);
             }
         };
@@ -90,7 +96,6 @@ export default function Result() {
             const categoryData = resultData.filter(
                 (item) => item.imageCategory === category
             );
-
             setContent(
                 categoryData.length > 0 ? (
                     <ResultSection results={categoryData} />

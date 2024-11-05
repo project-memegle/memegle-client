@@ -1,7 +1,6 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
-import axios, { AxiosResponse, AxiosError } from 'axios';
+import { AxiosResponse, AxiosError } from 'axios';
 import ValidationMessages from '../components/Validations/ValidationMessages';
-import { useNavigate } from 'react-router-dom';
 import handleInputChange from 'utils/Event/handleInputChange';
 import validateNickname from 'components/Validations/ValidateNickname';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';

@@ -48,7 +48,7 @@ export default function Verification() {
     const [hasTimerStarted, setHasTimerStarted] = useState(false);
 
     const previousUrl = getSessionStorages('previousUrl') || '/login';
-    console.log('previousUrl:', previousUrl);
+    
     const removeSignUpData = () => {
         deleteSessionStorage('id');
         deleteSessionStorage('nickname');

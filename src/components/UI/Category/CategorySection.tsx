@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import CategoryItem from '../Category/CategoryItem';
-import axios, { AxiosError } from 'axios';
-import { handleApiError } from 'utils/API/handleApiError';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { get } from 'utils/API/fetcher';
 
