@@ -14,19 +14,28 @@ import {
     deleteSearchHistroy,
     getSearchHistory,
 } from 'utils/Storage/localStorage';
+
 import { ResultItemDTO, ResultSectionDTO } from 'services/dto/ResultDto';
 import { handleApiError } from 'utils/API/handleApiError';
 import { AxiosError } from 'axios';
 
-type OutletContextType = { searchTerm: string; searchHistory: string[] };
+type OutletContextType = {
+    searchTerm: string;
+    searchHistory: string[];
+    searchData: { term: string; source: 'header' | 'search' } | null;
+};
 
 export default function Result() {
     const params = useParams<{ category: string }>();
 
     const category = params.category;
 
-    const { searchTerm, searchHistory: initialSearchHistory } =
-        useOutletContext<OutletContextType>();
+    const {
+        searchTerm,
+        searchHistory: initialSearchHistory,
+        searchData,
+    } = useOutletContext<OutletContextType>();
+
     const [searchHistory, setSearchHistory] =
         useState<string[]>(initialSearchHistory);
 
@@ -51,17 +60,27 @@ export default function Result() {
     }
 
     useEffect(() => {
+        console.log('====================================');
+        console.log(searchData);
+        console.log('====================================');
+        
+        if (!searchData) {
+            setLoading(false);
+            return;
+        }
+
+        const { term, source } = searchData;
+
+        console.log(
+            `검색 출처: ${source === 'header' ? '헤더' : '서치 컴포넌트'}`
+        );
+
         const lastKeyword = getLastKeywordFromUrl() || 'MUDO';
         const pageData: PageableDTO = {
             page: 1,
             size: 10,
             criteria: 'CREATED_AT',
         };
-
-        console.log('====================================');
-        console.log('it is called');
-        console.log('====================================');
-
         const fetchCategories = async () => {
             setLoading(true);
             try {

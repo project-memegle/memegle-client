@@ -7,7 +7,7 @@ import useCustomNavigate from 'hooks/useCustomNaviaget';
 
 interface HeaderProps {
     searchTerm: string;
-    onSearch: (term: string) => void;
+    onSearch: (term: string, source: 'header') => void;
 }
 
 export default function Header({ searchTerm, onSearch }: HeaderProps) {
@@ -25,7 +25,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
         const trimmedTerm = localSearchTerm.trim();
 
         if (trimmedTerm) {
-            onSearch(trimmedTerm);
+            onSearch(trimmedTerm, 'header');
             addSearchHistory(trimmedTerm);
             navigate('/result');
         }
@@ -81,7 +81,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                     ) : (
                         <button
                             className="c-top-bar-user__log button__white-font"
-                            onClick={logInButtonClick}
+                            onClick={() => navigate('/login')}
                         >
                             로그인
                         </button>

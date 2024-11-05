@@ -9,15 +9,29 @@ function App() {
     const [searchHistory, setSearchHistory] = useState<string[]>(
         getSearchHistory()
     );
+    const [searchData, setSearchData] = useState<{
+        term: string;
+        source: 'header' | 'search';
+    } | null>(null);
 
     useEffect(() => {
         setSearchHistory(getSearchHistory());
     }, [searchTerm]);
 
-    const handleSearch = (term: string) => {
+    const handleSearch = (term: string, source: 'header' | 'search') => {
         setSearchTerm(term);
         addSearchHistory(term);
         setSearchHistory(getSearchHistory());
+        setSearchData({ term, source });
+        
+        // 검색 출처에 따라 다르게 처리
+        if (source === 'header') {
+            console.log('Header에서 검색 실행:', term);
+            // Header에서만 필요한 추가 로직 (예: 특정 API 호출)
+        } else if (source === 'search') {
+            console.log('Search 컴포넌트에서 검색 실행:', term);
+            // Search에서만 필요한 추가 로직
+        }
     };
     return (
         <div className="body__container">
