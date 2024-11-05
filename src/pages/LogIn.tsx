@@ -131,7 +131,7 @@ export default function LogIn() {
                 {message && <p className="c-login__message">{message}</p>}
                 <section className="c-login__button-section">
                     <button
-                        className="button__rounded button__light"
+                        className="button__rounded button__orange"
                         type="submit"
                     >
                         로그인

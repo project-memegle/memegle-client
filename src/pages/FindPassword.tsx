@@ -101,11 +101,14 @@ export default function FindPassword() {
                         비밀번호 찾기
                     </button>
                     <section className="c-login__button-section-bottom">
+                        <p>
+                            본인 인증을 하지 않았다면 비밀번호를 찾을 수 없어요
+                        </p>
                         <button
                             className="button__light-font"
-                            onClick={() => navigate('/findid')}
+                            onClick={() => navigate('/verification')}
                         >
-                            아이디 찾기
+                            본인인증 하러가기
                         </button>
                     </section>
                 </section>

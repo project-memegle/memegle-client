@@ -11,10 +11,10 @@ import useCustomNavigate from 'hooks/useCustomNaviaget';
 export default function FindId() {
     const navigate = useCustomNavigate();
 
-    const DEFAULT_NICKNAME = ValidationMessages.DEFAULT_NICKNAME;
+    const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
 
-    const [nickname, setNickname] = useState('');
-    const [nicknameError, setNicknameError] = useState(DEFAULT_NICKNAME);
+    const [id, setNickname] = useState('');
+    const [nicknameError, setNicknameError] = useState(DEFAULT_ID);
     const [message, setMessage] = useState('');
 
     const nicknameInputRef = useRef<HTMLInputElement>(null);
@@ -30,10 +30,10 @@ export default function FindId() {
             if (nicknameError) {
                 errorInputCheck(nicknameInputRef.current);
             }
-            if (nickname) {
+            if (id) {
                 setMessage('');
                 post('/find/id', {
-                    nickname,
+                    id,
                 })
                     .then((response: AxiosResponse) => {
                         console.log('response :', response);
@@ -45,7 +45,7 @@ export default function FindId() {
                     });
             }
         },
-        [nickname]
+        [id]
     );
 
     function findPassword() {
@@ -56,16 +56,16 @@ export default function FindId() {
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
                 <div className="c-login__section">
-                    <p>{nicknameError ? nicknameError : DEFAULT_NICKNAME}</p>
-                    <label htmlFor="nickname">닉네임</label>
+                    <p>{nicknameError ? nicknameError : DEFAULT_ID}</p>
+                    <label htmlFor="id">아이디</label>
                     <input
                         ref={nicknameInputRef}
                         className="c-login__input"
-                        name="nickname"
-                        id="nickname"
+                        name="id"
+                        id="id"
                         type="text"
-                        placeholder={ValidationMessages.REQUIRED_NICKNAME}
-                        value={nickname}
+                        placeholder={ValidationMessages.REQUIRED_ID}
+                        value={id}
                         onChange={onChangeNickname}
                     />
                 </div>
@@ -78,17 +78,12 @@ export default function FindId() {
                         아이디 찾기
                     </button>
                     <section className="c-login__button-section-bottom">
+                        <p>본인 인증을 하지 않았다면 아이디를 찾을 수 없어요</p>
                         <button
                             className="button__light-font"
-                            onClick={findPassword}
+                            onClick={() => navigate('/verification')}
                         >
-                            본인인증
-                        </button>{' '}
-                        <button
-                            className="button__light-font"
-                            onClick={findPassword}
-                        >
-                            비밀번호 찾기
+                            본인인증 하러가기
                         </button>
                     </section>
                 </section>

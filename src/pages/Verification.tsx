@@ -29,9 +29,6 @@ export default function Verification() {
 
     const [nameError, setNameError] = useState(DEFAULT_NAME);
     const [emailError, setEmailError] = useState(DEFAULT_EMAIL);
-    const [codeError, setCodeError] = useState(
-        ValidationMessages.REQUIRED_CODE
-    );
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -50,8 +47,8 @@ export default function Verification() {
     const codeInputRef = useRef<HTMLInputElement>(null);
     const [hasTimerStarted, setHasTimerStarted] = useState(false);
 
-    const previousUrl = getSessionStorages('previousUrl');
-
+    const previousUrl = getSessionStorages('previousUrl') || '/login';
+    console.log('previousUrl:', previousUrl);
     const removeSignUpData = () => {
         deleteSessionStorage('id');
         deleteSessionStorage('nickname');
@@ -233,11 +230,11 @@ export default function Verification() {
                 <section className="c-login__button-section">
                     <button className="button__rounded button__orange">
                         이메일 인증
-                    </button>{' '}
+                    </button>
                     <button
                         className="button__rounded button__light"
                         type="button"
-                        onClick={() => navigate('/signup')}
+                        onClick={() => navigate(previousUrl)}
                     >
                         뒤로 가기
                     </button>
