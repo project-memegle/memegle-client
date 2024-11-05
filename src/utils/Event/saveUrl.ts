@@ -16,10 +16,18 @@ export const deletePreviousUrl = () => {
     deleteSessionStorage('previousUrl');
 };
 
-export const getLastKeywordFromUrl = (): string | undefined => {
-    const url = window.location.href; // 현재 URL을 가져옵니다.
-    const keywords = url.split('/'); // '/' 기준으로 분리합니다.
-    return keywords.pop(); // 마지막 키워드를 반환합니다.
+export const getLastKeywordFromUrl = <T>(): T | undefined => {
+    const url = window.location.href;
+    const keywords = url.split('/');
+    const lastKeyword = keywords.pop();
+
+    if (lastKeyword !== undefined) {
+        return isNaN(Number(lastKeyword))
+            ? (lastKeyword as T)
+            : (Number(lastKeyword) as T);
+    }
+
+    return undefined;
 };
 
 const lastKeyword = getLastKeywordFromUrl();

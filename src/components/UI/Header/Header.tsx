@@ -7,7 +7,7 @@ import useCustomNavigate from 'hooks/useCustomNaviaget';
 
 interface HeaderProps {
     searchTerm: string;
-    onSearch: (term: string, source: 'header') => void;
+    onSearch: (term: string) => void;
 }
 
 export default function Header({ searchTerm, onSearch }: HeaderProps) {
@@ -25,9 +25,9 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
         const trimmedTerm = localSearchTerm.trim();
 
         if (trimmedTerm) {
-            onSearch(trimmedTerm, 'header');
+            onSearch(trimmedTerm);
             addSearchHistory(trimmedTerm);
-            navigate('/result');
+            navigate(`/result/${trimmedTerm}`);
         }
     };
 

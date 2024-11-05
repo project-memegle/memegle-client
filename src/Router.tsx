@@ -31,7 +31,11 @@ const router = createBrowserRouter([
             {
                 path: 'result',
                 element: <Result />,
-                children: [{ path: ':category', element: <Result /> }],
+                children: [
+                    { path: ':category', element: <Result /> },
+                    { path: ':keyword', element: <Result /> },
+                    { path: ':tag', element: <Result /> },
+                ],
             },
             {
                 path: 'login',

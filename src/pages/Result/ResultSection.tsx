@@ -1,7 +1,7 @@
-import { ResultSectionDTO } from 'services/dto/ResultDto';
+import { SearchResultSectionDTO } from 'services/dto/ResultDto';
 import ResultItem from './ResultItem';
 
-export default function ResultSection({ results }: ResultSectionDTO) {
+export default function ResultSection({ results }: SearchResultSectionDTO) {
     return (
         <section className="result__section">
             {results.map((result) => (

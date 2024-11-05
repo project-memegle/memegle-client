@@ -9,8 +9,6 @@ interface CategoryItemProps {
 export default function CategoryItem({ category }: CategoryItemProps) {
     const navigate = useCustomNavigate();
 
-    
-
     function clickHandler() {
         navigate(`/result/${category}`);
     }

@@ -5,8 +5,6 @@ import LoadingSpinner from '../../components/UI/LoadingSpinner';
 
 import emptyIcon from '@memegle/assets/images/png/img_result_empty.png';
 
-import { PageableDTO } from 'services/dto/Pageable';
-import { get } from 'utils/API/fetcher';
 import { getLastKeywordFromUrl } from 'utils/Event/saveUrl';
 
 import {
@@ -15,32 +13,31 @@ import {
     getSearchHistory,
 } from 'utils/Storage/localStorage';
 
-import { ResultItemDTO, ResultSectionDTO } from 'services/dto/ResultDto';
-import { handleApiError } from 'utils/API/handleApiError';
-import { AxiosError } from 'axios';
+import {
+    CategoryResultItemDTO,
+    SearchResultItemDTO,
+    SearchResultSectionDTO,
+} from 'services/dto/ResultDto';
+
+import { searchByCategory } from 'services/CategoryService';
+import { searchById } from 'services/IdService';
 
 type OutletContextType = {
     searchTerm: string;
     searchHistory: string[];
-    searchData: { term: string; source: 'header' | 'search' } | null;
 };
 
 export default function Result() {
-    const params = useParams<{ category: string }>();
-
-    const category = params.category;
-
-    const {
-        searchTerm,
-        searchHistory: initialSearchHistory,
-        searchData,
-    } = useOutletContext<OutletContextType>();
+    const { searchTerm, searchHistory: initialSearchHistory } =
+        useOutletContext<OutletContextType>();
 
     const [searchHistory, setSearchHistory] =
         useState<string[]>(initialSearchHistory);
 
     const [content, setContent] = useState<ReactNode>(null);
-    const [resultData, setResultData] = useState<ResultItemDTO[]>([]);
+    const [resultData, setResultData] = useState<SearchResultSectionDTO | null>(
+        null
+    );
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -60,50 +57,19 @@ export default function Result() {
     }
 
     useEffect(() => {
-        console.log('====================================');
-        console.log(searchData);
-        console.log('====================================');
-        
-        if (!searchData) {
-            setLoading(false);
-            return;
+        const lastKeyword = getLastKeywordFromUrl<number | string>();
+        if (typeof lastKeyword === 'string') {
+            console.log('카테고리 검색 간다');
+            searchByCategory({
+                keyword: lastKeyword,
+                setLoading,
+                setResultData,
+                setError,
+            });
+        } else if (typeof lastKeyword === 'number') {
+            console.log('아이디 검색 간다');
+            searchById(lastKeyword, setLoading, setResultData, setError);
         }
-
-        const { term, source } = searchData;
-
-        console.log(
-            `검색 출처: ${source === 'header' ? '헤더' : '서치 컴포넌트'}`
-        );
-
-        const lastKeyword = getLastKeywordFromUrl() || 'MUDO';
-        const pageData: PageableDTO = {
-            page: 1,
-            size: 10,
-            criteria: 'CREATED_AT',
-        };
-        const fetchCategories = async () => {
-            setLoading(true);
-            try {
-                const queryParams = new URLSearchParams({
-                    imageCategory: lastKeyword,
-                    page: pageData.page.toString(),
-                    size: pageData.size.toString(),
-                    criteria: pageData.criteria,
-                });
-                const response = await get<ResultSectionDTO>(
-                    `/images/category?${queryParams.toString()}`
-                );
-                console.log('Result:', response.data);
-                setResultData(response.data.results);
-            } catch (error) {
-                console.error('Error fetching categories:', error);
-                handleApiError(error as AxiosError, setError);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchCategories();
     }, []);
 
     useEffect(() => {
@@ -111,19 +77,8 @@ export default function Result() {
             setContent(<LoadingSpinner />);
         } else if (error) {
             setContent(<p>{error}</p>);
-        } else if (resultData.length > 0) {
-            const categoryData = resultData.filter(
-                (item) => item.imageCategory === category
-            );
-            setContent(
-                categoryData.length > 0 ? (
-                    <ResultSection results={categoryData} />
-                ) : (
-                    <div className="c-result__emtpy">
-                        <img src={emptyIcon} alt="empty" />
-                    </div>
-                )
-            );
+        } else if (resultData && resultData.results.length > 0) {
+            setContent(<ResultSection results={resultData.results} />);
         } else {
             setContent(
                 <div className="c-result__emtpy">
@@ -131,7 +86,7 @@ export default function Result() {
                 </div>
             );
         }
-    }, [loading, error, resultData, category]);
+    }, [loading, error, resultData]);
 
     return (
         <main className="home__main c-result">

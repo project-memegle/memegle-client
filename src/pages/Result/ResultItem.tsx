@@ -2,21 +2,18 @@ import { useState } from 'react';
 import { copyImgToClipboard } from 'utils/Event/copyImageToClipboard';
 import ToastMessage from '../../components/UI/ToastMessage/ToastMessage';
 import ValidationMessages from 'components/Validations/ValidationMessages';
-import { ResultItemDTO } from 'services/dto/ResultDto';
+import {
+    CategoryResultItemDTO,
+    SearchResultItemDTO,
+} from 'services/dto/ResultDto';
 
-export default function ResultItem({
-    id,
-    categoryName,
-    imageCategory,
-    titleImageUrl,
-    lastMemeImageRegistTime,
-}: ResultItemDTO) {
+export default function ResultItem({ id, imageUrl }: SearchResultItemDTO) {
     const [toast, setToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
 
     async function copyImage() {
         try {
-            await copyImgToClipboard(titleImageUrl);
+            await copyImgToClipboard(imageUrl);
 
             setToastMessage(ValidationMessages.SUCCESS_COPY_IMG);
             setToast(true);
@@ -31,7 +28,7 @@ export default function ResultItem({
             <div className="result__item-copy">
                 <i className="c-icon">file_copy</i>
             </div>
-            <img src={titleImageUrl} alt={`img-${id}`} />
+            <img src={imageUrl} alt={`img-${id}`} />
             {toast && (
                 <ToastMessage
                     message={toastMessage}
