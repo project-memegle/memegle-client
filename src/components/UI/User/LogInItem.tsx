@@ -1,3 +1,4 @@
+import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,12 +9,6 @@ type LogInItemProps = {
 
 const LoginItem = forwardRef<HTMLInputElement, LogInItemProps>(
     function LoginItem({ loginId, password }, ref) {
-        const navigate = useNavigate();
-
-        function loginClickHandler() {
-            navigate('/');
-        }
-
         return (
             <section className="modal__container">
                 <section>

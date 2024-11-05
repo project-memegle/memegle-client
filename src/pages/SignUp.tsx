@@ -9,12 +9,12 @@ import handleInputChange from '../utils/Event/handleInputChange';
 import passwordCheckHandler from '../utils/SignUp/passwordCheckHandler';
 import { post } from 'utils/API/fetcher';
 import { handleApiError } from 'utils/API/handleApiError';
-import { useNavigate } from 'react-router-dom';
 import { setSessionStorages } from 'utils/Storage/sessionStorage';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
+import useCustomNavigate from 'hooks/useCustomNaviaget';
 
 export default function SignUp() {
-    const navigate = useNavigate();
+    const navigate = useCustomNavigate();
 
     const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
     const DEFALUT_NICKNAME = ValidationMessages.DEFAULT_NICKNAME;

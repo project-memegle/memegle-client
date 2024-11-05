@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import useCustomNavigate from 'hooks/useCustomNaviaget';
 
 type CategoryType = 'favorite' | 'mudo' | 'digiMon' | 'gif' | 'temp1' | 'temp2';
 
@@ -7,7 +7,7 @@ interface CategoryItemProps {
 }
 
 export default function CategoryItem({ category }: CategoryItemProps) {
-    const navigate = useNavigate();
+    const navigate = useCustomNavigate();
 
     function clickHandler() {
         navigate(`/result/${category}`);

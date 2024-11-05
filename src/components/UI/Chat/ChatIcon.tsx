@@ -1,8 +1,9 @@
 import chatIcon from '@memegle/assets/icons/svg/ic_chat.svg';
+import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { useNavigate } from 'react-router-dom';
 
 export default function ChatIcon() {
-    const navigate = useNavigate();
+    const navigate = useCustomNavigate();
     function iconClickHandler() {
         navigate('/chat');
     }

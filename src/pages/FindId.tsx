@@ -7,8 +7,9 @@ import validateNickname from 'components/Validations/ValidateNickname';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import { post } from 'utils/API/fetcher';
 import { handleApiError } from 'utils/API/handleApiError';
+import useCustomNavigate from 'hooks/useCustomNaviaget';
 export default function FindId() {
-    const navigate = useNavigate();
+    const navigate = useCustomNavigate();
 
     const DEFAULT_NICKNAME = ValidationMessages.DEFAULT_NICKNAME;
 

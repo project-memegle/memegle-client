@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from 'hooks/useAuth';
 import { addSearchHistory } from 'utils/Storage/localStorage';
 import { useState } from 'react';
+import useCustomNavigate from 'hooks/useCustomNaviaget';
 
 interface HeaderProps {
     searchTerm: string;
@@ -10,7 +11,7 @@ interface HeaderProps {
 }
 
 export default function Header({ searchTerm, onSearch }: HeaderProps) {
-    const navigate = useNavigate();
+    const navigate = useCustomNavigate();
     const auth = useAuth();
 
     const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);

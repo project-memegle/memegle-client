@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import CategoryItem from '../Category/CategoryItem';
 import axios, { AxiosError } from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { handleApiError } from 'utils/API/handleApiError';
+import useCustomNavigate from 'hooks/useCustomNaviaget';
 
 export default function CategorySection() {
     const [message, setMessage] = useState('');
     const [category, setCategory] = useState('');
-    const navigate = useNavigate();
+    const navigate = useCustomNavigate();
 
     useState(() => {
         axios

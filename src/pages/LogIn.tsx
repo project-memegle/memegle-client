@@ -3,7 +3,6 @@ import { AxiosError, AxiosResponse } from 'axios';
 import ValidationMessages from '../components/Validations/ValidationMessages';
 import validateId from '../components/Validations/ValidateId';
 import validateLogInPassword from '../components/Validations/ValidateLogInPassword';
-import { useNavigate } from 'react-router-dom';
 import { LogInRequestDTO, LogInResponseDTO } from '../services/dto/LogInDto';
 import { setCookie } from '../utils/Storage/cookies';
 import handleInputChange from '../utils/Event/handleInputChange';
@@ -12,9 +11,10 @@ import { getEnvVariableAsNumber } from 'utils/Storage/numberUntils';
 import { resetErrors } from 'utils/Event/resetError';
 import { post } from 'utils/API/fetcher';
 import { handleApiError } from 'utils/API/handleApiError';
+import useCustomNavigate from 'hooks/useCustomNaviaget';
 
 export default function LogIn() {
-    const navigate = useNavigate();
+    const navigate = useCustomNavigate();
 
     const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
     const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;

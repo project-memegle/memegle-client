@@ -14,9 +14,10 @@ import {
 } from 'services/dto/VerificationDto';
 import useTimer from 'hooks/useTimer';
 import formatTime from 'utils/Event/formatTIme';
+import useCustomNavigate from 'hooks/useCustomNaviaget';
 
 export default function Verification() {
-    const navigate = useNavigate();
+    const navigate = useCustomNavigate();
 
     const DEFAULT_NAME = ValidationMessages.DEFAULT_NAME;
     const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
