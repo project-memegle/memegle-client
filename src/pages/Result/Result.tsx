@@ -1,4 +1,4 @@
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useOutletContext} from 'react-router-dom';
 import { ReactNode, useEffect, useState } from 'react';
 import ResultSection from './ResultSection';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
@@ -14,8 +14,6 @@ import {
 } from 'utils/Storage/localStorage';
 
 import {
-    CategoryResultItemDTO,
-    SearchResultItemDTO,
     SearchResultSectionDTO,
 } from 'services/dto/ResultDto';
 

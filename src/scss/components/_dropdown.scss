@@ -1,0 +1,32 @@
+@use "../settings/colors" as colors;
+
+@mixin styles() {
+  .c-dropdown {
+    label {
+      display: none;
+    }
+
+    &__select {
+      border: none;
+      padding: 0.6em 1.2em;
+      font-size: 1em;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      transition: border-color 0.25s;
+      background: none;
+      width: 100%;
+
+      appearance: none;
+      background-image: url("@memegle/assets/icons/svg/ic_arrow_down.svg");
+      background-repeat: no-repeat;
+      background-position: right 0.7rem top 50%;
+      background-size: 0.65rem auto;
+
+      option {
+        padding: 10rem;
+        height: 50px;
+      }
+    }
+  }
+}

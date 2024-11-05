@@ -61,7 +61,7 @@ export default function Upload() {
         const formData = new FormData();
         formData.append('userfile', file);
         try {
-            const response = await axios.post(`/upload`, formData, {
+            const response = await axios.post(`/images`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

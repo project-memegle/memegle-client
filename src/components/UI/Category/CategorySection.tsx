@@ -1,26 +1,22 @@
 import { useEffect, useState } from 'react';
 import CategoryItem from '../Category/CategoryItem';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
-import { get } from 'utils/API/fetcher';
+import { getCategorylist } from 'services/CategoryService';
+import { CategoryResultSectionDTO } from 'services/dto/ResultDto';
 
 export default function CategorySection() {
-    const [category, setCategory] = useState('');
     const navigate = useCustomNavigate();
+    const [categoryList, setCategoryList] =
+        useState<CategoryResultSectionDTO | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const queryParams = 'POPULARITY';
-        const fetchCategories = async () => {
-            try {
-                const response = await get(
-                    `/categories/${category}?${queryParams}`
-                );
-                console.log('Categories:', response);
-            } catch (error) {
-                console.error('Error fetching categories:', error);
-            }
-        };
-
-        fetchCategories();
+        getCategorylist({
+            setLoading,
+            setResultData: setCategoryList,
+            setError,
+        });
     }, []);
 
     return (

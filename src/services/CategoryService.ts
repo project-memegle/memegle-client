@@ -1,14 +1,21 @@
 import { PageableDTO } from 'services/dto/Pageable';
 import { get } from 'utils/API/fetcher';
-import { SearchResultSectionDTO } from 'services/dto/ResultDto';
+import {
+    CategoryResultSectionDTO,
+    SearchResultSectionDTO,
+} from 'services/dto/ResultDto';
 import { handleApiError } from 'utils/API/handleApiError';
 import { AxiosError } from 'axios';
 
-interface SearchByCategoryParams {
-    keyword: string;
+interface GetCategoryListParams<T> {
     setLoading: (loading: boolean) => void;
-    setResultData: (data: SearchResultSectionDTO) => void;
+    setResultData: (data: T) => void;
     setError: (error: string | null) => void;
+}
+
+interface SearchByCategoryParams
+    extends GetCategoryListParams<SearchResultSectionDTO> {
+    keyword: string;
 }
 
 export async function searchByCategory({
@@ -35,6 +42,27 @@ export async function searchByCategory({
         const url = `/images/category?${queryParams.toString()}`;
         const response = await get<SearchResultSectionDTO>(url);
 
+        console.log('Result:', response.data);
+        setResultData(response.data);
+    } catch (error) {
+        console.error('Error fetching categories:', error);
+        handleApiError(error as AxiosError, setError);
+    } finally {
+        setLoading(false);
+    }
+}
+
+export async function getCategorylist({
+    setLoading,
+    setResultData,
+    setError,
+}: GetCategoryListParams<CategoryResultSectionDTO>) {
+    setLoading(true);
+
+    try {
+        const queryParams = 'POPULARITY';
+        const url = `/categories?criteria=${queryParams}`;
+        const response = await get<CategoryResultSectionDTO>(url);
         console.log('Result:', response.data);
         setResultData(response.data);
     } catch (error) {

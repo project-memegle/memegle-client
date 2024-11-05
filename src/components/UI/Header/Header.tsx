@@ -1,5 +1,4 @@
 import logo from '../../../assets/logo.svg';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from 'hooks/useAuth';
 import { addSearchHistory } from 'utils/Storage/localStorage';
 import { useState } from 'react';
@@ -32,10 +31,10 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
     };
 
     let logInButtonClick = () => {
-        // auth.login(() => {
-        //     console.log('사용자 로그인😎');
-        // });
-        navigate('/login');
+        auth.login(() => {
+            console.log('사용자 로그인😎');
+        });
+        // navigate('/login');
     };
     let logOutButtonClick = () => {
         auth.logout(() => {
@@ -81,7 +80,8 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                     ) : (
                         <button
                             className="c-top-bar-user__log button__white-font"
-                            onClick={() => navigate('/login')}
+                            // onClick={() => navigate('/login')}
+                            onClick={logInButtonClick}
                         >
                             로그인
                         </button>
