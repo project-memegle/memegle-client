@@ -17,6 +17,7 @@ const ValidationMessages: ValidationMessagesProps = {
     REQUIRED_VERIFY_CODE: '인증번호를 입력해주세요.',
     REQUIRED_NICKNAME: '닉네임을 입력해주세요.',
     REQUIRED_NAME: '이름을 입력해주세요.',
+    REQUIRED_CODE: '인증번호를 입력해주세요.',
 
     // Invalid field errors
     INVALID_ID_LENGTH: '아이디는 최소 6자 이상이어야 합니다.',

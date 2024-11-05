@@ -67,19 +67,42 @@ export default function SignUp() {
         [password]
     );
 
-    const onClickVerification = useCallback(() => {
-        try {
-            setSessionStorages({ key: 'id', value: id });
-            setSessionStorages({ key: 'password', value: password });
-            setSessionStorages({ key: 'nickname', value: nickname });
-            navigate('/verification');
-        } catch (error) {
-            setToastMessage(ValidationMessages.FAILED_EVENT);
-            setToast(true);
-        }
-    }, [id, password, nickname, navigate]);
+    const onClickVerification = useCallback(
+        async (e: FormEvent<HTMLButtonElement>) => {
+            e.preventDefault();
+            if (idError || nicknameError || passwordError) {
+                if (idError) errorInputCheck(idInputRef.current);
+                else if (nicknameError)
+                    errorInputCheck(nicknameInputRef.current);
+                else if (passwordError)
+                    errorInputCheck(passwordInputRef.current);
+                signUpError && setSignUpError(ValidationMessages.SIGNUP_ERROR);
+                return;
+            }
 
-    // ... 다른 코드들 ...
+            if (nickname && id && password && passwordCheck) {
+                try {
+                    setSessionStorages({ key: 'id', value: id });
+                    setSessionStorages({ key: 'password', value: password });
+                    setSessionStorages({ key: 'nickname', value: nickname });
+                    navigate('/verification');
+                } catch (error) {
+                    setToastMessage(ValidationMessages.FAILED_EVENT);
+                    setToast(true);
+                }
+            }
+        },
+        [
+            id,
+            password,
+            nickname,
+            idError,
+            nicknameError,
+            passwordError,
+            signUpError,
+            navigate,
+        ]
+    );
 
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
@@ -96,7 +119,11 @@ export default function SignUp() {
 
             if (nickname && id && password && passwordCheck) {
                 setSignUpError('');
-                const userData: SignUpDTO = { loginId: id, nickname, password };
+                const userData: SignUpDTO = {
+                    loginId: id,
+                    nickname: nickname,
+                    password: password,
+                };
                 setSignupSuccess(ValidationMessages.SIGNUP_SUCCESS);
                 try {
                     const response = post('/users/sign/up', userData);

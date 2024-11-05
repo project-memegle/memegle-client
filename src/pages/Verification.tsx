@@ -1,7 +1,6 @@
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { AxiosResponse, AxiosError } from 'axios';
 import ValidationMessages from '../components/Validations/ValidationMessages';
-import { useNavigate } from 'react-router-dom';
 import handleInputChange from 'utils/Event/handleInputChange';
 import validateEmail from 'components/Validations/ValidateEmail';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
@@ -15,6 +14,12 @@ import {
 import useTimer from 'hooks/useTimer';
 import formatTime from 'utils/Event/formatTIme';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
+import {
+    deleteSessionStorage,
+    getSessionStorages,
+} from 'utils/Storage/sessionStorage';
+import { SignUpDTO } from 'services/dto/SignUpDto';
+import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 
 export default function Verification() {
     const navigate = useCustomNavigate();
@@ -24,10 +29,16 @@ export default function Verification() {
 
     const [nameError, setNameError] = useState(DEFAULT_NAME);
     const [emailError, setEmailError] = useState(DEFAULT_EMAIL);
+    const [codeError, setCodeError] = useState(
+        ValidationMessages.REQUIRED_CODE
+    );
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
+
+    const [toastMessage, setToastMessage] = useState('');
+    const [toast, setToast] = useState(false);
 
     const [message, setMessage] = useState('');
     const [verification, setVerification] = useState(false);
@@ -36,7 +47,36 @@ export default function Verification() {
 
     const nameInputRef = useRef<HTMLInputElement>(null);
     const emailInputRef = useRef<HTMLInputElement>(null);
+    const codeInputRef = useRef<HTMLInputElement>(null);
     const [hasTimerStarted, setHasTimerStarted] = useState(false);
+
+    const previousUrl = getSessionStorages('previousUrl');
+
+    const removeSignUpData = () => {
+        deleteSessionStorage('id');
+        deleteSessionStorage('nickname');
+        deleteSessionStorage('password');
+    };
+
+    const getSignUpData = () => {
+        const id = getSessionStorages('id');
+        const nickname = getSessionStorages('nickname');
+        const password = getSessionStorages('password');
+        if (id && nickname && password) {
+            const userData: SignUpDTO = {
+                loginId: id,
+                nickname: nickname,
+                password: password,
+            };
+            try {
+                const response = post('/users/sign/up', userData);
+                console.log(response);
+                removeSignUpData();
+            } catch (error) {
+                handleApiError(error as AxiosError, setMessage);
+            }
+        }
+    };
 
     const onChangeName = useCallback(
         handleInputChange(setName, setNameError, validateName),
@@ -51,7 +91,9 @@ export default function Verification() {
     const onChangeCode = useCallback((e: FormEvent<HTMLInputElement>) => {
         setCode(e.currentTarget.value);
     }, []);
-
+    /**
+     * Send verification code
+     */
     const onChangeVerification = useCallback(() => {
         if (nameError || emailError) {
             if (nameError) errorInputCheck(nameInputRef.current);
@@ -74,6 +116,7 @@ export default function Verification() {
                 .then((response: AxiosResponse) => {
                     console.log('response :', response);
                     setMessage(response.data.message);
+                    getSignUpData();
                 })
                 .catch((error: AxiosError) => {
                     console.log(error.response);
@@ -82,6 +125,9 @@ export default function Verification() {
         }
     }, [startTimer, name, email, nameError, emailError]);
 
+    /**
+     * Submit verification code
+     */
     const onSubmit = useCallback(
         (e: FormEvent<HTMLFormElement>): void => {
             e.preventDefault();
@@ -90,7 +136,12 @@ export default function Verification() {
                 else if (emailError) errorInputCheck(emailInputRef.current);
                 return;
             }
-            if (name && email) {
+
+            if (!code) {
+                errorInputCheck(codeInputRef.current);
+            }
+
+            if (name && email && code) {
                 const userData: VerificationCodeDTO = {
                     email: email,
                     authenticationCode: code,
@@ -125,6 +176,7 @@ export default function Verification() {
                         placeholder={ValidationMessages.REQUIRED_NAME}
                         value={name}
                         onChange={onChangeName}
+                        onInput={onChangeName}
                     />
                 </section>
                 <section className="c-login__section">
@@ -141,6 +193,7 @@ export default function Verification() {
                                 placeholder={ValidationMessages.REQUIRED_EMAIL}
                                 value={email}
                                 onChange={onChangeEmail}
+                                onInput={onChangeEmail}
                             />
                         </div>
                         <button
@@ -159,6 +212,7 @@ export default function Verification() {
                     <section className="c-login__section">
                         <label htmlFor="verification">인증번호</label>
                         <input
+                            ref={codeInputRef}
                             className="c-login__input"
                             name="verification"
                             id="verification"
@@ -169,6 +223,7 @@ export default function Verification() {
                             disabled={!isActive}
                             value={code}
                             onChange={onChangeCode}
+                            onInput={onChangeCode}
                         />
                         <p className="c-login__section-timer">
                             {formatTime(timer)}
@@ -178,9 +233,22 @@ export default function Verification() {
                 <section className="c-login__button-section">
                     <button className="button__rounded button__orange">
                         이메일 인증
+                    </button>{' '}
+                    <button
+                        className="button__rounded button__light"
+                        type="button"
+                        onClick={() => navigate('/signup')}
+                    >
+                        뒤로 가기
                     </button>
                 </section>
             </form>
+            {toast && (
+                <ToastMessage
+                    message={toastMessage}
+                    onClose={() => setToast(false)}
+                />
+            )}
         </div>
     );
 }
