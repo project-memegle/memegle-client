@@ -1,16 +1,11 @@
-import ResultItem, { ResultItemProp } from './ResultItem';
+import { ResultSectionDTO } from 'services/dto/ResultDto';
+import ResultItem from './ResultItem';
 
-type ResultProps = ResultItemProp[];
-export default function ResultSection(props: ResultProps) {
-    const data = Object.values(props);
+export default function ResultSection({ results }: ResultSectionDTO) {
     return (
         <section className="result__section">
-            {data.map((item) => (
-                <ResultItem
-                    key={item.id}
-                    id={item.id}
-                    imageUrl={item.imageUrl}
-                />
+            {results.map((result) => (
+                <ResultItem key={result.id} {...result} />
             ))}
         </section>
     );
