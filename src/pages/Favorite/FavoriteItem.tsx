@@ -1,7 +1,7 @@
-import { TItem } from 'pages/Favorite';
+import { TItem } from 'pages/Favorite/Favorite';
 import { CSSProperties, forwardRef, HTMLAttributes, useState } from 'react';
-import ToastMessage from '../ToastMessage/ToastMessage';
 import ValidationMessages from 'components/Validations/ValidationMessages';
+import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 
 type FavoriteItemProps = {
     item: TItem;

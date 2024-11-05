@@ -14,8 +14,6 @@ import {
     rectSortingStrategy,
     SortableContext,
 } from '@dnd-kit/sortable';
-import FavoriteItem from 'components/UI/Favorite/FavoriteItem';
-import FavoriteItemWrapper from 'components/UI/Favorite/FavoriteItemWrapper';
 import { useState } from 'react';
 
 import image1 from '@memegle/assets/images/jpeg/test1.jpeg';
@@ -23,6 +21,8 @@ import image2 from '@memegle/assets/images/jpeg/test2.jpeg';
 import image3 from '@memegle/assets/images/jpeg/test3.jpeg';
 import image4 from '@memegle/assets/images/jpeg/test4.jpeg';
 import image5 from '@memegle/assets/images/jpeg/test5.jpeg';
+import FavoriteItemWrapper from './FavoriteItemWrapper';
+import FavoriteItem from './FavoriteItem';
 
 export type TItem = {
     id: number;

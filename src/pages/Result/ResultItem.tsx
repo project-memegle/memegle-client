@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { copyImgToClipboard } from 'utils/Event/copyImageToClipboard';
-import ToastMessage from '../ToastMessage/ToastMessage';
+import ToastMessage from '../../components/UI/ToastMessage/ToastMessage';
 import ValidationMessages from 'components/Validations/ValidationMessages';
 import { ResultItemDTO } from 'services/dto/ResultDto';
 

@@ -1,7 +1,7 @@
 import { useOutletContext, useParams } from 'react-router-dom';
 import { ReactNode, useEffect, useState } from 'react';
-import ResultSection from '../components/UI/Result/ResultSection';
-import LoadingSpinner from '../components/UI/LoadingSpinner';
+import ResultSection from './ResultSection';
+import LoadingSpinner from '../../components/UI/LoadingSpinner';
 
 import emptyIcon from '@memegle/assets/images/png/ic_result_empty.png';
 

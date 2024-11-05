@@ -1,7 +1,7 @@
 import { HTMLAttributes } from 'react';
 import { CSS } from '@dnd-kit/utilities';
 import FavoriteItem from './FavoriteItem';
-import { TItem } from 'pages/Favorite';
+import { TItem } from 'pages/Favorite/Favorite';
 import { useSortable } from '@dnd-kit/sortable';
 
 type FavoriteItemWrapper = {
