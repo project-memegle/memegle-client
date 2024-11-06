@@ -11,7 +11,7 @@ export function CategoryInput() {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     useEffect(() => {
-        getCategorylist(setLoading, setResultData, setError);
+        getCategorylist({ setLoading, setResultData, setError });
     }, []);
 
     return (
