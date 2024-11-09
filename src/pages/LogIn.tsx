@@ -74,8 +74,12 @@ export default function LogIn() {
                         response.headers['authorization']
                     );
 
-                    const accessToken = response.headers['authorization'];
-                    const refreshToken = response.headers['refresh-token'];
+                    const accessToken = response.headers[
+                        'authorization'
+                    ]?.replace('Bearer ', '');
+                    const refreshToken = response.headers[
+                        'refresh-token'
+                    ]?.replace('Bearer ', '');
 
                     const accessTokenStore = getEnvVariableAsNumber(
                         import.meta.env.VITE_ACCESS_TOKEN_STORE,
@@ -91,7 +95,6 @@ export default function LogIn() {
 
                     setCookie(ACCESS_TOKEN, accessToken, accessTokenStore);
                     setCookie(REFRESH_TOKENE, refreshToken, refreshTokenStore);
-                    
                 } catch (error) {
                     handleApiError(error as AxiosError, setMessage);
                 }
