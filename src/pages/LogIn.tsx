@@ -61,6 +61,7 @@ export default function LogIn() {
                     loginId: id,
                     password: password,
                 };
+
                 try {
                     const response: AxiosResponse<LogInResponseDTO> =
                         await post<LogInResponseDTO, LogInRequestDTO>(
@@ -73,22 +74,24 @@ export default function LogIn() {
                         response.headers['authorization']
                     );
 
-                    const {
-                        access_token: accessToken,
-                        refresh_token: refreshToken,
-                    } = response.data;
+                    const accessToken = response.headers['authorization'];
+                    const refreshToken = response.headers['refresh-token'];
 
                     const accessTokenStore = getEnvVariableAsNumber(
-                        process.env.ACCESS_TOKEN_STORE,
-                        ACCESS_TOKEN_STORE
+                        import.meta.env.VITE_ACCESS_TOKEN_STORE,
+                        'VITE_ACCESS_TOKEN_STORE'
                     );
+
                     const refreshTokenStore = getEnvVariableAsNumber(
-                        process.env.REFRESH_TOKEN_STORE,
-                        REFRESH_TOKEN_STORE
+                        import.meta.env.VITE_REFRESH_TOKEN_STORE,
+                        'VITE_REFRESH_TOKEN_STORE'
                     );
+
+                    console.log(accessTokenStore, refreshTokenStore);
 
                     setCookie(ACCESS_TOKEN, accessToken, accessTokenStore);
                     setCookie(REFRESH_TOKENE, refreshToken, refreshTokenStore);
+                    
                 } catch (error) {
                     handleApiError(error as AxiosError, setMessage);
                 }

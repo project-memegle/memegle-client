@@ -26,8 +26,5 @@ export const getLastKeywordFromUrl = <T>(): T | undefined => {
             ? (lastKeyword as T)
             : (Number(lastKeyword) as T);
     }
-
     return undefined;
 };
-
-const lastKeyword = getLastKeywordFromUrl();

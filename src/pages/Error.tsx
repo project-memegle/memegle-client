@@ -1,8 +1,8 @@
 import errorIcon from '@memegle/assets/images/png/img_error.png';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
-
-import { getSessionStorages } from 'utils/Storage/sessionStorage';
 import { createRoot } from 'react-dom/client';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { getPreviousUrl } from 'utils/Event/saveUrl';
 
 interface ErrorPageProps {
     message: string;
@@ -10,18 +10,18 @@ interface ErrorPageProps {
 
 export default function ErrorPage({ message }: ErrorPageProps) {
     const navigate = useCustomNavigate();
-
-    const handleSearch = (term: string) => {
-        navigate(`/?search=${term}`);
-    };
-    const previousUrl = getSessionStorages('previousUrl') || '/';
-
+    const previousUrl = getPreviousUrl() || '/';
     return (
         <div className="body__container">
             <main className="error__container">
                 <div>
                     <h4>{message}</h4>
-                    <button onClick={() => navigate(previousUrl)}>
+                    <button
+                        onClick={() => {
+                            navigate(previousUrl);
+                            console.log('뒤로가기');
+                        }}
+                    >
                         뒤로가기
                     </button>
                 </div>
@@ -30,10 +30,15 @@ export default function ErrorPage({ message }: ErrorPageProps) {
         </div>
     );
 }
+
 export function handleErrorPage(message: string) {
     const container = document.querySelector('.main__container');
     if (container) {
         const root = createRoot(container);
-        root.render(<ErrorPage message={message} />);
+        root.render(
+            <Router>
+                <ErrorPage message={message} />
+            </Router>
+        );
     }
 }
