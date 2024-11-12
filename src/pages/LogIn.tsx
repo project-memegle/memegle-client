@@ -13,6 +13,7 @@ import { post } from 'utils/API/fetcher';
 import { handleApiError } from 'utils/API/handleApiError';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { useAuth } from 'components/auth/ProvideAuth';
+import { logIn } from 'services/LogInService';
 
 export default function LogIn() {
     const navigate = useCustomNavigate();
@@ -62,49 +63,18 @@ export default function LogIn() {
                 };
 
                 try {
-                    const response: AxiosResponse<void> = await post<
-                        void,
-                        LogInRequestDTO
-                    >('/users/sign/in', userData);
+                    await logIn(userData);
 
-                    if (response.status === 200 || response.status === 204) {
-                        const accessToken = response.headers[
-                            'authorization'
-                        ]?.replace('Bearer ', '');
-                        const refreshToken = response.headers[
-                            'refresh-token'
-                        ]?.replace('Bearer ', '');
-
-                        const accessTokenStore = getEnvVariableAsNumber(
-                            import.meta.env.VITE_ACCESS_TOKEN_STORE,
-                            'VITE_ACCESS_TOKEN_STORE'
-                        );
-
-                        const refreshTokenStore = getEnvVariableAsNumber(
-                            import.meta.env.VITE_REFRESH_TOKEN_STORE,
-                            'VITE_REFRESH_TOKEN_STORE'
-                        );
-
-                        setCookie(ACCESS_TOKEN, accessToken, accessTokenStore);
-                        setCookie(
-                            REFRESH_TOKENE,
-                            refreshToken,
-                            refreshTokenStore
-                        );
-
-                        // 사용자 정보를 저장하고 홈 페이지로 리다이렉트
-                        auth.login(() => {
-                            navigate('/');
-                        });
-                    } else {
-                        throw new Error('로그인 실패');
-                    }
+                    // 사용자 정보를 저장하고 홈 페이지로 리다이렉트
+                    auth.login(() => {
+                        navigate('/');
+                    });
                 } catch (error) {
                     handleApiError(error as AxiosError, setMessage);
                 }
             }
         },
-        [id, password]
+        [id, password, idError, passwordError, auth, navigate]
     );
 
     return (

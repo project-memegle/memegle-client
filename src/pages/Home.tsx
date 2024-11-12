@@ -4,7 +4,8 @@ import { getNotification } from 'services/NotificationService';
 
 export default function HomePage() {
     useEffect(() => {
-        getNotification();
+        //todo : 완성되면 주석풀기
+        // getNotification();
     });
     return (
         <main className="home__main">

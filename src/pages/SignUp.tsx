@@ -12,9 +12,14 @@ import { handleApiError } from 'utils/API/handleApiError';
 import { setSessionStorages } from 'utils/Storage/sessionStorage';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
+import { signUp } from 'services/SignupService';
+import { LogInRequestDTO } from 'services/dto/LogInDto';
+import { logIn } from 'services/LogInService';
+import { useAuth } from 'components/auth/ProvideAuth';
 
 export default function SignUp() {
     const navigate = useCustomNavigate();
+    const auth = useAuth();
 
     const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
     const DEFALUT_NICKNAME = ValidationMessages.DEFAULT_NICKNAME;
@@ -126,8 +131,19 @@ export default function SignUp() {
                 };
                 setSignupSuccess(ValidationMessages.SIGNUP_SUCCESS);
                 try {
-                    const response = post('/users/sign/up', userData);
-                    console.log(response);
+                    await signUp(userData);
+
+                    // 회원가입 후 자동 로그인
+                    const loginData: LogInRequestDTO = {
+                        loginId: id,
+                        password: password,
+                    };
+                    await logIn(loginData);
+
+                    // 로그인 상태를 업데이트하고 홈 페이지로 리다이렉트
+                    auth.login(() => {
+                        navigate('/');
+                    });
                 } catch (error) {
                     handleApiError(error as AxiosError, setSignUpError);
                 }
