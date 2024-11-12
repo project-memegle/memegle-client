@@ -1,13 +1,26 @@
-import { createContext } from 'react';
+// ProvideAuth.tsx
+import { createContext, useContext } from 'react';
 import { useProvideAuth } from '../../hooks/useProvideAuth';
 
-const authContext = createContext<ReturnType<typeof useProvideAuth> | null>(
-    null
-);
+interface AuthContextType {
+    isAuthenticated: boolean;
+    login: (callback: VoidFunction) => void;
+    logout: (callback: VoidFunction) => void;
+}
 
-const ProvideAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const authContext = createContext<AuthContextType | undefined>(undefined);
+
+export const ProvideAuth: React.FC<{ children: React.ReactNode }> = ({
+    children,
+}) => {
     const auth = useProvideAuth();
     return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 };
 
-export { authContext, ProvideAuth };
+export const useAuth = () => {
+    const context = useContext(authContext);
+    if (!context) {
+        throw new Error('useAuth must be used within a ProvideAuth');
+    }
+    return context;
+};

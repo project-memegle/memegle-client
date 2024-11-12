@@ -12,15 +12,14 @@ import { resetErrors } from 'utils/Event/resetError';
 import { post } from 'utils/API/fetcher';
 import { handleApiError } from 'utils/API/handleApiError';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
+import { useAuth } from 'components/auth/ProvideAuth';
 
 export default function LogIn() {
     const navigate = useCustomNavigate();
+    const auth = useAuth();
 
     const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
     const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
-
-    const ACCESS_TOKEN_STORE = 'ACCESS_TOKEN_STORE';
-    const REFRESH_TOKEN_STORE = 'REFRESH_TOKEN_STORE';
 
     const ACCESS_TOKEN = 'access_token';
     const REFRESH_TOKENE = 'refresh_token';
@@ -63,32 +62,43 @@ export default function LogIn() {
                 };
 
                 try {
-                    const response: AxiosResponse<LogInResponseDTO> =
-                        await post<LogInResponseDTO, LogInRequestDTO>(
-                            '/users/sign/in',
-                            userData
+                    const response: AxiosResponse<void> = await post<
+                        void,
+                        LogInRequestDTO
+                    >('/users/sign/in', userData);
+
+                    if (response.status === 200 || response.status === 204) {
+                        const accessToken = response.headers[
+                            'authorization'
+                        ]?.replace('Bearer ', '');
+                        const refreshToken = response.headers[
+                            'refresh-token'
+                        ]?.replace('Bearer ', '');
+
+                        const accessTokenStore = getEnvVariableAsNumber(
+                            import.meta.env.VITE_ACCESS_TOKEN_STORE,
+                            'VITE_ACCESS_TOKEN_STORE'
                         );
 
-                    const accessToken = response.headers[
-                        'authorization'
-                    ]?.replace('Bearer ', '');
-                    const refreshToken = response.headers[
-                        'refresh-token'
-                    ]?.replace('Bearer ', '');
+                        const refreshTokenStore = getEnvVariableAsNumber(
+                            import.meta.env.VITE_REFRESH_TOKEN_STORE,
+                            'VITE_REFRESH_TOKEN_STORE'
+                        );
 
-                    const accessTokenStore = getEnvVariableAsNumber(
-                        import.meta.env.VITE_ACCESS_TOKEN_STORE,
-                        'VITE_ACCESS_TOKEN_STORE'
-                    );
+                        setCookie(ACCESS_TOKEN, accessToken, accessTokenStore);
+                        setCookie(
+                            REFRESH_TOKENE,
+                            refreshToken,
+                            refreshTokenStore
+                        );
 
-                    const refreshTokenStore = getEnvVariableAsNumber(
-                        import.meta.env.VITE_REFRESH_TOKEN_STORE,
-                        'VITE_REFRESH_TOKEN_STORE'
-                    );
-
-                    setCookie(ACCESS_TOKEN, accessToken, accessTokenStore);
-                    setCookie(REFRESH_TOKENE, refreshToken, refreshTokenStore);
-                    navigate('/');
+                        // 사용자 정보를 저장하고 홈 페이지로 리다이렉트
+                        auth.login(() => {
+                            navigate('/');
+                        });
+                    } else {
+                        throw new Error('로그인 실패');
+                    }
                 } catch (error) {
                     handleApiError(error as AxiosError, setMessage);
                 }

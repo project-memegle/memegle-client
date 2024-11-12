@@ -1,8 +1,8 @@
 import logo from '../../../assets/logo.svg';
-import { useAuth } from 'hooks/useAuth';
 import { addSearchHistory } from 'utils/Storage/localStorage';
 import { useState } from 'react';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
+import { useAuth } from 'components/auth/ProvideAuth';
 
 interface HeaderProps {
     searchTerm: string;
@@ -31,14 +31,12 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
     };
 
     let logInButtonClick = () => {
-        auth.login(() => {
-            console.log('사용자 로그인😎');
-        });
-        // navigate('/login');
+        navigate('/login');
     };
+
     let logOutButtonClick = () => {
         auth.logout(() => {
-            console.log('사용자 로그아웃😒');
+            navigate('/');
         });
     };
 
@@ -56,7 +54,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                     </button>
                 </section>
                 <section className="c-top-bar__user c-top-bar-user">
-                    {auth.user ? (
+                    {auth.isAuthenticated ? (
                         <>
                             <button
                                 className="c-top-bar-user__log button__white-font"
@@ -71,6 +69,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                                 업로드
                             </button>
                             <button
+                                style={{ display: 'none' }}
                                 className="c-top-bar-user__notification"
                                 onClick={() => navigate('/notification')}
                             >
