@@ -24,6 +24,8 @@ const ValidationMessages: ValidationMessagesProps = {
     INVALID_ID_TYPE: '아이디는 영어와 숫자만 허용됩니다.',
     INVALID_NAME_TYPE: '이름은 한글과 영어만 허용됩니다.',
     INVALID_PASSWORD_LENGTH: '비밀번호는 최소 8자 최대 20자 사이어야 합니다.',
+    INVALID_PASSWORD_TYPE:
+        '비밀번호는 영어 소문자, 대문자, 특수문자, 숫자를 포함해야 합니다.',
     PASSWORD_MISMATCH: '비밀번호가 일치하지 않습니다.',
     INVALID_NICKNAME_LENGTH:
         '닉네임은 최소 2자 이상에서 10자 이하이어야 합니다.',
@@ -38,7 +40,7 @@ const ValidationMessages: ValidationMessagesProps = {
 
     // Resource and form errors
     NO_RESOURCE: '리소스를 찾을 수 없습니다.',
-    MISSED_FORM: '필수값을 입력해주세요.',
+    MISSING_FORM: '필수값을 입력해주세요.',
 
     // Server and unknown errors
     SERVER_ERROR: '서버 에러입니다. 고객센터에 문의해주세요.',
@@ -69,6 +71,10 @@ const ValidationMessages: ValidationMessagesProps = {
     // Browser compatibility errors
 
     INVALID_BROWSER: '해당 브라우저에서 지원되지 않습니다',
+
+    //token error
+    INVALID_TOKEN: '토근이 만료되었습니다. 다시 로그인 해주세요',
+    MISSING_TOKEN: '토큰이 필요합니다. 다시 로그인 해주세요',
 };
 
 export default ValidationMessages;

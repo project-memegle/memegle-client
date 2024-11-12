@@ -23,6 +23,16 @@ const validateSignUpPassword = (
         return ValidationMessages.PASSWORD_MISMATCH;
     }
 
+    // 정규식을 사용하여 소문자, 대문자, 숫자, 특수문자 포함 여부 확인
+    const hasLowerCase = /[a-z]/.test(trimmedPassword);
+    const hasUpperCase = /[A-Z]/.test(trimmedPassword);
+    const hasNumber = /\d/.test(trimmedPassword);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(trimmedPassword);
+
+    if (!hasLowerCase || !hasUpperCase || !hasNumber || !hasSpecialChar) {
+        return ValidationMessages.INVALID_PASSWORD_TYPE;
+    }
+
     return '';
 };
 

@@ -15,9 +15,9 @@ describe('api 에러 반환 테스트', () => {
         [40000, ValidationMessages.LOGIN_FAILED],
         [40001, ValidationMessages.INVALID_FORM],
         [40002, ValidationMessages.EXIST_USER],
-        [40003, ValidationMessages.MISSED_FORM],
+        [40003, ValidationMessages.MISSING_FORM],
         [40102, ValidationMessages.INVALID_PASSWORD_LENGTH],
-        [40401, ValidationMessages.MISSED_RESOURCE],
+        [40401, ValidationMessages.MISSING_RESOURCE],
         [50000, ValidationMessages.SERVER_ERROR],
     ])('handles status code %d correctly', (status, expectedMessage) => {
         const error: AxiosError = {

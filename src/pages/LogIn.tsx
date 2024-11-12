@@ -69,11 +69,6 @@ export default function LogIn() {
                             userData
                         );
 
-                    console.log(
-                        'Authorization Header:',
-                        response.headers['authorization']
-                    );
-
                     const accessToken = response.headers[
                         'authorization'
                     ]?.replace('Bearer ', '');
@@ -91,10 +86,9 @@ export default function LogIn() {
                         'VITE_REFRESH_TOKEN_STORE'
                     );
 
-                    console.log(accessTokenStore, refreshTokenStore);
-
                     setCookie(ACCESS_TOKEN, accessToken, accessTokenStore);
                     setCookie(REFRESH_TOKENE, refreshToken, refreshTokenStore);
+                    navigate('/');
                 } catch (error) {
                     handleApiError(error as AxiosError, setMessage);
                 }

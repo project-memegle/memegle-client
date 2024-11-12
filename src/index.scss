@@ -70,8 +70,6 @@ input {
   }
 }
 
-
-
 input,
 button,
 textarea,
@@ -91,6 +89,7 @@ h4,
 h5,
 h6 {
   overflow-wrap: break-word;
+  word-break: keep-all;
 }
 
 ::-webkit-scrollbar-track {

@@ -1,6 +1,9 @@
 import axios, { AxiosHeaders, AxiosRequestConfig, AxiosResponse } from 'axios';
+import ValidationMessages from 'components/Validations/ValidationMessages';
+import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { getAccessToken } from 'utils/Auth/authAuth';
 import { getCookie, setCookie } from 'utils/Storage/cookies';
+import { getEnvVariableAsNumber } from 'utils/Storage/numberUntils';
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 const ACCESS_TOKEN = 'access_token';
@@ -13,70 +16,70 @@ const instance = axios.create({
 });
 
 // 요청 인터셉터 추가
-instance.interceptors.request.use(
-    (config) => {
-        const token = getAccessToken();
+// instance.interceptors.request.use(
+//     (config) => {
+//         const token = getAccessToken();
 
-        if (token) {
-            // 헤더가 정의되어 있지 않으면 빈 객체로 초기화
-            const headers = config.headers
-                ? new AxiosHeaders(config.headers)
-                : new AxiosHeaders();
-            headers.set('Authorization', `Bearer ${token}`);
-            config.headers = headers;
-        }
-        return config; // 수정된 config 반환
-    },
-    (error) => {
-        return Promise.reject(error);
-    }
-);
+//         if (token) {
+//             // 헤더가 정의되어 있지 않으면 빈 객체로 초기화
+//             const headers = config.headers
+//                 ? new AxiosHeaders(config.headers)
+//                 : new AxiosHeaders();
+//             headers.set('Authorization', `Bearer ${token}`);
+//             config.headers = headers;
+//         }
+//         return config; // 수정된 config 반환
+//     },
+//     (error) => {
+//         return Promise.reject(error);
+//     }
+// );
 
 // 새로운 액세스 토큰을 요청하는 함수
-const refreshAccessToken = async (originalRequest: AxiosRequestConfig) => {
-    const refreshToken = getCookie(REFRESH_TOKEN); // 쿠키에서 refresh_token 가져오기
-    const ACCESS_TOKEN_STORE = import.meta.env.ACCESS_TOKEN_STORE;
-    if (!refreshToken) {
-        return Promise.reject(new Error('Refresh token is not available.'));
-    }
+// const refreshAccessToken = async (
+//     originalRequest: AxiosRequestConfig,
+//     navigate: ReturnType<typeof useCustomNavigate>
+// ) => {
+//     const refreshToken = getCookie(REFRESH_TOKEN);
 
-    try {
-        const response = await axios.post(`${baseURL}/refresh`, {
-            token: refreshToken,
-        });
-        const newAccessToken = response.data.access_token;
+//     //리프레시 토큰이 없으면 로그인 페이지로 이동
+//     if (!refreshToken) {
+//         navigate('/login');
+//         return Promise.reject(new Error(ValidationMessages.INVALID_TOKEN));
+//     }
 
-        // 새로운 액세스 토큰을 쿠키에 저장
-        setCookie(ACCESS_TOKEN, newAccessToken, ACCESS_TOKEN_STORE);
+//     try {
+//         // 리프레시 토큰으로 원래 요청을 재전송
+//         originalRequest.headers = {
+//             ...originalRequest.headers,
+//             Authorization: `Bearer ${refreshToken}`,
+//         };
 
-        // 원래 요청에 새로운 액세스 토큰 추가
-        originalRequest.headers = {
-            ...originalRequest.headers,
-            Authorization: `Bearer ${newAccessToken}`,
-        };
-
-        // 원래 요청 재전송
-        return instance(originalRequest);
-    } catch (refreshError) {
-        console.error('Refresh token error:', refreshError);
-        return Promise.reject(refreshError);
-    }
-};
+//         return await instance(originalRequest);
+//     } catch (refreshError) {
+//         console.error('Refresh token error:', refreshError);
+//         navigate('/login');
+//         return Promise.reject(refreshError);
+//     }
+// };
 
 // 응답 인터셉터 추가
-instance.interceptors.response.use(
-    (response) => response, // 성공적인 응답은 그대로 반환
-    async (error) => {
-        const originalRequest = error.config;
+// instance.interceptors.response.use(
+//     (response) => response, // 성공적인 응답은 그대로 반환
+//     async (error) => {
+//         const originalRequest = error.config;
+//         const navigate = useCustomNavigate();
+//         if (error.response && error.response.status === 401) {
+//             try {
+//                 return await refreshAccessToken(originalRequest, navigate);
+//             } catch (refreshError) {
+//                 return Promise.reject(refreshError);
+//             }
+//         }
 
-        if (error.response && error.response.status === 401) {
-            // 401 Unauthorized 에러인 경우 리프레시 토큰 요청
-            return refreshAccessToken(originalRequest);
-        }
-
-        return Promise.reject(error);
-    }
-);
+//         return Promise.reject(error);
+//     }
+// );
 
 // GET 요청 함수
 const get = async <T>(
