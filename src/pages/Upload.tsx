@@ -4,6 +4,7 @@ import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { TagInput } from 'components/UI/Upload/Upload_tag';
 import { CategoryInput } from 'components/UI/Upload/Upload_category';
 import { handleApiError } from 'utils/API/handleApiError';
+import { post } from 'utils/API/fetcher';
 
 export default function Upload() {
     const [file, setFile] = useState<File | undefined>();
@@ -61,7 +62,7 @@ export default function Upload() {
         const formData = new FormData();
         formData.append('userfile', file);
         try {
-            const response = await axios.post(`/images`, formData, {
+            const response = await post(`/images`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

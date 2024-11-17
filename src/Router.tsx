@@ -13,6 +13,10 @@ import Upload from './pages/Upload';
 import Chat from 'pages/Chat';
 import PrivateRoute from 'components/auth/PrivateRoute';
 import Verification from 'pages/Verification';
+import Mypage from 'pages/Mypage/Mypage';
+import ChangeNickname from 'pages/ChangeNickname';
+import ChangePassword from 'pages/ChangePassword';
+import MyImages from 'pages/MyImages/MyImages';
 
 const router = createBrowserRouter([
     {
@@ -68,6 +72,22 @@ const router = createBrowserRouter([
             {
                 path: 'verification',
                 element: <Verification />,
+            },
+            {
+                path: 'mypage',
+                element: <Mypage />,
+            },
+            {
+                path: 'changenickname',
+                element: <ChangeNickname />,
+            },
+            {
+                path: 'changepassword',
+                element: <ChangePassword />,
+            },
+            {
+                path: 'myimages',
+                element: <MyImages />,
             },
         ],
     },

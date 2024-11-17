@@ -1,8 +1,8 @@
 import errorIcon from '@memegle/assets/images/png/img_error.png';
-import useCustomNavigate from 'hooks/useCustomNaviaget';
+import useCustomNavigate from '../hooks/useCustomNaviaget';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { getPreviousUrl } from 'utils/Event/saveUrl';
+import { getPreviousUrl } from '../utils/Event/saveUrl';
 
 interface ErrorPageProps {
     message: string;

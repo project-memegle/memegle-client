@@ -82,11 +82,9 @@ const instance = axios.create({
 // );
 
 // GET 요청 함수
-const get = async <T>(
-    url: string,
-    config?: AxiosRequestConfig
-): Promise<AxiosResponse<T>> => {
-    return instance.get<T>(url, config);
+const get = async <T>(url: string, config?: AxiosRequestConfig): Promise<T> => {
+    const response: AxiosResponse<T> = await instance.get<T>(url, config);
+    return response.data; // 응답 전체를 반환
 };
 
 // POST 요청 함수

@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
-import ValidationMessages from 'components/Validations/ValidationMessages';
-import { handleErrorPage } from 'pages/Error';
+import ValidationMessages from '../../components/Validations/ValidationMessages';
+import { handleErrorPage } from '../../pages/Error';
 
 const errorMessages: Record<number, string> = {
     40000: ValidationMessages.LOGIN_FAILED,

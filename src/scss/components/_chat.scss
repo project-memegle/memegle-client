@@ -11,6 +11,7 @@
     max-width: var(--container__max-width);
     margin: 0 auto;
     position: relative;
+
     label {
       display: none;
     }
@@ -118,7 +119,6 @@
   }
 
   .c-chat__icon-button {
-    display:none;
     position: absolute;
     bottom: 20px;
     right: 20px;

@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import ValidationMessages from '../../components/Validations/ValidationMessages';
-import { handleApiError } from 'utils/API/handleApiError';
+import { handleApiError } from '../../utils/API/handleApiError';
 
 jest.spyOn(axios, 'isAxiosError').mockImplementation(
     (error) => error.isAxiosError === true

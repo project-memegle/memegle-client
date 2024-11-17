@@ -64,12 +64,17 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                             </button>
                             <button
                                 className="c-top-bar-user__log button__white-font"
+                                onClick={() => navigate('/mypage')}
+                            >
+                                마이페이지
+                            </button>
+                            <button
+                                className="c-top-bar-user__log button__white-font"
                                 onClick={() => navigate('/upload')}
                             >
                                 업로드
                             </button>
                             <button
-                                style={{ display: 'none' }}
                                 className="c-top-bar-user__notification"
                                 onClick={() => navigate('/notification')}
                             >

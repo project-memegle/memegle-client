@@ -5,7 +5,7 @@ import {
     SearchResultSectionDTO,
 } from 'services/dto/ResultDto';
 import { handleApiError } from 'utils/API/handleApiError';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 
 interface GetCategoryListParams<T> {
     setLoading: (loading: boolean) => void;
@@ -42,8 +42,7 @@ export async function searchByCategory({
         const url = `/images/category?${queryParams.toString()}`;
         const response = await get<SearchResultSectionDTO>(url);
 
-        console.log('Result:', response.data);
-        setResultData(response.data);
+        setResultData(response);
     } catch (error) {
         console.error('Error fetching categories:', error);
         handleApiError(error as AxiosError, setError);
@@ -62,9 +61,12 @@ export async function getCategorylist({
     try {
         const queryParams = 'POPULARITY';
         const url = `/categories?criteria=${queryParams}`;
+
+        // CategoryResultSectionDTO를 받아옵니다
         const response = await get<CategoryResultSectionDTO>(url);
-        console.log('Result:', response.data);
-        setResultData(response.data);
+        console.log('Category response:', response);
+        // 결과 배열만 추출하여 setResultData로 전달
+        setResultData(response);
     } catch (error) {
         console.error('Error fetching categories:', error);
         handleApiError(error as AxiosError, setError);
