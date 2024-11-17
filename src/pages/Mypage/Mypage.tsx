@@ -22,7 +22,7 @@ export default function Mypage() {
                 <button
                     type="button"
                     onClick={() => {
-                        navigate('/changepassword');
+                        navigate('/password/verification');
                     }}
                 >
                     비밀번호 변경

@@ -18,6 +18,7 @@ import ChangeNickname from 'pages/ChangeNickname';
 import ChangePassword from 'pages/ChangePassword';
 import MyImages from 'pages/MyImages/MyImages';
 import DeleteAccount from 'pages/DeleteAccount/DeleteAccount';
+import EmailVerification from 'pages/EmailVerification';
 
 const router = createBrowserRouter([
     {
@@ -83,7 +84,11 @@ const router = createBrowserRouter([
                 element: <ChangeNickname />,
             },
             {
-                path: 'changepassword',
+                path: 'password/verification',
+                element: <EmailVerification />,
+            },
+            {
+                path: 'password/change',
                 element: <ChangePassword />,
             },
             {
