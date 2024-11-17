@@ -1,4 +1,8 @@
 @use "../settings/colors" as colors;
+@use "../components/tag" as tag;
+@mixin gap-style() {
+  margin-bottom: 1.5em;
+}
 @mixin styles() {
   .c-chat {
     --c-chat__button-size: 25px;
@@ -17,6 +21,16 @@
     }
     .main__container {
       padding-top: calc(var(--primary__font-size) * 3);
+    }
+
+    &__chatbot-category {
+      display: flex;
+      flex-wrap: wrap;
+      button {
+        @include tag.tag-style;
+        color: colors.$white;
+        white-space: nowrap;
+      }
     }
 
     &__input {
@@ -50,8 +64,9 @@
         // border-radius: var(--primary__border-radius);
       }
       &-incoming {
+        @include gap-style;
         text-align: left;
-        float: left;
+        // float: left;
         align-items: flex-end;
         &-content {
           border-radius: 20px 20px 20px 0;
@@ -61,6 +76,7 @@
       }
 
       &-outgoing {
+        @include gap-style;
         flex-direction: row-reverse;
         align-items: flex-end;
 

@@ -1,3 +1,4 @@
+import ChatBot from 'components/UI/Chat/ChatBot';
 import ChatItem from '../components/UI/Chat/ChatItem';
 
 export default function Chat() {
@@ -5,11 +6,12 @@ export default function Chat() {
         <div className="c-chat">
             <div className="main__container">
                 <section className="c-chat__section">
-                    <ChatItem
+                    <ChatBot />
+                    {/* <ChatItem
                         content={'test1'}
                         date={'2 일 전'}
                         chatDirection="incoming"
-                    />
+                    /> */}
                     <ChatItem
                         content={'test2'}
                         date={'2 일 전'}

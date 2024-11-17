@@ -1,4 +1,5 @@
 @use "../settings/colors" as colors;
+
 @mixin tag-style {
   background: colors.$primary;
   border-radius: 100px;
