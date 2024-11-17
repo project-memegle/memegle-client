@@ -21,10 +21,6 @@ export default function LogIn() {
 
     const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
     const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
-
-    const ACCESS_TOKEN = 'access_token';
-    const REFRESH_TOKENE = 'refresh_token';
-
     const [idError, setIdError] = useState(DEFAULT_ID);
     const [passwordError, setPasswordError] = useState(DEFAULT_PASSWORD);
 
