@@ -1,16 +1,28 @@
 @use "../settings/colors" as colors;
 
+@mixin flex-style {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1em;
+}
+
 @mixin styles() {
   .c-mypage {
+    padding-top: 2rem;
+    @include flex-style;
+
     &__info {
       color: colors.$primary;
       font-weight: 500;
+      @include flex-style;
+      p,
+      h2 {
+        margin: 0;
+      }
     }
     &__buttons {
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      gap: 1em;
+      @include flex-style;
 
       button {
         padding: 0;

@@ -85,7 +85,7 @@ export default function ChangePassword() {
                         </div>
                     </section>
                 </div>
-                <button className="button__rounded button__light">
+                <button className="button__rounded button__orange">
                     비밀번호 변경하기
                 </button>
             </form>
