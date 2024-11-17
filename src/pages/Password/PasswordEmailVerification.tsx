@@ -10,7 +10,7 @@ import formatTime from 'utils/Event/formatTIme';
 import handleInputChange from 'utils/Event/handleInputChange';
 import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
 
-export default function ChangePassword() {
+export default function PasswordEmailVerification() {
     const navigate = useCustomNavigate();
 
     const [verification, setVerification] = useState(false);
@@ -107,40 +107,63 @@ export default function ChangePassword() {
     return (
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
-                <div className="c-login__section">
-                    <p>{passwordError ? passwordError : DEFAULT_PASSWORD}</p>
-                    <section className="c-login__section-password">
+                <section className="c-login__section">
+                    <p>{emailError ? emailError : DEFAULT_EMAIL}</p>
+                    <section className="c-login__section-verification">
                         <div>
-                            <label htmlFor="password">비밀번호</label>
+                            <label htmlFor="email">이메일</label>
                             <input
-                                ref={passwordInputRef}
+                                ref={emailInputRef}
                                 className="c-login__input"
-                                name="password"
-                                type="password"
-                                id="password"
-                                placeholder="새로운 비밀번호"
-                                value={password}
-                                onChange={onChangePassword}
+                                name="email"
+                                id="email"
+                                type="text"
+                                placeholder={ValidationMessages.REQUIRED_EMAIL}
+                                value={email}
+                                onChange={onChangeEmail}
+                                onInput={onChangeEmail}
                             />
                         </div>
-                        <div>
-                            <label htmlFor="password-check">
-                                비밀번호 확인
-                            </label>
-                            <input
-                                ref={passwordCheckInputRef}
-                                className="c-login__input"
-                                name="password-check"
-                                type="password"
-                                id="password-check"
-                                placeholder="새로운 비밀번호 확인"
-                                value={passwordCheck}
-                                onChange={onChangePasswordCheck}
-                            />
-                        </div>
+                        <button
+                            type="button"
+                            className="button__rounded button__light"
+                            onClick={onChangeVerification}
+                            disabled={isActive}
+                        >
+                            {hasTimerStarted
+                                ? '인증코드 재전송'
+                                : '인증코드 보내기'}
+                        </button>
                     </section>
-                </div>
-                <button className="button__rounded button__orange">
+                </section>
+                {verification && (
+                    <section className="c-login__section">
+                        <label htmlFor="verification">인증번호</label>
+                        <input
+                            ref={codeInputRef}
+                            className="c-login__input"
+                            name="verification"
+                            id="verification"
+                            type="text"
+                            placeholder={
+                                isActive ? '인증번호 입력' : '시간 초과'
+                            }
+                            disabled={!isActive}
+                            value={code}
+                            onChange={onChangeCode}
+                            onInput={onChangeCode}
+                        />
+                        <p className="c-login__section-timer">
+                            {formatTime(timer)}
+                        </p>
+                    </section>
+                )}
+                <button
+                    className="button__rounded button__orange"
+                    onClick={() => {
+                        navigate('/password/change');
+                    }}
+                >
                     비밀번호 변경하기
                 </button>
             </form>

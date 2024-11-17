@@ -1,0 +1,30 @@
+@use "../settings/colors" as colors;
+
+@mixin styles {
+  .c-findid {
+    h2,
+    p {
+      margin: 0;
+    }
+
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+
+    margin-top: 2rem;
+    &__container {
+      padding: 1.5em;
+      height: var(--c-login-login-height);
+      text-indent: var(--c-login-login-indent);
+      border: 2px solid transparent;
+      border-radius: 8px;
+      outline: none;
+      background-color: #f3f3f4;
+      color: #0d0c22;
+      border: 2px solid #9e9ea7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}

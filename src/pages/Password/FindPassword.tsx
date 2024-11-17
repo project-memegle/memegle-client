@@ -1,7 +1,7 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
 import { AxiosResponse, AxiosError } from 'axios';
-import ValidationMessages from '../components/Validations/ValidationMessages';
-import validateId from '../components/Validations/ValidateId';
+import ValidationMessages from '../../components/Validations/ValidationMessages';
+import validateId from '../../components/Validations/ValidateId';
 import handleInputChange from 'utils/Event/handleInputChange';
 import validateEmail from 'components/Validations/ValidateEmail';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';

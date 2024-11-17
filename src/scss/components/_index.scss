@@ -19,6 +19,7 @@
 @use "../pages/favorite.scss";
 @use "../pages/mypage.scss";
 @use "../pages/deleteAccount.scss";
+@use "../pages/findid.scss";
 
 @mixin styles() {
   @include button.styles;
@@ -41,4 +42,5 @@
   @include dropdown.styles;
   @include mypage.styles;
   @include deleteAccount.styles;
+  @include findid.styles;
 }

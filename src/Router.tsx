@@ -7,18 +7,19 @@ import SignUp from './pages/SignUp';
 import NotFoundPage from './pages/NotFound';
 import Notification from './components/UI/Notification/Notification';
 import Favorite from './pages/Favorite/Favorite';
-import FindId from './pages/FindId';
-import FindPassword from './pages/FindPassword';
+import FindPassword from './pages/Password/FindPassword';
 import Upload from './pages/Upload';
 import Chat from 'pages/Chat';
 import PrivateRoute from 'components/auth/PrivateRoute';
 import Verification from 'pages/Verification';
 import Mypage from 'pages/Mypage/Mypage';
 import ChangeNickname from 'pages/ChangeNickname';
-import ChangePassword from 'pages/ChangePassword';
+import ChangePassword from 'pages/Password/ChangePassword';
 import MyImages from 'pages/MyImages/MyImages';
 import DeleteAccount from 'pages/DeleteAccount/DeleteAccount';
-import EmailVerification from 'pages/EmailVerification';
+import FindId from 'pages/Id/FindId';
+import IdEmailVerification from 'pages/Id/IdEmailVerification';
+import PasswordEmailVerification from 'pages/Password/PasswordEmailVerification';
 
 const router = createBrowserRouter([
     {
@@ -84,8 +85,12 @@ const router = createBrowserRouter([
                 element: <ChangeNickname />,
             },
             {
+                path: 'id/verification',
+                element: <IdEmailVerification />,
+            },
+            {
                 path: 'password/verification',
-                element: <EmailVerification />,
+                element: <PasswordEmailVerification />,
             },
             {
                 path: 'password/change',

@@ -122,7 +122,7 @@ export default function LogIn() {
                     <section className="c-login__button-section-bottom">
                         <button
                             className="button__light-font"
-                            onClick={() => navigate('/findid')}
+                            onClick={() => navigate('/id/verification')}
                         >
                             아이디 찾기
                         </button>
