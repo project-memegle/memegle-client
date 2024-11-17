@@ -1,0 +1,32 @@
+@use "../settings/colors" as colors;
+
+@mixin styles() {
+  .c-mypage {
+    &__info {
+      color: colors.$primary;
+      font-weight: 500;
+    }
+    &__buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1em;
+
+      button {
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+
+        &:last-child {
+          text-decoration: underline;
+          text-underline-offset: 0.3em;
+          opacity: 0.6;
+        }
+      }
+
+      i {
+        font-size: 20px;
+      }
+    }
+  }
+}

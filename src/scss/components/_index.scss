@@ -16,6 +16,7 @@
 @use "favorite.scss";
 @use "toast.scss";
 @use "dropdown.scss";
+@use "mypage.scss";
 
 @mixin styles() {
   @include button.styles;
@@ -36,4 +37,5 @@
   @include favorite.styles;
   @include toast.styles;
   @include dropdown.styles;
+  @include mypage.styles;
 }
