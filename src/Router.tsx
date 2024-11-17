@@ -17,6 +17,7 @@ import Mypage from 'pages/Mypage/Mypage';
 import ChangeNickname from 'pages/ChangeNickname';
 import ChangePassword from 'pages/ChangePassword';
 import MyImages from 'pages/MyImages/MyImages';
+import DeleteAccount from 'pages/DeleteAccount/DeleteAccount';
 
 const router = createBrowserRouter([
     {
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
             {
                 path: 'myimages',
                 element: <MyImages />,
+            },
+            {
+                path: 'goodbye',
+                element: <DeleteAccount />,
             },
         ],
     },

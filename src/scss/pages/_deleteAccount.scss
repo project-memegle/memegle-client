@@ -1,0 +1,40 @@
+@use "../settings/colors" as colors;
+
+@mixin styles {
+  .c-deleteAccount {
+    h2 {
+      margin: 0;
+      padding-top: 2rem;
+    }
+
+    textarea {
+      border: 2px solid transparent;
+      border-radius: 8px;
+      outline: none;
+      background-color: colors.$white;
+      resize: none;
+      padding: 0.5em;
+    }
+
+    button {
+      margin-top: 2rem;
+      width: 100%;
+    }
+
+    &__checkbox {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+
+      label {
+        margin-left: 0.5em;
+      }
+
+      &-textarea {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+      }
+    }
+  }
+}

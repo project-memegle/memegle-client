@@ -1,22 +1,24 @@
 @use "button.scss";
-@use "category.scss";
+@use "toast.scss";
+@use "tag.scss";
+@use "dropdown.scss";
 @use "header.scss";
-@use "home.scss";
 @use "icon.scss";
 @use "loadingSpinner.scss";
-@use "modal.scss";
-@use "result.scss";
-@use "searchInput.scss";
-@use "chat.scss";
 @use "layout.scss";
-@use "login.scss";
-@use "notification.scss";
-@use "upload.scss";
-@use "tag.scss";
-@use "favorite.scss";
-@use "toast.scss";
-@use "dropdown.scss";
-@use "mypage.scss";
+@use "searchInput.scss";
+@use "modal.scss";
+
+@use "../pages/result.scss";
+@use "../pages/chat.scss";
+@use "../pages/category.scss";
+@use "../pages/home.scss";
+@use "../pages/login.scss";
+@use "../pages/notification.scss";
+@use "../pages/upload.scss";
+@use "../pages/favorite.scss";
+@use "../pages/mypage.scss";
+@use "../pages/deleteAccount.scss";
 
 @mixin styles() {
   @include button.styles;
@@ -38,4 +40,5 @@
   @include toast.styles;
   @include dropdown.styles;
   @include mypage.styles;
+  @include deleteAccount.styles;
 }
