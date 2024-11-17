@@ -3,11 +3,12 @@ import validateEmail from '../../components/Validations/ValidateEmail';
 import ValidationMessages from '../../components/Validations/ValidationMessages';
 import useCustomNavigate from '../../hooks/useCustomNaviaget';
 import useTimer from '../../hooks/useTimer';
-import { FormEvent, useCallback, useRef, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { handleApiError } from '../../utils/API/handleApiError';
 import { errorInputCheck } from '../../utils/Event/errorInputCheck';
 import handleInputChange from '../../utils/Event/handleInputChange';
 import passwordCheckHandler from '../../utils/SignUp/passwordCheckHandler';
+import { getPreviousUrl } from 'utils/Event/saveUrl';
 
 export default function ChangePassword() {
     const navigate = useCustomNavigate();
@@ -82,6 +83,17 @@ export default function ChangePassword() {
         },
         []
     );
+    const pastUrl = getPreviousUrl();
+
+    function nextPage() {
+        if (pastUrl?.includes('login')) {
+            navigate('/login');
+        } else if (pastUrl?.includes('mypage')) {
+            navigate('/mypage');
+        } else {
+            navigate(pastUrl || '/');
+        }
+    }
 
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
@@ -139,7 +151,10 @@ export default function ChangePassword() {
                         </div>
                     </section>
                 </div>
-                <button className="button__rounded button__orange">
+                <button
+                    className="button__rounded button__orange"
+                    onClick={nextPage}
+                >
                     비밀번호 변경하기
                 </button>
             </form>

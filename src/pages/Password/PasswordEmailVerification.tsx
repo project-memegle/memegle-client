@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 import validateEmail from 'components/Validations/ValidateEmail';
+import validateId from 'components/Validations/ValidateId';
 import ValidationMessages from 'components/Validations/ValidationMessages';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import useTimer from 'hooks/useTimer';
@@ -22,45 +23,46 @@ export default function PasswordEmailVerification() {
     const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
 
-    const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
     const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
 
     const [emailError, setEmailError] = useState(DEFAULT_EMAIL);
 
-    const [passwordCheck, setPasswordCheck] = useState('');
-    const [passwordError, setPasswordError] = useState(DEFAULT_PASSWORD);
-
-    const passwordInputRef = useRef<HTMLInputElement>(null);
-    const passwordCheckInputRef = useRef<HTMLInputElement>(null);
-
+    const idInputRef = useRef<HTMLInputElement>(null);
     const emailInputRef = useRef<HTMLInputElement>(null);
     const codeInputRef = useRef<HTMLInputElement>(null);
     const [hasTimerStarted, setHasTimerStarted] = useState(false);
 
     const { timer, startTimer, resetTimer, isActive } = useTimer(300);
 
+    const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
+
+    const [idError, setIdError] = useState(DEFAULT_ID);
+    const [id, setId] = useState('');
+
+    const onChangeId = useCallback(
+        handleInputChange(setId, setIdError, validateId),
+        []
+    );
+
     const onChangeEmail = useCallback(
         handleInputChange(setEmail, setEmailError, validateEmail),
         []
     );
 
-    const onChangePassword = useCallback(
-        passwordCheckHandler(setPassword, passwordCheck, setPasswordError, () =>
-            setMessage('')
-        ),
-        [passwordCheck]
+    const onSubmit = useCallback(
+        (e: FormEvent<HTMLFormElement>): void => {
+            e.preventDefault();
+            if (idError || emailError) {
+                if (idError) errorInputCheck(idInputRef.current);
+                else if (emailError) errorInputCheck(emailInputRef.current);
+                return;
+            }
+            if (id && email) {
+                setMessage('');
+            }
+        },
+        [id, email]
     );
-
-    const onChangePasswordCheck = useCallback(
-        passwordCheckHandler(setPasswordCheck, password, setPasswordError, () =>
-            setMessage('')
-        ),
-        [password]
-    );
-
-    const onChangeCode = useCallback((e: FormEvent<HTMLInputElement>) => {
-        setCode(e.currentTarget.value);
-    }, []);
 
     const onChangeVerification = useCallback(() => {
         if (emailError) {
@@ -84,29 +86,27 @@ export default function PasswordEmailVerification() {
         []
     );
 
-    const onSubmit = useCallback(
-        async (e: FormEvent<HTMLFormElement>) => {
-            e.preventDefault();
-            if (passwordError) {
-                errorInputCheck(passwordInputRef.current);
-                return;
-            }
-
-            if (password && passwordCheck) {
-                setMessage('');
-                try {
-                    // await signUp(userData);
-                } catch (error) {
-                    handleApiError(error as AxiosError, setMessage);
-                }
-            }
-        },
-        [password, passwordCheck, passwordError]
-    );
+    const onChangeCode = useCallback((e: FormEvent<HTMLInputElement>) => {
+        setCode(e.currentTarget.value);
+    }, []);
 
     return (
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
+                <div className="c-login__section">
+                    <p>{idError ? idError : DEFAULT_ID}</p>
+                    <label htmlFor="id">아이디</label>
+                    <input
+                        ref={idInputRef}
+                        className="c-login__input"
+                        name="id"
+                        id="id"
+                        type="text"
+                        placeholder={ValidationMessages.REQUIRED_ID}
+                        value={id}
+                        onChange={onChangeId}
+                    />
+                </div>
                 <section className="c-login__section">
                     <p>{emailError ? emailError : DEFAULT_EMAIL}</p>
                     <section className="c-login__section-verification">
