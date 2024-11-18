@@ -22,7 +22,7 @@ function App() {
     return (
         <div className="body__container">
             <Header searchTerm={searchTerm} onSearch={handleSearch} />
-            <Outlet context={{ searchTerm, searchHistory }} />
+            <Outlet context={{ searchTerm, searchHistory, setSearchTerm }} />
             <ChatIcon />
         </div>
     );

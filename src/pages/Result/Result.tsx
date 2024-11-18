@@ -1,4 +1,4 @@
-import { useOutletContext} from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import { ReactNode, useEffect, useState } from 'react';
 import ResultSection from './ResultSection';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
@@ -13,21 +13,24 @@ import {
     getSearchHistory,
 } from 'utils/Storage/localStorage';
 
-import {
-    SearchResultSectionDTO,
-} from 'services/dto/ResultDto';
+import { SearchResultSectionDTO } from 'services/dto/ResultDto';
 
 import { searchByCategory } from 'services/CategoryService';
 import { searchById } from 'services/IdService';
+import { searchByTag } from 'services/TagService';
 
 type OutletContextType = {
     searchTerm: string;
     searchHistory: string[];
+    setSearchTerm: (term: string) => void;
 };
 
 export default function Result() {
-    const { searchTerm, searchHistory: initialSearchHistory } =
-        useOutletContext<OutletContextType>();
+    const {
+        searchTerm,
+        searchHistory: initialSearchHistory,
+        setSearchTerm,
+    } = useOutletContext<OutletContextType>();
 
     const [searchHistory, setSearchHistory] =
         useState<string[]>(initialSearchHistory);
@@ -86,16 +89,27 @@ export default function Result() {
         }
     }, [loading, error, resultData]);
 
+    function searchWithHistory(searchText: string) {
+        setSearchTerm(searchText);
+        searchByTag(searchText, setLoading, setResultData, setError);
+    }
     return (
         <main className="home__main c-result">
             <section className="c-result__searchHistory">
                 <ul className="tag-list">
                     {searchHistory.map((tag, index) => (
-                        <li className="tag-list__item" key={index}>
+                        <li
+                            className="tag-list__item"
+                            key={index}
+                            onClick={() => searchWithHistory(tag)}
+                        >
                             {tag}
                             <span
                                 className="cross"
-                                onClick={() => handleTagRemove(index)}
+                                onClick={(e) => {
+                                    e.stopPropagation(); // Prevent triggering searchWithHistory
+                                    handleTagRemove(index);
+                                }}
                             ></span>
                         </li>
                     ))}

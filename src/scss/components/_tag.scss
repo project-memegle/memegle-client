@@ -34,6 +34,9 @@
       padding-left: 0.8rem;
       @include tag-style;
       color: colors.$white;
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     .cross {

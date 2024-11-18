@@ -1,6 +1,6 @@
 import logo from '../../../assets/logo.svg';
 import { addSearchHistory } from 'utils/Storage/localStorage';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { useAuth } from 'components/auth/ProvideAuth';
 
@@ -14,6 +14,10 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
     const auth = useAuth();
 
     const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
+
+    useEffect(() => {
+        setLocalSearchTerm(searchTerm);
+    }, [searchTerm]);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLocalSearchTerm(event.target.value);

@@ -15,7 +15,7 @@ export async function searchByTag<T extends string | number>(
 
     try {
         const response = await get<SearchResultSectionDTO>(url);
-        setResultData(response.data);
+        setResultData(response);
     } catch (error) {
         handleApiError(error as AxiosError, setError);
     } finally {
