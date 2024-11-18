@@ -1,9 +1,7 @@
 import { CategoryResultSectionDTO } from 'services/dto/ResultDto';
+import resolveImagePath from 'utils/Event/resolveImagePath';
 
 const DATE = new Date().toISOString();
-
-const resolveImagePath = (path: string) =>
-    new URL(path, import.meta.url).pathname;
 
 export const MOCK_CATEGORY_LIST: CategoryResultSectionDTO = {
     success: true,
@@ -16,7 +14,7 @@ export const MOCK_CATEGORY_LIST: CategoryResultSectionDTO = {
             categoryName: '생일',
             imageCategory: 'birhtday',
             titleImageUrl: resolveImagePath(
-                '/src/assets/images/temp/birthday/birthday-01.png'
+                '/src/assets/images/temp/birthday/birthday-02.png'
             ),
             lastMemeImageRegistTime: DATE,
         },
@@ -49,7 +47,7 @@ export const MOCK_CATEGORY_LIST: CategoryResultSectionDTO = {
         },
         {
             id: 5,
-            categoryName: '소비',
+            categoryName: '과소비',
             imageCategory: 'flex',
             titleImageUrl: resolveImagePath(
                 '/src/assets/images/temp/flex/flex-01.jpeg'

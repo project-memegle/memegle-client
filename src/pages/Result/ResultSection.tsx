@@ -1,7 +1,14 @@
-import { SearchResultSectionDTO } from 'services/dto/ResultDto';
+import {
+    SearchResultItemDTO,
+    SearchResultSectionDTO,
+} from 'services/dto/ResultDto';
 import ResultItem from './ResultItem';
 
-export default function ResultSection({ results }: SearchResultSectionDTO) {
+interface ResultSectionProps {
+    results: SearchResultItemDTO[];
+}
+
+export default function ResultSection({ results }: ResultSectionProps) {
     return (
         <section className="result__section">
             {results.map((result) => (

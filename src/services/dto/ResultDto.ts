@@ -14,6 +14,10 @@ export interface CategoryResultItemDTO {
 }
 
 export interface SearchResultSectionDTO {
+    success: boolean;
+    status: string;
+    code: number;
+    message: string;
     results: SearchResultItemDTO[];
 }
 

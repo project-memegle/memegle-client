@@ -19,6 +19,16 @@ import { searchByCategory } from 'services/CategoryService';
 import { searchById } from 'services/IdService';
 import { searchByTag } from 'services/TagService';
 
+import MOCK_CATEGORY_RESULT_MUDO from 'mockData/__CategorySearchMudo';
+import MOCK_CATEGORY_RESULT_BIRTHDAY from 'mockData/__CategorySearchBrithday';
+import MOCK_CATEGORY_RESULT_TIREDNESS from 'mockData/__CategorySearchTired';
+import MOCK_CATEGORY_RESULT_WHAT from 'mockData/__CategorySearchWhat';
+import MOCK_CATEGORY_RESULT_FLEX from 'mockData/__CategorySearchflex';
+import MOCK_CATEGORY_RESULT_DIGIMON from 'mockData/__CategorySearchDigimon';
+import MOCK_CATEGORY_RESULT_ANGER from 'mockData/__CategorySearchAnger';
+import MOCK_CATEGORY_RESULT_HUNGRY from 'mockData/__CategorySearchHungry';
+import MOCK_CATEGORY_RESULT_HAPINESS from 'mockData/__CategorySearchHappiness';
+
 type OutletContextType = {
     searchTerm: string;
     searchHistory: string[];
@@ -57,17 +67,74 @@ export default function Result() {
         setSearchHistory([]);
     }
 
+    //todo 서버에서 카테고리 검색 결과 가져오기
+    // useEffect(() => {
+    //     const lastKeyword = getLastKeywordFromUrl<number | string>();
+    //     if (typeof lastKeyword === 'string') {
+    //         // searchByCategory({
+    //         //     keyword: lastKeyword,
+    //         //     setLoading,
+    //         //     setResultData,
+    //         //     setError,
+    //         // });
+    //     } else if (typeof lastKeyword === 'number') {
+    //         searchById(lastKeyword, setLoading, setResultData, setError);
+    //     }
+    // }, []);
+
     useEffect(() => {
         const lastKeyword = getLastKeywordFromUrl<number | string>();
-        if (typeof lastKeyword === 'string') {
-            searchByCategory({
-                keyword: lastKeyword,
-                setLoading,
-                setResultData,
-                setError,
-            });
-        } else if (typeof lastKeyword === 'number') {
-            searchById(lastKeyword, setLoading, setResultData, setError);
+        setLoading(false);
+        if (typeof lastKeyword === 'string' && lastKeyword.includes('mudo')) {
+            setResultData(MOCK_CATEGORY_RESULT_MUDO);
+        }
+
+        if (
+            typeof lastKeyword === 'string' &&
+            lastKeyword.includes('birhtday')
+        ) {
+            setResultData(MOCK_CATEGORY_RESULT_BIRTHDAY);
+        }
+
+        if (
+            typeof lastKeyword === 'string' &&
+            lastKeyword.includes('tiredness')
+        ) {
+            setResultData(MOCK_CATEGORY_RESULT_TIREDNESS);
+        }
+
+        if (typeof lastKeyword === 'string' && lastKeyword.includes('what')) {
+            setResultData(MOCK_CATEGORY_RESULT_WHAT);
+        }
+
+        if (typeof lastKeyword === 'string' && lastKeyword.includes('flex')) {
+            setResultData(MOCK_CATEGORY_RESULT_FLEX);
+        }
+
+        if (typeof lastKeyword === 'string' && lastKeyword.includes('mudo')) {
+            setResultData(MOCK_CATEGORY_RESULT_MUDO);
+        }
+
+        if (
+            typeof lastKeyword === 'string' &&
+            lastKeyword.includes('digimon')
+        ) {
+            setResultData(MOCK_CATEGORY_RESULT_DIGIMON);
+        }
+
+        if (typeof lastKeyword === 'string' && lastKeyword.includes('anger')) {
+            setResultData(MOCK_CATEGORY_RESULT_ANGER);
+        }
+
+        if (typeof lastKeyword === 'string' && lastKeyword.includes('hunger')) {
+            setResultData(MOCK_CATEGORY_RESULT_HUNGRY);
+        }
+
+        if (
+            typeof lastKeyword === 'string' &&
+            lastKeyword.includes('happiness')
+        ) {
+            setResultData(MOCK_CATEGORY_RESULT_HAPINESS);
         }
     }, []);
 
