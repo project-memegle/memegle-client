@@ -2,6 +2,7 @@ import { CSSProperties, forwardRef, HTMLAttributes, useState } from 'react';
 import ValidationMessages from 'components/Validations/ValidationMessages';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 import { SearchResultItemDTO } from 'services/dto/ResultDto';
+import handleCopyImage from 'utils/Event/handleCopyImage';
 
 type FavoriteItemProps = {
     item: SearchResultItemDTO;
@@ -39,13 +40,21 @@ const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
             onSave();
         };
 
+        async function handleCopy() {
+            await handleCopyImage(item.imageUrl, setToastMessage, setToast);
+        }
+
         return (
             <article
                 className="c-favorite__item"
+                onClick={handleCopy}
                 ref={ref}
                 style={styles}
                 {...props}
             >
+                <div className="result__item-copy">
+                    <i className="c-icon">file_copy</i>
+                </div>
                 <div
                     className="c-favorite__item-delete"
                     onClick={handleDeleteClick}

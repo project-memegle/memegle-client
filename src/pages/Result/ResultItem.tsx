@@ -3,25 +3,18 @@ import { copyImgToClipboard } from 'utils/Event/copyImageToClipboard';
 import ToastMessage from '../../components/UI/ToastMessage/ToastMessage';
 import ValidationMessages from 'components/Validations/ValidationMessages';
 import { SearchResultItemDTO } from 'services/dto/ResultDto';
+import handleCopyImage from 'utils/Event/handleCopyImage';
 
 export default function ResultItem(result: SearchResultItemDTO) {
     const [toast, setToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
 
-    async function copyImage() {
-        try {
-            await copyImgToClipboard(result.imageUrl);
-
-            setToastMessage(ValidationMessages.SUCCESS_COPY_IMG);
-            setToast(true);
-        } catch (error) {
-            setToastMessage(ValidationMessages.FAILED_EVENT);
-            setToast(true);
-        }
+    async function handleCopy() {
+        await handleCopyImage(result.imageUrl, setToastMessage, setToast);
     }
-
+    
     return (
-        <article className="result__item" onClick={copyImage}>
+        <article className="result__item" onClick={handleCopy}>
             <div className="result__item-copy">
                 <i className="c-icon">file_copy</i>
             </div>{' '}

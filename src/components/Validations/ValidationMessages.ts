@@ -67,6 +67,7 @@ const ValidationMessages: ValidationMessagesProps = {
     // success delete image
     SUCCESS_DELETE_IMG: '해당 이미지를 삭제했습니다',
     FAILED_EVENT: '잠시후 다시 시도해주세요',
+    SUCCESS_SAVE: '변경사항이 저장되었습니다',
 
     // Browser compatibility errors
 
