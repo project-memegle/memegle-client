@@ -6,7 +6,7 @@ import useCustomNavigate from 'hooks/useCustomNaviaget';
 import useTimer from '../../hooks/useTimer';
 import { handleApiError } from '../../utils/API/handleApiError';
 import { errorInputCheck } from '../../utils/Event/errorInputCheck';
-import formatTime from '../../utils/Event/formatTIme';
+import formatTime from '../../utils/Event/formatTime';
 import handleInputChange from '../../utils/Event/handleInputChange';
 import passwordCheckHandler from '../../utils/SignUp/passwordCheckHandler';
 

@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Header from './components/UI/Header/Header';
 import ChatIcon from 'components/UI/Chat/ChatIcon';
 import { useEffect, useState } from 'react';
@@ -9,6 +9,7 @@ function App() {
     const [searchHistory, setSearchHistory] = useState<string[]>(
         getSearchHistory()
     );
+    const location = useLocation();
 
     useEffect(() => {
         setSearchHistory(getSearchHistory());
@@ -19,11 +20,12 @@ function App() {
         addSearchHistory(term);
         setSearchHistory([term, ...getSearchHistory()]);
     };
+
     return (
         <div className="body__container">
             <Header searchTerm={searchTerm} onSearch={handleSearch} />
             <Outlet context={{ searchTerm, searchHistory, setSearchTerm }} />
-            <ChatIcon />
+            {location.pathname !== '/chat' && <ChatIcon />}
         </div>
     );
 }

@@ -12,7 +12,7 @@ import {
     VerificationCodeDTO,
 } from 'services/dto/VerificationDto';
 import useTimer from 'hooks/useTimer';
-import formatTime from 'utils/Event/formatTIme';
+import formatTime from 'utils/Event/formatTime';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import {
     deleteSessionStorage,
