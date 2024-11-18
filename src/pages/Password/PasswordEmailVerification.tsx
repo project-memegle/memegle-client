@@ -9,6 +9,7 @@ import { handleApiError } from 'utils/API/handleApiError';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import formatTime from 'utils/Event/formatTime';
 import handleInputChange from 'utils/Event/handleInputChange';
+import { getPreviousUrl } from 'utils/Event/saveUrl';
 import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
 
 export default function PasswordEmailVerification() {
@@ -164,7 +165,7 @@ export default function PasswordEmailVerification() {
                         navigate('/password/change');
                     }}
                 >
-                    비밀번호 변경하기
+                    비밀번호 재설정
                 </button>
             </form>
         </div>

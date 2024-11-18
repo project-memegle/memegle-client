@@ -37,7 +37,7 @@ export default function Mypage() {
                     내가 업로드한 이미지 목록 보기
                     <i className="c-icon">chevron_right</i>
                 </button> */}
-                <button type="button" onClick={() => navigate('/goodbye')}>
+                <button type="button" onClick={() => navigate('/delete')}>
                     계정 삭제
                 </button>
             </section>

@@ -155,7 +155,7 @@ export default function ChangePassword() {
                     className="button__rounded button__orange"
                     onClick={nextPage}
                 >
-                    비밀번호 변경하기
+                    비밀번호 재설정
                 </button>
             </form>
         </div>

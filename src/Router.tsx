@@ -101,7 +101,7 @@ const router = createBrowserRouter([
                 element: <MyImages />,
             },
             {
-                path: 'goodbye',
+                path: 'delete',
                 element: <DeleteAccount />,
             },
         ],

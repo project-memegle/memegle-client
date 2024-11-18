@@ -128,7 +128,7 @@ export default function LogIn() {
                         </button>
                         <button
                             className="button__light-font"
-                            onClick={() => navigate('/password/verification')}
+                            onClick={() => navigate('/findpassword')}
                         >
                             비밀번호 찾기
                         </button>
