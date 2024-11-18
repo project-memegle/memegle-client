@@ -6,7 +6,15 @@ import {
     setSessionStorages,
 } from 'utils/Storage/sessionStorage';
 
-export default function ChatBot() {
+interface ChatBotProps {
+    onCategorySelect: () => void;
+    onCategoryReset: () => void;
+}
+
+export default function ChatBot({
+    onCategorySelect,
+    onCategoryReset,
+}: ChatBotProps) {
     const date = new Date().toLocaleString();
     const initialMessages: ChatItemProps[] = [
         {
@@ -57,12 +65,14 @@ export default function ChatBot() {
                 chatDirection: 'incoming',
             },
         ]);
+        onCategorySelect();
     }
 
     function showCategoryListAgain() {
         setShowCategories(true);
         setMessages(initialMessages);
         deleteSessionStorage('chatbotCategory');
+        onCategoryReset();
     }
 
     return (
