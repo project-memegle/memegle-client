@@ -58,7 +58,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'favorite',
-                element: <Favorite />,
+                element: <PrivateRoute element={<Favorite />} />,
             },
             {
                 path: 'upload',
@@ -78,11 +78,11 @@ const router = createBrowserRouter([
             },
             {
                 path: 'mypage',
-                element: <Mypage />,
+                element: <PrivateRoute element={<Mypage />} />,
             },
             {
                 path: 'changenickname',
-                element: <ChangeNickname />,
+                element: <PrivateRoute element={<ChangeNickname />} />,
             },
             {
                 path: 'id/verification',
@@ -94,15 +94,15 @@ const router = createBrowserRouter([
             },
             {
                 path: 'password/change',
-                element: <ChangePassword />,
+                element: <PrivateRoute element={<ChangePassword />} />,
             },
             {
                 path: 'myimages',
-                element: <MyImages />,
+                element: <PrivateRoute element={<MyImages />} />,
             },
             {
                 path: 'delete',
-                element: <DeleteAccount />,
+                element: <PrivateRoute element={<DeleteAccount />} />,
             },
         ],
     },
