@@ -10,7 +10,7 @@ const MOCK_CATEGORY_RESULT_WHAT: SearchResultSectionDTO = {
     message: 'Mock data fetched successfully',
     results: [
         {
-            id: 1,
+            id: 11,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/what/what-01.jpeg'
             ),
@@ -19,7 +19,7 @@ const MOCK_CATEGORY_RESULT_WHAT: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 2,
+            id: 12,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/what/what-02.jpg'
             ),
@@ -28,7 +28,7 @@ const MOCK_CATEGORY_RESULT_WHAT: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 3,
+            id: 13,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/what/what-03.png'
             ),
@@ -37,7 +37,7 @@ const MOCK_CATEGORY_RESULT_WHAT: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 4,
+            id: 14,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/what/what-04.jpg'
             ),

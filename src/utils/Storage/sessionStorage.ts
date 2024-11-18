@@ -4,7 +4,7 @@ type sessionStorageType = {
 };
 type sessionStorageArrayType = {
     key: string;
-    value: (string | number)[];
+    value: { id: number; imageUrl: string }[];
 };
 
 export function setSessionStorages({ key, value }: sessionStorageType): void {
@@ -14,17 +14,17 @@ export function setArraySessionStorages({
     key,
     value,
 }: sessionStorageArrayType): void {
-    const uniqueValue = [...new Set(value)]; // Remove duplicates
-    const jsonValue = JSON.stringify(uniqueValue); // Convert array to JSON string
+    const jsonValue = JSON.stringify(value); // Convert array to JSON string
     sessionStorage.setItem(key, jsonValue);
 }
+
 export function getSessionStorages(key: string): string | null {
     return sessionStorage.getItem(key);
 }
 
 export function getArraySessionStorages(
     key: string
-): (string | number)[] | null {
+): { id: number; imageUrl: string }[] | null {
     const jsonValue = sessionStorage.getItem(key);
     return jsonValue ? JSON.parse(jsonValue) : null;
 }

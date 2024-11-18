@@ -10,7 +10,7 @@ const MOCK_CATEGORY_RESULT_BIRTHDAY: SearchResultSectionDTO = {
     message: 'Mock data fetched successfully',
     results: [
         {
-            id: 1,
+            id: 81,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/birthday/birthday-01.png'
             ),
@@ -19,7 +19,7 @@ const MOCK_CATEGORY_RESULT_BIRTHDAY: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 2,
+            id: 82,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/birthday/birthday-02.png'
             ),
@@ -28,7 +28,7 @@ const MOCK_CATEGORY_RESULT_BIRTHDAY: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 3,
+            id: 83,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/birthday/birthday-03.png'
             ),

@@ -23,10 +23,7 @@ import {
     SearchResultItemDTO,
     SearchResultSectionDTO,
 } from 'services/dto/ResultDto';
-import {
-    getArraySessionStorages,
-    setArraySessionStorages,
-} from 'utils/Storage/sessionStorage';
+import { setArraySessionStorages } from 'utils/Storage/sessionStorage';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 import ValidationMessages from 'components/Validations/ValidationMessages';
 
@@ -91,8 +88,14 @@ export default function Favorite() {
     };
 
     const handleButtonClick = () => {
-        const itemIds = items.results.map((item) => item.id);
-        setArraySessionStorages({ key: SESSION_STORAGE_KEY, value: itemIds });
+        const itemIds = items.results.map((item) => ({
+            id: item.id,
+            imageUrl: item.imageUrl,
+        }));
+        setArraySessionStorages({
+            key: SESSION_STORAGE_KEY,
+            value: itemIds,
+        });
         try {
             setToastMessage('변경사항을 저장했습니다');
             setToast(true);
@@ -109,7 +112,10 @@ export default function Favorite() {
             );
             setArraySessionStorages({
                 key: SESSION_STORAGE_KEY,
-                value: updatedItems.map((item) => item.id),
+                value: updatedItems.map((item) => ({
+                    id: item.id,
+                    imageUrl: item.imageUrl,
+                })),
             });
             return { ...prev, results: updatedItems };
         });
@@ -124,6 +130,17 @@ export default function Favorite() {
             setToast(true);
         }
     }
+
+    useEffect(() => {
+        const favoriteList = items.results;
+        setArraySessionStorages({
+            key: SESSION_STORAGE_KEY,
+            value: favoriteList.map((item) => ({
+                id: item.id,
+                imageUrl: item.imageUrl,
+            })),
+        });
+    }, []);
 
     return (
         <main className="home__main c-favorite">

@@ -10,7 +10,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
     message: 'Mock data fetched successfully',
     results: [
         {
-            id: 1,
+            id: 81,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/birthday/birthday-02.png'
             ),
@@ -19,7 +19,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 2,
+            id: 52,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Happiness/happiness-01.jpg'
             ),
@@ -28,7 +28,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 3,
+            id: 23,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Tired/tired-01.jpeg'
             ),
@@ -37,7 +37,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 4,
+            id: 14,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/what/what-01.jpeg'
             ),
@@ -46,7 +46,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 5,
+            id: 65,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/flex/flex-01.jpeg'
             ),
@@ -55,7 +55,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 6,
+            id: 76,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Digimon/digimon-01.jpeg'
             ),
@@ -64,7 +64,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 7,
+            id: 37,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Mudo/mudo-01.webp'
             ),
@@ -73,7 +73,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 8,
+            id: 98,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Anger/anger-01.jpeg'
             ),
@@ -82,7 +82,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 9,
+            id: 49,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/hungry/hungry-02.png'
             ),

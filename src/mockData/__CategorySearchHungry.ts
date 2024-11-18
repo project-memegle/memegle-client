@@ -10,7 +10,7 @@ const MOCK_CATEGORY_RESULT_HUNGRY: SearchResultSectionDTO = {
     message: 'Mock data fetched successfully',
     results: [
         {
-            id: 1,
+            id: 41,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/hungry/hungry-01.png'
             ),
@@ -19,7 +19,7 @@ const MOCK_CATEGORY_RESULT_HUNGRY: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 2,
+            id: 42,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/hungry/hungry-02.png'
             ),
@@ -28,7 +28,7 @@ const MOCK_CATEGORY_RESULT_HUNGRY: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 3,
+            id: 43,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/hungry/hungry-03.png'
             ),

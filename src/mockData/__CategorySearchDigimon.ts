@@ -10,7 +10,7 @@ const MOCK_CATEGORY_RESULT_DIGIMON: SearchResultSectionDTO = {
     message: 'Mock data fetched successfully',
     results: [
         {
-            id: 1,
+            id: 71,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Digimon/digimon-01.jpeg'
             ),
@@ -19,7 +19,7 @@ const MOCK_CATEGORY_RESULT_DIGIMON: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 2,
+            id: 72,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Digimon/digimon-02.jpeg'
             ),
@@ -28,7 +28,7 @@ const MOCK_CATEGORY_RESULT_DIGIMON: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 3,
+            id: 73,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Digimon/digimon-03.jpeg'
             ),
@@ -37,7 +37,7 @@ const MOCK_CATEGORY_RESULT_DIGIMON: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 4,
+            id: 74,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Digimon/digimon-04.jpeg'
             ),
@@ -46,7 +46,7 @@ const MOCK_CATEGORY_RESULT_DIGIMON: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 5,
+            id: 75,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Digimon/digimon-05.jpeg'
             ),
@@ -55,7 +55,7 @@ const MOCK_CATEGORY_RESULT_DIGIMON: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 6,
+            id: 76,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Digimon/digimon-06.jpeg'
             ),
@@ -64,7 +64,7 @@ const MOCK_CATEGORY_RESULT_DIGIMON: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 7,
+            id: 77,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Digimon/digimon-07.jpeg'
             ),
@@ -73,7 +73,7 @@ const MOCK_CATEGORY_RESULT_DIGIMON: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 8,
+            id: 78,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Digimon/digimon-08.jpeg'
             ),
@@ -82,7 +82,7 @@ const MOCK_CATEGORY_RESULT_DIGIMON: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 9,
+            id: 79,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Digimon/digimon-09.jpeg'
             ),
@@ -91,7 +91,7 @@ const MOCK_CATEGORY_RESULT_DIGIMON: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 10,
+            id: 710,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Digimon/digimon-10.jpeg'
             ),
@@ -100,7 +100,7 @@ const MOCK_CATEGORY_RESULT_DIGIMON: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 11,
+            id: 711,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Digimon/digimon-11.jpeg'
             ),

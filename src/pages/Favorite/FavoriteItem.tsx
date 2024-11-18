@@ -7,7 +7,7 @@ import handleCopyImage from 'utils/Event/handleCopyImage';
 type FavoriteItemProps = {
     item: SearchResultItemDTO;
     isOpacityEnabled?: boolean;
-    isDragging?: boolean;
+    isDragging?: boolean; 
     onDelete: (id: number) => void;
     onSave: () => void;
 } & HTMLAttributes<HTMLDivElement>;

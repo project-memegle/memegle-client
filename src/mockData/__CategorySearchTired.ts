@@ -10,7 +10,7 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
     message: 'Mock data fetched successfully',
     results: [
         {
-            id: 1,
+            id: 21,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Tired/tired-01.jpeg'
             ),
@@ -19,7 +19,7 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 2,
+            id: 22,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Tired/tired-02.jpeg'
             ),
@@ -28,7 +28,7 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 3,
+            id: 23,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Tired/tired-03.jpg'
             ),
@@ -37,7 +37,7 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 4,
+            id: 24,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Tired/tired-04.jpg'
             ),
@@ -46,7 +46,7 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 5,
+            id: 25,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Tired/tired-05.jpg'
             ),

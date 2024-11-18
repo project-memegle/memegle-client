@@ -9,6 +9,11 @@ import {
 import { SESSION_STORAGE_KEY } from 'pages/Favorite/Favorite';
 import ValidationMessages from 'components/Validations/ValidationMessages';
 
+type FavoriteItemProps = {
+    id: number;
+    imageUrl: string;
+};
+
 export default function ResultItem(result: SearchResultItemDTO) {
     const [toast, setToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
@@ -18,19 +23,15 @@ export default function ResultItem(result: SearchResultItemDTO) {
     }
 
     //todo : API 로 바꾸기
-    function addToFavoriteApi(id: number | string) {
-        const favoriteItem = id;
+    function addToFavoriteApi({ id, imageUrl }: FavoriteItemProps) {
         const favoriteList = getArraySessionStorages(SESSION_STORAGE_KEY) || [];
-        favoriteList.push(favoriteItem);
-        setArraySessionStorages({
-            key: SESSION_STORAGE_KEY,
-            value: favoriteList,
-        });
+        console.log('favoriteList', favoriteList);
+        const favoriteItem = { id, imageUrl };
     }
 
-    async function addToFavorite(id: number) {
+    async function addToFavorite({ id, imageUrl }: FavoriteItemProps) {
         try {
-            addToFavoriteApi(id);
+            addToFavoriteApi({ id, imageUrl });
             setToastMessage(ValidationMessages.SUCCESS_ADD_FAVORITE);
             setToast(true);
         } catch (error) {
@@ -49,7 +50,7 @@ export default function ResultItem(result: SearchResultItemDTO) {
                 className="result__item-favorite"
                 onClick={(e) => {
                     e.stopPropagation();
-                    addToFavorite(result.id);
+                    addToFavorite({ id: result.id, imageUrl: result.imageUrl });
                 }}
             >
                 <i className="c-icon">heart_plus</i>

@@ -10,7 +10,7 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
     message: 'Mock data fetched successfully',
     results: [
         {
-            id: 1,
+            id: 61,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/flex/flex-01.jpeg'
             ),
@@ -19,7 +19,7 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 2,
+            id: 62,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/flex/flex-02.jpeg'
             ),
@@ -28,7 +28,7 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 3,
+            id: 63,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/flex/flex-03.jpeg'
             ),
@@ -37,7 +37,7 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 4,
+            id: 64,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/flex/flex-04.jpeg'
             ),
@@ -46,7 +46,7 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 5,
+            id: 65,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/flex/flex-05.jpeg'
             ),
@@ -55,7 +55,7 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 6,
+            id: 66,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/flex/flex-06.jpeg'
             ),
@@ -64,7 +64,7 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 7,
+            id: 67,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/flex/flex-07.jpeg'
             ),

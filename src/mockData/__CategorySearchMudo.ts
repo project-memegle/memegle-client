@@ -10,7 +10,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
     message: 'Mock data fetched successfully',
     results: [
         {
-            id: 1,
+            id: 31,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Mudo/mudo-01.webp'
             ),
@@ -19,7 +19,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 2,
+            id: 32,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Mudo/mudo-02.webp'
             ),
@@ -28,7 +28,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 3,
+            id: 33,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Mudo/mudo-03.webp'
             ),
@@ -37,7 +37,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 4,
+            id: 34,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Mudo/mudo-04.webp'
             ),
@@ -46,7 +46,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 5,
+            id: 35,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Mudo/mudo-05.jpg'
             ),
@@ -55,7 +55,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 6,
+            id: 36,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Mudo/mudo-06.jpg'
             ),
@@ -64,7 +64,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 7,
+            id: 37,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Mudo/mudo-07.jpg'
             ),
@@ -73,7 +73,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 8,
+            id: 38,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Mudo/mudo-08.jpg'
             ),
@@ -82,7 +82,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 9,
+            id: 39,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Mudo/mudo-09.jpeg'
             ),
@@ -91,7 +91,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 10,
+            id: 310,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Mudo/mudo-10.webp'
             ),
@@ -100,7 +100,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 11,
+            id: 311,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Mudo/mudo-11.png'
             ),
@@ -109,7 +109,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 12,
+            id: 312,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Mudo/mudo-12.jpg'
             ),

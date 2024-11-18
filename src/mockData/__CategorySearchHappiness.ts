@@ -10,7 +10,7 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
     message: 'Mock data fetched successfully',
     results: [
         {
-            id: 1,
+            id: 51,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Happiness/happiness-01.jpg'
             ),
@@ -19,7 +19,7 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 2,
+            id: 52,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Happiness/happiness-02.png'
             ),
@@ -28,7 +28,7 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 3,
+            id: 53,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Happiness/happiness-03.jpg'
             ),
@@ -37,7 +37,7 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 4,
+            id: 54,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Happiness/happiness-04.jpg'
             ),
@@ -46,7 +46,7 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 5,
+            id: 55,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Happiness/happiness-05.jpg'
             ),
@@ -55,7 +55,7 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 6,
+            id: 56,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Happiness/happiness-06.jpg'
             ),

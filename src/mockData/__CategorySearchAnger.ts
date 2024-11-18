@@ -10,7 +10,7 @@ const MOCK_CATEGORY_RESULT_ANGER: SearchResultSectionDTO = {
     message: 'Mock data fetched successfully',
     results: [
         {
-            id: 1,
+            id: 91,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Anger/anger-01.jpeg'
             ),
@@ -19,7 +19,7 @@ const MOCK_CATEGORY_RESULT_ANGER: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 2,
+            id: 92,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Anger/anger-02.png'
             ),
@@ -28,7 +28,7 @@ const MOCK_CATEGORY_RESULT_ANGER: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 3,
+            id: 93,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Anger/anger-03.jpg'
             ),
@@ -37,7 +37,7 @@ const MOCK_CATEGORY_RESULT_ANGER: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 4,
+            id: 94,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Anger/anger-04.jpg'
             ),
@@ -46,7 +46,7 @@ const MOCK_CATEGORY_RESULT_ANGER: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 5,
+            id: 95,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Anger/anger-05.jpg'
             ),
@@ -55,7 +55,7 @@ const MOCK_CATEGORY_RESULT_ANGER: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 6,
+            id: 96,
             imageUrl: resolveImagePath(
                 '/src/assets/images/temp/Anger/anger-06.jpg'
             ),
