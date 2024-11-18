@@ -1,10 +1,14 @@
-import { useState } from 'react';
-import ChatItem from './ChatItem';
+import { ChangeEvent, useEffect, useState } from 'react';
+import ChatItem, { ChatItemProps } from './ChatItem';
+import {
+    deleteSessionStorage,
+    getSessionStorages,
+    setSessionStorages,
+} from 'utils/Storage/sessionStorage';
 
 export default function ChatBot() {
     const date = new Date().toLocaleString();
-    const [isCliked, setIsClick] = useState(false);
-    const [messages, setMessages] = useState([
+    const initialMessages: ChatItemProps[] = [
         {
             content: '안녕하세요 🤖',
             date: date,
@@ -15,14 +19,31 @@ export default function ChatBot() {
             date: date,
             chatDirection: 'incoming',
         },
-    ]);
+    ];
+
+    const [isClicked, setIsClicked] = useState(false);
+    const [showCategories, setShowCategories] = useState(true);
+    const [messages, setMessages] = useState<ChatItemProps[]>(() => {
+        const savedMessages = getSessionStorages('chatMessages');
+        const chatbotCategory = getSessionStorages('chatbotCategory');
+        if (savedMessages) {
+            return JSON.parse(savedMessages);
+        }
+
+        if (chatbotCategory) {
+            return [];
+        }
+
+        return initialMessages;
+    });
 
     function selectCategory(
         event: React.MouseEvent<HTMLButtonElement>,
         value: string
     ) {
         event.preventDefault();
-        setIsClick(true);
+        setIsClicked(true);
+        setShowCategories(false);
         setMessages((prevMessages) => [
             ...prevMessages,
             {
@@ -38,6 +59,12 @@ export default function ChatBot() {
         ]);
     }
 
+    function showCategoryListAgain() {
+        setShowCategories(true);
+        setMessages(initialMessages);
+        deleteSessionStorage('chatbotCategory');
+    }
+
     return (
         <div className="c-chat__chatbot">
             <section>
@@ -50,7 +77,7 @@ export default function ChatBot() {
                     />
                 ))}
             </section>
-            {!isCliked && (
+            {showCategories ? (
                 <section className="c-chat__chatbot-category">
                     <button onClick={(e) => selectCategory(e, '이미지 관련')}>
                         이미지 관련
@@ -63,6 +90,12 @@ export default function ChatBot() {
                     </button>
                     <button onClick={(e) => selectCategory(e, '기타')}>
                         기타 문의
+                    </button>
+                </section>
+            ) : (
+                <section className="c-chat__chatbot-category">
+                    <button onClick={showCategoryListAgain}>
+                        다시 선택하기
                     </button>
                 </section>
             )}

@@ -60,7 +60,6 @@ export default function Result() {
     useEffect(() => {
         const lastKeyword = getLastKeywordFromUrl<number | string>();
         if (typeof lastKeyword === 'string') {
-            console.log('카테고리 검색 간다');
             searchByCategory({
                 keyword: lastKeyword,
                 setLoading,
@@ -68,7 +67,6 @@ export default function Result() {
                 setError,
             });
         } else if (typeof lastKeyword === 'number') {
-            console.log('아이디 검색 간다');
             searchById(lastKeyword, setLoading, setResultData, setError);
         }
     }, []);

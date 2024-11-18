@@ -17,7 +17,7 @@ function App() {
     const handleSearch = (term: string) => {
         setSearchTerm(term);
         addSearchHistory(term);
-        setSearchHistory(getSearchHistory());
+        setSearchHistory([term, ...getSearchHistory()]);
     };
     return (
         <div className="body__container">

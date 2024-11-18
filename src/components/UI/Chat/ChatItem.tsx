@@ -1,9 +1,7 @@
-type chatDirection = 'incoming' | 'outgoing';
-
-type ChatItemProps = {
+export type ChatItemProps = {
     content: string;
     date: string;
-    chatDirection: chatDirection;
+    chatDirection: 'incoming' | 'outgoing';
 };
 export default function ChatItem({
     content,
