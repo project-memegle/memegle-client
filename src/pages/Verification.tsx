@@ -67,7 +67,6 @@ export default function Verification() {
             };
             try {
                 const response = post('/users/sign/up', userData);
-                console.log(response);
                 removeSignUpData();
             } catch (error) {
                 handleApiError(error as AxiosError, setMessage);
@@ -95,8 +94,6 @@ export default function Verification() {
         if (nameError || emailError) {
             if (nameError) errorInputCheck(nameInputRef.current);
             else if (emailError) errorInputCheck(emailInputRef.current);
-            console.log('nameError', nameError);
-            console.log('emailError', emailError);
             return;
         }
 
@@ -111,13 +108,10 @@ export default function Verification() {
             setHasTimerStarted(true);
             post('/auth/email/send', userData)
                 .then((response: AxiosResponse) => {
-                    console.log('response :', response);
                     setMessage(response.data.message);
                     getSignUpData();
                 })
                 .catch((error: AxiosError) => {
-                    console.log(error.response);
-                    handleApiError(error as AxiosError, setMessage);
                 });
         }
     }, [startTimer, name, email, nameError, emailError]);
@@ -146,11 +140,9 @@ export default function Verification() {
                 setMessage('');
                 post('/auth/email', userData)
                     .then((response: AxiosResponse) => {
-                        console.log('response :', response);
                         setMessage(response.data.message);
                     })
                     .catch((error: AxiosError) => {
-                        console.log(error.response);
                         handleApiError(error as AxiosError, setMessage);
                     });
             }

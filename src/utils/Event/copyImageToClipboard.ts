@@ -11,7 +11,6 @@ export async function copyImgToClipboard(imgUrl: string): Promise<void> {
 
         const pngBlob = await convertImageToPngBlob(blob);
         await writeToClipboard(pngBlob);
-        console.log('Image copied to clipboard.');
     } catch (error) {
         handleError(error);
     }

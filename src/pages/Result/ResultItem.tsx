@@ -9,11 +9,6 @@ import {
 import { SESSION_STORAGE_KEY } from 'pages/Favorite/Favorite';
 import ValidationMessages from 'components/Validations/ValidationMessages';
 
-type FavoriteItemProps = {
-    id: number;
-    imageUrl: string;
-};
-
 export default function ResultItem(result: SearchResultItemDTO) {
     const [toast, setToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
@@ -23,15 +18,31 @@ export default function ResultItem(result: SearchResultItemDTO) {
     }
 
     //todo : API 로 바꾸기
-    function addToFavoriteApi({ id, imageUrl }: FavoriteItemProps) {
+    function addToFavoriteApi({
+        id,
+        imageUrl,
+        imageCategory,
+        createdAt,
+        modifiedAt,
+    }: SearchResultItemDTO) {
         const favoriteList = getArraySessionStorages(SESSION_STORAGE_KEY) || [];
-        console.log('favoriteList', favoriteList);
-        const favoriteItem = { id, imageUrl };
+        const favoriteItem = {
+            id,
+            imageUrl,
+            imageCategory,
+            createdAt,
+            modifiedAt,
+        };
+        favoriteList.push(favoriteItem);
+        setArraySessionStorages({
+            key: SESSION_STORAGE_KEY,
+            value: favoriteList,
+        });
     }
 
-    async function addToFavorite({ id, imageUrl }: FavoriteItemProps) {
+    async function addToFavorite(item: SearchResultItemDTO) {
         try {
-            addToFavoriteApi({ id, imageUrl });
+            addToFavoriteApi(item);
             setToastMessage(ValidationMessages.SUCCESS_ADD_FAVORITE);
             setToast(true);
         } catch (error) {
@@ -50,7 +61,7 @@ export default function ResultItem(result: SearchResultItemDTO) {
                 className="result__item-favorite"
                 onClick={(e) => {
                     e.stopPropagation();
-                    addToFavorite({ id: result.id, imageUrl: result.imageUrl });
+                    addToFavorite(result);
                 }}
             >
                 <i className="c-icon">heart_plus</i>

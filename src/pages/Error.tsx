@@ -19,7 +19,6 @@ export default function ErrorPage({ message }: ErrorPageProps) {
                     <button
                         onClick={() => {
                             navigate(previousUrl);
-                            console.log('뒤로가기');
                         }}
                     >
                         뒤로가기

@@ -23,7 +23,10 @@ import {
     SearchResultItemDTO,
     SearchResultSectionDTO,
 } from 'services/dto/ResultDto';
-import { setArraySessionStorages } from 'utils/Storage/sessionStorage';
+import {
+    getArraySessionStorages,
+    setArraySessionStorages,
+} from 'utils/Storage/sessionStorage';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 import ValidationMessages from 'components/Validations/ValidationMessages';
 
@@ -32,6 +35,33 @@ export const SESSION_STORAGE_KEY = 'favoriteList';
 export default function Favorite() {
     const [items, setItems] =
         useState<SearchResultSectionDTO>(MOCK_FAVORITE_LIST);
+
+    useEffect(() => {
+        const originFavoriteList = getArraySessionStorages(SESSION_STORAGE_KEY);
+        if (originFavoriteList && originFavoriteList.length > 0) {
+            setItems((prev) => ({
+                ...prev,
+                results: originFavoriteList.map((item) => ({
+                    ...item,
+                    imageCategory: '',
+                    createdAt: '',
+                    modifiedAt: '',
+                })),
+            }));
+        } else {
+            const favoriteList = items.results;
+            setArraySessionStorages({
+                key: SESSION_STORAGE_KEY,
+                value: favoriteList.map((item) => ({
+                    id: item.id,
+                    imageUrl: item.imageUrl,
+                    imageCategory: item.imageCategory,
+                    createdAt: item.createdAt,
+                    modifiedAt: item.modifiedAt,
+                })),
+            });
+        }
+    }, []);
 
     const [toast, setToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
@@ -130,17 +160,6 @@ export default function Favorite() {
             setToast(true);
         }
     }
-
-    useEffect(() => {
-        const favoriteList = items.results;
-        setArraySessionStorages({
-            key: SESSION_STORAGE_KEY,
-            value: favoriteList.map((item) => ({
-                id: item.id,
-                imageUrl: item.imageUrl,
-            })),
-        });
-    }, []);
 
     return (
         <main className="home__main c-favorite">

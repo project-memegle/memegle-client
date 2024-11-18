@@ -67,7 +67,6 @@ export default function Upload() {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            console.log(response);
         } catch (error) {
             handleApiError(error as AxiosError, setErrorMessage);
         }

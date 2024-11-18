@@ -64,7 +64,6 @@ export async function getCategorylist({
 
         // CategoryResultSectionDTO를 받아옵니다
         const response = await get<CategoryResultSectionDTO>(url);
-        console.log('Category response:', response);
         // 결과 배열만 추출하여 setResultData로 전달
         setResultData(response);
     } catch (error) {

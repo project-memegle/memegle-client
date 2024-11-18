@@ -49,11 +49,9 @@ export default function FindPassword() {
                     id,
                 })
                     .then((response: AxiosResponse) => {
-                        console.log('response :', response);
                         setMessage(response.data.message);
                     })
                     .catch((error: AxiosError) => {
-                        console.log(error.response);
                         handleApiError(error as AxiosError, setMessage);
                     });
             }
