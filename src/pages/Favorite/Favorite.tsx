@@ -14,7 +14,7 @@ import {
     rectSortingStrategy,
     SortableContext,
 } from '@dnd-kit/sortable';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import FavoriteItemWrapper from './FavoriteItemWrapper';
 import FavoriteItem from './FavoriteItem';
@@ -23,7 +23,10 @@ import {
     SearchResultItemDTO,
     SearchResultSectionDTO,
 } from 'services/dto/ResultDto';
-import { setArraySessionStorages } from 'utils/Storage/sessionStorage';
+import {
+    getArraySessionStorages,
+    setArraySessionStorages,
+} from 'utils/Storage/sessionStorage';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 import ValidationMessages from 'components/Validations/ValidationMessages';
 
