@@ -7,10 +7,14 @@ type FavoriteItemProps = {
     item: SearchResultItemDTO;
     isOpacityEnabled?: boolean;
     isDragging?: boolean;
+    onDelete: (id: number) => void;
 } & HTMLAttributes<HTMLDivElement>;
 
 const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
-    ({ item, isOpacityEnabled, isDragging, style, ...props }, ref) => {
+    (
+        { item, isOpacityEnabled, isDragging, onDelete, style, ...props },
+        ref
+    ) => {
         const [toast, setToast] = useState(false);
         const [toastMessage, setToastMessage] = useState('');
 
@@ -22,7 +26,7 @@ const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
         };
         const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
             event.stopPropagation();
-            
+            onDelete(item.id);
             handleToast();
         };
 

@@ -86,6 +86,19 @@ export default function Favorite() {
         setArraySessionStorages({ key: SESSION_STORAGE_KEY, value: itemIds });
     };
 
+    const handleDeleteItem = (itemId: number) => {
+        setItems((prev) => {
+            const updatedItems = prev.results.filter(
+                (item) => item.id !== itemId
+            );
+            setArraySessionStorages({
+                key: SESSION_STORAGE_KEY,
+                value: updatedItems.map((item) => item.id),
+            });
+            return { ...prev, results: updatedItems };
+        });
+    };
+
     return (
         <main className="home__main c-favorite">
             <DndContext
@@ -107,13 +120,21 @@ export default function Favorite() {
                 >
                     <div className="c-favorite__grid">
                         {items.results.map((item) => (
-                            <FavoriteItemWrapper key={item.id} item={item} />
+                            <FavoriteItemWrapper
+                                key={item.id}
+                                item={item}
+                                onDelete={handleDeleteItem}
+                            />
                         ))}
                     </div>
                 </SortableContext>
                 <DragOverlay adjustScale style={{ transformOrigin: '0 0 ' }}>
                     {activeItem ? (
-                        <FavoriteItem item={activeItem} isDragging />
+                        <FavoriteItem
+                            item={activeItem}
+                            onDelete={handleDeleteItem}
+                            isDragging
+                        />
                     ) : null}
                 </DragOverlay>
             </DndContext>

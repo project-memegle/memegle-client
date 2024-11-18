@@ -6,9 +6,14 @@ import { SearchResultItemDTO } from 'services/dto/ResultDto';
 
 type FavoriteItemWrapper = {
     item: SearchResultItemDTO;
+    onDelete: (id: number) => void;
 } & HTMLAttributes<HTMLDivElement>;
 
-const FavoriteItemWrapper = ({ item, ...props }: FavoriteItemWrapper) => {
+const FavoriteItemWrapper = ({
+    item,
+    onDelete,
+    ...props
+}: FavoriteItemWrapper) => {
     const {
         attributes,
         isDragging,
@@ -31,6 +36,7 @@ const FavoriteItemWrapper = ({ item, ...props }: FavoriteItemWrapper) => {
             ref={setNodeRef}
             style={styles}
             isOpacityEnabled={isDragging}
+            onDelete={onDelete}
             {...props}
             {...attributes}
             {...listeners}
