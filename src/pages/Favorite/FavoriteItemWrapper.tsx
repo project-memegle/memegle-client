@@ -7,11 +7,13 @@ import { SearchResultItemDTO } from 'services/dto/ResultDto';
 type FavoriteItemWrapper = {
     item: SearchResultItemDTO;
     onDelete: (id: number) => void;
+    onSave: () => void;
 } & HTMLAttributes<HTMLDivElement>;
 
 const FavoriteItemWrapper = ({
     item,
     onDelete,
+    onSave,
     ...props
 }: FavoriteItemWrapper) => {
     const {
@@ -37,6 +39,7 @@ const FavoriteItemWrapper = ({
             style={styles}
             isOpacityEnabled={isDragging}
             onDelete={onDelete}
+            onSave={onSave}
             {...props}
             {...attributes}
             {...listeners}

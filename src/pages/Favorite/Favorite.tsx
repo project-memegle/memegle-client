@@ -24,12 +24,18 @@ import {
     SearchResultSectionDTO,
 } from 'services/dto/ResultDto';
 import { setArraySessionStorages } from 'utils/Storage/sessionStorage';
+import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
+import ValidationMessages from 'components/Validations/ValidationMessages';
 
 export const SESSION_STORAGE_KEY = 'favoriteList';
 
 export default function Favorite() {
     const [items, setItems] =
         useState<SearchResultSectionDTO>(MOCK_FAVORITE_LIST);
+
+    const [toast, setToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+
     const [activeItem, setActiveItem] = useState<SearchResultItemDTO>();
 
     const sensors = useSensors(
@@ -84,6 +90,13 @@ export default function Favorite() {
     const handleButtonClick = () => {
         const itemIds = items.results.map((item) => item.id);
         setArraySessionStorages({ key: SESSION_STORAGE_KEY, value: itemIds });
+        try {
+            setToastMessage('변경사항을 저장했습니다');
+            setToast(true);
+        } catch (error) {
+            setToastMessage(ValidationMessages.FAILED_EVENT);
+            setToast(true);
+        }
     };
 
     const handleDeleteItem = (itemId: number) => {
@@ -98,6 +111,16 @@ export default function Favorite() {
             return { ...prev, results: updatedItems };
         });
     };
+
+    async function handleToast() {
+        try {
+            setToastMessage(ValidationMessages.SUCCESS_DELETE_IMG);
+            setToast(true);
+        } catch (error) {
+            setToastMessage(ValidationMessages.FAILED_EVENT);
+            setToast(true);
+        }
+    }
 
     return (
         <main className="home__main c-favorite">
@@ -124,6 +147,7 @@ export default function Favorite() {
                                 key={item.id}
                                 item={item}
                                 onDelete={handleDeleteItem}
+                                onSave={handleToast}
                             />
                         ))}
                     </div>
@@ -133,11 +157,18 @@ export default function Favorite() {
                         <FavoriteItem
                             item={activeItem}
                             onDelete={handleDeleteItem}
+                            onSave={handleToast}
                             isDragging
                         />
                     ) : null}
                 </DragOverlay>
             </DndContext>
+            {toast && (
+                <ToastMessage
+                    message={toastMessage}
+                    onClose={() => setToast(false)}
+                />
+            )}
         </main>
     );
 }

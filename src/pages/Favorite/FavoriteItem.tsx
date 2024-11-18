@@ -8,11 +8,20 @@ type FavoriteItemProps = {
     isOpacityEnabled?: boolean;
     isDragging?: boolean;
     onDelete: (id: number) => void;
+    onSave: () => void;
 } & HTMLAttributes<HTMLDivElement>;
 
 const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
     (
-        { item, isOpacityEnabled, isDragging, onDelete, style, ...props },
+        {
+            item,
+            isOpacityEnabled,
+            isDragging,
+            onDelete,
+            onSave,
+            style,
+            ...props
+        },
         ref
     ) => {
         const [toast, setToast] = useState(false);
@@ -27,18 +36,8 @@ const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
         const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
             event.stopPropagation();
             onDelete(item.id);
-            handleToast();
+            onSave();
         };
-
-        async function handleToast() {
-            try {
-                setToastMessage(ValidationMessages.SUCCESS_DELETE_IMG);
-                setToast(true);
-            } catch (error) {
-                setToastMessage(ValidationMessages.FAILED_EVENT);
-                setToast(true);
-            }
-        }
 
         return (
             <article
