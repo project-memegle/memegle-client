@@ -1,5 +1,22 @@
 @use "../settings/colors" as colors;
 
+@mixin icon-style() {
+  z-index: 1;
+  opacity: 0.8;
+  border-radius: var(--primary__border-radius);
+  width: calc(var(--primary__font-size) * 2.25);
+  height: calc(var(--primary__font-size) * 2.25);
+  top: calc(var(--primary__font-size) / 2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  background-color: colors.$white;
+  .c-icon {
+    font-size: 1.5em;
+  }
+}
+
 @mixin styles() {
   .result__section {
     display: grid;
@@ -18,11 +35,13 @@
     overflow: hidden;
     position: relative;
     background-color: var(--primary__color);
+
     & img {
-      height: 100%;
+      width: 100%;
 
       &:hover {
-        transform: scale(1.05);
+        transition: 0.3s ease;
+        transform: scale(1.5);
       }
     }
 
@@ -31,21 +50,14 @@
     }
 
     &-copy {
-      z-index: 1;
-      opacity: 0.8;
-      border-radius: var(--primary__border-radius);
-      width: calc(var(--primary__font-size) * 2.25);
-      height: calc(var(--primary__font-size) * 2.25);
-      top: calc(var(--primary__font-size) / 2);
       right: calc(var(--primary__font-size) / 2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: absolute;
-      background-color: colors.$white;
-      .c-icon {
-        font-size: 1.5em;
-      }
+
+      @include icon-style();
+    }
+
+    &-favorite {
+      left: calc(var(--primary__font-size) / 2);
+      @include icon-style();
     }
   }
 

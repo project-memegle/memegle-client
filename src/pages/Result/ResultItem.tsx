@@ -24,6 +24,10 @@ export default function ResultItem(result: SearchResultItemDTO) {
         <article className="result__item" onClick={copyImage}>
             <div className="result__item-copy">
                 <i className="c-icon">file_copy</i>
+            </div>{' '}
+            <div className="result__item-favorite">
+                <i className="c-icon">heart_plus</i>
+                {/* <i className="c-icon">heart_check</i> */}
             </div>
             <img src={result.imageUrl} alt={`img-${result.id}`} />
             {toast && (
