@@ -23,6 +23,9 @@ import {
     SearchResultItemDTO,
     SearchResultSectionDTO,
 } from 'services/dto/ResultDto';
+import { setArraySessionStorages } from 'utils/Storage/sessionStorage';
+
+export const SESSION_STORAGE_KEY = 'favoriteList';
 
 export default function Favorite() {
     const [items, setItems] =
@@ -80,7 +83,7 @@ export default function Favorite() {
 
     const handleButtonClick = () => {
         const itemIds = items.results.map((item) => item.id);
-        alert(itemIds);
+        setArraySessionStorages({ key: SESSION_STORAGE_KEY, value: itemIds });
     };
 
     return (

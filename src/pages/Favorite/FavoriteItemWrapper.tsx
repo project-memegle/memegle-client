@@ -1,11 +1,11 @@
 import { HTMLAttributes } from 'react';
 import { CSS } from '@dnd-kit/utilities';
 import FavoriteItem from './FavoriteItem';
-import { TItem } from 'pages/Favorite/Favorite';
 import { useSortable } from '@dnd-kit/sortable';
+import { SearchResultItemDTO } from 'services/dto/ResultDto';
 
 type FavoriteItemWrapper = {
-    item: TItem;
+    item: SearchResultItemDTO;
 } & HTMLAttributes<HTMLDivElement>;
 
 const FavoriteItemWrapper = ({ item, ...props }: FavoriteItemWrapper) => {

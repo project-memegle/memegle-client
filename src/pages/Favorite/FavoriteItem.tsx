@@ -1,10 +1,10 @@
-import { TItem } from 'pages/Favorite/Favorite';
 import { CSSProperties, forwardRef, HTMLAttributes, useState } from 'react';
 import ValidationMessages from 'components/Validations/ValidationMessages';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
+import { SearchResultItemDTO } from 'services/dto/ResultDto';
 
 type FavoriteItemProps = {
-    item: TItem;
+    item: SearchResultItemDTO;
     isOpacityEnabled?: boolean;
     isDragging?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
@@ -22,6 +22,7 @@ const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
         };
         const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
             event.stopPropagation();
+            
             handleToast();
         };
 
