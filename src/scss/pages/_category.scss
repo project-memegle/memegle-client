@@ -1,3 +1,5 @@
+@use "../settings/colors" as colors;
+
 @mixin styles() {
   .c-category {
     --c-category-grid-columns: repeat(2, 1fr);
@@ -21,6 +23,10 @@
       border-radius: var(--primary__border-radius);
 
       overflow: hidden;
+
+      &.favorite {
+        background-color: colors.$secondary;
+      }
 
       &-title {
         color: #fff;
@@ -54,30 +60,6 @@
         z-index: 1;
       }
     }
-  }
-
-  .c-category__item.favorite {
-    background-image: url("@memegle/assets/images/jpeg/test1.jpeg");
-  }
-
-  .c-category__item.digiMon {
-    background-image: url("@memegle/assets/images/jpeg/test2.jpeg");
-  }
-
-  .c-category__item.gif {
-    background-image: url("@memegle/assets/images/jpeg/test3.jpeg");
-  }
-
-  .c-category__item.temp1 {
-    background-image: url("@memegle/assets/images/jpeg/test4.jpeg");
-  }
-
-  .c-category__item.temp2 {
-    background-image: url("@memegle/assets/images/jpeg/test5.jpeg");
-  }
-
-  .c-category__item.MUDO {
-    background-image: url("@memegle/assets/images/jpeg/test6.jpeg");
   }
 }
 @media (max-width: 320px) {

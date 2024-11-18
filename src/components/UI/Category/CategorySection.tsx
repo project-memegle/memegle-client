@@ -3,6 +3,7 @@ import CategoryItem from '../Category/CategoryItem';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { getCategorylist } from 'services/CategoryService';
 import { CategoryResultSectionDTO } from 'services/dto/ResultDto';
+import { MOCK_CATEGORY_LIST } from 'mockData/__CategoryList';
 
 export default function CategorySection() {
     const navigate = useCustomNavigate();
@@ -11,12 +12,19 @@ export default function CategorySection() {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
+    //todo: 서버에서 카테고리 리스트를 가져오기
+    // useEffect(() => {
+    //     getCategorylist({
+    //         setLoading,
+    //         setResultData: setCategoryList,
+    //         setError,
+    //     });
+    // }, []);
+
     useEffect(() => {
-        getCategorylist({
-            setLoading,
-            setResultData: setCategoryList,
-            setError,
-        });
+        // MOCK 데이터로 상태 초기화
+        setCategoryList(MOCK_CATEGORY_LIST);
+        setLoading(false);
     }, []);
 
     return (
@@ -27,15 +35,15 @@ export default function CategorySection() {
             >
                 <p className="c-category__item-title">즐겨찾기</p>
             </article>
-            <CategoryItem category="MUDO" />
-            <CategoryItem category="digiMon" />
-            <CategoryItem category="gif" />
-            <CategoryItem category="temp1" />
-            <CategoryItem category="temp2" />
-            <CategoryItem category="favorite" />
-            <CategoryItem category="MUDO" />
-            <CategoryItem category="digiMon" />
-            <CategoryItem category="gif" />
+            {categoryList &&
+                categoryList.results.map((category) => (
+                    <CategoryItem
+                        key={category.id}
+                        category={category.categoryName}
+                        keyword={category.imageCategory}
+                        titleImageUrl={category.titleImageUrl}
+                    />
+                ))}
         </section>
     );
 }

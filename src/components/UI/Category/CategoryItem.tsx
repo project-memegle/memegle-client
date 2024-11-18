@@ -1,35 +1,30 @@
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 
-type CategoryType = 'favorite' | 'MUDO' | 'digiMon' | 'gif' | 'temp1' | 'temp2';
+type CategoryType = string;
 
 interface CategoryItemProps {
     category: CategoryType;
+    titleImageUrl: string;
+    keyword: string;
 }
-
-export default function CategoryItem({ category }: CategoryItemProps) {
+export default function CategoryItem({
+    category,
+    titleImageUrl,
+    keyword,
+}: CategoryItemProps) {
     const navigate = useCustomNavigate();
 
     function clickHandler() {
-        navigate(`/result/${category}`);
+        navigate(`/result/${keyword}`);
     }
-
-    const keywordMap: Record<CategoryType, string> = {
-        favorite: '즐겨찾기',
-        MUDO: '무한도전',
-        digiMon: '디지몬',
-        gif: 'GIF',
-        temp1: '임시1',
-        temp2: '임시2',
-    };
-
-    const keyword = keywordMap[category] || '';
 
     return (
         <article
-            className={`c-category__item ${category}`}
             onClick={clickHandler}
+            className={`c-category__item ${keyword}`}
+            style={{ backgroundImage: `url(${titleImageUrl})` }}
         >
-            <p className="c-category__item-title">{keyword}</p>
+            <p className="c-category__item-title">{category}</p>
         </article>
     );
 }
