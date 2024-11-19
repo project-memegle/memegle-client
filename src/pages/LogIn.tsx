@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useRef, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { AxiosError, AxiosResponse } from 'axios';
 import ValidationMessages from '../components/Validations/ValidationMessages';
 import validateId from '../components/Validations/ValidateId';
@@ -24,8 +24,8 @@ export default function LogIn() {
     const [idError, setIdError] = useState(DEFAULT_ID);
     const [passwordError, setPasswordError] = useState(DEFAULT_PASSWORD);
 
-    const [id, setId] = useState('');
-    const [password, setPassword] = useState('');
+    const [id, setId] = useState('testloginid3');
+    const [password, setPassword] = useState('qwerQ!1234');
     const [message, setMessage] = useState('');
 
     const idInputRef = useRef<HTMLInputElement>(null);
@@ -40,6 +40,12 @@ export default function LogIn() {
         handleInputChange(setPassword, setPasswordError, validateLogInPassword),
         []
     );
+
+    useEffect(() => {
+        if (id && password) {
+            resetErrors(setIdError, setPasswordError);
+        }
+    }, []);
 
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {

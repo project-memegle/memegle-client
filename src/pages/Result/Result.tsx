@@ -55,7 +55,11 @@ export default function Result() {
     useEffect(() => {
         setSearchHistory(getSearchHistory());
     }, [searchTerm]);
-
+    useEffect(() => {
+        if (searchTerm) {
+            searchByTag(searchTerm, setLoading, setResultData, setError);
+        }
+    }, [searchTerm]);
     function handleTagRemove(index: number) {
         const newSearchHistory = searchHistory.filter((_, i) => i !== index);
         deleteSearchHistroy(index);

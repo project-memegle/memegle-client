@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent } from 'react';
 
 const handleInputChange = (
     valueSetter: React.Dispatch<React.SetStateAction<string>>,
@@ -11,6 +11,7 @@ const handleInputChange = (
         const error = validator(value);
         valueSetter(value);
         errorSetter(error);
+
         if (additionalCallback) {
             additionalCallback();
         }
