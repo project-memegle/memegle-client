@@ -17,7 +17,11 @@ export function CategoryInput({ onCategoryChange }: CategoryInputProps) {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {}, [selectCategory, onCategoryChange]);
+    useEffect(() => {
+        if (selectCategory) {
+            onCategoryChange(selectCategory);
+        }
+    }, [selectCategory, onCategoryChange]);
 
     //todo: 서버에서 카테고리 리스트를 가져오기
     // useEffect(() => {
