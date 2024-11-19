@@ -25,7 +25,6 @@ const instance = axios.create({
 instance.interceptors.request.use(
     (config) => {
         const token = getAccessToken();
-
         if (token) {
             // 헤더가 정의되어 있지 않으면 빈 객체로 초기화
             const headers = config.headers

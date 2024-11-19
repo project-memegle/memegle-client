@@ -1,16 +1,43 @@
+import { useEffect, useState } from 'react';
 import NotificationItem from './NotificationItem';
+import { getNotificationList } from 'services/NotificationService';
 
 export default function Notification() {
+    const [messages, setMessages] = useState<
+        {
+            content: string;
+            date: string;
+        }[]
+    >([]);
+
+    useEffect(() => {
+        const fetchNotifications = async () => {
+            const response = await getNotificationList();
+            if (response && response.results.length > 0) {
+                setMessages(response.results);
+                return;
+            }
+            setMessages([]);
+
+            fetchNotifications();
+        };
+    }, []);
+
     return (
         <section className="c-notification">
-            <NotificationItem
-                content={'이미지가 등록되었습니다'}
-                date={'1 일 전'}
-            />{' '}
-            <NotificationItem
-                content={'이미지가 등록이 반려되었습니다'}
-                date={'2 일 전'}
-            />
+            {messages.length > 0 ? (
+                messages.map((msg, index) => (
+                    <NotificationItem
+                        key={index}
+                        content={msg.content}
+                        date={msg.date}
+                    />
+                ))
+            ) : (
+                <section className="c-result__emtpy">
+                    <h2>도착한 알람이 없어요 🤖</h2>
+                </section>
+            )}
         </section>
     );
 }

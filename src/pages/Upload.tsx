@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import ValidationMessages from '../components/Validations/ValidationMessages';
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { TagInput } from 'components/UI/Upload/Upload_tag';
@@ -7,6 +7,12 @@ import { handleApiError } from 'utils/API/handleApiError';
 import { post } from 'utils/API/fetcher';
 import { UploadDTO } from 'services/dto/UploadDto';
 import handleKeyDown from 'utils/Event/preventEnter';
+import {
+    getSessionStorages,
+    setSessionStorages,
+} from 'utils/Storage/sessionStorage';
+import useCustomNavigate from 'hooks/useCustomNaviaget';
+import StorageKeyword from 'Constant/StorageKeyword';
 
 export default function Upload() {
     const [file, setFile] = useState<File | undefined>();
@@ -19,6 +25,7 @@ export default function Upload() {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [isDragging, setIsDragging] = useState<boolean>(false);
 
+    const navigate = useCustomNavigate();
     const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target.files?.[0];
         handleFile(selectedFile);
@@ -79,6 +86,13 @@ export default function Upload() {
                     },
                 }
             );
+
+            setSessionStorages({
+                key: StorageKeyword.UPLOAD_SUCCESS,
+                value: StorageKeyword.TRUE,
+            });
+            const previousUrl = getSessionStorages('previousUrl');
+            navigate(previousUrl || '/');
         } catch (error) {
             handleApiError(error as AxiosError, setErrorMessage);
         }

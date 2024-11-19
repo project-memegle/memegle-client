@@ -79,6 +79,8 @@ const ValidationMessages: ValidationMessagesProps = {
     INVALID_TOKEN: '유효하지 않은 토큰입니다. 다시 로그인 해주세요',
     MISSING_TOKEN: '토큰이 필요합니다. 다시 로그인 해주세요',
     UNMATCHED_TOKEN: '인증 정보가 일치하지 않습니다. 다시 로그인 해주세요',
+
+    SUCCESS_IMAGE_UPLOAD: '업로드 요청이 성공적으로 완료되었습니다.',
 };
 
 export default ValidationMessages;

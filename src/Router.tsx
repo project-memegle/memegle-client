@@ -21,91 +21,99 @@ import FindId from 'pages/Id/FindId';
 import IdEmailVerification from 'pages/Id/IdEmailVerification';
 import PasswordEmailVerification from 'pages/Password/PasswordEmailVerification';
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+    [
+        {
+            path: '/',
+            element: <App />,
+            errorElement: <NotFoundPage />,
+            children: [
+                {
+                    path: '/',
+                    element: <HomePage />,
+                },
+                {
+                    path: 'notification',
+                    element: <PrivateRoute element={<Notification />} />,
+                },
+                {
+                    path: 'result',
+                    element: <Result />,
+                    children: [
+                        { path: ':category', element: <Result /> },
+                        { path: ':keyword', element: <Result /> },
+                        { path: ':tag', element: <Result /> },
+                    ],
+                },
+                {
+                    path: 'login',
+                    element: <LogIn />,
+                },
+                {
+                    path: 'chat',
+                    element: <PrivateRoute element={<Chat />} />,
+                },
+                {
+                    path: 'signup',
+                    element: <SignUp />,
+                },
+                {
+                    path: 'favorite',
+                    element: <PrivateRoute element={<Favorite />} />,
+                },
+                {
+                    path: 'upload',
+                    element: <PrivateRoute element={<Upload />} />,
+                },
+                {
+                    path: 'findid',
+                    element: <FindId />,
+                },
+                {
+                    path: 'findpassword',
+                    element: <FindPassword />,
+                },
+                {
+                    path: 'verification',
+                    element: <Verification />,
+                },
+                {
+                    path: 'mypage',
+                    element: <PrivateRoute element={<Mypage />} />,
+                },
+                {
+                    path: 'changenickname',
+                    element: <PrivateRoute element={<ChangeNickname />} />,
+                },
+                {
+                    path: 'id/verification',
+                    element: <IdEmailVerification />,
+                },
+                {
+                    path: 'password/verification',
+                    element: <PasswordEmailVerification />,
+                },
+                {
+                    path: 'password/change',
+                    element: <PrivateRoute element={<ChangePassword />} />,
+                },
+                {
+                    path: 'myimages',
+                    element: <PrivateRoute element={<MyImages />} />,
+                },
+                {
+                    path: 'delete',
+                    element: <PrivateRoute element={<DeleteAccount />} />,
+                },
+            ],
+        },
+    ],
     {
-        path: '/',
-        element: <App />,
-        errorElement: <NotFoundPage />,
-        children: [
-            {
-                path: '/',
-                element: <HomePage />,
-            },
-            {
-                path: 'notification',
-                element: <PrivateRoute element={<Notification />} />,
-            },
-            {
-                path: 'result',
-                element: <Result />,
-                children: [
-                    { path: ':category', element: <Result /> },
-                    { path: ':keyword', element: <Result /> },
-                    { path: ':tag', element: <Result /> },
-                ],
-            },
-            {
-                path: 'login',
-                element: <LogIn />,
-            },
-            {
-                path: 'chat',
-                element: <PrivateRoute element={<Chat />} />,
-            },
-            {
-                path: 'signup',
-                element: <SignUp />,
-            },
-            {
-                path: 'favorite',
-                element: <PrivateRoute element={<Favorite />} />,
-            },
-            {
-                path: 'upload',
-                element: <PrivateRoute element={<Upload />} />,
-            },
-            {
-                path: 'findid',
-                element: <FindId />,
-            },
-            {
-                path: 'findpassword',
-                element: <FindPassword />,
-            },
-            {
-                path: 'verification',
-                element: <Verification />,
-            },
-            {
-                path: 'mypage',
-                element: <PrivateRoute element={<Mypage />} />,
-            },
-            {
-                path: 'changenickname',
-                element: <PrivateRoute element={<ChangeNickname />} />,
-            },
-            {
-                path: 'id/verification',
-                element: <IdEmailVerification />,
-            },
-            {
-                path: 'password/verification',
-                element: <PasswordEmailVerification />,
-            },
-            {
-                path: 'password/change',
-                element: <PrivateRoute element={<ChangePassword />} />,
-            },
-            {
-                path: 'myimages',
-                element: <PrivateRoute element={<MyImages />} />,
-            },
-            {
-                path: 'delete',
-                element: <PrivateRoute element={<DeleteAccount />} />,
-            },
-        ],
-    },
-]);
+        future: {
+            v7_normalizeFormMethod: true,
+            v7_partialHydration: true,
+        },
+    }
+);
 
 export default router;

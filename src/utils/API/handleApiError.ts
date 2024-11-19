@@ -16,14 +16,16 @@ const AxiosErrorMessages: Record<number, string> = {
 
 export const handleApiError = (
     error: AxiosError | unknown,
-    setMessage: (message: string) => void
+    setMessage?: (message: string) => void
 ) => {
     let message: string;
 
     if (!axios.isAxiosError(error) || !error.response) {
         message = ValidationMessages.UNKNOWN_ERROR;
         handleErrorPage(message);
-        setMessage(message);
+        if (setMessage) {
+            setMessage(message);
+        }
         return;
     }
 
@@ -38,5 +40,7 @@ export const handleApiError = (
         AxiosErrorMessages[statusCode] || ValidationMessages.UNKNOWN_ERROR;
 
     handleErrorPage(message);
-    setMessage(message);
+    if (setMessage) {
+        setMessage(message);
+    }
 };
