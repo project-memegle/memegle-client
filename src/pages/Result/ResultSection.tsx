@@ -1,6 +1,5 @@
 import {
     SearchResultItemDTO,
-    SearchResultSectionDTO,
 } from 'services/dto/ResultDto';
 import ResultItem from './ResultItem';
 

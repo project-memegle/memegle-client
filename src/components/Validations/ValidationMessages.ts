@@ -78,6 +78,7 @@ const ValidationMessages: ValidationMessagesProps = {
     //token error
     INVALID_TOKEN: '유효하지 않은 토큰입니다. 다시 로그인 해주세요',
     MISSING_TOKEN: '토큰이 필요합니다. 다시 로그인 해주세요',
+    UNMATCHED_TOKEN: '인증 정보가 일치하지 않습니다. 다시 로그인 해주세요',
 };
 
 export default ValidationMessages;

@@ -5,9 +5,14 @@ import { TagInput } from 'components/UI/Upload/Upload_tag';
 import { CategoryInput } from 'components/UI/Upload/Upload_category';
 import { handleApiError } from 'utils/API/handleApiError';
 import { post } from 'utils/API/fetcher';
+import { UploadDTO } from 'services/dto/UploadDto';
+import handleKeyDown from 'utils/Event/preventEnter';
 
 export default function Upload() {
     const [file, setFile] = useState<File | undefined>();
+    const [tags, setTags] = useState<string[] | string>('');
+    const [category, setCategory] = useState<string | undefined>();
+
     const [errorMessage, setErrorMessage] = useState('');
     const [fileName, setFileName] = useState<string>('파일을 선택하세요');
     const [imageUrl, setImageUrl] = useState<string | undefined>();
@@ -60,13 +65,20 @@ export default function Upload() {
             return;
         }
         const formData = new FormData();
-        formData.append('userfile', file);
+        formData.append('memeImageFile', file);
+        formData.append('tags', Array.isArray(tags) ? tags.join(',') : tags);
+        formData.append('delimiter', ',');
+
         try {
-            const response = await post(`/images`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+            const response = await post(
+                `/images?imageCategory=${category}`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
+            );
         } catch (error) {
             handleApiError(error as AxiosError, setErrorMessage);
         }
@@ -104,6 +116,7 @@ export default function Upload() {
                 onSubmit={upload}
                 encType="multipart/form-data"
                 className="c-upload"
+                onKeyDown={handleKeyDown}
             >
                 <section
                     className={`file-upload ${isDragging ? 'dragging' : ''}`}
@@ -150,8 +163,8 @@ export default function Upload() {
                         이미지 업로드
                     </button>
                 </section>
-                <TagInput />
-                <CategoryInput />
+                <TagInput onTagsChange={setTags} />
+                <CategoryInput onCategoryChange={setCategory} />
                 <section className="c-login__button-section">
                     <button
                         className="button__rounded button__light"

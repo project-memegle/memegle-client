@@ -7,6 +7,7 @@ const AxiosErrorMessages: Record<number, string> = {
     40001: ValidationMessages.INVALID_FORM,
     40002: ValidationMessages.EXIST_USER,
     40003: ValidationMessages.MISSING_FORM,
+    40100: ValidationMessages.UNMATCHED_TOKEN,
     40101: ValidationMessages.INVALID_TOKEN,
     40102: ValidationMessages.INVALID_PASSWORD_LENGTH,
     40401: ValidationMessages.MISSING_RESOURCE,

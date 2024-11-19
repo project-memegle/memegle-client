@@ -1,12 +1,20 @@
 import { useRef, useEffect, useState } from 'react';
 
-export function TagInput() {
+interface TagInputProps {
+    onTagsChange: (tags: string[]) => void;
+}
+
+export function TagInput({ onTagsChange }: TagInputProps) {
     const tagInputRef = useRef<HTMLInputElement>(null);
     const tagAreaRef = useRef<HTMLElement>(null);
     const ulRef = useRef<HTMLUListElement>(null);
     const labelRef = useRef<HTMLLabelElement>(null);
 
     const [tags, setTags] = useState<string[]>([]);
+
+    useEffect(() => {
+        onTagsChange(tags);
+    }, [tags, onTagsChange]);
 
     useEffect(() => {
         const tagInput = tagInputRef.current;
