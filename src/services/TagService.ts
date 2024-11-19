@@ -11,7 +11,7 @@ export async function searchByTag<T extends string | number>(
     setError: (error: string | null) => void
 ) {
     setLoading(true);
-    const url = `/images/${tag}`;
+    const url = `/tag`;
     try {
         const response = await get<SearchResultSectionDTO>(url);
         setResultData(response);

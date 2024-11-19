@@ -14,6 +14,12 @@ export const handlers = [
             statusText: 'OK',
         });
     }),
+    http.get(`${baseURL}/tag`, () => {
+        return new HttpResponse(null, {
+            status: 204,
+            statusText: 'OK',
+        });
+    }),
     http.post(`${baseURL}/images`, () => {
         return new HttpResponse(null, {
             status: 200,
