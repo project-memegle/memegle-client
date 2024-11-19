@@ -24,7 +24,7 @@ import MOCK_CATEGORY_RESULT_BIRTHDAY from 'mockData/__CategorySearchBrithday';
 import MOCK_CATEGORY_RESULT_TIREDNESS from 'mockData/__CategorySearchTired';
 import MOCK_CATEGORY_RESULT_WHAT from 'mockData/__CategorySearchWhat';
 import MOCK_CATEGORY_RESULT_FLEX from 'mockData/__CategorySearchflex';
-import MOCK_CATEGORY_RESULT_DIGIMON from 'mockData/__CategorySearchDigimon';
+import MOCK_CATEGORY_RESULT_SAD from 'mockData/__CategorySearchSad';
 import MOCK_CATEGORY_RESULT_ANGER from 'mockData/__CategorySearchAnger';
 import MOCK_CATEGORY_RESULT_HUNGRY from 'mockData/__CategorySearchHungry';
 import MOCK_CATEGORY_RESULT_HAPINESS from 'mockData/__CategorySearchHappiness';
@@ -115,11 +115,8 @@ export default function Result() {
             setResultData(MOCK_CATEGORY_RESULT_MUDO);
         }
 
-        if (
-            typeof lastKeyword === 'string' &&
-            lastKeyword.includes('digimon')
-        ) {
-            setResultData(MOCK_CATEGORY_RESULT_DIGIMON);
+        if (typeof lastKeyword === 'string' && lastKeyword.includes('sad')) {
+            setResultData(MOCK_CATEGORY_RESULT_SAD);
         }
 
         if (typeof lastKeyword === 'string' && lastKeyword.includes('anger')) {

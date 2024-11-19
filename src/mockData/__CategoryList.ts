@@ -56,10 +56,10 @@ export const MOCK_CATEGORY_LIST: CategoryResultSectionDTO = {
         },
         {
             id: 6,
-            categoryName: '디지몬',
-            imageCategory: 'digimon',
+            categoryName: '슬픔',
+            imageCategory: 'sad',
             titleImageUrl: resolveImagePath(
-                '/src/assets/images/temp/Digimon/digimon-01.jpeg'
+                '/src/assets/images/temp/Sad/sad-07.jpeg'
             ),
             lastMemeImageRegistTime: DATE,
         },
