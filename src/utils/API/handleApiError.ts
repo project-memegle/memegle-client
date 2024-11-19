@@ -54,11 +54,21 @@ export const handleApiError = (
     error: AxiosError<ErrorResponse> | Error | unknown,
     setMessage: (message: string) => void
 ) => {
-    if (axios.isAxiosError(error)) {
-        handleAxiosError(error, setMessage);
-    } else if (error instanceof Error) {
+    if (error instanceof Error) {
+        console.log('====================================');
+        console.log('네트워크에러');
+        console.log('====================================');
         handleNetworkError(error, setMessage);
-    } else {
-        setMessage(ValidationMessages.UNKNOWN_ERROR);
+        return;
     }
+
+    if (axios.isAxiosError(error)) {
+        console.log('====================================');
+        console.log('악씨오쓰에러');
+        console.log('====================================');
+        handleAxiosError(error, setMessage);
+        return;
+    }
+
+    setMessage(ValidationMessages.UNKNOWN_ERROR);
 };

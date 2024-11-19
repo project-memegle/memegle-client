@@ -26,6 +26,9 @@ export default function ErrorPage({ message }: ErrorPageProps) {
 }
 
 export function handleErrorPage(message: string) {
+    console.log('====================================');
+    console.log('handleErrorPage');
+    console.log('====================================');
     const container = document.querySelector('.main__container');
     if (container) {
         const root = createRoot(container);
