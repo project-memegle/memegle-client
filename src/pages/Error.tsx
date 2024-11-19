@@ -1,16 +1,11 @@
 import errorIcon from '@memegle/assets/images/png/img_error.png';
-import useCustomNavigate from '../hooks/useCustomNaviaget';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { getPreviousUrl } from '../utils/Event/saveUrl';
 
 interface ErrorPageProps {
     message: string;
 }
-
 export default function ErrorPage({ message }: ErrorPageProps) {
-    const navigate = useCustomNavigate();
-    const previousUrl = getPreviousUrl() || '/';
     return (
         <div className="body__container">
             <main className="error__container">
@@ -18,7 +13,7 @@ export default function ErrorPage({ message }: ErrorPageProps) {
                     <h4>{message}</h4>
                     <button
                         onClick={() => {
-                            navigate(previousUrl);
+                            window.history.back();
                         }}
                     >
                         뒤로가기

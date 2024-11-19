@@ -75,7 +75,7 @@ const ValidationMessages: ValidationMessagesProps = {
     INVALID_BROWSER: '해당 브라우저에서 지원되지 않습니다',
 
     //token error
-    INVALID_TOKEN: '토근이 만료되었습니다. 다시 로그인 해주세요',
+    INVALID_TOKEN: '유효하지 않은 토큰입니다. 다시 로그인 해주세요',
     MISSING_TOKEN: '토큰이 필요합니다. 다시 로그인 해주세요',
 };
 

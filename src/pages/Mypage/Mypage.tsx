@@ -25,7 +25,7 @@ export default function Mypage() {
                         navigate('/password/verification');
                     }}
                 >
-                    비밀번호 변경
+                    비밀번호 재설정
                     <i className="c-icon">chevron_right</i>
                 </button>
                 {/* <button
