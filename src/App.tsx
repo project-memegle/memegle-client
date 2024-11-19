@@ -1,9 +1,10 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Header from './components/UI/Header/Header';
 import ChatIcon from 'components/UI/Chat/ChatIcon';
 import { useEffect, useState } from 'react';
 import { addSearchHistory, getSearchHistory } from 'utils/Storage/localStorage';
 import { useAuth } from 'components/auth/ProvideAuth';
+import { setupInterceptors } from 'utils/API/fetcher';
 
 function App() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -12,6 +13,11 @@ function App() {
     );
     const location = useLocation();
     const auth = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        setupInterceptors(navigate);
+    }, [navigate]);
 
     useEffect(() => {
         setSearchHistory(getSearchHistory());

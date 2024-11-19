@@ -18,6 +18,7 @@ const ValidationMessages: ValidationMessagesProps = {
     REQUIRED_NICKNAME: '닉네임을 입력해주세요.',
     REQUIRED_NAME: '이름을 입력해주세요.',
     REQUIRED_CODE: '인증번호를 입력해주세요.',
+    REQUIRED_FORM: '모든 필드를 입력해주세요.',
 
     // Invalid field errors
     INVALID_ID_LENGTH: '아이디는 최소 6자 이상이어야 합니다.',
@@ -43,7 +44,7 @@ const ValidationMessages: ValidationMessagesProps = {
     MISSING_FORM: '필수값을 입력해주세요.',
 
     // Server and unknown errors
-    SERVER_ERROR: '서버 에러입니다. 고객센터에 문의해주세요.',
+    SERVER_ERROR: '서버 에러입니다. 불편을 드려 죄송합니다',
     UNKNOWN_ERROR: '알 수 없는 에러가 발생했습니다. 고객센터에 문의해주세요.',
 
     // Success messages
@@ -56,7 +57,7 @@ const ValidationMessages: ValidationMessagesProps = {
     TIMEOUT_ERROR: '요청 시간이 초과되었습니다. 다시 시도해주세요.',
     CONNECTION_REFUSED: '서버에 연결할 수 없습니다. 나중에 다시 시도해주세요.',
     SERVICE_UNAVAILABLE:
-        '서비스가 현재 이용 불가합니다. 잠시 후 다시 시도해주세요.',
+        '서비스가 현재 이용 불가합니다. 나중에 다시 시도해주세요.',
 
     // File upload errors
     INVALID_FILE_FORMAT: '허용되지 않는 파일 형식입니다.',

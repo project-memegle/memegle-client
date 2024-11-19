@@ -12,16 +12,11 @@ export async function searchByTag<T extends string | number>(
 ) {
     setLoading(true);
     const url = `/images/${tag}`;
-
     try {
         const response = await get<SearchResultSectionDTO>(url);
         setResultData(response);
-    } catch (error) {
-        console.log('====================================');
-        console.log('error', error);
-        console.log('====================================');
-        handleApiError(error as AxiosError, setError);
-    } finally {
         setLoading(false);
+    } catch (error) {
+        handleApiError(error as AxiosError, setError);
     }
 }
