@@ -1,4 +1,4 @@
-import formatDate from 'utils/Event/formatDate';
+import formatDate from 'utils/Format/formatDate';
 
 export type ChatItemProps = {
     content: string;
