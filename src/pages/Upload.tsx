@@ -91,8 +91,7 @@ export default function Upload() {
                 key: StorageKeyword.UPLOAD_SUCCESS,
                 value: StorageKeyword.TRUE,
             });
-            const previousUrl = getSessionStorages('previousUrl');
-            navigate(previousUrl || '/');
+            navigate('/');
         } catch (error) {
             handleApiError(error as AxiosError, setErrorMessage);
         }

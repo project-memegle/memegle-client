@@ -20,6 +20,7 @@ import {
     setSessionStorages,
 } from 'utils/Storage/sessionStorage';
 import { SignUpDTO } from 'services/dto/SignUpDto';
+import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 import {
     postVerificationCode,
     verifyVerificationCode,
@@ -38,6 +39,9 @@ export default function Verification() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
+
+    const [toastMessage, setToastMessage] = useState('');
+    const [toast, setToast] = useState(false);
 
     const [message, setMessage] = useState('');
     const [verification, setVerification] = useState(false);
@@ -253,8 +257,13 @@ export default function Verification() {
                         뒤로 가기
                     </button>
                 </section>
-                {message && <p className="message">{message}</p>}
             </form>
+            {toast && (
+                <ToastMessage
+                    message={toastMessage}
+                    onClose={() => setToast(false)}
+                />
+            )}
         </div>
     );
 }

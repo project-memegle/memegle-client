@@ -1,26 +1,31 @@
-import { get } from 'utils/API/fetcher';
-import { SearchResultSectionDTO } from 'services/dto/ResultDto';
-import { handleApiError } from 'utils/API/handleApiError';
-import { AxiosError } from 'axios';
+import { AxiosResponse } from 'axios';
+import { post } from 'utils/API/fetcher';
+import { IdSearchRequestDTO, IdSearchResponseDTO } from './dto/IdDto';
 
-export async function searchById(
-    id: number,
-    setLoading: (loading: boolean) => void,
-    setResultData: (data: SearchResultSectionDTO) => void,
-    setError: (error: string | null) => void
-) {
-    setLoading(true);
+export const POST_ID_SEARCH_URL = '/user/verify/apply/id';
+export const VERIFY_ID_CODE_URL = '/user/verify/check/id';
 
-    const url = '/images/' + id;
-    return get<SearchResultSectionDTO>(url)
-        .then((response) => {
-            setResultData(response.data);
-        })
-        .catch((error) => {
-            console.error('Error fetching categories:', error);
-            handleApiError(error as AxiosError, setError);
-        })
-        .finally(() => {
-            setLoading(false);
-        });
+export async function postIdSearchCode(
+    userData: IdSearchRequestDTO
+): Promise<void> {
+    try {
+        await post<void, IdSearchRequestDTO>(POST_ID_SEARCH_URL, userData);
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function verifyIdSearchCode(
+    userData: IdSearchResponseDTO
+): Promise<AxiosResponse<{ userId: string }>> {
+    try {
+        const response: AxiosResponse<{ userId: string }> = await post<
+            { userId: string },
+            IdSearchResponseDTO
+        >(VERIFY_ID_CODE_URL, userData);
+
+        return response;
+    } catch (error) {
+        throw error;
+    }
 }

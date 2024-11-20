@@ -16,7 +16,7 @@ import {
 import { SearchResultSectionDTO } from 'services/dto/ResultDto';
 
 import { searchByCategory } from 'services/CategoryService';
-import { searchById } from 'services/IdService';
+import { searchById } from 'services/SearchService';
 import { searchByTag } from 'services/TagService';
 
 import MOCK_CATEGORY_RESULT_MUDO from 'mockData/__CategorySearchMudo';

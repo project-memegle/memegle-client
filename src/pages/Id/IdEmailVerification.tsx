@@ -7,31 +7,24 @@ import useTimer from 'hooks/useTimer';
 import { handleApiError } from 'utils/API/handleApiError';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import handleInputChange from 'utils/Event/handleInputChange';
-import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
 import formatTime from 'utils/Format/formatTime';
+import { postIdSearchCode, verifyIdSearchCode } from 'services/IdService';
+import { IdSearchRequestDTO, IdSearchResponseDTO } from 'services/dto/IdDto';
+import { useLocation } from 'react-router-dom';
 
 export default function IdEmailVerification() {
     const navigate = useCustomNavigate();
-
+    const location = useLocation();
     const [verification, setVerification] = useState(false);
-    const [verified, setVerified] = useState(false);
 
     const [message, setMessage] = useState('');
-    const [password, setPassword] = useState('');
 
     const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
 
-    const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
     const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
 
     const [emailError, setEmailError] = useState(DEFAULT_EMAIL);
-
-    const [passwordCheck, setPasswordCheck] = useState('');
-    const [passwordError, setPasswordError] = useState(DEFAULT_PASSWORD);
-
-    const passwordInputRef = useRef<HTMLInputElement>(null);
-    const passwordCheckInputRef = useRef<HTMLInputElement>(null);
 
     const emailInputRef = useRef<HTMLInputElement>(null);
     const codeInputRef = useRef<HTMLInputElement>(null);
@@ -44,64 +37,65 @@ export default function IdEmailVerification() {
         []
     );
 
-    const onChangePassword = useCallback(
-        passwordCheckHandler(setPassword, passwordCheck, setPasswordError, () =>
-            setMessage('')
-        ),
-        [passwordCheck]
-    );
-
-    const onChangePasswordCheck = useCallback(
-        passwordCheckHandler(setPasswordCheck, password, setPasswordError, () =>
-            setMessage('')
-        ),
-        [password]
-    );
-
     const onChangeCode = useCallback((e: FormEvent<HTMLInputElement>) => {
         setCode(e.currentTarget.value);
     }, []);
 
-    const onChangeVerification = useCallback(() => {
+    const onChangeVerification = useCallback(async () => {
         if (emailError) {
             errorInputCheck(emailInputRef.current);
             return;
         }
 
         if (email) {
+            const userData: IdSearchRequestDTO = {
+                email: email,
+                authenticationCode: '이메일 인증',
+            };
             setMessage('');
-            setVerification(true);
             startTimer();
             setHasTimerStarted(true);
+
+            try {
+                await postIdSearchCode(userData);
+                setVerification(true);
+            } catch (error) {
+                handleApiError(error as AxiosError, setMessage);
+            }
         }
     }, [startTimer, email, emailError]);
-
-    const onSubmitVerification = useCallback(
-        (e: FormEvent<HTMLFormElement>) => {
-            e.preventDefault();
-            setVerified(true);
-        },
-        []
-    );
 
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            if (passwordError) {
-                errorInputCheck(passwordInputRef.current);
+            if (emailError) {
+                errorInputCheck(emailInputRef.current);
                 return;
             }
 
-            if (password && passwordCheck) {
+            if (!code) {
+                errorInputCheck(codeInputRef.current);
+                return;
+            }
+
+            if (email && code && verification) {
+                const userData: IdSearchResponseDTO = {
+                    email: email,
+                    code: code,
+                    authenticationCode: '이메일 인증',
+                };
                 setMessage('');
                 try {
-                    // await signUp(userData);
+                    const response = await verifyIdSearchCode(userData);
+                    navigate('/find/id', {
+                        state: { userId: response.data.userId },
+                    });
                 } catch (error) {
                     handleApiError(error as AxiosError, setMessage);
                 }
             }
         },
-        [password, passwordCheck, passwordError]
+        [email, code, verification, emailError, navigate]
     );
 
     return (
@@ -160,9 +154,7 @@ export default function IdEmailVerification() {
                 )}
                 <button
                     className="button__rounded button__orange"
-                    onClick={() => {
-                        navigate('/find/id');
-                    }}
+                    type="submit"
                 >
                     아이디 찾기
                 </button>
@@ -175,6 +167,7 @@ export default function IdEmailVerification() {
                         본인인증 하러가기
                     </button>
                 </section>
+                {message && <p className="message">{message}</p>}
             </form>
         </div>
     );

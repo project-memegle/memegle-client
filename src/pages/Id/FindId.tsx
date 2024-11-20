@@ -1,13 +1,15 @@
+import { useLocation } from 'react-router-dom';
 import useCustomNavigate from '../../hooks/useCustomNaviaget';
 export default function FindId() {
     const navigate = useCustomNavigate();
-
+    const location = useLocation();
+    const { userId } = location.state || { userId: '' };
     return (
         <div className="main__container">
             <section className="c-findid">
                 <div className="c-findid__container">
                     <p>회원님의 아이디는</p>
-                    <h2>testloginid3</h2>
+                    <h2>{userId}</h2>
                     <p>입니다</p>
                 </div>
                 <button

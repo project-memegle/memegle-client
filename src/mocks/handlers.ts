@@ -1,4 +1,5 @@
 import { http, HttpResponse } from 'msw';
+import { POST_ID_SEARCH_URL, VERIFY_ID_CODE_URL } from 'services/IdService';
 import {
     CHANGE_NICKNAME_URL,
     CHECK_NICKNAME_URL,
@@ -124,6 +125,17 @@ export const handlers = [
         return new HttpResponse(null, {
             status: 200,
             statusText: 'OK',
+        });
+    }),
+    http.post(`${baseURL}${POST_ID_SEARCH_URL}`, () => {
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
+        });
+    }),
+    http.post(`${baseURL}${VERIFY_ID_CODE_URL}`, () => {
+        return HttpResponse.json({
+            userId: 'testloginid3',
         });
     }),
 ];

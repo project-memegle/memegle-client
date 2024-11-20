@@ -127,7 +127,7 @@ export default function ChangeNickname() {
                     닉네임 변경하기
                 </button>
             </form>
-            {message && <p>{message}</p>}
+            {message && <p className="message">{message}</p>}
         </div>
     );
 }

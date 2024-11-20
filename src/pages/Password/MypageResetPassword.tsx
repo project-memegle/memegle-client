@@ -125,7 +125,7 @@ export default function MypageResetPassword() {
                     비밀번호 재설정
                 </button>
             </form>
-            {message && <p>{message}</p>}
+            {message && <p className='message'>{message}</p>}
         </div>
     );
 }
