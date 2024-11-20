@@ -21,13 +21,13 @@ export const handlers = [
             statusText: 'OK',
         });
     }),
-    http.get(`${baseURL}/sign/in`, () => {
+    http.get(`${baseURL}/users/sign/in`, () => {
         return new HttpResponse(null, {
             status: 204,
             statusText: 'OK',
         });
     }),
-    http.get(`${baseURL}/sign/up`, () => {
+    http.get(`${baseURL}/users/sign/up`, () => {
         return new HttpResponse(null, {
             status: 204,
             statusText: 'OK',
