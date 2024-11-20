@@ -7,19 +7,20 @@ import SignUp from './pages/SignUp';
 import NotFoundPage from './pages/NotFound';
 import Notification from './components/UI/Notification/Notification';
 import Favorite from './pages/Favorite/Favorite';
-import FindPassword from './pages/Password/FindPassword';
 import Upload from './pages/Upload';
 import Chat from 'pages/Chat';
 import PrivateRoute from 'components/auth/PrivateRoute';
 import Verification from 'pages/Verification';
 import Mypage from 'pages/Mypage/Mypage';
 import ChangeNickname from 'pages/ChangeNickname';
-import ChangePassword from 'pages/Password/ChangePassword';
 import MyImages from 'pages/MyImages/MyImages';
 import DeleteAccount from 'pages/DeleteAccount/DeleteAccount';
 import FindId from 'pages/Id/FindId';
 import IdEmailVerification from 'pages/Id/IdEmailVerification';
-import PasswordEmailVerification from 'pages/Password/PasswordEmailVerification';
+import MypageResetPassword from 'pages/Password/MypageResetPassword';
+import MypageEmailVerification from 'pages/Password/MypageEmailVerification';
+import LogInEmailVerification from './pages/Password/LogInEmailVerification';
+import LogInResetPassword from 'pages/Password/LogInResetPassword';
 
 const router = createBrowserRouter(
     [
@@ -66,12 +67,16 @@ const router = createBrowserRouter(
                     element: <PrivateRoute element={<Upload />} />,
                 },
                 {
-                    path: 'findid',
+                    path: 'find/id',
                     element: <FindId />,
                 },
                 {
-                    path: 'findpassword',
-                    element: <FindPassword />,
+                    path: 'find/password',
+                    element: <LogInEmailVerification />,
+                },
+                {
+                    path: 'find/password/reset',
+                    element: <LogInResetPassword />,
                 },
                 {
                     path: 'verification',
@@ -91,11 +96,13 @@ const router = createBrowserRouter(
                 },
                 {
                     path: 'password/verification',
-                    element: <PasswordEmailVerification />,
+                    element: (
+                        <PrivateRoute element={<MypageEmailVerification />} />
+                    ),
                 },
                 {
                     path: 'password/change',
-                    element: <PrivateRoute element={<ChangePassword />} />,
+                    element: <PrivateRoute element={<MypageResetPassword />} />,
                 },
                 {
                     path: 'myimages',

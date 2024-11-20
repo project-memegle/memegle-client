@@ -15,10 +15,19 @@ import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { useAuth } from 'components/auth/ProvideAuth';
 import { logIn } from 'services/LogInService';
 import { getUserInfo } from 'services/UserInfoService';
+import StorageKeyword from 'Constant/StorageKeyword';
+import {
+    deleteSessionStorage,
+    getSessionStorages,
+} from 'utils/Storage/sessionStorage';
+import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 
 export default function LogIn() {
     const navigate = useCustomNavigate();
     const auth = useAuth();
+
+    const [toastMessage, setToastMessage] = useState('');
+    const [toast, setToast] = useState(false);
 
     const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
     const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
@@ -45,6 +54,21 @@ export default function LogIn() {
     useEffect(() => {
         if (id && password) {
             resetErrors(setIdError, setPasswordError);
+        }
+    }, []);
+
+    useEffect(() => {
+        const sessionStoragePassword = getSessionStorages(
+            StorageKeyword.CHANGE_PASSWORD_SUCCESS
+        );
+
+        if (
+            sessionStoragePassword &&
+            sessionStoragePassword === StorageKeyword.TRUE
+        ) {
+            setToastMessage(ValidationMessages.CHANGE_PASSWORD_SUCCESS);
+            setToast(true);
+            deleteSessionStorage(StorageKeyword.CHANGE_PASSWORD_SUCCESS);
         }
     }, []);
 
@@ -140,13 +164,19 @@ export default function LogIn() {
                         </button>
                         <button
                             className="button__light-font"
-                            onClick={() => navigate('/findpassword')}
+                            onClick={() => navigate('/find/password')}
                         >
                             비밀번호 찾기
                         </button>
                     </section>
                 </section>
             </form>
+            {toast && (
+                <ToastMessage
+                    message={toastMessage}
+                    onClose={() => setToast(false)}
+                />
+            )}
         </div>
     );
 }

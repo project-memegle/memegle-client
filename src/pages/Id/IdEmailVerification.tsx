@@ -161,7 +161,7 @@ export default function IdEmailVerification() {
                 <button
                     className="button__rounded button__orange"
                     onClick={() => {
-                        navigate('/findid');
+                        navigate('/find/id');
                     }}
                 >
                     아이디 찾기

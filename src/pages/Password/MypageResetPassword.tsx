@@ -5,12 +5,12 @@ import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { handleApiError } from 'utils/API/handleApiError';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
-import { postChangePassword } from 'services/PasswordService';
+import { mypageResetPassword } from 'services/PasswordService';
 import StorageKeyword from 'Constant/StorageKeyword';
-import { ChangePasswordDTO } from 'services/dto/PasswordDto';
 import { setSessionStorages } from 'utils/Storage/sessionStorage';
+import { MypageResetPassworddDTO } from 'services/dto/PasswordDto';
 
-export default function ChangePassword() {
+export default function MypageResetPassword() {
     const navigate = useCustomNavigate();
 
     const [message, setMessage] = useState('');
@@ -59,7 +59,7 @@ export default function ChangePassword() {
             }
 
             if (password && passwordCheck) {
-                const userData: ChangePasswordDTO = {
+                const userData: MypageResetPassworddDTO = {
                     id: id,
                     password: password,
                     email: email,
@@ -67,7 +67,7 @@ export default function ChangePassword() {
                 };
 
                 try {
-                    await postChangePassword(userData);
+                    await mypageResetPassword(userData);
                     setMessage(ValidationMessages.CHANGE_PASSWORD_SUCCESS);
                     setSessionStorages({
                         key: StorageKeyword.CHANGE_PASSWORD_SUCCESS,

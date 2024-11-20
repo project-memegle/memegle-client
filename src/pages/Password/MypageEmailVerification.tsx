@@ -12,17 +12,13 @@ import handleInputChange from 'utils/Event/handleInputChange';
 import { getPreviousUrl } from 'utils/Event/saveUrl';
 import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
 import { resetErrors } from 'utils/Event/resetError';
-import {
-    ChangePasswordDTO,
-    PasswordEmailVerificationDTO,
-} from 'services/dto/PasswordDto';
-import { verifyEmailPassword } from 'services/PasswordService';
+import { mypageVerifyPassword } from 'services/PasswordService';
+import { MypageVerifyPasswordDTO } from 'services/dto/PasswordDto';
 
-export default function PasswordEmailVerification() {
+export default function MypageEmailVerification() {
     const navigate = useCustomNavigate();
 
     const [verification, setVerification] = useState(false);
-    const [verified, setVerified] = useState(false);
 
     const [message, setMessage] = useState('');
 
@@ -50,11 +46,6 @@ export default function PasswordEmailVerification() {
         }
     }, [id, email]);
 
-    const onChangeId = useCallback(
-        handleInputChange(setId, setIdError, validateId),
-        []
-    );
-
     const onChangeEmail = useCallback(
         handleInputChange(setEmail, setEmailError, validateEmail),
         []
@@ -67,11 +58,6 @@ export default function PasswordEmailVerification() {
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            if (idError) {
-                errorInputCheck(idInputRef.current);
-                return;
-            }
-
             if (emailError) {
                 errorInputCheck(emailInputRef.current);
                 return;
@@ -82,15 +68,14 @@ export default function PasswordEmailVerification() {
                 return;
             }
 
-            if (id && email && code) {
+            if (email && code) {
                 setMessage('');
-                const userData: PasswordEmailVerificationDTO = {
+                const userData: MypageVerifyPasswordDTO = {
                     id,
                     email,
                     verificationType: '비밀번호 변경',
                 };
-                await verifyEmailPassword(userData);
-                setMessage(ValidationMessages.CHANGE_NICKNAME_SUCCESS);
+                await mypageVerifyPassword(userData);
                 navigate('/password/change');
             }
         },
@@ -114,20 +99,6 @@ export default function PasswordEmailVerification() {
     return (
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
-                <div className="c-login__section">
-                    <p>{idError ? idError : DEFAULT_ID}</p>
-                    <label htmlFor="id">아이디</label>
-                    <input
-                        ref={idInputRef}
-                        className="c-login__input"
-                        name="id"
-                        id="id"
-                        type="text"
-                        placeholder={ValidationMessages.REQUIRED_ID}
-                        value={id}
-                        onChange={onChangeId}
-                    />
-                </div>
                 <section className="c-login__section">
                     <p>{emailError ? emailError : DEFAULT_EMAIL}</p>
                     <section className="c-login__section-verification">

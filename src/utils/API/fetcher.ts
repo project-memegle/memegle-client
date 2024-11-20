@@ -5,6 +5,7 @@ import axios, {
     AxiosResponse,
 } from 'axios';
 import ValidationMessages from 'components/Validations/ValidationMessages';
+import StorageKeyword from 'Constant/StorageKeyword';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { useNavigate } from 'react-router-dom';
 import { getAccessToken } from 'utils/Auth/authAuth';
@@ -12,8 +13,8 @@ import { getCookie, setCookie } from 'utils/Storage/cookies';
 import { getEnvVariableAsNumber } from 'utils/Storage/numberUntils';
 
 const baseURL = import.meta.env.VITE_BASE_URL;
-const ACCESS_TOKEN = 'access_token';
-const REFRESH_TOKEN = 'refresh_token';
+const ACCESS_TOKEN = StorageKeyword.ACCESS_TOKEN;
+const REFRESH_TOKEN = StorageKeyword.REFRESH_TOKEN;
 
 const instance = axios.create({
     baseURL,
@@ -49,7 +50,8 @@ const refreshAccessToken = async (
 
     // 리프레시 토큰이 없으면 로그인 페이지로 이동
     if (!refreshToken) {
-        navigate('/login');
+        //todo: 401에러 날때만 로긍인 페이지로 이동하도록 수정
+        // navigate('/login');
         return Promise.reject(new Error(ValidationMessages.INVALID_TOKEN));
     }
 
@@ -63,7 +65,7 @@ const refreshAccessToken = async (
         return await instance(originalRequest);
     } catch (refreshError) {
         console.error('Refresh token error:', refreshError);
-        navigate('/login');
+        // navigate('/login');
         return Promise.reject(refreshError);
     }
 };
@@ -74,12 +76,18 @@ export const setupInterceptors = (navigate: (path: string) => void) => {
         (response) => response, // 성공적인 응답은 그대로 반환
         async (error: AxiosError) => {
             const originalRequest = error.config;
-            if (
-                error.response &&
-                error.response.status === 401 &&
-                originalRequest
-            ) {
+
+            if (originalRequest) {
+                // 무한 루프 방지 플래그
+                const headers = new AxiosHeaders(originalRequest.headers);
+                if (headers.has('x-retry')) {
+                    return Promise.reject(error);
+                }
+
                 try {
+                    headers.set('x-retry', 'true'); // 플래그 추가
+                    originalRequest.headers = headers;
+
                     return await refreshAccessToken(originalRequest, navigate);
                 } catch (refreshError) {
                     return Promise.reject(refreshError);
