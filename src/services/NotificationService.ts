@@ -6,8 +6,8 @@ import {
     NotificationStateSectionDTO,
 } from './dto/NotificationDto';
 
-export const NOTIFICATION_STATE_URL = '/notifications/state';
-export const NOTIFICATION_LIST_URL = '/notifications/list';
+export const GET_NOTIFICATION_STATE_URL = '/notifications/state';
+export const GET_NOTIFICATION_LIST_URL = '/notifications/list';
 
 export async function getNotificationState(): Promise<
     NotificationStateSectionDTO | undefined

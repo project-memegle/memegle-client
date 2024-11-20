@@ -17,11 +17,11 @@ const ValidationMessages: ValidationMessagesProps = {
     REQUIRED_VERIFY_CODE: '인증번호를 입력해주세요.',
     REQUIRED_NICKNAME: '닉네임을 입력해주세요.',
     REQUIRED_NAME: '이름을 입력해주세요.',
-    REQUIRED_CODE: '인증번호를 입력해주세요.',
     REQUIRED_FORM: '모든 필드를 입력해주세요.',
+    REQUIRED_CODE: '인증번호를 입력해주세요.',
 
-    // Invalid field errors
     INVALID_ID_LENGTH: '아이디는 최소 6자 이상이어야 합니다.',
+    // Invalid field errors
     INVALID_ID_TYPE: '아이디는 영어와 숫자만 허용됩니다.',
     INVALID_NAME_TYPE: '이름은 한글과 영어만 허용됩니다.',
     INVALID_PASSWORD_LENGTH: '비밀번호는 최소 8자 최대 20자 사이어야 합니다.',
@@ -52,6 +52,7 @@ const ValidationMessages: ValidationMessagesProps = {
     SIGNUP_FAILED: '회원가입 실패',
     SIGNUP_SUCCESS: '회원가입 성공',
     CHANGE_NICKNAME_SUCCESS: '닉네임이 성공적으로 변경되었습니다.',
+    CHECK_NICKNAME_SUCCESS: '사용하실 수 있는 닉네임 입니다.',
     LOGIN_FAILED: '로그인 실패',
     LOGIN_SUCCESS: '로그인 성공',
     NETWORK_ERROR:
@@ -83,6 +84,7 @@ const ValidationMessages: ValidationMessagesProps = {
     UNMATCHED_TOKEN: '인증 정보가 일치하지 않습니다. 다시 로그인 해주세요',
 
     SUCCESS_IMAGE_UPLOAD: '업로드 요청이 성공적으로 완료되었습니다.',
+    GET_USER_INFO_FAIL: '사용자 정보를 가져오지 못했습니다.',
 };
 
 export default ValidationMessages;

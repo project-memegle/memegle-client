@@ -6,6 +6,9 @@ import {
     NicknameCheckRequestDTO,
     NicknameCheckResponseDTO,
 } from './dto/NicknameDto';
+import { setSessionStorages } from 'utils/Storage/sessionStorage';
+import ValidationMessages from 'components/Validations/ValidationMessages';
+import StorageKeyword from 'Constant/StorageKeyword';
 
 export const CHECK_NICKNAME_URL = '/users/check/nickname';
 export const CHANGE_NICKNAME_URL = '/users/change/nickname';
@@ -19,6 +22,11 @@ export async function checkNickname(
                 CHECK_NICKNAME_URL,
                 { params: userData } // Pass userData as query parameters
             );
+
+        setSessionStorages({
+            key: StorageKeyword.CHANGE_NICKNAME_SUCCESS,
+            value: StorageKeyword.TRUE,
+        });
         return response.data;
     } catch (error) {
         handleApiError(error as AxiosError);

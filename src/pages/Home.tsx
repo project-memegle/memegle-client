@@ -3,6 +3,7 @@ import CategorySection from '../components/UI/Category/CategorySection';
 import { getNotificationState } from 'services/NotificationService';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 import {
+    deleteSessionStorage,
     getSessionStorages,
     setSessionStorages,
 } from 'utils/Storage/sessionStorage';
@@ -19,13 +20,11 @@ export default function HomePage() {
         const sessionStorage = getSessionStorages(
             StorageKeyword.UPLOAD_SUCCESS
         );
-        if (sessionStorage === StorageKeyword.TRUE) {
+        if (sessionStorage && sessionStorage === StorageKeyword.TRUE) {
             setToastMessage(ValidationMessages.SUCCESS_IMAGE_UPLOAD);
             setToast(true);
-            setSessionStorages({
-                key: StorageKeyword.UPLOAD_SUCCESS,
-                value: StorageKeyword.FALSE,
-            });
+
+            deleteSessionStorage(StorageKeyword.UPLOAD_SUCCESS);
         }
     }, []);
     return (

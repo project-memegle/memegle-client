@@ -39,15 +39,15 @@ export default function ChangeNickname() {
                 return;
             }
             const response = await checkNickname({ nickname });
-            
+
             setIsChecked(true); // Set the checked state to true after checking
             if (response?.isDuplicated) {
-                setNicknameError('닉네임이 중복되었습니다.');
+                setNicknameError(ValidationMessages.EXIST_NICKNAME);
                 setIsDuplicated(true);
                 return;
             }
 
-            setNicknameError('사용 가능한 닉네임입니다.');
+            setNicknameError(ValidationMessages.CHECK_NICKNAME_SUCCESS);
             setIsDuplicated(false);
         },
         [nickname, nicknameError]
@@ -69,7 +69,7 @@ export default function ChangeNickname() {
 
             if (nickname) {
                 await changeNickname({ userId, nickname });
-                setMessage('닉네임이 성공적으로 변경되었습니다.');
+                setMessage(ValidationMessages.CHANGE_NICKNAME_SUCCESS);
                 navigate('/mypage');
             }
         },

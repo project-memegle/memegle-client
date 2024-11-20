@@ -14,6 +14,7 @@ import { handleApiError } from 'utils/API/handleApiError';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { useAuth } from 'components/auth/ProvideAuth';
 import { logIn } from 'services/LogInService';
+import { getUserInfo } from 'services/UserInfoService';
 
 export default function LogIn() {
     const navigate = useCustomNavigate();
@@ -50,10 +51,13 @@ export default function LogIn() {
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            if (idError || passwordError) {
-                if (idError) errorInputCheck(idInputRef.current);
-                else if (passwordError)
-                    errorInputCheck(passwordInputRef.current);
+            if (idError) {
+                errorInputCheck(idInputRef.current);
+                return;
+            }
+
+            if (passwordError) {
+                errorInputCheck(passwordInputRef.current);
                 return;
             }
 
@@ -66,11 +70,14 @@ export default function LogIn() {
 
                 try {
                     await logIn(userData);
-
-                    // 사용자 정보를 저장하고 홈 페이지로 리다이렉트
-                    auth.login(() => {
-                        navigate('/');
-                    });
+                    const userInfo = await getUserInfo();
+                    if (userInfo) {
+                        auth.login(() => {
+                            navigate('/');
+                        });
+                    } else {
+                        setMessage(ValidationMessages.GET_USER_INFO_FAIL);
+                    }
                 } catch (error) {
                     handleApiError(error as AxiosError, setMessage);
                 }
@@ -78,7 +85,6 @@ export default function LogIn() {
         },
         [id, password, idError, passwordError, auth, navigate]
     );
-
     return (
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
