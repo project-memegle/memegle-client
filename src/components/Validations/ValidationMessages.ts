@@ -20,6 +20,7 @@ const ValidationMessages: ValidationMessagesProps = {
     REQUIRED_FORM: '모든 필드를 입력해주세요.',
     REQUIRED_CODE: '인증번호를 입력해주세요.',
     REQUIRED_REASON: '사유를 입력해주세요.',
+    REQUIRED_DUPLICATED_CHECK: '중복확인을 해주세요.',
 
     INVALID_ID_LENGTH: '아이디는 최소 6자 이상이어야 합니다.',
     // Invalid field errors

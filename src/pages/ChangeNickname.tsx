@@ -6,7 +6,7 @@ import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { FormEvent, useCallback, useRef, useState } from 'react';
 import { changeNickname, checkNickname } from 'services/NicknameService';
 import { handleApiError } from 'utils/API/handleApiError';
-import handleInputChange from 'utils/Event/handleInputChange';
+import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import { getSessionStorages } from 'utils/Storage/sessionStorage';
 
 export default function ChangeNickname() {
@@ -28,6 +28,8 @@ export default function ChangeNickname() {
             setNickname(value);
             setNicknameError(error);
             setIsChecked(false);
+            setIsDuplicated(false);
+            setMessage('');
         },
         []
     );
@@ -35,18 +37,20 @@ export default function ChangeNickname() {
     const onCheckNickname = useCallback(
         async (e: FormEvent<HTMLButtonElement>) => {
             e.preventDefault();
-            if (nicknameError) {
+
+            if (nicknameError || !nickname) {
+                errorInputCheck(nicknameInputRef.current);
                 return;
             }
             const response = await checkNickname({ nickname });
+            setIsChecked(true);
+            setMessage('');
 
-            setIsChecked(true); // Set the checked state to true after checking
             if (response?.isDuplicated) {
                 setNicknameError(ValidationMessages.EXIST_NICKNAME);
                 setIsDuplicated(true);
                 return;
             }
-
             setNicknameError(ValidationMessages.CHECK_NICKNAME_SUCCESS);
             setIsDuplicated(false);
         },
@@ -58,7 +62,9 @@ export default function ChangeNickname() {
             e.preventDefault();
             const userId = getSessionStorages(StorageKeyword.USER_ID);
 
-            if (isDuplicated) {
+            if (isDuplicated || !isChecked) {
+                errorInputCheck(nicknameInputRef.current);
+                setMessage(ValidationMessages.REQUIRED_DUPLICATED_CHECK);
                 return;
             }
 
@@ -67,13 +73,17 @@ export default function ChangeNickname() {
                 return;
             }
 
-            if (nickname) {
-                await changeNickname({ userId, nickname });
-                setMessage(ValidationMessages.CHANGE_NICKNAME_SUCCESS);
-                navigate('/mypage');
+            if (nickname && !isDuplicated && isChecked) {
+                try {
+                    await changeNickname({ userId, nickname });
+                    setMessage(ValidationMessages.CHANGE_NICKNAME_SUCCESS);
+                    navigate('/mypage');
+                } catch (error) {
+                    handleApiError(error as AxiosError, setMessage);
+                }
             }
         },
-        [nickname, nicknameError, isDuplicated, navigate]
+        [nickname, nicknameError, isDuplicated, isChecked, navigate]
     );
 
     return (
@@ -126,8 +136,8 @@ export default function ChangeNickname() {
                 >
                     닉네임 변경하기
                 </button>
+                {message && <p className="message">{message}</p>}
             </form>
-            {message && <p className="message">{message}</p>}
         </div>
     );
 }
