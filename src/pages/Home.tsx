@@ -14,7 +14,7 @@ export default function HomePage() {
     const [toast, setToast] = useState(false);
 
     useEffect(() => {
-        getNotificationState();
+        // getNotificationState();
 
         const sessionStorage = getSessionStorages(
             StorageKeyword.UPLOAD_SUCCESS
