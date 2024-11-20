@@ -1,8 +1,13 @@
 import { AxiosError } from 'axios';
 import { get } from 'utils/API/fetcher';
 import { handleApiError } from 'utils/API/handleApiError';
-import { NotificationSectionDTO, NotificationStateSectionDTO } from './dto/NotificationDto';
+import {
+    NotificationSectionDTO,
+    NotificationStateSectionDTO,
+} from './dto/NotificationDto';
 
+export const NOTIFICATION_STATE_URL = '/notifications/state';
+export const NOTIFICATION_LIST_URL = '/notifications/list';
 
 export async function getNotificationState(): Promise<
     NotificationStateSectionDTO | undefined
@@ -10,7 +15,7 @@ export async function getNotificationState(): Promise<
     try {
         const url = '/notifications/state';
         const response = await get<NotificationStateSectionDTO>(url);
-        return response;
+        return response.data;
     } catch (error) {
         handleApiError(error as AxiosError);
     }
@@ -22,7 +27,7 @@ export async function getNotificationList(): Promise<
     try {
         const url = '/notifications/list';
         const response = await get<NotificationSectionDTO>(url);
-        return response;
+        return response.data;
     } catch (error) {
         handleApiError(error as AxiosError);
     }

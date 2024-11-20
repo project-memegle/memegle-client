@@ -1,29 +1,39 @@
 import { AxiosError } from 'axios';
 import validateNickname from 'components/Validations/ValidateNickname';
 import ValidationMessages from 'components/Validations/ValidationMessages';
+import StorageKeyword from 'Constant/StorageKeyword';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { FormEvent, useCallback, useRef, useState } from 'react';
+import { changeNickname, checkNickname } from 'services/NicknameService';
 import { handleApiError } from 'utils/API/handleApiError';
 import handleInputChange from 'utils/Event/handleInputChange';
+import { getSessionStorages } from 'utils/Storage/sessionStorage';
 
 export default function ChangeNickname() {
+    const DEFAULT_NICKNAME = ValidationMessages.DEFAULT_NICKNAME;
+
     const navigate = useCustomNavigate();
     const [message, setMessage] = useState('');
-    const DEFALUT_NICKNAME = ValidationMessages.DEFAULT_NICKNAME;
     const [nickname, setNickname] = useState('');
-    const [nicknameError, setNicknameError] = useState(DEFALUT_NICKNAME);
+    const [nicknameError, setNicknameError] = useState(DEFAULT_NICKNAME);
 
     const nicknameInputRef = useRef<HTMLInputElement>(null);
+    const [isDuplicated, setIsDuplicated] = useState(false);
+    const [isChecked, setIsChecked] = useState(false); // New state to track if nickname has been checked
 
     const onChangeNickname = useCallback(
-        handleInputChange(setNickname, setNicknameError, validateNickname, () =>
-            setMessage('')
-        ),
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            const { value } = event.target;
+            const error = validateNickname(value);
+            setNickname(value);
+            setNicknameError(error);
+            setIsChecked(false);
+        },
         []
     );
 
-    const onSubmit = useCallback(
-        async (e: FormEvent<HTMLFormElement>) => {
+    const onCheckNickname = useCallback(
+        async (e: FormEvent<HTMLButtonElement>) => {
             e.preventDefault();
             if (nicknameError) {
                 return;
@@ -31,35 +41,88 @@ export default function ChangeNickname() {
 
             if (nickname) {
                 try {
-                    // await signUp(userData);
+                    const response = await checkNickname({ nickname });
+                    setIsChecked(true); // Set the checked state to true after checking
+                    if (response?.isDuplicated) {
+                        setNicknameError('닉네임이 중복되었습니다.');
+                        setIsDuplicated(true);
+                    } else {
+                        setNicknameError('사용 가능한 닉네임입니다.');
+                        setIsDuplicated(false);
+                    }
                 } catch (error) {
-                    handleApiError(error as AxiosError, setMessage);
+                    handleApiError(error as AxiosError, setNicknameError);
                 }
             }
         },
         [nickname, nicknameError]
     );
 
+    const onSubmit = useCallback(
+        async (e: FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
+
+            if (isDuplicated) {
+                return;
+            }
+
+            if (nickname) {
+                try {
+                    const userId = getSessionStorages(StorageKeyword.USER_ID);
+                    if (userId) {
+                        await changeNickname({ userId, nickname });
+                        setMessage('닉네임이 성공적으로 변경되었습니다.');
+                        navigate('/mypage');
+                    } else {
+                        setMessage('사용자 ID를 찾을 수 없습니다.');
+                    }
+                } catch (error) {
+                    handleApiError(error as AxiosError, setMessage);
+                }
+            }
+        },
+        [nickname, nicknameError, isDuplicated, navigate]
+    );
+
     return (
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
                 <div className="c-login__section">
-                    <p>{nicknameError ? nicknameError : DEFALUT_NICKNAME}</p>
+                    <p>{nicknameError ? nicknameError : DEFAULT_NICKNAME}</p>
                     <section className="c-login__section-verification">
                         <label htmlFor="nickname">닉네임</label>
-                        <input
-                            ref={nicknameInputRef}
-                            className="c-login__input"
-                            name="nickname"
-                            id="nickname"
-                            type="text"
-                            placeholder="닉네임"
-                            value={nickname}
-                            onChange={onChangeNickname}
-                        />
+                        <div className="c-login__section-relative">
+                            <input
+                                ref={nicknameInputRef}
+                                className={`c-login__input ${
+                                    isChecked
+                                        ? isDuplicated
+                                            ? 'fail'
+                                            : 'success'
+                                        : ''
+                                }`}
+                                name="nickname"
+                                id="nickname"
+                                type="text"
+                                placeholder="닉네임"
+                                value={nickname}
+                                onChange={onChangeNickname}
+                            />
+                            {isChecked &&
+                                (isDuplicated ? (
+                                    <i className="c-icon c-icon--fill-fail">
+                                        close
+                                    </i>
+                                ) : (
+                                    <i className="c-icon c-icon--fill-success">
+                                        check
+                                    </i>
+                                ))}
+                        </div>
                         <button
                             type="button"
                             className="button__rounded button__light"
+                            onClick={onCheckNickname} // Attach the onCheckNickname function
                         >
                             중복확인
                         </button>
@@ -67,11 +130,12 @@ export default function ChangeNickname() {
                 </div>
                 <button
                     className="button__rounded button__orange"
-                    onClick={() => navigate('/mypage')}
+                    type="submit" // Ensure this button submits the form
                 >
                     닉네임 변경하기
                 </button>
             </form>
+            {message && <p>{message}</p>}
         </div>
     );
 }
