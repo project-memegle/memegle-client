@@ -1,5 +1,5 @@
-import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { AxiosResponse, AxiosError } from 'axios';
+import { FormEvent, useCallback, useRef, useState } from 'react';
+import { AxiosError } from 'axios';
 import ValidationMessages from 'components/Validations/ValidationMessages';
 import handleInputChange from 'utils/Event/handleInputChange';
 import validateEmail from 'components/Validations/ValidateEmail';
@@ -8,8 +8,8 @@ import { handleApiError } from 'utils/API/handleApiError';
 import { post } from 'utils/API/fetcher';
 import validateName from 'components/Validations/ValidateName';
 import {
-    VerificationEmailDTO,
-    VerificationCodeDTO,
+    VerificationRequestDTO,
+    VerificationResponseDTO,
 } from 'services/dto/VerificationDto';
 import useTimer from 'hooks/useTimer';
 import formatTime from 'utils/Format/formatTime';
@@ -17,9 +17,15 @@ import useCustomNavigate from 'hooks/useCustomNaviaget';
 import {
     deleteSessionStorage,
     getSessionStorages,
+    setSessionStorages,
 } from 'utils/Storage/sessionStorage';
 import { SignUpDTO } from 'services/dto/SignUpDto';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
+import {
+    postVerificationCode,
+    verifyVerificationCode,
+} from 'services/VerificationService';
+import StorageKeyword from 'Constant/StorageKeyword';
 
 export default function Verification() {
     const navigate = useCustomNavigate();
@@ -55,7 +61,7 @@ export default function Verification() {
         deleteSessionStorage('password');
     };
 
-    const getSignUpData = () => {
+    const getSignUpData = async () => {
         const id = getSessionStorages('id');
         const nickname = getSessionStorages('nickname');
         const password = getSessionStorages('password');
@@ -66,8 +72,9 @@ export default function Verification() {
                 password: password,
             };
             try {
-                const response = post('/users/sign/up', userData);
+                await post('/users/sign/up', userData);
                 removeSignUpData();
+                navigate('/login');
             } catch (error) {
                 handleApiError(error as AxiosError, setMessage);
             }
@@ -87,10 +94,11 @@ export default function Verification() {
     const onChangeCode = useCallback((e: FormEvent<HTMLInputElement>) => {
         setCode(e.currentTarget.value);
     }, []);
+
     /**
      * Send verification code
      */
-    const onChangeVerification = useCallback(() => {
+    const onChangeVerification = useCallback(async () => {
         if (nameError) {
             errorInputCheck(nameInputRef.current);
             return;
@@ -101,20 +109,21 @@ export default function Verification() {
         }
 
         if (name && email) {
-            const userData: VerificationEmailDTO = {
+            const userData: VerificationRequestDTO = {
                 userName: name,
                 email: email,
+                authenticationCode: '본인인증',
             };
             setMessage('');
-            setVerification(true);
             startTimer();
             setHasTimerStarted(true);
-            post('/auth/email/send', userData)
-                .then((response: AxiosResponse) => {
-                    setMessage(response.data.message);
-                    getSignUpData();
-                })
-                .catch((error: AxiosError) => {});
+
+            try {
+                await postVerificationCode(userData);
+                setVerification(true);
+            } catch (error) {
+                handleApiError(error as AxiosError, setMessage);
+            }
         }
     }, [startTimer, name, email, nameError, emailError]);
 
@@ -122,34 +131,49 @@ export default function Verification() {
      * Submit verification code
      */
     const onSubmit = useCallback(
-        (e: FormEvent<HTMLFormElement>): void => {
+        async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            if (nameError || emailError) {
-                if (nameError) errorInputCheck(nameInputRef.current);
-                else if (emailError) errorInputCheck(emailInputRef.current);
+            if (nameError) {
+                errorInputCheck(nameInputRef.current);
+                return;
+            }
+
+            if (emailError) {
+                errorInputCheck(emailInputRef.current);
                 return;
             }
 
             if (!code) {
                 errorInputCheck(codeInputRef.current);
+                return;
             }
 
             if (name && email && code) {
-                const userData: VerificationCodeDTO = {
+                const userData: VerificationResponseDTO = {
+                    userName: name,
                     email: email,
-                    authenticationCode: code,
+                    code: code,
+                    authenticationCode: '본인인증',
                 };
                 setMessage('');
-                post('/auth/email', userData)
-                    .then((response: AxiosResponse) => {
-                        setMessage(response.data.message);
-                    })
-                    .catch((error: AxiosError) => {
-                        handleApiError(error as AxiosError, setMessage);
+                try {
+                    await verifyVerificationCode(userData);
+                    getSignUpData();
+                    setSessionStorages({
+                        key: StorageKeyword.SUCCESS_VERIFICATION,
+                        value: StorageKeyword.TRUE,
                     });
+
+                    if (previousUrl && previousUrl == '/mypage') {
+                        navigate('/mypage');
+                    }
+                    navigate('/login');
+                } catch (error) {
+                    handleApiError(error as AxiosError, setMessage);
+                }
             }
         },
-        [name, email, nameError, emailError]
+        [name, email, code, nameError, emailError]
     );
 
     return (

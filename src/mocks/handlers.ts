@@ -15,6 +15,10 @@ import {
     VERIFY_EMAIL_ID_URL,
 } from 'services/PasswordService';
 import { GET_USER_INFO_URL } from 'services/UserInfoService';
+import {
+    POST_VERIFICATION_URL,
+    VERIFY_VERIFICATION_URL,
+} from 'services/VerificationService';
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 console.log('baseURL', baseURL);
@@ -110,7 +114,13 @@ export const handlers = [
             statusText: 'OK',
         });
     }),
-    http.post(`${baseURL}${VERIFY_EMAIL_ID_URL}`, () => {
+    http.post(`${baseURL}${POST_VERIFICATION_URL}`, () => {
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
+        });
+    }),
+    http.post(`${baseURL}${VERIFY_VERIFICATION_URL}`, () => {
         return new HttpResponse(null, {
             status: 200,
             statusText: 'OK',

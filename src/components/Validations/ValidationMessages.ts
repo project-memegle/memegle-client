@@ -87,6 +87,7 @@ const ValidationMessages: ValidationMessagesProps = {
 
     SUCCESS_IMAGE_UPLOAD: '업로드 요청이 성공적으로 완료되었습니다.',
     SUCCESS_DELETE_ACCOUNT: '계정삭제가 성공적으로 완료되었습니다.',
+    SUCCESS_VERIFICATION: '본인인증이 성공적으로 완료되었습니다.',
     GET_USER_INFO_FAIL: '사용자 정보를 가져오지 못했습니다.',
 };
 

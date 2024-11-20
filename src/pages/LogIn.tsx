@@ -61,6 +61,9 @@ export default function LogIn() {
         const sessionStoragePassword = getSessionStorages(
             StorageKeyword.CHANGE_PASSWORD_SUCCESS
         );
+        const sessionStorageVerification = getSessionStorages(
+            StorageKeyword.VERIFICATION_SUCCESS
+        );
 
         if (
             sessionStoragePassword &&
@@ -69,6 +72,14 @@ export default function LogIn() {
             setToastMessage(ValidationMessages.CHANGE_PASSWORD_SUCCESS);
             setToast(true);
             deleteSessionStorage(StorageKeyword.CHANGE_PASSWORD_SUCCESS);
+        }
+        if (
+            sessionStorageVerification &&
+            sessionStorageVerification === StorageKeyword.TRUE
+        ) {
+            setToastMessage(ValidationMessages.SUCCESS_VERIFICATION);
+            setToast(true);
+            deleteSessionStorage(StorageKeyword.VERIFICATION_SUCCESS);
         }
     }, []);
 

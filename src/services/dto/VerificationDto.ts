@@ -1,8 +1,11 @@
-export interface VerificationEmailDTO {
+export interface VerificationRequestDTO {
     userName: string;
     email: string;
+    authenticationCode: '본인인증';
 }
-export interface VerificationCodeDTO {
+export interface VerificationResponseDTO {
+    userName: string;
     email: string;
-    authenticationCode: string;
+    code: string;
+    authenticationCode: '본인인증';
 }
