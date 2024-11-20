@@ -1,14 +1,14 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
 import { AxiosError } from 'axios';
-import validateEmail from '../../components/Validations/ValidateEmail';
-import ValidationMessages from '../../components/Validations/ValidationMessages';
+import validateEmail from 'components/Validations/ValidateEmail';
+import ValidationMessages from 'components/Validations/ValidationMessages';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
-import useTimer from '../../hooks/useTimer';
-import { handleApiError } from '../../utils/API/handleApiError';
-import { errorInputCheck } from '../../utils/Event/errorInputCheck';
-import formatTime from '../../utils/Event/formatTime';
-import handleInputChange from '../../utils/Event/handleInputChange';
-import passwordCheckHandler from '../../utils/SignUp/passwordCheckHandler';
+import useTimer from 'hooks/useTimer';
+import { handleApiError } from 'utils/API/handleApiError';
+import { errorInputCheck } from 'utils/Event/errorInputCheck';
+import handleInputChange from 'utils/Event/handleInputChange';
+import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
+import formatTime from 'utils/Event/formatTime';
 
 export default function IdEmailVerification() {
     const navigate = useCustomNavigate();

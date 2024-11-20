@@ -7,7 +7,7 @@ import useTimer from 'hooks/useTimer';
 import { FormEvent, useCallback, useRef, useState } from 'react';
 import { handleApiError } from 'utils/API/handleApiError';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
-import formatTime from '../../utils/Event/formatTime';
+import formatTime from 'utils/Event/formatTime';
 import handleInputChange from 'utils/Event/handleInputChange';
 import { getPreviousUrl } from 'utils/Event/saveUrl';
 import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';

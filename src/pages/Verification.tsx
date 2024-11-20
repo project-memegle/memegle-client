@@ -12,7 +12,7 @@ import {
     VerificationCodeDTO,
 } from 'services/dto/VerificationDto';
 import useTimer from 'hooks/useTimer';
-import formatTime from 'utils/Event/formatTime';
+import formatTime from '../utils/Event/formatTime';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import {
     deleteSessionStorage,
@@ -48,7 +48,7 @@ export default function Verification() {
     const [hasTimerStarted, setHasTimerStarted] = useState(false);
 
     const previousUrl = getSessionStorages('previousUrl') || '/login';
-    
+
     const removeSignUpData = () => {
         deleteSessionStorage('id');
         deleteSessionStorage('nickname');
@@ -111,8 +111,7 @@ export default function Verification() {
                     setMessage(response.data.message);
                     getSignUpData();
                 })
-                .catch((error: AxiosError) => {
-                });
+                .catch((error: AxiosError) => {});
         }
     }, [startTimer, name, email, nameError, emailError]);
 
