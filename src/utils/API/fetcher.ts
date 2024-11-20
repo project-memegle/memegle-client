@@ -22,17 +22,24 @@ const instance = axios.create({
     // withCredentials: true,
 });
 
+const AUTH_REQUIRED_URLS = [''];
+
 // 요청 인터셉터 추가
 instance.interceptors.request.use(
     (config) => {
-        const token = getAccessToken();
-        if (token) {
-            // 헤더가 정의되어 있지 않으면 빈 객체로 초기화
-            const headers = config.headers
-                ? new AxiosHeaders(config.headers)
-                : new AxiosHeaders();
-            headers.set('Authorization', `Bearer ${token}`);
-            config.headers = headers;
+        const isAuthRequired = AUTH_REQUIRED_URLS.some((url) =>
+            config.url?.startsWith(url)
+        );
+
+        if (isAuthRequired) {
+            const token = getAccessToken();
+            if (token) {
+                const headers = config.headers
+                    ? new AxiosHeaders(config.headers)
+                    : new AxiosHeaders();
+                headers.set('Authorization', `Bearer ${token}`);
+                config.headers = headers;
+            }
         }
         return config; // 수정된 config 반환
     },
@@ -48,15 +55,12 @@ const refreshAccessToken = async (
 ) => {
     const refreshToken = getCookie(REFRESH_TOKEN);
 
-    // 리프레시 토큰이 없으면 로그인 페이지로 이동
     if (!refreshToken) {
-        //todo: 401에러 날때만 로긍인 페이지로 이동하도록 수정
-        // navigate('/login');
+        navigate('/login'); // 리프레시 토큰 없음 → 로그인 페이지로 이동
         return Promise.reject(new Error(ValidationMessages.INVALID_TOKEN));
     }
 
     try {
-        // 리프레시 토큰으로 원래 요청을 재전송
         originalRequest.headers = {
             ...originalRequest.headers,
             Authorization: `Bearer ${refreshToken}`,
@@ -65,7 +69,7 @@ const refreshAccessToken = async (
         return await instance(originalRequest);
     } catch (refreshError) {
         console.error('Refresh token error:', refreshError);
-        // navigate('/login');
+        navigate('/login'); // 리프레시 토큰 만료 → 로그인 페이지로 이동
         return Promise.reject(refreshError);
     }
 };
@@ -78,19 +82,34 @@ export const setupInterceptors = (navigate: (path: string) => void) => {
             const originalRequest = error.config;
 
             if (originalRequest) {
+                const isAuthRequired = AUTH_REQUIRED_URLS.some((url) =>
+                    originalRequest.url?.startsWith(url)
+                );
+
+                if (!isAuthRequired) {
+                    // 인증이 필요 없는 요청은 에러만 반환
+                    return Promise.reject(error);
+                }
+
                 // 무한 루프 방지 플래그
                 const headers = new AxiosHeaders(originalRequest.headers);
                 if (headers.has('x-retry')) {
                     return Promise.reject(error);
                 }
 
-                try {
-                    headers.set('x-retry', 'true'); // 플래그 추가
-                    originalRequest.headers = headers;
+                if (error.response?.status === 401) {
+                    try {
+                        headers.set('x-retry', 'true'); // 플래그 추가
+                        originalRequest.headers = headers;
 
-                    return await refreshAccessToken(originalRequest, navigate);
-                } catch (refreshError) {
-                    return Promise.reject(refreshError);
+                        return await refreshAccessToken(
+                            originalRequest,
+                            navigate
+                        );
+                    } catch (refreshError) {
+                        navigate('/login'); // 리프레시 토큰 만료 또는 실패 → 로그인 이동
+                        return Promise.reject(refreshError);
+                    }
                 }
             }
 

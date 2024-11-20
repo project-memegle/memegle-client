@@ -129,8 +129,8 @@ export default function SignUp() {
                     password: password,
                 };
                 try {
-                    await signUp(userData);
-
+                    const response = await signUp(userData);
+                    console.log(response);
                     // 회원가입 후 자동 로그인
                     const loginData: LogInRequestDTO = {
                         loginId: id,
