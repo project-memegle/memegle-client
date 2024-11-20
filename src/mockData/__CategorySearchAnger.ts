@@ -11,54 +11,42 @@ const MOCK_CATEGORY_RESULT_ANGER: SearchResultSectionDTO = {
     results: [
         {
             id: 91,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/Anger/anger-01.jpeg'
-            ),
+            imageUrl: resolveImagePath('/temp/Anger/anger-01.jpeg'),
             imageCategory: 'anger',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 92,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/Anger/anger-02.png'
-            ),
+            imageUrl: resolveImagePath('/temp/Anger/anger-02.png'),
             imageCategory: 'anger',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 93,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/Anger/anger-03.jpg'
-            ),
+            imageUrl: resolveImagePath('/temp/Anger/anger-03.jpg'),
             imageCategory: 'anger',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 94,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/Anger/anger-04.jpg'
-            ),
+            imageUrl: resolveImagePath('/temp/Anger/anger-04.jpg'),
             imageCategory: 'anger',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 95,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/Anger/anger-05.jpg'
-            ),
+            imageUrl: resolveImagePath('/temp/Anger/anger-05.jpg'),
             imageCategory: 'anger',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 96,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/Anger/anger-06.jpg'
-            ),
+            imageUrl: resolveImagePath('/temp/Anger/anger-06.jpg'),
             imageCategory: 'anger',
             createdAt: DATE,
             modifiedAt: DATE,

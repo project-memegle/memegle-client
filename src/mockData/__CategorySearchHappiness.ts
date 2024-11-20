@@ -11,54 +11,42 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
     results: [
         {
             id: 51,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/Happiness/happiness-01.jpg'
-            ),
+            imageUrl: resolveImagePath('/temp/Happiness/happiness-01.jpg'),
             imageCategory: 'birhtday',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 52,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/Happiness/happiness-02.png'
-            ),
+            imageUrl: resolveImagePath('/temp/Happiness/happiness-02.png'),
             imageCategory: 'birhtday',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 53,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/Happiness/happiness-03.jpg'
-            ),
+            imageUrl: resolveImagePath('/temp/Happiness/happiness-03.jpg'),
             imageCategory: 'birhtday',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 54,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/Happiness/happiness-04.jpg'
-            ),
+            imageUrl: resolveImagePath('/temp/Happiness/happiness-04.jpg'),
             imageCategory: 'birhtday',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 55,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/Happiness/happiness-05.jpg'
-            ),
+            imageUrl: resolveImagePath('/temp/Happiness/happiness-05.jpg'),
             imageCategory: 'birhtday',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 56,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/Happiness/happiness-06.jpg'
-            ),
+            imageUrl: resolveImagePath('/temp/Happiness/happiness-06.jpg'),
             imageCategory: 'birhtday',
             createdAt: DATE,
             modifiedAt: DATE,

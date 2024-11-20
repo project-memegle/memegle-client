@@ -11,36 +11,28 @@ const MOCK_CATEGORY_RESULT_WHAT: SearchResultSectionDTO = {
     results: [
         {
             id: 11,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/what/what-01.jpeg'
-            ),
+            imageUrl: resolveImagePath('/temp/what/what-01.jpeg'),
             imageCategory: 'what',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 12,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/what/what-02.jpg'
-            ),
+            imageUrl: resolveImagePath('/temp/what/what-02.jpg'),
             imageCategory: 'what',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 13,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/what/what-03.png'
-            ),
+            imageUrl: resolveImagePath('/temp/what/what-03.png'),
             imageCategory: 'what',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 14,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/what/what-04.jpg'
-            ),
+            imageUrl: resolveImagePath('/temp/what/what-04.jpg'),
             imageCategory: 'what',
             createdAt: DATE,
             modifiedAt: DATE,

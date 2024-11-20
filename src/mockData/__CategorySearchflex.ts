@@ -11,63 +11,49 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
     results: [
         {
             id: 61,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/flex/flex-01.jpeg'
-            ),
+            imageUrl: resolveImagePath('/temp/flex/flex-01.jpeg'),
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 62,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/flex/flex-02.jpeg'
-            ),
+            imageUrl: resolveImagePath('/temp/flex/flex-02.jpeg'),
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 63,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/flex/flex-03.jpeg'
-            ),
+            imageUrl: resolveImagePath('/temp/flex/flex-03.jpeg'),
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 64,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/flex/flex-04.jpeg'
-            ),
+            imageUrl: resolveImagePath('/temp/flex/flex-04.jpeg'),
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 65,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/flex/flex-05.jpeg'
-            ),
+            imageUrl: resolveImagePath('/temp/flex/flex-05.jpeg'),
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 66,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/flex/flex-06.jpeg'
-            ),
+            imageUrl: resolveImagePath('/temp/flex/flex-06.jpeg'),
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,
         },
         {
             id: 67,
-            imageUrl: resolveImagePath(
-                '/src/assets/images/temp/flex/flex-07.jpeg'
-            ),
+            imageUrl: resolveImagePath('/temp/flex/flex-07.jpeg'),
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,
