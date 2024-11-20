@@ -38,22 +38,17 @@ export default function ChangeNickname() {
             if (nicknameError) {
                 return;
             }
-
-            if (nickname) {
-                try {
-                    const response = await checkNickname({ nickname });
-                    setIsChecked(true); // Set the checked state to true after checking
-                    if (response?.isDuplicated) {
-                        setNicknameError('닉네임이 중복되었습니다.');
-                        setIsDuplicated(true);
-                    } else {
-                        setNicknameError('사용 가능한 닉네임입니다.');
-                        setIsDuplicated(false);
-                    }
-                } catch (error) {
-                    handleApiError(error as AxiosError, setNicknameError);
-                }
+            const response = await checkNickname({ nickname });
+            
+            setIsChecked(true); // Set the checked state to true after checking
+            if (response?.isDuplicated) {
+                setNicknameError('닉네임이 중복되었습니다.');
+                setIsDuplicated(true);
+                return;
             }
+
+            setNicknameError('사용 가능한 닉네임입니다.');
+            setIsDuplicated(false);
         },
         [nickname, nicknameError]
     );
@@ -61,24 +56,21 @@ export default function ChangeNickname() {
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
+            const userId = getSessionStorages(StorageKeyword.USER_ID);
 
             if (isDuplicated) {
                 return;
             }
 
+            if (!userId) {
+                setMessage(ValidationMessages.MISSING_ID);
+                return;
+            }
+
             if (nickname) {
-                try {
-                    const userId = getSessionStorages(StorageKeyword.USER_ID);
-                    if (userId) {
-                        await changeNickname({ userId, nickname });
-                        setMessage('닉네임이 성공적으로 변경되었습니다.');
-                        navigate('/mypage');
-                    } else {
-                        setMessage('사용자 ID를 찾을 수 없습니다.');
-                    }
-                } catch (error) {
-                    handleApiError(error as AxiosError, setMessage);
-                }
+                await changeNickname({ userId, nickname });
+                setMessage('닉네임이 성공적으로 변경되었습니다.');
+                navigate('/mypage');
             }
         },
         [nickname, nicknameError, isDuplicated, navigate]

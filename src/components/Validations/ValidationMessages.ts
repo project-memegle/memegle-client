@@ -36,8 +36,10 @@ const ValidationMessages: ValidationMessagesProps = {
     INVALID_USER: '인증 정보가 일치하지 않습니다.',
 
     // Existence errors
+    MISSING_ID: '사용자 ID를 찾을 수 없습니다. 다시 로그인해주세요',
     EXIST_ID: '이미 존재하는 아이디입니다.',
     EXIST_USER: '이미 존재하는 회원입니다.',
+    EXIST_NICKNAME: '이미 존재하는 닉네임입니다.',
 
     // Resource and form errors
     NO_RESOURCE: '리소스를 찾을 수 없습니다.',
@@ -47,9 +49,9 @@ const ValidationMessages: ValidationMessagesProps = {
     SERVER_ERROR: '서버 에러입니다. 불편을 드려 죄송합니다',
     UNKNOWN_ERROR: '알 수 없는 에러가 발생했습니다. 고객센터에 문의해주세요.',
 
-    // Success messages
     SIGNUP_FAILED: '회원가입 실패',
     SIGNUP_SUCCESS: '회원가입 성공',
+    CHANGE_NICKNAME_SUCCESS: '닉네임이 성공적으로 변경되었습니다.',
     LOGIN_FAILED: '로그인 실패',
     LOGIN_SUCCESS: '로그인 성공',
     NETWORK_ERROR:
