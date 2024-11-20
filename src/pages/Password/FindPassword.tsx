@@ -8,6 +8,8 @@ import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import { handleApiError } from 'utils/API/handleApiError';
 import { post } from 'utils/API/fetcher';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
+import { findPassword } from 'services/FindService';
+import { FindPasswordDTO } from 'services/dto/FindDto';
 export default function FindPassword() {
     const navigate = useCustomNavigate();
 
@@ -45,15 +47,7 @@ export default function FindPassword() {
             }
             if (id && email) {
                 setMessage('');
-                post('/login', {
-                    id,
-                })
-                    .then((response: AxiosResponse) => {
-                        setMessage(response.data.message);
-                    })
-                    .catch((error: AxiosError) => {
-                        handleApiError(error as AxiosError, setMessage);
-                    });
+                findPassword({ id, email } as FindPasswordDTO);
             }
         },
         [id, email]

@@ -1,6 +1,7 @@
 import { http, HttpResponse } from 'msw';
 
 const baseURL = import.meta.env.VITE_BASE_URL;
+console.log('baseURL', baseURL);
 export const handlers = [
     http.get(`${baseURL}/notifications/state`, () => {
         return new HttpResponse(null, {
@@ -21,6 +22,18 @@ export const handlers = [
         });
     }),
     http.get(`${baseURL}/sign/in`, () => {
+        return new HttpResponse(null, {
+            status: 204,
+            statusText: 'OK',
+        });
+    }),
+    http.get(`${baseURL}/sign/up`, () => {
+        return new HttpResponse(null, {
+            status: 204,
+            statusText: 'OK',
+        });
+    }),
+    http.get(`${baseURL}/users/find/password`, () => {
         return new HttpResponse(null, {
             status: 204,
             statusText: 'OK',
