@@ -1,15 +1,16 @@
 import ValidationMessages from 'components/Validations/ValidationMessages';
 import { post } from '../utils/API/fetcher';
 import { SignUpDTO } from './dto/SignUpDto';
-import { AxiosResponse } from 'axios';
+import axios from 'axios';
 
+export const SIGN_UP_URL = '/users/sign/up';
 export async function signUp(userData: SignUpDTO): Promise<void> {
-    const response: AxiosResponse<void> = await post<void, SignUpDTO>(
-        '/users/sign/up',
-        userData
-    );
-
-    if (response.status !== 200 && response.status !== 204) {
-        throw new Error(ValidationMessages.FAILED_EVENT);
+    try {
+        await post<void, SignUpDTO>(SIGN_UP_URL, userData);
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            throw error; // AxiosError를 호출자에게 전달
+        }
+        throw new Error(ValidationMessages.UNKNOWN_ERROR);
     }
 }

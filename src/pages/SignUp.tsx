@@ -123,13 +123,11 @@ export default function SignUp() {
             }
 
             if (nickname && id && password && passwordCheck) {
-                setSignUpError('');
                 const userData: SignUpDTO = {
                     loginId: id,
                     nickname: nickname,
                     password: password,
                 };
-                setSignupSuccess(ValidationMessages.SIGNUP_SUCCESS);
                 try {
                     await signUp(userData);
 
@@ -225,8 +223,8 @@ export default function SignUp() {
                         </div>
                     </section>
                 </div>
-                {signUpError && <p>{signUpError}</p>}
-                {signupSuccess && <p>{signupSuccess}</p>}
+                {signUpError && <p className="message">{signUpError}</p>}
+                {signupSuccess && <p className="message">{signupSuccess}</p>}
                 <section className="c-login__button-section">
                     <div>
                         <p>
