@@ -51,6 +51,7 @@ const ValidationMessages: ValidationMessagesProps = {
 
     SIGNUP_FAILED: '회원가입 실패',
     SIGNUP_SUCCESS: '회원가입 성공',
+    CHANGE_PASSWORD_SUCCESS: '비밀번호가 성공적으로 변경되었습니다.',
     CHANGE_NICKNAME_SUCCESS: '닉네임이 성공적으로 변경되었습니다.',
     CHECK_NICKNAME_SUCCESS: '사용하실 수 있는 닉네임 입니다.',
     LOGIN_FAILED: '로그인 실패',

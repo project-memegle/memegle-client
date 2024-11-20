@@ -8,8 +8,8 @@ import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import { handleApiError } from 'utils/API/handleApiError';
 import { post } from 'utils/API/fetcher';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
-import { findPassword } from 'services/FindService';
-import { FindPasswordDTO } from 'services/dto/FindDto';
+import { findPassword } from 'services/PasswordService';
+import { FindPasswordDTO } from 'services/dto/PasswordDto';
 export default function FindPassword() {
     const navigate = useCustomNavigate();
 

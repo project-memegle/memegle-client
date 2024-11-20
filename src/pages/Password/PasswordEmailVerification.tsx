@@ -4,13 +4,19 @@ import validateId from 'components/Validations/ValidateId';
 import ValidationMessages from 'components/Validations/ValidationMessages';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import useTimer from 'hooks/useTimer';
-import { FormEvent, useCallback, useRef, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { handleApiError } from 'utils/API/handleApiError';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import formatTime from 'utils/Format/formatTime';
 import handleInputChange from 'utils/Event/handleInputChange';
 import { getPreviousUrl } from 'utils/Event/saveUrl';
 import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
+import { resetErrors } from 'utils/Event/resetError';
+import {
+    ChangePasswordDTO,
+    PasswordEmailVerificationDTO,
+} from 'services/dto/PasswordDto';
+import { verifyEmailPassword } from 'services/PasswordService';
 
 export default function PasswordEmailVerification() {
     const navigate = useCustomNavigate();
@@ -19,14 +25,11 @@ export default function PasswordEmailVerification() {
     const [verified, setVerified] = useState(false);
 
     const [message, setMessage] = useState('');
-    const [password, setPassword] = useState('');
 
     const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
 
     const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
-
-    const [emailError, setEmailError] = useState(DEFAULT_EMAIL);
 
     const idInputRef = useRef<HTMLInputElement>(null);
     const emailInputRef = useRef<HTMLInputElement>(null);
@@ -37,8 +40,15 @@ export default function PasswordEmailVerification() {
 
     const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
 
+    const [emailError, setEmailError] = useState(DEFAULT_EMAIL);
     const [idError, setIdError] = useState(DEFAULT_ID);
     const [id, setId] = useState('');
+
+    useEffect(() => {
+        if (id && email) {
+            resetErrors(setIdError, setEmailError);
+        }
+    }, [id, email]);
 
     const onChangeId = useCallback(
         handleInputChange(setId, setIdError, validateId),
@@ -50,19 +60,41 @@ export default function PasswordEmailVerification() {
         []
     );
 
+    const onChangeCode = useCallback((e: FormEvent<HTMLInputElement>) => {
+        setCode(e.currentTarget.value);
+    }, []);
+
     const onSubmit = useCallback(
-        (e: FormEvent<HTMLFormElement>): void => {
+        async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            if (idError || emailError) {
-                if (idError) errorInputCheck(idInputRef.current);
-                else if (emailError) errorInputCheck(emailInputRef.current);
+            if (idError) {
+                errorInputCheck(idInputRef.current);
                 return;
             }
-            if (id && email) {
+
+            if (emailError) {
+                errorInputCheck(emailInputRef.current);
+                return;
+            }
+
+            if (!code) {
+                errorInputCheck(codeInputRef.current);
+                return;
+            }
+
+            if (id && email && code) {
                 setMessage('');
+                const userData: PasswordEmailVerificationDTO = {
+                    id,
+                    email,
+                    verificationType: '비밀번호 변경',
+                };
+                await verifyEmailPassword(userData);
+                setMessage(ValidationMessages.CHANGE_NICKNAME_SUCCESS);
+                navigate('/password/change');
             }
         },
-        [id, email]
+        [id, email, idError, emailError, code]
     );
 
     const onChangeVerification = useCallback(() => {
@@ -78,18 +110,6 @@ export default function PasswordEmailVerification() {
             setHasTimerStarted(true);
         }
     }, [startTimer, email, emailError]);
-
-    const onSubmitVerification = useCallback(
-        (e: FormEvent<HTMLFormElement>) => {
-            e.preventDefault();
-            setVerified(true);
-        },
-        []
-    );
-
-    const onChangeCode = useCallback((e: FormEvent<HTMLInputElement>) => {
-        setCode(e.currentTarget.value);
-    }, []);
 
     return (
         <div className="main__container">
@@ -161,9 +181,7 @@ export default function PasswordEmailVerification() {
                 )}
                 <button
                     className="button__rounded button__orange"
-                    onClick={() => {
-                        navigate('/password/change');
-                    }}
+                    type="submit"
                 >
                     비밀번호 재설정
                 </button>

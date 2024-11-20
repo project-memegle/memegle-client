@@ -7,6 +7,11 @@ import {
     GET_NOTIFICATION_LIST_URL,
     GET_NOTIFICATION_STATE_URL,
 } from 'services/NotificationService';
+import {
+    CHANGE_PASSWORD_URL,
+    FIND_PASSWORD_URL,
+    VERIFY_PASSWORD_URL,
+} from 'services/PasswordService';
 import { GET_USER_INFO_URL } from 'services/UserInfoService';
 
 const baseURL = import.meta.env.VITE_BASE_URL;
@@ -42,12 +47,13 @@ export const handlers = [
             statusText: 'OK',
         });
     }),
-    http.get(`${baseURL}/users/find/password`, () => {
+    http.get(`${baseURL}${FIND_PASSWORD_URL}`, () => {
         return new HttpResponse(null, {
             status: 204,
             statusText: 'OK',
         });
     }),
+
     http.get(`${baseURL}${CHECK_NICKNAME_URL}`, () => {
         return new HttpResponse(null, {
             status: 204,
@@ -71,6 +77,20 @@ export const handlers = [
     }),
 
     http.post(`${baseURL}/images`, () => {
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
+        });
+    }),
+
+    http.post(`${baseURL}${CHANGE_PASSWORD_URL}`, () => {
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
+        });
+    }),
+
+    http.post(`${baseURL}${VERIFY_PASSWORD_URL}`, () => {
         return new HttpResponse(null, {
             status: 200,
             statusText: 'OK',

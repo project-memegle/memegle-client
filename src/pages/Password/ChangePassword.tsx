@@ -1,48 +1,31 @@
 import { AxiosError } from 'axios';
-import validateEmail from 'components/Validations/ValidateEmail';
 import ValidationMessages from 'components/Validations/ValidationMessages';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
-import useTimer from 'hooks/useTimer';
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { handleApiError } from 'utils/API/handleApiError';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
-import handleInputChange from 'utils/Event/handleInputChange';
 import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
-import { getPreviousUrl } from 'utils/Event/saveUrl';
+import { postChangePassword } from 'services/PasswordService';
+import StorageKeyword from 'Constant/StorageKeyword';
+import { ChangePasswordDTO } from 'services/dto/PasswordDto';
+import { setSessionStorages } from 'utils/Storage/sessionStorage';
 
 export default function ChangePassword() {
     const navigate = useCustomNavigate();
 
-    const [verification, setVerification] = useState(false);
-    const [verified, setVerified] = useState(false);
-
     const [message, setMessage] = useState('');
-    const [password, setPassword] = useState('');
 
     const [email, setEmail] = useState('');
-    const [code, setCode] = useState('');
+    const [id, setId] = useState('');
+    const [password, setPassword] = useState('');
 
     const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
-    const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
-
-    const [emailError, setEmailError] = useState(DEFAULT_EMAIL);
 
     const [passwordCheck, setPasswordCheck] = useState('');
     const [passwordError, setPasswordError] = useState(DEFAULT_PASSWORD);
 
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const passwordCheckInputRef = useRef<HTMLInputElement>(null);
-
-    const emailInputRef = useRef<HTMLInputElement>(null);
-    const codeInputRef = useRef<HTMLInputElement>(null);
-    const [hasTimerStarted, setHasTimerStarted] = useState(false);
-
-    const { timer, startTimer, resetTimer, isActive } = useTimer(300);
-
-    const onChangeEmail = useCallback(
-        handleInputChange(setEmail, setEmailError, validateEmail),
-        []
-    );
 
     const onChangePassword = useCallback(
         passwordCheckHandler(setPassword, passwordCheck, setPasswordError, () =>
@@ -58,42 +41,14 @@ export default function ChangePassword() {
         [password]
     );
 
-    const onChangeCode = useCallback((e: FormEvent<HTMLInputElement>) => {
-        setCode(e.currentTarget.value);
+    useEffect(() => {
+        const id = sessionStorage.getItem(StorageKeyword.USER_ID);
+        const email = sessionStorage.getItem(StorageKeyword.USER_EMAIL);
+        if (id && email) {
+            setId(id);
+            setEmail(email);
+        }
     }, []);
-
-    const onChangeVerification = useCallback(() => {
-        if (emailError) {
-            errorInputCheck(emailInputRef.current);
-            return;
-        }
-
-        if (email) {
-            setMessage('');
-            setVerification(true);
-            startTimer();
-            setHasTimerStarted(true);
-        }
-    }, [startTimer, email, emailError]);
-
-    const onSubmitVerification = useCallback(
-        (e: FormEvent<HTMLFormElement>) => {
-            e.preventDefault();
-            setVerified(true);
-        },
-        []
-    );
-    const pastUrl = getPreviousUrl();
-
-    function nextPage() {
-        if (pastUrl?.includes('login')) {
-            navigate('/login');
-        } else if (pastUrl?.includes('mypage')) {
-            navigate('/mypage');
-        } else {
-            navigate(pastUrl || '/');
-        }
-    }
 
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
@@ -104,15 +59,27 @@ export default function ChangePassword() {
             }
 
             if (password && passwordCheck) {
-                setMessage('');
+                const userData: ChangePasswordDTO = {
+                    id: id,
+                    password: password,
+                    email: email,
+                    verificationType: '비밀번호 변경',
+                };
+
                 try {
-                    // await signUp(userData);
+                    await postChangePassword(userData);
+                    setMessage(ValidationMessages.CHANGE_PASSWORD_SUCCESS);
+                    setSessionStorages({
+                        key: StorageKeyword.CHANGE_PASSWORD_SUCCESS,
+                        value: StorageKeyword.TRUE,
+                    });
+                    navigate('/mypage');
                 } catch (error) {
                     handleApiError(error as AxiosError, setMessage);
                 }
             }
         },
-        [password, passwordCheck, passwordError]
+        [id, email, password, passwordCheck, passwordError, navigate]
     );
 
     return (
@@ -153,11 +120,12 @@ export default function ChangePassword() {
                 </div>
                 <button
                     className="button__rounded button__orange"
-                    onClick={nextPage}
+                    type="submit" // Ensure this button submits the form
                 >
                     비밀번호 재설정
                 </button>
             </form>
+            {message && <p>{message}</p>}
         </div>
     );
 }

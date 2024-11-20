@@ -19,14 +19,29 @@ export default function Mypage() {
     useEffect(() => {
         // getNotificationState();
 
-        const sessionStorage = getSessionStorages(
+        const sessionStorageNickname = getSessionStorages(
             StorageKeyword.CHANGE_NICKNAME_SUCCESS
         );
+        const sessionStoragePassword = getSessionStorages(
+            StorageKeyword.CHANGE_PASSWORD_SUCCESS
+        );
 
-        if (sessionStorage && sessionStorage === StorageKeyword.TRUE) {
+        if (
+            sessionStorageNickname &&
+            sessionStorageNickname === StorageKeyword.TRUE
+        ) {
             setToastMessage(ValidationMessages.CHANGE_NICKNAME_SUCCESS);
             setToast(true);
             deleteSessionStorage(StorageKeyword.CHANGE_NICKNAME_SUCCESS);
+        }
+
+        if (
+            sessionStoragePassword &&
+            sessionStoragePassword === StorageKeyword.TRUE
+        ) {
+            setToastMessage(ValidationMessages.CHANGE_PASSWORD_SUCCESS);
+            setToast(true);
+            deleteSessionStorage(StorageKeyword.CHANGE_PASSWORD_SUCCESS);
         }
 
         const userId = getSessionStorages(StorageKeyword.USER_ID);
