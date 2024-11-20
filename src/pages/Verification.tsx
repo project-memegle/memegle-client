@@ -1,6 +1,6 @@
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { AxiosResponse, AxiosError } from 'axios';
-import ValidationMessages from '../components/Validations/ValidationMessages';
+import ValidationMessages from 'components/Validations/ValidationMessages';
 import handleInputChange from 'utils/Event/handleInputChange';
 import validateEmail from 'components/Validations/ValidateEmail';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
@@ -12,7 +12,7 @@ import {
     VerificationCodeDTO,
 } from 'services/dto/VerificationDto';
 import useTimer from 'hooks/useTimer';
-import formatTime from '../utils/Event/formatTime';
+import formatTime from 'utils/Event/formatTime';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import {
     deleteSessionStorage,

@@ -1,8 +1,8 @@
 import { AxiosResponse } from 'axios';
-import { LogInRequestDTO } from '../services/dto/LogInDto';
-import { post } from '../utils/API/fetcher';
-import { getEnvVariableAsNumber } from '../utils/Storage/numberUntils';
-import { setCookie } from '../utils/Storage/cookies';
+import { LogInRequestDTO } from 'services/dto/LogInDto';
+import { post } from 'utils/API/fetcher';
+import { getEnvVariableAsNumber } from 'utils/Storage/numberUntils';
+import { setCookie } from 'utils/Storage/cookies';
 
 const ACCESS_TOKEN = 'access_token';
 const REFRESH_TOKENE = 'refresh_token';

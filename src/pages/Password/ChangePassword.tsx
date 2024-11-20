@@ -1,13 +1,13 @@
 import { AxiosError } from 'axios';
-import validateEmail from '../../components/Validations/ValidateEmail';
-import ValidationMessages from '../../components/Validations/ValidationMessages';
-import useCustomNavigate from '../../hooks/useCustomNaviaget';
-import useTimer from '../../hooks/useTimer';
+import validateEmail from 'components/Validations/ValidateEmail';
+import ValidationMessages from 'components/Validations/ValidationMessages';
+import useCustomNavigate from 'hooks/useCustomNaviaget';
+import useTimer from 'hooks/useTimer';
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { handleApiError } from '../../utils/API/handleApiError';
-import { errorInputCheck } from '../../utils/Event/errorInputCheck';
-import handleInputChange from '../../utils/Event/handleInputChange';
-import passwordCheckHandler from '../../utils/SignUp/passwordCheckHandler';
+import { handleApiError } from 'utils/API/handleApiError';
+import { errorInputCheck } from 'utils/Event/errorInputCheck';
+import handleInputChange from 'utils/Event/handleInputChange';
+import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
 import { getPreviousUrl } from 'utils/Event/saveUrl';
 
 export default function ChangePassword() {
