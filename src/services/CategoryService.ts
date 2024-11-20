@@ -42,7 +42,7 @@ export async function searchByCategory({
         const url = `/images/category?${queryParams.toString()}`;
         const response = await get<SearchResultSectionDTO>(url);
 
-        setResultData(response);
+        setResultData(response.data);
     } catch (error) {
         console.error('Error fetching categories:', error);
         handleApiError(error as AxiosError, setError);
@@ -65,7 +65,7 @@ export async function getCategorylist({
         // CategoryResultSectionDTO를 받아옵니다
         const response = await get<CategoryResultSectionDTO>(url);
         // 결과 배열만 추출하여 setResultData로 전달
-        setResultData(response);
+        setResultData(response.data);
     } catch (error) {
         console.error('Error fetching categories:', error);
         handleApiError(error as AxiosError, setError);

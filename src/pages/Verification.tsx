@@ -91,9 +91,12 @@ export default function Verification() {
      * Send verification code
      */
     const onChangeVerification = useCallback(() => {
-        if (nameError || emailError) {
-            if (nameError) errorInputCheck(nameInputRef.current);
-            else if (emailError) errorInputCheck(emailInputRef.current);
+        if (nameError) {
+            errorInputCheck(nameInputRef.current);
+            return;
+        }
+        if (emailError) {
+            errorInputCheck(emailInputRef.current);
             return;
         }
 

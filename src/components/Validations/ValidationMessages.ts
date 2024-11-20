@@ -19,6 +19,7 @@ const ValidationMessages: ValidationMessagesProps = {
     REQUIRED_NAME: '이름을 입력해주세요.',
     REQUIRED_FORM: '모든 필드를 입력해주세요.',
     REQUIRED_CODE: '인증번호를 입력해주세요.',
+    REQUIRED_REASON: '사유를 입력해주세요.',
 
     INVALID_ID_LENGTH: '아이디는 최소 6자 이상이어야 합니다.',
     // Invalid field errors
@@ -85,6 +86,7 @@ const ValidationMessages: ValidationMessagesProps = {
     UNMATCHED_TOKEN: '인증 정보가 일치하지 않습니다. 다시 로그인 해주세요',
 
     SUCCESS_IMAGE_UPLOAD: '업로드 요청이 성공적으로 완료되었습니다.',
+    SUCCESS_DELETE_ACCOUNT: '계정삭제가 성공적으로 완료되었습니다.',
     GET_USER_INFO_FAIL: '사용자 정보를 가져오지 못했습니다.',
 };
 

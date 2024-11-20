@@ -17,14 +17,27 @@ export default function HomePage() {
     useEffect(() => {
         // getNotificationState();
 
-        const sessionStorage = getSessionStorages(
+        const sessionStorageImage = getSessionStorages(
             StorageKeyword.UPLOAD_SUCCESS
         );
-        if (sessionStorage && sessionStorage === StorageKeyword.TRUE) {
+        const sessionStorageDeleteAccount = getSessionStorages(
+            StorageKeyword.DELETE_ACCOUNT_SUCCESS
+        );
+        if (
+            sessionStorageImage &&
+            sessionStorageImage === StorageKeyword.TRUE
+        ) {
             setToastMessage(ValidationMessages.SUCCESS_IMAGE_UPLOAD);
             setToast(true);
-
             deleteSessionStorage(StorageKeyword.UPLOAD_SUCCESS);
+        }
+        if (
+            sessionStorageDeleteAccount &&
+            sessionStorageDeleteAccount === StorageKeyword.TRUE
+        ) {
+            setToastMessage(ValidationMessages.SUCCESS_DELETE_ACCOUNT);
+            setToast(true);
+            deleteSessionStorage(StorageKeyword.DELETE_ACCOUNT_SUCCESS);
         }
     }, []);
     return (

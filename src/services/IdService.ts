@@ -14,7 +14,7 @@ export async function searchById(
     const url = '/images/' + id;
     return get<SearchResultSectionDTO>(url)
         .then((response) => {
-            setResultData(response);
+            setResultData(response.data);
         })
         .catch((error) => {
             console.error('Error fetching categories:', error);

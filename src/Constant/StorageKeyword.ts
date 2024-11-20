@@ -6,9 +6,12 @@ const StorageKeyword: StorageProps = {
     UPLOAD_SUCCESS: 'uploadSuccess',
     CHANGE_NICKNAME_SUCCESS: 'changeNicknameSuccess',
     CHANGE_PASSWORD_SUCCESS: 'changePasswordSuccess',
+    DELETE_ACCOUNT_SUCCESS: 'deleteAccountSuccess',
     USER_ID: 'userId',
     USER_EMAIL: 'userEmail',
     USER_NICKNAME: 'userNickname',
+    ACCESS_TOKEN: 'access_token',
+    REFRESH_TOKEN: 'refersh_token'
 };
 
 export default StorageKeyword;
