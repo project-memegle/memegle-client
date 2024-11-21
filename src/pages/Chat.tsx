@@ -1,10 +1,17 @@
 import { useState } from 'react';
 import ChatBot from 'components/UI/Chat/ChatBot';
 import ChatItem from '../components/UI/Chat/ChatItem';
+import { ChatItemDTO } from 'services/dto/ChatDto';
+import { postChat } from 'services/ChatService';
+import { getSessionStorages } from 'utils/Storage/sessionStorage';
+import StorageKeyword from 'Constant/StorageKeyword';
 
 export default function Chat() {
     const [isCategorySelected, setIsCategorySelected] = useState(false);
     const [message, setMessage] = useState('');
+
+    const [category, setCategory] = useState('');
+
     const [messages, setMessages] = useState<
         {
             content: string;
@@ -14,13 +21,15 @@ export default function Chat() {
     >([]);
     const date = new Date().toLocaleString();
 
-    function handleCategorySelect() {
+    function handleCategorySelect(selectedCategory: string) {
         setIsCategorySelected(true);
+        setCategory(selectedCategory);
     }
 
     function handleCategoryReset() {
         setIsCategorySelected(false);
-        setMessages([]); // Reset messages state
+        setMessages([]);
+        setCategory('');
     }
 
     function handleMessageSend(e: React.FormEvent<HTMLFormElement>) {
@@ -34,7 +43,8 @@ export default function Chat() {
         }
     }
 
-    function handleEndChat() {
+    async function handleEndChat() {
+        const allMessages = messages.map((msg) => `${msg.content}`).join('\n');
         setMessages((prevMessages) => [
             ...prevMessages,
             {
@@ -44,6 +54,19 @@ export default function Chat() {
             },
         ]);
         setIsCategorySelected(false);
+        const userId = getSessionStorages(StorageKeyword.USER_ID);
+
+        if (!allMessages) {
+            return;
+        }
+        if (userId) {
+            const chatData: ChatItemDTO = {
+                loginId: userId,
+                content: allMessages,
+                category: category,
+            };
+            await postChat(chatData);
+        }
     }
 
     return (

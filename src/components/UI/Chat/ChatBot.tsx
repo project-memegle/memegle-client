@@ -7,9 +7,9 @@ import {
 } from 'utils/Storage/sessionStorage';
 
 interface ChatBotProps {
-    onCategorySelect: () => void;
+    onCategorySelect: (category: string) => void;
     onCategoryReset: () => void;
-    resetChatMessages: () => void; // Add resetChatMessages prop
+    resetChatMessages: () => void;
 }
 
 export default function ChatBot({
@@ -67,7 +67,7 @@ export default function ChatBot({
                 chatDirection: 'incoming',
             },
         ]);
-        onCategorySelect();
+        onCategorySelect(value);
     }
 
     function showCategoryListAgain() {

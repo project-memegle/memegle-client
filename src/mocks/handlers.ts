@@ -1,4 +1,5 @@
 import { http, HttpResponse } from 'msw';
+import { POST_CHAT_URL } from 'services/ChatService';
 import { POST_ID_SEARCH_URL, VERIFY_ID_CODE_URL } from 'services/IdService';
 import { SIGN_IN_URL } from 'services/LogInService';
 import {
@@ -153,6 +154,12 @@ export const handlers = [
         });
     }),
     http.post(`${baseURL}${SIGN_UP_URL}`, () => {
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
+        });
+    }),
+    http.post(`${baseURL}${POST_CHAT_URL}`, () => {
         return new HttpResponse(null, {
             status: 200,
             statusText: 'OK',
