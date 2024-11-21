@@ -20,6 +20,7 @@ export default function Chat() {
 
     function handleCategoryReset() {
         setIsCategorySelected(false);
+        setMessages([]); // Reset messages state
     }
 
     function handleMessageSend(e: React.FormEvent<HTMLFormElement>) {
@@ -33,6 +34,18 @@ export default function Chat() {
         }
     }
 
+    function handleEndChat() {
+        setMessages((prevMessages) => [
+            ...prevMessages,
+            {
+                content: '상담이 종료되었습니다.',
+                date,
+                chatDirection: 'incoming',
+            },
+        ]);
+        setIsCategorySelected(false);
+    }
+
     return (
         <div className="c-chat">
             <div className="main__container">
@@ -40,6 +53,7 @@ export default function Chat() {
                     <ChatBot
                         onCategorySelect={handleCategorySelect}
                         onCategoryReset={handleCategoryReset}
+                        resetChatMessages={() => setMessages([])} // Pass reset function
                     />
                     {messages.map((msg, index) => (
                         <ChatItem
@@ -49,6 +63,16 @@ export default function Chat() {
                             chatDirection={msg.chatDirection}
                         />
                     ))}
+                    {isCategorySelected && (
+                        <div className="c-chat__end-section">
+                            <button
+                                className="c-chat__end-section-button"
+                                onClick={handleEndChat}
+                            >
+                                상담종료하기
+                            </button>
+                        </div>
+                    )}
                 </section>
             </div>
             {isCategorySelected && (
@@ -56,7 +80,7 @@ export default function Chat() {
                     onSubmit={handleMessageSend}
                     className="c-chat__input c-chat__shadow"
                 >
-                    <label htmlFor="">chat</label>
+                    <label htmlFor="chat">chat</label>
                     <input
                         className="c-input__input"
                         type="text"

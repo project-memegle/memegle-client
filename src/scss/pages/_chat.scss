@@ -7,6 +7,8 @@
   .c-chat {
     --c-chat__button-size: 25px;
 
+    overflow-y: scroll;
+
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -23,6 +25,23 @@
       padding-top: calc(var(--primary__font-size) * 3);
     }
 
+    &__end-section {
+      z-index: 100;
+      width: 100%;
+      position: fixed;
+      display: flex;
+      justify-content: center;
+      bottom: 90px;
+      left: 50%;
+      transform: translate(-50%);
+
+      &-button {
+        @include tag.tag-style;
+        color: colors.$white;
+        white-space: nowrap;
+      }
+    }
+
     &__chatbot-category {
       width: 80%;
       display: flex;
@@ -31,6 +50,7 @@
         @include tag.tag-style;
         color: colors.$white;
         white-space: nowrap;
+        margin-bottom: 1.5em;
       }
     }
 

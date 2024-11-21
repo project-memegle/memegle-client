@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useState } from 'react';
 import ChatItem, { ChatItemProps } from './ChatItem';
 import {
     deleteSessionStorage,
@@ -9,11 +9,13 @@ import {
 interface ChatBotProps {
     onCategorySelect: () => void;
     onCategoryReset: () => void;
+    resetChatMessages: () => void; // Add resetChatMessages prop
 }
 
 export default function ChatBot({
     onCategorySelect,
     onCategoryReset,
+    resetChatMessages, // Destructure resetChatMessages prop
 }: ChatBotProps) {
     const date = new Date().toLocaleString();
     const initialMessages: ChatItemProps[] = [
@@ -73,6 +75,7 @@ export default function ChatBot({
         setMessages(initialMessages);
         deleteSessionStorage('chatbotCategory');
         onCategoryReset();
+        resetChatMessages(); // Call resetChatMessages to reset messages in Chat component
     }
 
     return (
