@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { clearLocalStorage } from 'utils/Storage/localStorage';
-import { clearSessionStorage } from 'utils/Storage/sessionStorage';
 import { deleteCookie, getCookie } from 'utils/Storage/cookies';
 import StorageKeyword from 'Constant/StorageKeyword';
 
