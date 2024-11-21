@@ -226,7 +226,7 @@ export default function SignUp() {
                 {signUpError && <p className="message">{signUpError}</p>}
                 {signupSuccess && <p className="message">{signupSuccess}</p>}
                 <section className="c-login__button-section">
-                    <div>
+                    <div className="c-login__button-section-message">
                         <p>
                             본인 인증을 완료한 회원만이 아이디 및 비밀번호 찾기
                             서비스를 이용할 수 있습니다.
