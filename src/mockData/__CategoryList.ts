@@ -55,14 +55,14 @@ export const MOCK_CATEGORY_LIST: CategoryResultSectionDTO = {
             id: 7,
             categoryName: '무한도전',
             imageCategory: 'mudo',
-            titleImageUrl: resolveImagePath('/temp/Mudo/mudo-01.webp'),
+            titleImageUrl: resolveImagePath('/temp/Mudo/mudo-04.webp'),
             lastMemeImageRegistTime: DATE,
         },
         {
             id: 8,
             categoryName: '분노',
             imageCategory: 'anger',
-            titleImageUrl: resolveImagePath('/temp/Anger/anger-01.jpeg'),
+            titleImageUrl: resolveImagePath('/temp/Anger/anger-05.jpg'),
             lastMemeImageRegistTime: DATE,
         },
         {
