@@ -1,5 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import { POST_ID_SEARCH_URL, VERIFY_ID_CODE_URL } from 'services/IdService';
+import { SIGN_IN_URL } from 'services/LogInService';
 import {
     CHANGE_NICKNAME_URL,
     CHECK_NICKNAME_URL,
@@ -133,9 +134,21 @@ export const handlers = [
             statusText: 'OK',
         });
     }),
+    http.post(`${baseURL}${VERIFY_EMAIL_ID_URL}`, () => {
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
+        });
+    }),
     http.post(`${baseURL}${VERIFY_ID_CODE_URL}`, () => {
         return HttpResponse.json({
             userId: 'testloginid3',
+        });
+    }),
+    http.post(`${baseURL}${SIGN_IN_URL}`, () => {
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
         });
     }),
 ];

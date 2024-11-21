@@ -1,19 +1,21 @@
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { LogInRequestDTO } from 'services/dto/LogInDto';
 import { post } from 'utils/API/fetcher';
 import { getEnvVariableAsNumber } from 'utils/Storage/numberUntils';
 import { setCookie } from 'utils/Storage/cookies';
+import ValidationMessages from 'components/Validations/ValidationMessages';
 
 const ACCESS_TOKEN = 'access_token';
 const REFRESH_TOKENE = 'refresh_token';
 
-export async function logIn(userData: LogInRequestDTO): Promise<void> {
-    const response: AxiosResponse<void> = await post<void, LogInRequestDTO>(
-        '/users/sign/in',
-        userData
-    );
+export const SIGN_IN_URL = '/users/sign/in';
 
-    if (response.status === 204) {
+export async function logIn(userData: LogInRequestDTO): Promise<void> {
+    try {
+        const response: AxiosResponse<void> = await post<void, LogInRequestDTO>(
+            SIGN_IN_URL,
+            userData
+        );
         const accessToken = response.headers['authorization']?.replace(
             'Bearer ',
             ''
@@ -35,7 +37,10 @@ export async function logIn(userData: LogInRequestDTO): Promise<void> {
 
         setCookie(ACCESS_TOKEN, accessToken, accessTokenStore);
         setCookie(REFRESH_TOKENE, refreshToken, refreshTokenStore);
-    } else {
-        throw new Error('로그인 실패');
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            throw error;
+        }
+        throw new Error(ValidationMessages.UNKNOWN_ERROR);
     }
 }
