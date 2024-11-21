@@ -62,7 +62,6 @@ export default function SignUpVerification() {
     }, [logInUserData, navigate]);
 
     const skipVerification = async () => {
-        console.log('logInUserData', logInUserData);
         if (!logInUserData) {
             navigate('/signup');
         }
