@@ -24,9 +24,7 @@ import {
 } from 'services/VerificationService';
 
 const baseURL = import.meta.env.VITE_BASE_URL;
-console.log('====================================');
-console.log('baseURL', baseURL);
-console.log('====================================');
+
 export const handlers = [
     http.get(`${baseURL}${GET_NOTIFICATION_STATE_URL}`, () => {
         return new HttpResponse(null, {
