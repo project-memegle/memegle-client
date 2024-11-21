@@ -16,6 +16,7 @@ import {
     MYPAGE_RESET_PASSWORD_URL,
     VERIFY_EMAIL_ID_URL,
 } from 'services/PasswordService';
+import { SIGN_UP_URL } from 'services/SignupService';
 import { GET_USER_INFO_URL } from 'services/UserInfoService';
 import {
     POST_VERIFICATION_URL,
@@ -144,10 +145,16 @@ export const handlers = [
             userId: 'testloginid3',
         });
     }),
-    // http.post(`${baseURL}${SIGN_IN_URL}`, () => {
-    //     return new HttpResponse(null, {
-    //         status: 200,
-    //         statusText: 'OK',
-    //     });
-    // }),
+    http.post(`${baseURL}${SIGN_IN_URL}`, () => {
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
+        });
+    }),
+    http.post(`${baseURL}${SIGN_UP_URL}`, () => {
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
+        });
+    }),
 ];
