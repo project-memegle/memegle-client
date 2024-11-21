@@ -58,6 +58,10 @@
     &-favorite {
       left: calc(var(--primary__font-size) / 2);
       @include icon-style();
+
+      &:hover {
+        color: colors.$warning;
+      }
     }
   }
 
