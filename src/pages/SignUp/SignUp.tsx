@@ -89,7 +89,6 @@ export default function SignUp() {
                     };
 
                     const response = await signUp(userData);
-                    console.log(response);
                     // 회원가입 후 자동 로그인
                     const loginData: LogInRequestDTO = {
                         loginId: id,
@@ -141,7 +140,6 @@ export default function SignUp() {
                 };
                 try {
                     const response = await signUp(userData);
-                    console.log(response);
                     // 회원가입 후 자동 로그인
                     const loginData: LogInRequestDTO = {
                         loginId: id,
