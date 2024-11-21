@@ -9,7 +9,7 @@ export async function signUp(userData: SignUpDTO): Promise<void> {
         await post<void, SignUpDTO>(SIGN_UP_URL, userData);
     } catch (error) {
         if (axios.isAxiosError(error)) {
-            throw error; // AxiosError를 호출자에게 전달
+            throw error;
         }
         throw new Error(ValidationMessages.UNKNOWN_ERROR);
     }

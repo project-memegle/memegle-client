@@ -5,7 +5,7 @@ import { handleErrorPage } from '../../pages/Error';
 const AxiosErrorMessages: Record<number, string> = {
     40000: ValidationMessages.REQUIRED_FORM,
     40001: ValidationMessages.INVALID_FORM,
-    40002: ValidationMessages.EXIST_USER,
+    40002: ValidationMessages.EXIST_ID,
     40003: ValidationMessages.MISSING_FORM,
     40100: ValidationMessages.UNMATCHED_TOKEN,
     40101: ValidationMessages.INVALID_TOKEN,
@@ -43,4 +43,5 @@ export const handleApiError = (
     if (setMessage) {
         setMessage(message);
     }
+    return message;
 };

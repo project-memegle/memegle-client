@@ -1,5 +1,5 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import validateId from 'components/Validations/ValidateId';
 import ValidationMessages from 'components/Validations/ValidationMessages';
 import validateNickname from 'components/Validations/ValidateNickname';
@@ -9,13 +9,14 @@ import handleInputChange from 'utils/Event/handleInputChange';
 import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
 import { post } from 'utils/API/fetcher';
 import { handleApiError } from 'utils/API/handleApiError';
-import { setSessionStorages } from 'utils/Storage/sessionStorage';
-import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { signUp } from 'services/SignupService';
 import { LogInRequestDTO } from 'services/dto/LogInDto';
 import { logIn } from 'services/LogInService';
 import { useAuth } from 'components/auth/ProvideAuth';
+import { useLocation } from 'react-router-dom';
+import { setSessionStorages } from 'utils/Storage/sessionStorage';
+import StorageKeyword from 'Constant/StorageKeyword';
 
 export default function SignUp() {
     const navigate = useCustomNavigate();
@@ -29,15 +30,11 @@ export default function SignUp() {
     const [nicknameError, setNicknameError] = useState(DEFALUT_NICKNAME);
     const [passwordError, setPasswordError] = useState(DEFAULT_PASSWORD);
 
-    const [toastMessage, setToastMessage] = useState('');
-    const [toast, setToast] = useState(false);
-
     const [id, setId] = useState('');
     const [nickname, setNickname] = useState('');
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     const [signUpError, setSignUpError] = useState('');
-    const [signupSuccess, setSignupSuccess] = useState('');
 
     const idInputRef = useRef<HTMLInputElement>(null);
     const nicknameInputRef = useRef<HTMLInputElement>(null);
@@ -46,54 +43,65 @@ export default function SignUp() {
 
     const onChangeId = useCallback(
         handleInputChange(setId, setIdError, validateId, () =>
-            setSignupSuccess('')
+            setSignUpError('')
         ),
         []
     );
 
     const onChangeNickname = useCallback(
-        handleInputChange(setNickname, setNicknameError, validateNickname, () =>
-            setSignupSuccess('')
-        ),
+        handleInputChange(setNickname, setNicknameError, validateNickname),
         []
     );
 
     const onChangePassword = useCallback(
-        passwordCheckHandler(setPassword, passwordCheck, setPasswordError, () =>
-            setSignupSuccess('')
-        ),
+        passwordCheckHandler(setPassword, passwordCheck, setPasswordError),
         [passwordCheck]
     );
 
     const onChangePasswordCheck = useCallback(
-        passwordCheckHandler(setPasswordCheck, password, setPasswordError, () =>
-            setSignupSuccess('')
-        ),
+        passwordCheckHandler(setPasswordCheck, password, setPasswordError),
         [password]
     );
 
     const onClickVerification = useCallback(
         async (e: FormEvent<HTMLButtonElement>) => {
             e.preventDefault();
-            if (idError || nicknameError || passwordError) {
-                if (idError) errorInputCheck(idInputRef.current);
-                else if (nicknameError)
-                    errorInputCheck(nicknameInputRef.current);
-                else if (passwordError)
-                    errorInputCheck(passwordInputRef.current);
-                signUpError && setSignUpError(ValidationMessages.SIGNUP_ERROR);
+
+            if (idError) {
+                errorInputCheck(idInputRef.current);
+                return;
+            }
+            if (nicknameError) {
+                errorInputCheck(nicknameInputRef.current);
+                return;
+            }
+            if (passwordError) {
+                errorInputCheck(passwordInputRef.current);
                 return;
             }
 
             if (nickname && id && password && passwordCheck) {
                 try {
-                    setSessionStorages({ key: 'id', value: id });
-                    setSessionStorages({ key: 'password', value: password });
-                    setSessionStorages({ key: 'nickname', value: nickname });
-                    navigate('/verification');
+                    const userData = {
+                        loginId: id,
+                        nickname: nickname,
+                        password: password,
+                    };
+
+                    const response = await signUp(userData);
+                    console.log(response);
+                    // 회원가입 후 자동 로그인
+                    const loginData: LogInRequestDTO = {
+                        loginId: id,
+                        password: password,
+                    };
+                    await logIn(loginData);
+
+                    auth.login(() => {
+                        navigate('/signup/verification', { state: loginData });
+                    });
                 } catch (error) {
-                    setToastMessage(ValidationMessages.FAILED_EVENT);
-                    setToast(true);
+                    handleApiError(error, setSignUpError);
                 }
             }
         },
@@ -112,13 +120,16 @@ export default function SignUp() {
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            if (idError || nicknameError || passwordError) {
-                if (idError) errorInputCheck(idInputRef.current);
-                else if (nicknameError)
-                    errorInputCheck(nicknameInputRef.current);
-                else if (passwordError)
-                    errorInputCheck(passwordInputRef.current);
-                signUpError && setSignUpError(ValidationMessages.SIGNUP_ERROR);
+            if (idError) {
+                errorInputCheck(idInputRef.current);
+                return;
+            }
+            if (nicknameError) {
+                errorInputCheck(nicknameInputRef.current);
+                return;
+            }
+            if (passwordError) {
+                errorInputCheck(passwordInputRef.current);
                 return;
             }
 
@@ -138,12 +149,17 @@ export default function SignUp() {
                     };
                     await logIn(loginData);
 
+                    setSessionStorages({
+                        key: StorageKeyword.CREATE_ACCOUNT_SUCCESS,
+                        value: StorageKeyword.TRUE,
+                    });
+
                     // 로그인 상태를 업데이트하고 홈 페이지로 리다이렉트
                     auth.login(() => {
                         navigate('/');
                     });
                 } catch (error) {
-                    handleApiError(error as AxiosError, setSignUpError);
+                    handleApiError(error, setSignUpError);
                 }
             }
         },
@@ -224,7 +240,6 @@ export default function SignUp() {
                     </section>
                 </div>
                 {signUpError && <p className="message">{signUpError}</p>}
-                {signupSuccess && <p className="message">{signupSuccess}</p>}
                 <section className="c-login__button-section">
                     <div className="c-login__button-section-message">
                         <p>
@@ -245,12 +260,6 @@ export default function SignUp() {
                     </button>
                 </section>
             </form>
-            {toast && (
-                <ToastMessage
-                    message={toastMessage}
-                    onClose={() => setToast(false)}
-                />
-            )}
         </div>
     );
 }

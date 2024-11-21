@@ -3,7 +3,7 @@ import App from './App';
 import HomePage from './pages/Home';
 import LogIn from './pages/LogIn';
 import Result from './pages/Result/Result';
-import SignUp from './pages/SignUp';
+import SignUp from './pages/SignUp/SignUp';
 import NotFoundPage from './pages/NotFound';
 import Notification from './components/UI/Notification/Notification';
 import Favorite from './pages/Favorite/Favorite';
@@ -21,6 +21,7 @@ import MypageResetPassword from 'pages/Password/MypageResetPassword';
 import MypageEmailVerification from 'pages/Password/MypageEmailVerification';
 import LogInEmailVerification from './pages/Password/LogInEmailVerification';
 import LogInResetPassword from 'pages/Password/LogInResetPassword';
+import SignUpVerification from 'pages/SignUp/SignUpVerification';
 
 const router = createBrowserRouter(
     [
@@ -57,6 +58,10 @@ const router = createBrowserRouter(
                 {
                     path: 'signup',
                     element: <SignUp />,
+                },
+                {
+                    path: 'signup/verification',
+                    element: <SignUpVerification />,
                 },
                 {
                     path: 'favorite',

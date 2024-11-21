@@ -23,6 +23,10 @@ export default function HomePage() {
         const sessionStorageDeleteAccount = getSessionStorages(
             StorageKeyword.DELETE_ACCOUNT_SUCCESS
         );
+        const sessionStorageCreateAccount = getSessionStorages(
+            StorageKeyword.CREATE_ACCOUNT_SUCCESS
+        );
+
         if (
             sessionStorageImage &&
             sessionStorageImage === StorageKeyword.TRUE
@@ -31,6 +35,7 @@ export default function HomePage() {
             setToast(true);
             deleteSessionStorage(StorageKeyword.UPLOAD_SUCCESS);
         }
+
         if (
             sessionStorageDeleteAccount &&
             sessionStorageDeleteAccount === StorageKeyword.TRUE
@@ -38,6 +43,15 @@ export default function HomePage() {
             setToastMessage(ValidationMessages.SUCCESS_DELETE_ACCOUNT);
             setToast(true);
             deleteSessionStorage(StorageKeyword.DELETE_ACCOUNT_SUCCESS);
+        }
+
+        if (
+            sessionStorageCreateAccount &&
+            sessionStorageCreateAccount === StorageKeyword.TRUE
+        ) {
+            setToastMessage(ValidationMessages.SIGNUP_SUCCESS);
+            setToast(true);
+            deleteSessionStorage(StorageKeyword.CREATE_ACCOUNT_SUCCESS);
         }
     }, []);
     return (

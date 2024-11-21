@@ -22,7 +22,7 @@ const ValidationMessages: ValidationMessagesProps = {
     REQUIRED_REASON: '사유를 입력해주세요.',
     REQUIRED_DUPLICATED_CHECK: '중복확인을 해주세요.',
 
-    INVALID_ID_LENGTH: '아이디는 최소 6자 이상이어야 합니다.',
+    INVALID_ID_LENGTH: '아이디는 최소 6자 이상, 최대 15자여야 합니다.',
     // Invalid field errors
     INVALID_ID_TYPE: '아이디는 영어와 숫자만 허용됩니다.',
     INVALID_NAME_TYPE: '이름은 한글과 영어만 허용됩니다.',
@@ -52,7 +52,7 @@ const ValidationMessages: ValidationMessagesProps = {
     UNKNOWN_ERROR: '알 수 없는 에러가 발생했습니다. 고객센터에 문의해주세요.',
 
     SIGNUP_FAILED: '회원가입 실패',
-    SIGNUP_SUCCESS: '회원가입 성공',
+    SIGNUP_SUCCESS: '회원가입을 성공했습니다',
     CHANGE_PASSWORD_SUCCESS: '비밀번호가 성공적으로 변경되었습니다.',
     CHANGE_NICKNAME_SUCCESS: '닉네임이 성공적으로 변경되었습니다.',
     CHECK_NICKNAME_SUCCESS: '사용하실 수 있는 닉네임 입니다.',

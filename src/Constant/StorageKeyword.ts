@@ -7,6 +7,7 @@ const StorageKeyword: StorageProps = {
     VERIFICATION_SUCCESS: 'verificationSuccess',
     CHANGE_NICKNAME_SUCCESS: 'changeNicknameSuccess',
     CHANGE_PASSWORD_SUCCESS: 'changePasswordSuccess',
+    CREATE_ACCOUNT_SUCCESS: 'createAccountSuccess',
     DELETE_ACCOUNT_SUCCESS: 'deleteAccountSuccess',
     USER_ID: 'userId',
     USER_EMAIL: 'userEmail',

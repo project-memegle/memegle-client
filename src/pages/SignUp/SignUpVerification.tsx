@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useRef, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { AxiosError } from 'axios';
 import ValidationMessages from 'components/Validations/ValidationMessages';
 import handleInputChange from 'utils/Event/handleInputChange';
@@ -14,29 +14,35 @@ import {
 import useTimer from 'hooks/useTimer';
 import formatTime from 'utils/Format/formatTime';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
-import {
-    deleteSessionStorage,
-    getSessionStorages,
-    setSessionStorages,
-} from 'utils/Storage/sessionStorage';
+import { setSessionStorages } from 'utils/Storage/sessionStorage';
 import { SignUpDTO } from 'services/dto/SignUpDto';
 import {
     postVerificationCode,
     verifyVerificationCode,
 } from 'services/VerificationService';
 import StorageKeyword from 'Constant/StorageKeyword';
+import { useLocation } from 'react-router-dom';
+import { useAuth } from 'components/auth/ProvideAuth';
+import { signUp } from 'services/SignupService';
+import { LogInRequestDTO } from 'services/dto/LogInDto';
+import { logIn } from 'services/LogInService';
 
-export default function Verification() {
+export default function SignUpVerification() {
     const navigate = useCustomNavigate();
+    const auth = useAuth();
 
+    const location = useLocation();
+    const logInUserData = location.state as LogInRequestDTO;
     const DEFAULT_NAME = ValidationMessages.DEFAULT_NAME;
     const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
 
     const [nameError, setNameError] = useState(DEFAULT_NAME);
     const [emailError, setEmailError] = useState(DEFAULT_EMAIL);
 
+    const [id, setId] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [code, setCode] = useState('');
 
     const [message, setMessage] = useState('');
@@ -49,31 +55,36 @@ export default function Verification() {
     const codeInputRef = useRef<HTMLInputElement>(null);
     const [hasTimerStarted, setHasTimerStarted] = useState(false);
 
-    const previousUrl = getSessionStorages('previousUrl') || '/mypage';
+    useEffect(() => {
+        if (!logInUserData) {
+            navigate('/signup');
+        }
+    }, [logInUserData, navigate]);
 
-    const removeSignUpData = () => {
-        deleteSessionStorage('id');
-        deleteSessionStorage('nickname');
-        deleteSessionStorage('password');
-    };
-
-    const getSignUpData = async () => {
-        const id = getSessionStorages('id');
-        const nickname = getSessionStorages('nickname');
-        const password = getSessionStorages('password');
-        if (id && nickname && password) {
-            const userData: SignUpDTO = {
-                loginId: id,
-                nickname: nickname,
-                password: password,
+    const skipVerification = async () => {
+        console.log('logInUserData', logInUserData);
+        if (!logInUserData) {
+            navigate('/signup');
+        }
+        try {
+            const loginData: LogInRequestDTO = {
+                loginId: logInUserData.loginId,
+                password: logInUserData.password,
             };
-            try {
-                await post('/users/sign/up', userData);
-                removeSignUpData();
-                navigate('/login');
-            } catch (error) {
-                handleApiError(error as AxiosError, setMessage);
-            }
+
+            await logIn(loginData);
+
+            setSessionStorages({
+                key: StorageKeyword.CREATE_ACCOUNT_SUCCESS,
+                value: StorageKeyword.TRUE,
+            });
+
+            // 로그인 상태를 업데이트하고 홈 페이지로 리다이렉트
+            auth.login(() => {
+                navigate('/');
+            });
+        } catch (error) {
+            handleApiError(error as AxiosError, setMessage);
         }
     };
 
@@ -110,6 +121,7 @@ export default function Verification() {
                 email: email,
                 authenticationCode: '본인인증',
             };
+
             setMessage('');
             startTimer();
             setHasTimerStarted(true);
@@ -154,19 +166,30 @@ export default function Verification() {
                 setMessage('');
                 try {
                     await verifyVerificationCode(userData);
-                    getSignUpData();
+                    skipVerification();
+
+                    const { loginId, password } = logInUserData;
+
+                    const loginData: LogInRequestDTO = {
+                        loginId,
+                        password,
+                    };
+                    await logIn(loginData);
+
                     setSessionStorages({
-                        key: StorageKeyword.SUCCESS_VERIFICATION,
+                        key: StorageKeyword.CREATE_ACCOUNT_SUCCESS,
                         value: StorageKeyword.TRUE,
                     });
 
-                    navigate('/mypage');
+                    auth.login(() => {
+                        navigate('/');
+                    });
                 } catch (error) {
-                    handleApiError(error as AxiosError, setMessage);
+                    // handleApiError(error as AxiosError, setMessage);
                 }
             }
         },
-        [name, email, code, nameError, emailError]
+        [name, email, code, nameError, emailError, logInUserData]
     );
 
     return (
@@ -245,9 +268,9 @@ export default function Verification() {
                     <button
                         className="button__rounded button__light"
                         type="button"
-                        onClick={() => navigate(previousUrl)}
+                        onClick={skipVerification}
                     >
-                        뒤로 가기
+                        다음에 하기
                     </button>
                 </section>
                 {message && <p className="message">{message}</p>}

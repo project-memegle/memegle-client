@@ -10,11 +10,9 @@ import handleInputChange from 'utils/Event/handleInputChange';
 import formatTime from 'utils/Format/formatTime';
 import { postIdSearchCode, verifyIdSearchCode } from 'services/IdService';
 import { IdSearchRequestDTO, IdSearchResponseDTO } from 'services/dto/IdDto';
-import { useLocation } from 'react-router-dom';
 
 export default function IdEmailVerification() {
     const navigate = useCustomNavigate();
-    const location = useLocation();
     const [verification, setVerification] = useState(false);
 
     const [message, setMessage] = useState('');

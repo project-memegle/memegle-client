@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import SignUp from '../../pages/SignUp';
+import SignUp from '../../pages/SignUp/SignUp';
 import '@testing-library/jest-dom';
 import ValidationMessages from '../../components/Validations/ValidationMessages';
 describe('회원가입 렌더링 확인', () => {
