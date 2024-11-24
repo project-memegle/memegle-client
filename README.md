@@ -52,10 +52,12 @@
 ## 배포 URL
 
 🔗 [https://memegle.netlify.app/](https://memegle.netlify.app/)
+
 ---
 
 ## 미리보기
-![미리보기](./assets/readme/demo.gif=250x250))
+![미리보기](./assets/readme/demo.gif =250x250)
+
 ---
 
 ## 설치 및 실행
