@@ -95,7 +95,7 @@ export default function Result() {
 
         if (
             typeof lastKeyword === 'string' &&
-            lastKeyword.includes('birhtday')
+            lastKeyword.includes('birthday')
         ) {
             setResultData(MOCK_CATEGORY_RESULT_BIRTHDAY);
         }

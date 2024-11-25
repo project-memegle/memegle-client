@@ -12,7 +12,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
         {
             id: 81,
             imageUrl: resolveImagePath('/temp/birthday/birthday-02.png'),
-            imageCategory: 'birhtday',
+            imageCategory: 'birthday',
             createdAt: DATE,
             modifiedAt: DATE,
         },
