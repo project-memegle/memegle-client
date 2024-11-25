@@ -7,13 +7,15 @@ import {
     getSessionStorages,
     setSessionStorages,
 } from 'utils/Storage/sessionStorage';
-import ValidationMessages from 'components/Validations/ValidationMessages';
 import StorageKeyword from 'Constant/StorageKeyword';
+import getValidationMessages from 'components/Validations/ValidationMessages';
+import { useTranslation } from 'react-i18next';
 
 export default function HomePage() {
     const [toastMessage, setToastMessage] = useState('');
     const [toast, setToast] = useState(false);
-
+    const ValidationMessages = getValidationMessages();
+    const { t } = useTranslation();
     useEffect(() => {
         // getNotificationState();
 

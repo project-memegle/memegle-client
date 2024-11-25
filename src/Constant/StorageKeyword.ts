@@ -14,6 +14,7 @@ const StorageKeyword: StorageProps = {
     USER_NICKNAME: 'userNickname',
     ACCESS_TOKEN: 'access_token',
     REFRESH_TOKEN: 'refersh_token',
+    LANGUAGE: 'language',
 };
 
 export default StorageKeyword;

@@ -1,12 +1,12 @@
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
-import ValidationMessages from 'components/Validations/ValidationMessages';
+import getValidationMessages from 'components/Validations/ValidationMessages';
 import StorageKeyword from 'Constant/StorageKeyword';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     deleteSessionStorage,
     getSessionStorages,
-    setSessionStorages,
 } from 'utils/Storage/sessionStorage';
 
 export default function Mypage() {
@@ -16,6 +16,9 @@ export default function Mypage() {
     const [userId, setUserId] = useState('');
     const [nickname, setNickname] = useState('');
     const [email, setEmail] = useState('') || null;
+    const { t } = useTranslation();
+    const ValidationMessages = getValidationMessages();
+
     useEffect(() => {
         // getNotificationState();
 
@@ -62,7 +65,11 @@ export default function Mypage() {
     return (
         <main className="home__main c-mypage">
             <section className="c-mypage__info">
-                <h2>{nickname}님 안녕하세요 😎</h2>
+                <h2>
+                    {t('MYPAGE_GREETING_ENGLISH')}
+                    {nickname}
+                    {t('MYPAGE_GREETING_KOREAN')}
+                </h2>
                 {email && <p>{email}</p>}
             </section>
             <section className="c-mypage__buttons">
@@ -72,7 +79,7 @@ export default function Mypage() {
                         navigate('/changenickname');
                     }}
                 >
-                    닉네임 변경
+                    {t('CHANGE_NICKNAME')}
                     <i className="c-icon">chevron_right</i>
                 </button>
                 <button
@@ -81,7 +88,7 @@ export default function Mypage() {
                         navigate('/password/verification');
                     }}
                 >
-                    비밀번호 재설정
+                    {t('CHANGE_PASSWORD')}
                     <i className="c-icon">chevron_right</i>
                 </button>
                 {/* <button
@@ -94,7 +101,7 @@ export default function Mypage() {
                     <i className="c-icon">chevron_right</i>
                 </button> */}
                 <button type="button" onClick={() => navigate('/delete')}>
-                    계정 삭제
+                    {t('DELETE_ACCOUNT')}
                 </button>
             </section>
             {toast && (

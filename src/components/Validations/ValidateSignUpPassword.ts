@@ -1,10 +1,11 @@
-import ValidationMessages from './ValidationMessages';
 import ValidateSpace from './ValidateSpace';
+import getValidationMessages from './ValidationMessages';
 
 const validateSignUpPassword = (
     password: string,
     passwordCheck: string
 ): string => {
+    const ValidationMessages = getValidationMessages();
     const trimmedPassword = ValidateSpace(password);
     const trimmedPasswordCheck = ValidateSpace(passwordCheck);
 

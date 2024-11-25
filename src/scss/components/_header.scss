@@ -6,19 +6,82 @@
     padding: 18px 16px;
     background-color: #141517;
 
+    --button_height: 30px;
+
+    &__switch {
+      label {
+        padding: 0.2em 0.5em;
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        width: fit-content;
+        border: 3px solid #343434;
+        border-radius: 20px;
+        background: #343434;
+        font-weight: bold;
+        gap: 1em;
+        cursor: pointer;
+      }
+      label::before {
+        content: "";
+        position: absolute;
+        width: 48%;
+        height: 100%;
+        left: 0%;
+        border-radius: 20px;
+        // background: white;
+        background: #ffffff61;
+        transition: all 0.3s;
+      }
+      input:checked + label::before {
+        left: 50%;
+      }
+      label div {
+        padding: 6px;
+        text-align: center;
+        z-index: 1;
+      }
+      input {
+        display: none;
+      }
+      input:checked + label span:first-child {
+        color: white;
+        transition: color 0.3s;
+      }
+      input:checked + label span:last-child {
+        // color: #343434;
+        color: #000000;
+        transition: color 0.3s;
+      }
+      input + label span:first-child {
+        color: #000000;
+        // color: #343434;
+        transition: color 0.3s;
+      }
+      input + label span:last-child {
+        color: white;
+        transition: color 0.3s;
+      }
+    }
     button {
       padding: 0;
     }
-  }
-
-  .c-top-bar {
-    display: flex;
-    justify-content: space-between;
-
-    &__brand button {
+    .c-top-bar {
       display: flex;
-      align-items: center;
-      height: 30px;
+      justify-content: space-between;
+      position: relative;
+
+      &__brand {
+        display: flex;
+        align-items: center;
+        gap: 1em;
+
+        button {
+          display: flex;
+          align-items: center;
+          height: var(--button_height);
+        }
+      }
     }
   }
 

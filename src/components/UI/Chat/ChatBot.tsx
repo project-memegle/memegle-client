@@ -5,6 +5,7 @@ import {
     getSessionStorages,
     setSessionStorages,
 } from 'utils/Storage/sessionStorage';
+import { useTranslation } from 'react-i18next';
 
 interface ChatBotProps {
     onCategorySelect: (category: string) => void;
@@ -17,15 +18,16 @@ export default function ChatBot({
     onCategoryReset,
     resetChatMessages, // Destructure resetChatMessages prop
 }: ChatBotProps) {
+    const { t } = useTranslation();
     const date = new Date().toLocaleString();
     const initialMessages: ChatItemProps[] = [
         {
-            content: '안녕하세요 🤖',
+            content: `${t('GREETING_CHAT')}🤖`,
             date: date,
             chatDirection: 'incoming',
         },
         {
-            content: '문의하시려는 카테고리를 선택해주세요',
+            content: t('CHAT_REQUIRED_CAGTEGORY'),
             date: date,
             chatDirection: 'incoming',
         },
@@ -57,12 +59,12 @@ export default function ChatBot({
         setMessages((prevMessages) => [
             ...prevMessages,
             {
-                content: `${value} 문의를 선택하셨군요!`,
+                content: `${value} ${t('CHAT_SELECTED_CAGTEGORY')}`,
                 date,
                 chatDirection: 'incoming',
             },
             {
-                content: '구체적인 내용을 입력해주세요 🤠',
+                content: `${t('CHAT_REQUIRED_CONTENT')}🤠`,
                 date,
                 chatDirection: 'incoming',
             },
@@ -92,23 +94,39 @@ export default function ChatBot({
             </section>
             {showCategories ? (
                 <section className="c-chat__chatbot-category">
-                    <button onClick={(e) => selectCategory(e, '이미지 관련')}>
-                        이미지 관련
+                    <button
+                        onClick={(e) =>
+                            selectCategory(e, t('CHAT_CAGTEGORY-IMAGE'))
+                        }
+                    >
+                        {t('CHAT_CAGTEGORY-IMAGE')}
                     </button>
-                    <button onClick={(e) => selectCategory(e, '계정 관련')}>
-                        계정 관련
+                    <button
+                        onClick={(e) =>
+                            selectCategory(e, t('CHAT_CAGTEGORY-ACCOUNT'))
+                        }
+                    >
+                        {t('CHAT_CAGTEGORY-ACCOUNT')}
                     </button>
-                    <button onClick={(e) => selectCategory(e, '사용법 안내')}>
-                        사용법 안내
+                    <button
+                        onClick={(e) =>
+                            selectCategory(e, t('CHAT_CAGTEGORY-INFO'))
+                        }
+                    >
+                        {t('CHAT_CAGTEGORY-INFO')}
                     </button>
-                    <button onClick={(e) => selectCategory(e, '기타')}>
-                        기타 문의
+                    <button
+                        onClick={(e) =>
+                            selectCategory(e, t('CHAT_CAGTEGORY-OTHER'))
+                        }
+                    >
+                        {t('CHAT_CAGTEGORY-OTHER')}
                     </button>
                 </section>
             ) : (
                 <section className="c-chat__chatbot-category">
                     <button onClick={showCategoryListAgain}>
-                        다시 선택하기
+                        {t('CHAT_SELECT_AGAIN')}
                     </button>
                 </section>
             )}

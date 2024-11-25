@@ -1,15 +1,19 @@
 import { AxiosError } from 'axios';
 import validateNickname from 'components/Validations/ValidateNickname';
+import getValidationMessages from 'components/Validations/ValidationMessages';
 import ValidationMessages from 'components/Validations/ValidationMessages';
 import StorageKeyword from 'Constant/StorageKeyword';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { FormEvent, useCallback, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { changeNickname, checkNickname } from 'services/NicknameService';
 import { handleApiError } from 'utils/API/handleApiError';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import { getSessionStorages } from 'utils/Storage/sessionStorage';
 
 export default function ChangeNickname() {
+    const ValidationMessages = getValidationMessages();
+    const { t } = useTranslation();
     const DEFAULT_NICKNAME = ValidationMessages.DEFAULT_NICKNAME;
 
     const navigate = useCustomNavigate();
@@ -106,7 +110,7 @@ export default function ChangeNickname() {
                                 name="nickname"
                                 id="nickname"
                                 type="text"
-                                placeholder="닉네임"
+                                placeholder={t('REQUIRED_NICKNAME')}
                                 value={nickname}
                                 onChange={onChangeNickname}
                             />
@@ -126,7 +130,7 @@ export default function ChangeNickname() {
                             className="button__rounded button__light"
                             onClick={onCheckNickname} // Attach the onCheckNickname function
                         >
-                            중복확인
+                            {t('CHECK_DUPLICATED')}
                         </button>
                     </section>
                 </div>
@@ -134,7 +138,7 @@ export default function ChangeNickname() {
                     className="button__rounded button__orange"
                     type="submit" // Ensure this button submits the form
                 >
-                    닉네임 변경하기
+                    {t('CHANGE_NICKNAME')}
                 </button>
                 {message && <p className="message">{message}</p>}
             </form>

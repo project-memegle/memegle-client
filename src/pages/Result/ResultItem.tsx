@@ -7,11 +7,12 @@ import {
     setArraySessionStorages,
 } from 'utils/Storage/sessionStorage';
 import { SESSION_STORAGE_KEY } from 'pages/Favorite/Favorite';
-import ValidationMessages from 'components/Validations/ValidationMessages';
+import getValidationMessages from 'components/Validations/ValidationMessages';
 
 export default function ResultItem(result: SearchResultItemDTO) {
     const [toast, setToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
+    const ValidationMessages = getValidationMessages();
 
     async function handleCopy() {
         await handleCopyImage(result.imageUrl, setToastMessage, setToast);

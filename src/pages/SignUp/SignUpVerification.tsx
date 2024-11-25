@@ -26,10 +26,14 @@ import { useAuth } from 'components/auth/ProvideAuth';
 import { signUp } from 'services/SignupService';
 import { LogInRequestDTO } from 'services/dto/LogInDto';
 import { logIn } from 'services/LogInService';
+import { useTranslation } from 'react-i18next';
+import getValidationMessages from 'components/Validations/ValidationMessages';
 
 export default function SignUpVerification() {
     const navigate = useCustomNavigate();
     const auth = useAuth();
+    const { t } = useTranslation();
+    const ValidationMessages = getValidationMessages();
 
     const location = useLocation();
     const logInUserData = location.state as LogInRequestDTO;
@@ -233,8 +237,8 @@ export default function SignUpVerification() {
                             disabled={isActive}
                         >
                             {hasTimerStarted
-                                ? '인증코드 재전송'
-                                : '인증코드 보내기'}
+                                ? t('verification-resend-code')
+                                : t('verification-send-code')}
                         </button>
                     </section>
                 </section>
@@ -248,7 +252,9 @@ export default function SignUpVerification() {
                             id="verification"
                             type="text"
                             placeholder={
-                                isActive ? '인증번호 입력' : '시간 초과'
+                                isActive
+                                    ? t('verification-write-code')
+                                    : t('verification-timeover')
                             }
                             disabled={!isActive}
                             value={code}
@@ -262,14 +268,14 @@ export default function SignUpVerification() {
                 )}
                 <section className="c-login__button-section">
                     <button className="button__rounded button__orange">
-                        이메일 인증
+                        {t('verification-complete')}
                     </button>
                     <button
                         className="button__rounded button__light"
                         type="button"
                         onClick={skipVerification}
                     >
-                        다음에 하기
+                        {t('later-button')}
                     </button>
                 </section>
                 {message && <p className="message">{message}</p>}

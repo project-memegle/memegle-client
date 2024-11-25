@@ -1,5 +1,4 @@
 import { AxiosError } from 'axios';
-import ValidationMessages from '../components/Validations/ValidationMessages';
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { TagInput } from 'components/UI/Upload/Upload_tag';
 import { CategoryInput } from 'components/UI/Upload/Upload_category';
@@ -13,14 +12,19 @@ import {
 } from 'utils/Storage/sessionStorage';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import StorageKeyword from 'Constant/StorageKeyword';
+import getValidationMessages from '../components/Validations/ValidationMessages';
+import { useTranslation } from 'react-i18next';
 
 export default function Upload() {
+    const ValidationMessages = getValidationMessages();
+    const { t } = useTranslation();
+
     const [file, setFile] = useState<File | undefined>();
     const [tags, setTags] = useState<string[] | string>('');
     const [category, setCategory] = useState<string | undefined>();
 
     const [errorMessage, setErrorMessage] = useState('');
-    const [fileName, setFileName] = useState<string>('파일을 선택하세요');
+    const [fileName, setFileName] = useState<string>(t('REQUIRED_UPLOAD_FILE'));
     const [imageUrl, setImageUrl] = useState<string | undefined>();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -61,14 +65,14 @@ export default function Upload() {
 
     const resetFile = () => {
         setFile(undefined);
-        setFileName('파일을 선택하세요');
+        setFileName(t('REQUIRED_UPLOAD_FILE'));
         setImageUrl(undefined);
     };
 
     const upload = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!file) {
-            setErrorMessage('파일을 선택하세요');
+            setErrorMessage(t('REQUIRED_UPLOAD_FILE'));
             return;
         }
         const formData = new FormData();
@@ -158,7 +162,7 @@ export default function Upload() {
                                 <i className="file-upload__icon c-icon">
                                     upload_file
                                 </i>
-                                <h4>파일을 드래그하여 업로드하세요</h4>
+                                <h4>{t('REQUIRED_DND_FILE')}</h4>
                                 <input
                                     className="file-upload__input"
                                     type="file"
@@ -173,7 +177,7 @@ export default function Upload() {
                         onClick={handleUploadButtonClick}
                         className="file-upload__button"
                     >
-                        이미지 업로드
+                        {t('IMAGE_UPLOAD')}
                     </button>
                 </section>
                 <TagInput onTagsChange={setTags} />
@@ -183,7 +187,7 @@ export default function Upload() {
                         className="button__rounded button__light"
                         type="submit"
                     >
-                        이미지 업로드 요청
+                        {t('ASKED_UPLOAD')}
                     </button>
                     {errorMessage && (
                         <p className="font-warning">{errorMessage}</p>

@@ -9,10 +9,13 @@ import { loginResetPassword } from 'services/PasswordService';
 import StorageKeyword from 'Constant/StorageKeyword';
 import { setSessionStorages } from 'utils/Storage/sessionStorage';
 import { LogInResetPassworddDTO } from 'services/dto/PasswordDto';
+import getValidationMessages from 'components/Validations/ValidationMessages';
+import { useTranslation } from 'react-i18next';
 
 export default function LogInResetPassword() {
     const navigate = useCustomNavigate();
-
+    const ValidationMessages = getValidationMessages();
+    const { t } = useTranslation();
     const [message, setMessage] = useState('');
 
     const [email, setEmail] = useState('');
@@ -96,7 +99,7 @@ export default function LogInResetPassword() {
                                 name="password"
                                 type="password"
                                 id="password"
-                                placeholder="새로운 비밀번호"
+                                placeholder={t('DEFAULT_NEW_PASSWORD')}
                                 value={password}
                                 onChange={onChangePassword}
                             />
@@ -111,7 +114,7 @@ export default function LogInResetPassword() {
                                 name="password-check"
                                 type="password"
                                 id="password-check"
-                                placeholder="새로운 비밀번호 확인"
+                                placeholder={t('DEFAULT_NEW_PASSWORD')}
                                 value={passwordCheck}
                                 onChange={onChangePasswordCheck}
                             />
@@ -122,7 +125,7 @@ export default function LogInResetPassword() {
                     className="button__rounded button__orange"
                     type="submit" // Ensure this button submits the form
                 >
-                    비밀번호 재설정
+                    {t('CHANGE_PASSWORD')}
                 </button>
             </form>
             {message && <p className="message">{message}</p>}

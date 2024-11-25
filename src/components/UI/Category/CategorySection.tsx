@@ -3,7 +3,8 @@ import CategoryItem from '../Category/CategoryItem';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { getCategorylist } from 'services/CategoryService';
 import { CategoryResultSectionDTO } from 'services/dto/ResultDto';
-import { MOCK_CATEGORY_LIST } from 'mockData/__CategoryList';
+import { useMockCategoryList } from 'mockData/__CategoryList';
+import { t } from 'i18next';
 
 export default function CategorySection() {
     const navigate = useCustomNavigate();
@@ -20,12 +21,13 @@ export default function CategorySection() {
     //         setError,
     //     });
     // }, []);
+    const mockCategoryList = useMockCategoryList();
 
     useEffect(() => {
         // MOCK 데이터로 상태 초기화
-        setCategoryList(MOCK_CATEGORY_LIST);
+        setCategoryList(mockCategoryList);
         setLoading(false);
-    }, []);
+    }, [mockCategoryList]);
 
     return (
         <section className="c-category">
@@ -33,7 +35,9 @@ export default function CategorySection() {
                 className="c-category__item favorite"
                 onClick={() => navigate('/favorite')}
             >
-                <p className="c-category__item-title">즐겨찾기</p>
+                <p className="c-category__item-title">
+                    {t('CATEGORY-favorite')}
+                </p>
             </article>
             {categoryList &&
                 categoryList.results.map((category) => (

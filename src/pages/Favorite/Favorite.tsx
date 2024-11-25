@@ -28,14 +28,16 @@ import {
     setArraySessionStorages,
 } from 'utils/Storage/sessionStorage';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
-import ValidationMessages from 'components/Validations/ValidationMessages';
+import getValidationMessages from 'components/Validations/ValidationMessages';
+import { useTranslation } from 'react-i18next';
 
 export const SESSION_STORAGE_KEY = 'favoriteList';
 
 export default function Favorite() {
     const [items, setItems] =
         useState<SearchResultSectionDTO>(MOCK_FAVORITE_LIST);
-
+    const ValidationMessages = getValidationMessages();
+    const { t } = useTranslation();
     useEffect(() => {
         const originFavoriteList = getArraySessionStorages(SESSION_STORAGE_KEY);
         if (originFavoriteList && originFavoriteList.length > 0) {
@@ -127,7 +129,7 @@ export default function Favorite() {
             value: itemIds,
         });
         try {
-            setToastMessage('변경사항을 저장했습니다');
+            setToastMessage(t('SAVED_CHANGES'));
             setToast(true);
         } catch (error) {
             setToastMessage(ValidationMessages.FAILED_EVENT);
@@ -174,7 +176,7 @@ export default function Favorite() {
                     className="c-favorite__button"
                     onClick={handleButtonClick}
                 >
-                    변경사항 저장하기
+                    {t('SAVING_CHANGES')}
                 </button>
                 <SortableContext
                     items={items.results.map((item) => item.id)}

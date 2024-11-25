@@ -5,8 +5,10 @@ import { ChatItemDTO } from 'services/dto/ChatDto';
 import { postChat } from 'services/ChatService';
 import { getSessionStorages } from 'utils/Storage/sessionStorage';
 import StorageKeyword from 'Constant/StorageKeyword';
+import { useTranslation } from 'react-i18next';
 
 export default function Chat() {
+    const { t } = useTranslation();
     const [isCategorySelected, setIsCategorySelected] = useState(false);
     const [message, setMessage] = useState('');
 
@@ -48,7 +50,7 @@ export default function Chat() {
         setMessages((prevMessages) => [
             ...prevMessages,
             {
-                content: '상담이 종료되었습니다.',
+                content: t('COMPLETED_CHAT'),
                 date,
                 chatDirection: 'incoming',
             },
@@ -92,7 +94,7 @@ export default function Chat() {
                                 className="c-chat__end-section-button"
                                 onClick={handleEndChat}
                             >
-                                상담종료하기
+                                {t('COMPLETE_CHAT')}
                             </button>
                         </div>
                     )}
@@ -107,7 +109,7 @@ export default function Chat() {
                     <input
                         className="c-input__input"
                         type="text"
-                        placeholder="메세지를 입력해주세요"
+                        placeholder={t('REQUIRED_MESSAGE')}
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                     />

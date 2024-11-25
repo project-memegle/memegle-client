@@ -1,5 +1,5 @@
-import validateSignUpPassword from "components/Validations/ValidateSignUpPassword";
-import { ChangeEvent } from "react";
+import validateSignUpPassword from 'components/Validations/ValidateSignUpPassword';
+import { ChangeEvent } from 'react';
 
 const passwordCheckHandler = (
     valueSetter: React.Dispatch<React.SetStateAction<string>>,
@@ -7,6 +7,7 @@ const passwordCheckHandler = (
     errorSetter: React.Dispatch<React.SetStateAction<string>>,
     additionalCallback?: () => void
 ) => {
+
     return (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.replace(/\s/g, '');
         const error = validateSignUpPassword(value, otherValue);

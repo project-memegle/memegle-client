@@ -1,8 +1,9 @@
-import ValidationMessages from './ValidationMessages';
 import ValidateSpace from './ValidateSpace';
+import getValidationMessages from './ValidationMessages';
 
 const validateId = (id: string) => {
     const trimmedId = ValidateSpace(id);
+    const ValidationMessages = getValidationMessages();
 
     if (!trimmedId) {
         return ValidationMessages.REQUIRED_ID;

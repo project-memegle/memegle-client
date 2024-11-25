@@ -1,7 +1,6 @@
 import { AxiosError } from 'axios';
 import validateEmail from 'components/Validations/ValidateEmail';
 import validateId from 'components/Validations/ValidateId';
-import ValidationMessages from 'components/Validations/ValidationMessages';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import useTimer from 'hooks/useTimer';
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
@@ -14,10 +13,13 @@ import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
 import { resetErrors } from 'utils/Event/resetError';
 import { mypageVerifyPassword } from 'services/PasswordService';
 import { MypageVerifyPasswordDTO } from 'services/dto/PasswordDto';
+import { useTranslation } from 'react-i18next';
+import getValidationMessages from 'components/Validations/ValidationMessages';
 
 export default function MypageEmailVerification() {
     const navigate = useCustomNavigate();
-
+    const ValidationMessages = getValidationMessages();
+    const { t } = useTranslation();
     const [verification, setVerification] = useState(false);
 
     const [message, setMessage] = useState('');
@@ -123,8 +125,8 @@ export default function MypageEmailVerification() {
                             disabled={isActive}
                         >
                             {hasTimerStarted
-                                ? '인증코드 재전송'
-                                : '인증코드 보내기'}
+                                ? t('verification-resend-code')
+                                : t('verification-send-code')}
                         </button>
                     </section>
                 </section>
@@ -138,7 +140,9 @@ export default function MypageEmailVerification() {
                             id="verification"
                             type="text"
                             placeholder={
-                                isActive ? '인증번호 입력' : '시간 초과'
+                                isActive
+                                    ? t('verification-write-code')
+                                    : t('verification-timeover')
                             }
                             disabled={!isActive}
                             value={code}
@@ -154,7 +158,7 @@ export default function MypageEmailVerification() {
                     className="button__rounded button__orange"
                     type="submit"
                 >
-                    비밀번호 재설정
+                    {t('CHANGE_PASSWORD')}
                 </button>
             </form>
         </div>

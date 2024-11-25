@@ -1,9 +1,11 @@
 import logo from '../../../assets/logo.svg';
-import { addSearchHistory } from 'utils/Storage/localStorage';
+import { addSearchHistory, setLocalStorage } from 'utils/Storage/localStorage';
 import { useEffect, useState } from 'react';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { useAuth } from 'components/auth/ProvideAuth';
-
+import { useTranslation } from 'react-i18next';
+import StorageKeyword from 'Constant/StorageKeyword';
+import { getSessionStorages } from 'utils/Storage/sessionStorage';
 interface HeaderProps {
     searchTerm: string;
     onSearch: (term: string) => void;
@@ -12,7 +14,8 @@ interface HeaderProps {
 export default function Header({ searchTerm, onSearch }: HeaderProps) {
     const navigate = useCustomNavigate();
     const auth = useAuth();
-
+    const { i18n } = useTranslation();
+    const { t } = useTranslation();
     const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
 
     useEffect(() => {
@@ -48,6 +51,22 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
         event.preventDefault();
         setLocalSearchTerm('');
     }
+    const [language, setLanguage] = useState<string>('ko');
+    useEffect(() => {
+        const language = getSessionStorages(StorageKeyword.LANGUAGE);
+        if (language) {
+            setLanguage(language);
+        }
+    }, [setLanguage]);
+
+    const handleChangeLanguage = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const lang = event.target.checked ? 'ko' : 'en';
+        i18n.changeLanguage(lang);
+        setLocalStorage({ key: StorageKeyword.LANGUAGE, value: lang });
+        setLanguage(lang);
+    };
 
     return (
         <header className="c-header">
@@ -56,6 +75,18 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                     <button onClick={() => navigate('/')}>
                         <img className="logo" src={String(logo)} alt="logo" />
                     </button>
+                    <div className="c-header__switch">
+                        <input
+                            id="language-toggle"
+                            type="checkbox"
+                            onChange={handleChangeLanguage}
+                            checked={i18n.language === 'ko'}
+                        />
+                        <label htmlFor="language-toggle">
+                            <span>KR</span>
+                            <span>EN</span>
+                        </label>
+                    </div>
                 </section>
                 <section className="c-top-bar__user c-top-bar-user">
                     {auth.isAuthenticated ? (
@@ -64,19 +95,19 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                                 className="c-top-bar-user__log button__white-font"
                                 onClick={logOutButtonClick}
                             >
-                                로그아웃
+                                {t('signout')}
                             </button>
                             <button
                                 className="c-top-bar-user__log button__white-font"
                                 onClick={() => navigate('/mypage')}
                             >
-                                마이페이지
+                                {t('mypage')}
                             </button>
                             <button
                                 className="c-top-bar-user__log button__white-font"
                                 onClick={() => navigate('/upload')}
                             >
-                                업로드
+                                {t('upload')}
                             </button>
                             <button
                                 className="c-top-bar-user__notification"
@@ -91,7 +122,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                             // onClick={() => navigate('/login')}
                             onClick={logInButtonClick}
                         >
-                            로그인
+                            {t('login')}
                         </button>
                     )}
                 </section>
@@ -108,7 +139,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                         <input
                             className="c-input__input"
                             type="text"
-                            placeholder="검색어를 입력해주세요"
+                            placeholder={t('REQUIRED_SEARCH_INPUT')}
                             onChange={handleInputChange}
                             value={localSearchTerm}
                         />

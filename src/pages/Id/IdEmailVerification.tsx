@@ -1,7 +1,6 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
 import { AxiosError } from 'axios';
 import validateEmail from 'components/Validations/ValidateEmail';
-import ValidationMessages from 'components/Validations/ValidationMessages';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import useTimer from 'hooks/useTimer';
 import { handleApiError } from 'utils/API/handleApiError';
@@ -10,9 +9,13 @@ import handleInputChange from 'utils/Event/handleInputChange';
 import formatTime from 'utils/Format/formatTime';
 import { postIdSearchCode, verifyIdSearchCode } from 'services/IdService';
 import { IdSearchRequestDTO, IdSearchResponseDTO } from 'services/dto/IdDto';
+import getValidationMessages from 'components/Validations/ValidationMessages';
+import { useTranslation } from 'react-i18next';
 
 export default function IdEmailVerification() {
     const navigate = useCustomNavigate();
+    const ValidationMessages = getValidationMessages();
+    const { t } = useTranslation();
     const [verification, setVerification] = useState(false);
 
     const [message, setMessage] = useState('');
@@ -123,8 +126,8 @@ export default function IdEmailVerification() {
                             disabled={isActive}
                         >
                             {hasTimerStarted
-                                ? '인증코드 재전송'
-                                : '인증코드 보내기'}
+                                ? t('verification-resend-code')
+                                : t('verification-send-code')}
                         </button>
                     </section>
                 </section>
@@ -138,7 +141,9 @@ export default function IdEmailVerification() {
                             id="verification"
                             type="text"
                             placeholder={
-                                isActive ? '인증번호 입력' : '시간 초과'
+                                isActive
+                                    ? t('verification-write-code')
+                                    : t('verification-timeover')
                             }
                             disabled={!isActive}
                             value={code}
@@ -154,15 +159,18 @@ export default function IdEmailVerification() {
                     className="button__rounded button__orange"
                     type="submit"
                 >
-                    아이디 찾기
+                    {t('findid')}
                 </button>
                 <section className="c-login__button-section-bottom">
-                    <p>본인 인증을 하지 않았다면 아이디를 찾을 수 없어요</p>
+                    <div className="c-login__button-section-bottom-text">
+                        <p>{t('REQUIRED_VERIFICATION_FOR_FIND_ID-1')}</p>
+                        <p>{t('REQUIRED_VERIFICATION_FOR_FIND_ID-2')}</p>
+                    </div>
                     <button
                         className="button__light-font"
                         onClick={() => navigate('/verification')}
                     >
-                        본인인증 하러가기
+                        <p>{t('GO_VERIFY_EMAIL')}</p>
                     </button>
                 </section>
                 {message && <p className="message">{message}</p>}

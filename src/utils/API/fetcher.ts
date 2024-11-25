@@ -4,13 +4,14 @@ import axios, {
     AxiosRequestConfig,
     AxiosResponse,
 } from 'axios';
-import ValidationMessages from 'components/Validations/ValidationMessages';
+import getValidationMessages from 'components/Validations/ValidationMessages';
 import StorageKeyword from 'Constant/StorageKeyword';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { useNavigate } from 'react-router-dom';
 import { getAccessToken } from 'utils/Auth/authAuth';
 import { getCookie, setCookie } from 'utils/Storage/cookies';
 import { getEnvVariableAsNumber } from 'utils/Storage/numberUntils';
+const ValidationMessages = getValidationMessages();
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 const ACCESS_TOKEN = StorageKeyword.ACCESS_TOKEN;

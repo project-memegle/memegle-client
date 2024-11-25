@@ -1,8 +1,9 @@
-import ValidationMessages from './ValidationMessages';
 import ValidateSpace from './ValidateSpace';
+import getValidationMessages from './ValidationMessages';
 
 const validateNickname = (nickname: string): string => {
     const trimmedNickname = ValidateSpace(nickname);
+    const ValidationMessages = getValidationMessages();
 
     if (!trimmedNickname) {
         return ValidationMessages.REQUIRED_NICKNAME;

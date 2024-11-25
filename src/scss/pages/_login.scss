@@ -15,6 +15,7 @@
     .message {
       margin: 0;
       text-align: center;
+      color: colors.$warning;
     }
 
     &__section {
@@ -138,8 +139,14 @@
 
       &-bottom {
         display: flex;
-        justify-content: flex-end;
-        justify-content: center;
+        justify-content: space-around;
+        align-items: flex-start;
+        button {
+          padding: 0;
+        }
+        p {
+          margin: 0;
+        }
       }
     }
 

@@ -1,5 +1,6 @@
-import { MOCK_CATEGORY_LIST } from 'mockData/__CategoryList';
+import { useMockCategoryList } from 'mockData/__CategoryList';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { getCategorylist } from 'services/CategoryService';
 import {
     CategoryResultItemDTO,
@@ -16,6 +17,8 @@ export function CategoryInput({ onCategoryChange }: CategoryInputProps) {
     const [selectCategory, setSelectCategory] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const { t } = useTranslation();
+    const mockCategoryList = useMockCategoryList();
 
     useEffect(() => {
         if (selectCategory) {
@@ -30,7 +33,7 @@ export function CategoryInput({ onCategoryChange }: CategoryInputProps) {
 
     useEffect(() => {
         // MOCK 데이터로 상태 초기화
-        setCategoryList(MOCK_CATEGORY_LIST);
+        setCategoryList(mockCategoryList);
         setLoading(false);
     }, [selectCategory]);
 
@@ -40,7 +43,7 @@ export function CategoryInput({ onCategoryChange }: CategoryInputProps) {
 
     return (
         <section className="c-dropdown file-tag">
-            <label>카테고리 등록</label>
+            <label>{t('REGISTER_CATEGORY')}</label>
             <select
                 className="c-dropdown__select"
                 name="category"
@@ -49,7 +52,7 @@ export function CategoryInput({ onCategoryChange }: CategoryInputProps) {
                 onChange={handleCategoryChange}
             >
                 <option value="" disabled hidden>
-                    카테고리 등록
+                    {t('REGISTER_CATEGORY')}
                 </option>
                 {categoryList &&
                     categoryList.results.map(

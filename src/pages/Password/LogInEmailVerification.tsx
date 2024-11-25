@@ -1,6 +1,5 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
 import { AxiosError } from 'axios';
-import ValidationMessages from '../../components/Validations/ValidationMessages';
 import validateId from '../../components/Validations/ValidateId';
 import handleInputChange from 'utils/Event/handleInputChange';
 import validateEmail from 'components/Validations/ValidateEmail';
@@ -14,10 +13,13 @@ import {
     LoginVerifyIdEmailDTO,
     LoginVerifyPasswordDTO,
 } from 'services/dto/PasswordDto';
+import getValidationMessages from '../../components/Validations/ValidationMessages';
+import { useTranslation } from 'react-i18next';
 
 export default function LogInEmailVerification() {
     const navigate = useCustomNavigate();
-
+    const ValidationMessages = getValidationMessages();
+    const { t } = useTranslation();
     const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
     const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
 
@@ -60,7 +62,7 @@ export default function LogInEmailVerification() {
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
             if (!isVerificationSuccessful) {
-                setMessage('인증코드를 먼저 보내주세요.');
+                setMessage(t('REQUIRED_VERIFICATION_CODE'));
                 return;
             }
             if (idError) {
@@ -167,8 +169,8 @@ export default function LogInEmailVerification() {
                             disabled={isActive}
                         >
                             {hasTimerStarted
-                                ? '인증코드 재전송'
-                                : '인증코드 보내기'}
+                                ? t('verification-resend-code')
+                                : t('verification-send-code')}
                         </button>
                     </section>
                 </section>
@@ -182,7 +184,9 @@ export default function LogInEmailVerification() {
                             id="verification"
                             type="text"
                             placeholder={
-                                isActive ? '인증번호 입력' : '시간 초과'
+                                isActive
+                                    ? t('verification-write-code')
+                                    : t('verification-timeover')
                             }
                             disabled={!isActive}
                             value={code}
@@ -199,17 +203,22 @@ export default function LogInEmailVerification() {
                         className="button__rounded button__orange"
                         type="submit"
                     >
-                        비밀번호 찾기
+                        {t('findpassword')}
                     </button>
                     <section className="c-login__button-section-bottom">
-                        <p>
-                            본인 인증을 하지 않았다면 비밀번호를 찾을 수 없어요
-                        </p>
+                        <div className="c-login__button-section-bottom-text">
+                            <p>
+                                {t('REQUIRED_VERIFICATION_FOR_FIND_PASSWORD-1')}
+                            </p>
+                            <p>
+                                {t('REQUIRED_VERIFICATION_FOR_FIND_PASSWORD-2')}
+                            </p>
+                        </div>
                         <button
                             className="button__light-font"
                             onClick={() => navigate('/verification')}
                         >
-                            본인인증 하러가기
+                            <p>{t('GO_VERIFY_EMAIL')}</p>
                         </button>
                     </section>
                     {message && <p className="message">{message}</p>}

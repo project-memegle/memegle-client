@@ -8,7 +8,7 @@
     "baseUrl": "./src",
     "paths": {
       "@memegle/assets": ["assets/*"],
-      "@memegle/styles": ["scss/*"],
+      "@memegle/styles": ["scss/*"]
     }
   }
 }

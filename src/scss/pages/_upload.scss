@@ -92,7 +92,7 @@
       display: flex;
       align-items: center;
       position: relative;
-
+      font-weight: 500;
       &.active {
         border: 2px solid colors.$primary;
       }

@@ -1,7 +1,6 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import validateId from 'components/Validations/ValidateId';
-import ValidationMessages from 'components/Validations/ValidationMessages';
 import validateNickname from 'components/Validations/ValidateNickname';
 import { SignUpDTO } from 'services/dto/SignUpDto';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
@@ -17,10 +16,14 @@ import { useAuth } from 'components/auth/ProvideAuth';
 import { useLocation } from 'react-router-dom';
 import { setSessionStorages } from 'utils/Storage/sessionStorage';
 import StorageKeyword from 'Constant/StorageKeyword';
+import getValidationMessages from 'components/Validations/ValidationMessages';
+import { useTranslation } from 'react-i18next';
 
 export default function SignUp() {
     const navigate = useCustomNavigate();
     const auth = useAuth();
+    const ValidationMessages = getValidationMessages();
+    const { t } = useTranslation();
 
     const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
     const DEFALUT_NICKNAME = ValidationMessages.DEFAULT_NICKNAME;
@@ -87,7 +90,6 @@ export default function SignUp() {
                         nickname: nickname,
                         password: password,
                     };
-
                     const response = await signUp(userData);
                     // 회원가입 후 자동 로그인
                     const loginData: LogInRequestDTO = {
@@ -185,7 +187,7 @@ export default function SignUp() {
                         name="id"
                         id="id"
                         type="text"
-                        placeholder="아이디"
+                        placeholder={ValidationMessages.REQUIRED_ID}
                         value={id}
                         onChange={onChangeId}
                     />
@@ -199,7 +201,7 @@ export default function SignUp() {
                         name="nickname"
                         id="nickname"
                         type="text"
-                        placeholder="닉네임"
+                        placeholder={ValidationMessages.REQUIRED_NICKNAME}
                         value={nickname}
                         onChange={onChangeNickname}
                     />
@@ -215,7 +217,9 @@ export default function SignUp() {
                                 name="password"
                                 type="password"
                                 id="password"
-                                placeholder="비밀번호"
+                                placeholder={
+                                    ValidationMessages.DEFAULT_PASSWORD
+                                }
                                 value={password}
                                 onChange={onChangePassword}
                             />
@@ -230,7 +234,9 @@ export default function SignUp() {
                                 name="password-check"
                                 type="password"
                                 id="password-check"
-                                placeholder="비밀번호 확인"
+                                placeholder={
+                                    ValidationMessages.DEFAULT_PASSWORD_CHECK
+                                }
                                 value={passwordCheck}
                                 onChange={onChangePasswordCheck}
                             />
@@ -240,21 +246,19 @@ export default function SignUp() {
                 {signUpError && <p className="message">{signUpError}</p>}
                 <section className="c-login__button-section">
                     <div className="c-login__button-section-message">
-                        <p>
-                            본인 인증을 완료한 회원만이 아이디 및 비밀번호 찾기
-                            서비스를 이용할 수 있습니다.
-                        </p>
-                        <p>본인 인증 없이도 회원 가입이 가능합니다.</p>
+                        <p>{t('verification-notice-1')}</p>
+                        <p>{t('verification-notice-2')}</p>
+                        <p>{t('verification-notice-3')}</p>
                     </div>
                     <button
                         className="button__rounded button__orange"
                         type="button"
                         onClick={onClickVerification}
                     >
-                        본인인증
+                        {t('verification-navigate-button')}
                     </button>
                     <button className="button__rounded button__light">
-                        회원가입
+                        {t('signup')}
                     </button>
                 </section>
             </form>

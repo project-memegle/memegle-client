@@ -1,9 +1,11 @@
 import { useAuth } from 'components/auth/ProvideAuth';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
+import getValidationMessages from 'components/Validations/ValidationMessages';
 import ValidationMessages from 'components/Validations/ValidationMessages';
 import StorageKeyword from 'Constant/StorageKeyword';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { FormEvent, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { postDeleteAccount } from 'services/deleteAccountService';
 import { clearLocalStorage } from 'utils/Storage/localStorage';
 import {
@@ -15,7 +17,8 @@ import {
 export default function DeleteAccount() {
     const navigate = useCustomNavigate();
     const auth = useAuth();
-
+    const ValidationMessages = getValidationMessages();
+    const { t } = useTranslation();
     const [reason, setReason] = useState<string>('');
     const [id, setId] = useState<string>('');
     const [toastMessage, setToastMessage] = useState('');
@@ -72,10 +75,9 @@ export default function DeleteAccount() {
     return (
         <main className="home__main">
             <form action="" className="c-deleteAccount" onSubmit={onSubmit}>
-                <h2>정말 떠나시는건가요?😭</h2>
+                <h2>{t('DELETE_GREETING')}😭</h2>
                 <p>
-                    계정을 삭제하시려는 이유를 말씀해주세요. <br /> 소중한
-                    피드백 자료로 활용하겠습니다.
+                    {t('DELETE_GREETING-1')} <br /> {t('DELETE_GREETING-2')}
                 </p>
                 <section className="c-deleteAccount__checkbox">
                     <div>
@@ -86,7 +88,7 @@ export default function DeleteAccount() {
                             value="자료가 충분하지 않다"
                             onChange={onChangeReason}
                         />
-                        <label htmlFor="resource">자료가 충분하지 않다</label>
+                        <label htmlFor="resource">{t('DELETE_REASON-1')}</label>
                     </div>
                     <div>
                         <input
@@ -96,7 +98,7 @@ export default function DeleteAccount() {
                             value="개인정보 문제"
                             onChange={onChangeReason}
                         />
-                        <label htmlFor="privacy">개인정보 문제</label>
+                        <label htmlFor="privacy">{t('DELETE_REASON-2')}</label>
                     </div>
                     <div>
                         <input
@@ -107,7 +109,7 @@ export default function DeleteAccount() {
                             onChange={onChangeReason}
                         />
                         <label htmlFor="notuseful">
-                            서비스가 유용하지 않다
+                            {t('DELETE_REASON-3')}
                         </label>
                     </div>
                     <div>
@@ -118,7 +120,9 @@ export default function DeleteAccount() {
                             value="이용이 어렵다"
                             onChange={onChangeReason}
                         />
-                        <label htmlFor="difficult">이용이 어렵다</label>
+                        <label htmlFor="difficult">
+                            {t('DELETE_REASON-4')}
+                        </label>
                     </div>
                     <section className="c-deleteAccount__checkbox-textarea">
                         <div>
@@ -129,11 +133,13 @@ export default function DeleteAccount() {
                                 value="기타"
                                 onChange={onChangeReason}
                             />
-                            <label htmlFor="other">기타</label>
+                            <label htmlFor="other">
+                                {t('DELETE_REASON-5')}
+                            </label>
                         </div>
                         <textarea
                             id="feedback"
-                            placeholder="떠나시려는 이유를 입력해주세요."
+                            placeholder={t('DELETE_REASON-6')}
                             onInput={handleInput}
                             onChange={onChangeReason}
                         />
@@ -143,7 +149,7 @@ export default function DeleteAccount() {
                     className="button__rounded button__orange"
                     type="submit"
                 >
-                    계정 삭제하기
+                    {t('DELETE_ACCOUNT_CONFIRM')}
                 </button>
             </form>
             {toast && (

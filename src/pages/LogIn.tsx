@@ -1,6 +1,5 @@
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { AxiosError, AxiosResponse } from 'axios';
-import ValidationMessages from '../components/Validations/ValidationMessages';
 import validateId from '../components/Validations/ValidateId';
 import validateLogInPassword from '../components/Validations/ValidateLogInPassword';
 import { LogInRequestDTO, LogInResponseDTO } from '../services/dto/LogInDto';
@@ -21,6 +20,8 @@ import {
     getSessionStorages,
 } from 'utils/Storage/sessionStorage';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
+import { useTranslation } from 'react-i18next';
+import getValidationMessages from '../components/Validations/ValidationMessages';
 
 export default function LogIn() {
     const navigate = useCustomNavigate();
@@ -28,9 +29,10 @@ export default function LogIn() {
 
     const [toastMessage, setToastMessage] = useState('');
     const [toast, setToast] = useState(false);
-
+    const ValidationMessages = getValidationMessages();
     const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
     const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
+
     const [idError, setIdError] = useState(DEFAULT_ID);
     const [passwordError, setPasswordError] = useState(DEFAULT_PASSWORD);
 
@@ -40,6 +42,7 @@ export default function LogIn() {
 
     const idInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
+    const { t } = useTranslation();
 
     const onChangeId = useCallback(
         handleInputChange(setId, setIdError, validateId),
@@ -157,27 +160,27 @@ export default function LogIn() {
                         className="button__rounded button__orange"
                         type="submit"
                     >
-                        로그인
+                        {t('login')}
                     </button>
                     <button
                         onClick={() => navigate('/signup')}
                         className="button__rounded button__light"
                         type="submit"
                     >
-                        회원가입
+                        {t('signup')}
                     </button>
                     <section className="c-login__button-section-bottom">
                         <button
                             className="button__light-font"
                             onClick={() => navigate('/id/verification')}
                         >
-                            아이디 찾기
+                            {t('findid')}
                         </button>
                         <button
                             className="button__light-font"
                             onClick={() => navigate('/find/password')}
                         >
-                            비밀번호 찾기
+                            {t('findpassword')}
                         </button>
                     </section>
                 </section>

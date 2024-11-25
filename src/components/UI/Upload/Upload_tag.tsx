@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface TagInputProps {
     onTagsChange: (tags: string[]) => void;
@@ -11,7 +12,7 @@ export function TagInput({ onTagsChange }: TagInputProps) {
     const labelRef = useRef<HTMLLabelElement>(null);
 
     const [tags, setTags] = useState<string[]>([]);
-
+    const { t } = useTranslation();
     useEffect(() => {
         onTagsChange(tags);
     }, [tags, onTagsChange]);
@@ -100,7 +101,7 @@ export function TagInput({ onTagsChange }: TagInputProps) {
                 ref={labelRef}
                 className="file-tag__label"
             >
-                태그 등록
+                {t('REGISTER_TAG')}
             </label>
             <input
                 id="tag-input"
