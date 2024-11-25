@@ -101,7 +101,6 @@ export const setupInterceptors = (navigate: (path: string) => void) => {
                     try {
                         headers.set('x-retry', 'true'); // 플래그 추가
                         originalRequest.headers = headers;
-
                         return await refreshAccessToken(
                             originalRequest,
                             navigate
@@ -112,7 +111,6 @@ export const setupInterceptors = (navigate: (path: string) => void) => {
                     }
                 }
             }
-
             return Promise.reject(error);
         }
     );
