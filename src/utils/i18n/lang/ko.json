@@ -135,5 +135,6 @@
   "CATEGORY-sad": "슬픔",
   "CATEGORY-anger": "분노",
   "CATEGORY-hunger": "배고픔",
-  "CATEGORY-favorite": "즐겨찾기"
+  "CATEGORY-favorite": "즐겨찾기",
+  "NOTIFICATION-empty": "도착한 알람이 없어요"
 }

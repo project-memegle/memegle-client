@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import NotificationItem from './NotificationItem';
 import { getNotificationList } from 'services/NotificationService';
+import { useTranslation } from 'react-i18next';
 
 export default function Notification() {
+    const { t } = useTranslation();
+
     const [messages, setMessages] = useState<
         {
             content: string;
@@ -35,7 +38,7 @@ export default function Notification() {
                 ))
             ) : (
                 <section className="c-result__emtpy">
-                    <h2>도착한 알람이 없어요 🤖</h2>
+                    <h2>{t('NOTIFICATION-empty')} 🤖</h2>
                 </section>
             )}
         </section>
