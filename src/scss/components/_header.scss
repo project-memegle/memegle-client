@@ -1,3 +1,4 @@
+@use "../settings/colors" as colors;
 @mixin styles() {
   .c-header {
     display: flex;
@@ -27,14 +28,13 @@
         position: absolute;
         width: 50%;
         height: 100%;
-        left: 0%;
+        right: 0%;
         border-radius: 20px;
-        // background: white;
         background: #ffffff61;
         transition: all 0.3s;
       }
       input:checked + label::before {
-        left: 50%;
+        right: 50%;
       }
       label div {
         padding: 6px;
@@ -45,21 +45,18 @@
         display: none;
       }
       input:checked + label span:first-child {
-        color: white;
+        color: colors.$white;
         transition: color 0.3s;
       }
       input:checked + label span:last-child {
-        // color: #343434;
-        color: #000000;
+        color: colors.$inactive;
         transition: color 0.3s;
       }
       input + label span:first-child {
-        color: #000000;
-        // color: #343434;
-        transition: color 0.3s;
+        color: colors.$inactive;
       }
       input + label span:last-child {
-        color: white;
+        color: colors.$white;
         transition: color 0.3s;
       }
     }
