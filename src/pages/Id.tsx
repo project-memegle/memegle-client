@@ -1,6 +1,5 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
 import { AxiosError } from 'axios';
-import ValidationMessages from 'components/Validations/ValidationMessages';
 import handleInputChange from 'utils/Event/handleInputChange';
 import validateEmail from 'components/Validations/ValidateEmail';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
@@ -26,10 +25,13 @@ import {
     verifyVerificationCode,
 } from 'services/VerificationService';
 import StorageKeyword from 'Constant/StorageKeyword';
+import getValidationMessages from 'components/Validations/ValidationMessages';
+import { useTranslation } from 'react-i18next';
 
 export default function Verification() {
     const navigate = useCustomNavigate();
-
+    const ValidationMessages = getValidationMessages();
+    const { t } = useTranslation();
     const DEFAULT_NAME = ValidationMessages.DEFAULT_NAME;
     const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
 
@@ -218,8 +220,8 @@ export default function Verification() {
                             disabled={isActive}
                         >
                             {hasTimerStarted
-                                ? '인증코드 재전송'
-                                : '인증코드 보내기'}
+                                ? t('verification-resend-code')
+                                : t('verification-send-code')}
                         </button>
                     </section>
                 </section>
@@ -233,7 +235,9 @@ export default function Verification() {
                             id="verification"
                             type="text"
                             placeholder={
-                                isActive ? '인증번호 입력' : '시간 초과'
+                                isActive
+                                    ? t('verification-write-code')
+                                    : t('verification-timeover')
                             }
                             disabled={!isActive}
                             value={code}
@@ -247,14 +251,14 @@ export default function Verification() {
                 )}
                 <section className="c-login__button-section">
                     <button className="button__rounded button__orange">
-                        이메일 인증
+                        {t('verification-complete')}
                     </button>
                     <button
                         className="button__rounded button__light"
                         type="button"
                         onClick={() => navigate(previousUrl)}
                     >
-                        뒤로 가기
+                        {t('BACK_BUTTON')}
                     </button>
                 </section>
             </form>

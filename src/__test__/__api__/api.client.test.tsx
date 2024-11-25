@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
-import ValidationMessages from '../../components/Validations/ValidationMessages';
 import { handleApiError } from '../../utils/API/handleApiError';
+import getValidationMessages from '../../components/Validations/ValidationMessages';
 
 jest.spyOn(axios, 'isAxiosError').mockImplementation(
     (error) => error.isAxiosError === true
@@ -10,6 +10,7 @@ describe('api 에러 반환 테스트', () => {
     beforeEach(() => {
         setMessage = jest.fn();
     });
+    const ValidationMessages = getValidationMessages();
 
     test.each([
         [40000, ValidationMessages.LOGIN_FAILED],

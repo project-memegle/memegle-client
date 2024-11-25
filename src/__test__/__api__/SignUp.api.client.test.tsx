@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import SignUp from '../../pages/SignUp/SignUp'; // Adjust the import path as necessary
-import ValidationMessages from '../../components/Validations/ValidationMessages'; // Adjust the import path as necessary
+import getValidationMessages from '../../components/Validations/ValidationMessages';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -9,6 +9,7 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 test('회원가입 APi 성공 테스트', async () => {
     // Mock the axios post request to return a successful response
     mockedAxios.post.mockResolvedValueOnce({ data: { message: 'Success' } });
+    const ValidationMessages = getValidationMessages();
 
     render(<SignUp />);
 

@@ -1,7 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import Upload from '../../pages/Upload';
+import getValidationMessages from 'components/Validations/ValidationMessages';
 
 describe('Upload Component', () => {
+    const ValidationMessages = getValidationMessages();
     test('handles file selection and validation', () => {
         render(<Upload />);
         const fileInput = screen.getByRole('textbox', {

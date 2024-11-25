@@ -3,7 +3,7 @@ import { LogInRequestDTO } from 'services/dto/LogInDto';
 import { post } from 'utils/API/fetcher';
 import { getEnvVariableAsNumber } from 'utils/Storage/numberUntils';
 import { setCookie } from 'utils/Storage/cookies';
-import ValidationMessages from 'components/Validations/ValidationMessages';
+import getValidationMessages from 'components/Validations/ValidationMessages';
 
 const ACCESS_TOKEN = 'access_token';
 const REFRESH_TOKENE = 'refresh_token';
@@ -11,6 +11,7 @@ const REFRESH_TOKENE = 'refresh_token';
 export const SIGN_IN_URL = '/users/sign/in';
 
 export async function logIn(userData: LogInRequestDTO): Promise<void> {
+    const ValidationMessages = getValidationMessages();
     try {
         const response: AxiosResponse<void> = await post<void, LogInRequestDTO>(
             SIGN_IN_URL,

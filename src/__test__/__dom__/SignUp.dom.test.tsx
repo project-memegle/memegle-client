@@ -1,8 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import SignUp from '../../pages/SignUp/SignUp';
 import '@testing-library/jest-dom';
-import ValidationMessages from '../../components/Validations/ValidationMessages';
+import getValidationMessages from '../../components/Validations/ValidationMessages';
 describe('회원가입 렌더링 확인', () => {
+    const ValidationMessages = getValidationMessages();
     test('input과 버튼 렌더링', () => {
         render(<SignUp />);
 

@@ -1,9 +1,9 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import axios from 'axios';
-import ValidationMessages from '../../components/Validations/ValidationMessages'; // Adjust the import path as necessary
 import LogIn from '../../pages/LogIn';
 import { setCookie, getCookie } from '../../utils/Storage/cookies';
 import { MemoryRouter } from 'react-router-dom';
+import getValidationMessages from '../../components/Validations/ValidationMessages';
 jest.mock('../../utils/cookies');
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -16,6 +16,7 @@ beforeAll(() => {
 });
 
 test('로그인 APi 성공 테스트', async () => {
+    const ValidationMessages = getValidationMessages();
     mockedAxios.post.mockResolvedValueOnce({ data: { message: 'Success' } });
     const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
     render(

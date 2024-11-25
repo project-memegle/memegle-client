@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios';
-import ValidationMessages from '../../components/Validations/ValidationMessages';
 import { handleErrorPage } from '../../pages/Error';
+import getValidationMessages from '../../components/Validations/ValidationMessages';
+const ValidationMessages = getValidationMessages();
 
 const AxiosErrorMessages: Record<number, string> = {
     40000: ValidationMessages.REQUIRED_FORM,

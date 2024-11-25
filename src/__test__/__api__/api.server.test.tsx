@@ -1,9 +1,10 @@
 import { handleApiError } from '../../utils/API/handleApiError';
-import ValidationMessages from '../../components/Validations/ValidationMessages';
+import getValidationMessages from '../../components/Validations/ValidationMessages';
 
 jest.mock('axios');
 describe('api 네트워크 소통 실패 테스트', () => {
     let setMessage: jest.Mock;
+    const ValidationMessages = getValidationMessages();
 
     beforeEach(() => {
         setMessage = jest.fn();
