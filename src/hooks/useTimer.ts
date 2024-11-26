@@ -27,7 +27,7 @@ const useTimer = (initialTime: number) => {
         setTimer(initialTime);
     };
 
-    return { timer, startTimer, resetTimer, isActive };
+    return { timer, startTimer, resetTimer, isActive, setIsActive };
 };
 
 export default useTimer;

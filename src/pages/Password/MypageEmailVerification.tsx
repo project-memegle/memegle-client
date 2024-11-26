@@ -34,11 +34,12 @@ export default function MypageEmailVerification() {
     const codeInputRef = useRef<HTMLInputElement>(null);
     const [hasTimerStarted, setHasTimerStarted] = useState(false);
 
-    const { timer, startTimer, resetTimer, isActive } = useTimer(300);
+    const { timer, startTimer, resetTimer, isActive, setIsActive } =
+        useTimer(300);
 
     const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
 
-    const [emailError, setEmailError] = useState(DEFAULT_EMAIL);
+    const [emailError, setEmailError] = useState('');
     const [idError, setIdError] = useState(DEFAULT_ID);
     const [id, setId] = useState('');
 
@@ -48,25 +49,55 @@ export default function MypageEmailVerification() {
         }
     }, [id, email]);
 
+    useEffect(() => {
+        if (email) {
+            setIsActive(false);
+        }
+    }, [email, setIsActive]);
+
     const onChangeEmail = useCallback(
-        handleInputChange(setEmail, setEmailError, validateEmail),
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            setMessage('');
+            setVerification(false);
+            setHasTimerStarted(false);
+            handleInputChange(setEmail, setEmailError, validateEmail)(event);
+        },
         []
     );
 
     const onChangeCode = useCallback((e: FormEvent<HTMLInputElement>) => {
         setCode(e.currentTarget.value);
+        setMessage('');
     }, []);
+
+    const onChangeVerification = useCallback(() => {
+        if (emailError || !email) {
+            errorInputCheck(emailInputRef.current);
+            return;
+        }
+
+        if (email) {
+            setMessage('');
+            setVerification(true);
+            startTimer();
+            setHasTimerStarted(true);
+        }
+    }, [startTimer, email, emailError]);
 
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            if (emailError) {
+            if (emailError || !email) {
                 errorInputCheck(emailInputRef.current);
                 return;
             }
 
             if (!code) {
                 errorInputCheck(codeInputRef.current);
+                return;
+            }
+            if (!verification) {
+                setMessage(t('VERIFICATION_ERROR'));
                 return;
             }
 
@@ -84,25 +115,15 @@ export default function MypageEmailVerification() {
         [id, email, idError, emailError, code]
     );
 
-    const onChangeVerification = useCallback(() => {
-        if (emailError || email === '') {
-            errorInputCheck(emailInputRef.current);
-            return;
-        }
-
-        if (email) {
-            setMessage('');
-            setVerification(true);
-            startTimer();
-            setHasTimerStarted(true);
-        }
-    }, [startTimer, email, emailError]);
-
     return (
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
                 <section className="c-login__section">
-                    <p>{emailError ? emailError : DEFAULT_EMAIL}</p>
+                    {emailError ? (
+                        <p className="error-message">{emailError}</p>
+                    ) : (
+                        <p>{DEFAULT_EMAIL}</p>
+                    )}
                     <section className="c-login__section-verification">
                         <div>
                             <label htmlFor="email">이메일</label>
@@ -160,6 +181,7 @@ export default function MypageEmailVerification() {
                 >
                     {t('CHANGE_PASSWORD')}
                 </button>
+                {message && <p className="message">{message}</p>}
             </form>
         </div>
     );

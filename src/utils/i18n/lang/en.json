@@ -24,6 +24,7 @@
   "VERIFICATION_TIMEOVER": "Time Over",
   "VERIFICATION_COMPLETE": "Verify Email",
   "VERIFICATION_NAVIGATE_BUTTON": "Email Verification",
+  "VERIFICATION_ERROR": "Please enter a valid verification code.",
   "FAVORITE_TOOLTIP": "You can change the position by clicking and dragging the image.",
   "BUTTON_LATER": "Do It Later",
   "DEFAULT_MYPAGE": "MYPAGE",

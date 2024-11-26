@@ -182,7 +182,7 @@ export default function LogIn() {
                             className="button__light-font"
                             onClick={() => navigate('/id/verification')}
                         >
-                            {t('findid')}
+                            {t('FIND_ID')}
                         </button>
                         <button
                             className="button__light-font"

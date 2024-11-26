@@ -69,7 +69,7 @@ export default function LogInEmailVerification() {
                 errorInputCheck(idInputRef.current);
                 return;
             }
-            if (emailError || email === '') {
+            if (emailError || !email) {
                 errorInputCheck(emailInputRef.current);
                 return;
             }
@@ -104,7 +104,7 @@ export default function LogInEmailVerification() {
             errorInputCheck(idInputRef.current);
             return;
         }
-        if (emailError || email === '') {
+        if (emailError || !email) {
             errorInputCheck(emailInputRef.current);
             return;
         }

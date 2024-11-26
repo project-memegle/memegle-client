@@ -25,7 +25,7 @@ export default function MypageResetPassword() {
     const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
 
     const [passwordCheck, setPasswordCheck] = useState('');
-    const [passwordError, setPasswordError] = useState(DEFAULT_PASSWORD);
+    const [passwordError, setPasswordError] = useState('');
 
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const passwordCheckInputRef = useRef<HTMLInputElement>(null);
