@@ -48,4 +48,13 @@
     text-align: center;
     color: colors.$warning;
   }
+
+  .error-message {
+    font-weight: 500;
+    color: colors.$warning;
+  }
+  .success-message {
+    font-weight: 500;
+    color: colors.$success;
+  }
 }

@@ -19,12 +19,14 @@ export default function ChangeNickname() {
     const navigate = useCustomNavigate();
     const [message, setMessage] = useState('');
     const [nickname, setNickname] = useState('');
-    const [nicknameError, setNicknameError] = useState(DEFAULT_NICKNAME);
+    const [nicknameError, setNicknameError] = useState('');
+
+    const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     const nicknameInputRef = useRef<HTMLInputElement>(null);
     const [isDuplicated, setIsDuplicated] = useState(false);
-    const [isChecked, setIsChecked] = useState(false); // New state to track if nickname has been checked
-
+    const [isChecked, setIsChecked] = useState(false);
     const onChangeNickname = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             const { value } = event.target;
@@ -33,6 +35,8 @@ export default function ChangeNickname() {
             setNicknameError(error);
             setIsChecked(false);
             setIsDuplicated(false);
+            setErrorMessage('');
+            setSuccessMessage('');
             setMessage('');
         },
         []
@@ -42,21 +46,33 @@ export default function ChangeNickname() {
         async (e: FormEvent<HTMLButtonElement>) => {
             e.preventDefault();
 
+            // 입력 값 유효성 검사
             if (nicknameError || !nickname) {
                 errorInputCheck(nicknameInputRef.current);
+                setErrorMessage(ValidationMessages.REQUIRED_NICKNAME);
+                setSuccessMessage('');
                 return;
             }
-            const response = await checkNickname({ nickname });
-            setIsChecked(true);
-            setMessage('');
 
-            if (response?.isDuplicated) {
-                setNicknameError(ValidationMessages.EXIST_NICKNAME);
-                setIsDuplicated(true);
-                return;
+            try {
+                const response = await checkNickname({ nickname });
+                setIsChecked(true);
+                setErrorMessage('');
+                setSuccessMessage('');
+
+                // 닉네임 중복 처리
+                if (response?.isDuplicated) {
+                    setErrorMessage(ValidationMessages.EXIST_NICKNAME);
+                    setIsDuplicated(true);
+                } else {
+                    setSuccessMessage(
+                        ValidationMessages.CHECK_NICKNAME_SUCCESS
+                    );
+                    setIsDuplicated(false);
+                }
+            } catch (error) {
+                setErrorMessage(ValidationMessages.ERROR_CHECK_NICKNAME);
             }
-            setNicknameError(ValidationMessages.CHECK_NICKNAME_SUCCESS);
-            setIsDuplicated(false);
         },
         [nickname, nicknameError]
     );
@@ -66,35 +82,46 @@ export default function ChangeNickname() {
             e.preventDefault();
             const userId = getSessionStorages(StorageKeyword.USER_ID);
 
+            // 중복 체크가 되지 않은 경우 처리
             if (isDuplicated || !isChecked) {
                 errorInputCheck(nicknameInputRef.current);
-                setMessage(ValidationMessages.REQUIRED_DUPLICATED_CHECK);
+                setErrorMessage(ValidationMessages.REQUIRED_DUPLICATED_CHECK);
+                setSuccessMessage('');
                 return;
             }
 
+            // 사용자 ID가 없는 경우 처리
             if (!userId) {
-                setMessage(ValidationMessages.MISSING_ID);
+                setErrorMessage(ValidationMessages.MISSING_ID);
+                setSuccessMessage('');
                 return;
             }
 
-            if (nickname && !isDuplicated && isChecked) {
-                try {
-                    await changeNickname({ userId, nickname });
-                    setMessage(ValidationMessages.CHANGE_NICKNAME_SUCCESS);
-                    navigate('/mypage');
-                } catch (error) {
-                    handleApiError(error as AxiosError, setMessage);
-                }
+            try {
+                await changeNickname({ userId, nickname });
+                setSuccessMessage(ValidationMessages.CHANGE_NICKNAME_SUCCESS);
+                setErrorMessage('');
+                navigate('/mypage');
+            } catch (error) {
+                handleApiError(error as AxiosError, setErrorMessage);
             }
         },
-        [nickname, nicknameError, isDuplicated, isChecked, navigate]
+        [nickname, isDuplicated, isChecked, navigate]
     );
 
     return (
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
                 <div className="c-login__section">
-                    <p>{nicknameError ? nicknameError : DEFAULT_NICKNAME}</p>
+                    {errorMessage && (
+                        <p className="error-message">{errorMessage}</p>
+                    )}
+                    {successMessage && (
+                        <p className="success-message">{successMessage}</p>
+                    )}
+                    {!errorMessage && !successMessage && (
+                        <p>{DEFAULT_NICKNAME}</p>
+                    )}
                     <section className="c-login__section-verification">
                         <label htmlFor="nickname">닉네임</label>
                         <div className="c-login__section-relative">

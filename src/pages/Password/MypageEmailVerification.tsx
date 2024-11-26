@@ -85,7 +85,7 @@ export default function MypageEmailVerification() {
     );
 
     const onChangeVerification = useCallback(() => {
-        if (emailError) {
+        if (emailError || email === '') {
             errorInputCheck(emailInputRef.current);
             return;
         }

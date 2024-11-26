@@ -29,9 +29,9 @@ export default function SignUp() {
     const DEFALUT_NICKNAME = ValidationMessages.DEFAULT_NICKNAME;
     const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
 
-    const [idError, setIdError] = useState(DEFAULT_ID);
-    const [nicknameError, setNicknameError] = useState(DEFALUT_NICKNAME);
-    const [passwordError, setPasswordError] = useState(DEFAULT_PASSWORD);
+    const [idError, setIdError] = useState('');
+    const [nicknameError, setNicknameError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     const [id, setId] = useState('');
     const [nickname, setNickname] = useState('');
@@ -70,15 +70,15 @@ export default function SignUp() {
         async (e: FormEvent<HTMLButtonElement>) => {
             e.preventDefault();
 
-            if (idError) {
+            if (idError || !id) {
                 errorInputCheck(idInputRef.current);
                 return;
             }
-            if (nicknameError) {
+            if (nicknameError || !nickname) {
                 errorInputCheck(nicknameInputRef.current);
                 return;
             }
-            if (passwordError) {
+            if (passwordError || !password) {
                 errorInputCheck(passwordInputRef.current);
                 return;
             }
@@ -121,15 +121,15 @@ export default function SignUp() {
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            if (idError) {
+            if (idError || !id) {
                 errorInputCheck(idInputRef.current);
                 return;
             }
-            if (nicknameError) {
+            if (nicknameError || !nickname) {
                 errorInputCheck(nicknameInputRef.current);
                 return;
             }
-            if (passwordError) {
+            if (passwordError || !password) {
                 errorInputCheck(passwordInputRef.current);
                 return;
             }
@@ -179,7 +179,11 @@ export default function SignUp() {
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
                 <div className="c-login__section">
-                    <p>{idError ? idError : DEFAULT_ID}</p>
+                    {idError ? (
+                        <p className="error-message">{idError}</p>
+                    ) : (
+                        <p>{DEFAULT_ID}</p>
+                    )}
                     <label htmlFor="id">아이디</label>
                     <input
                         ref={idInputRef}
@@ -193,7 +197,11 @@ export default function SignUp() {
                     />
                 </div>
                 <div className="c-login__section">
-                    <p>{nicknameError ? nicknameError : DEFALUT_NICKNAME}</p>
+                    {nicknameError ? (
+                        <p className="error-message">{nicknameError}</p>
+                    ) : (
+                        <p>{DEFALUT_NICKNAME}</p>
+                    )}
                     <label htmlFor="nickname">닉네임</label>
                     <input
                         ref={nicknameInputRef}
@@ -207,7 +215,11 @@ export default function SignUp() {
                     />
                 </div>
                 <div className="c-login__section">
-                    <p>{passwordError ? passwordError : DEFAULT_PASSWORD}</p>
+                    {passwordError ? (
+                        <p className="error-message">{passwordError}</p>
+                    ) : (
+                        <p>{DEFAULT_PASSWORD}</p>
+                    )}
                     <section className="c-login__section-password">
                         <div>
                             <label htmlFor="password">비밀번호</label>

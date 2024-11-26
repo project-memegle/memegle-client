@@ -56,7 +56,7 @@ export default function LogInResetPassword() {
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            if (passwordError) {
+            if (passwordError || !password) {
                 errorInputCheck(passwordInputRef.current);
                 return;
             }
@@ -89,7 +89,11 @@ export default function LogInResetPassword() {
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
                 <div className="c-login__section">
-                    <p>{passwordError ? passwordError : DEFAULT_PASSWORD}</p>
+                    {passwordError ? (
+                        <p className="error-message">{passwordError}</p>
+                    ) : (
+                        <p>{DEFAULT_PASSWORD}</p>
+                    )}
                     <section className="c-login__section-password">
                         <div>
                             <label htmlFor="password">비밀번호</label>

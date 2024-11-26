@@ -89,12 +89,12 @@ export default function LogIn() {
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            if (idError) {
+            if (idError || !id) {
                 errorInputCheck(idInputRef.current);
                 return;
             }
 
-            if (passwordError) {
+            if (passwordError || !password) {
                 errorInputCheck(passwordInputRef.current);
                 return;
             }
@@ -127,7 +127,11 @@ export default function LogIn() {
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
                 <div className="c-login__section">
-                    <p>{idError ? idError : DEFAULT_ID}</p>
+                    {idError ? (
+                        <p className="error-message">{idError}</p>
+                    ) : (
+                        <p>{DEFAULT_ID}</p>
+                    )}
                     <label htmlFor="id">{DEFAULT_ID}</label>
                     <input
                         ref={idInputRef}
@@ -141,7 +145,11 @@ export default function LogIn() {
                     />
                 </div>
                 <div className="c-login__section">
-                    <p>{passwordError ? passwordError : DEFAULT_PASSWORD}</p>
+                    {passwordError ? (
+                        <p className="error-message">{passwordError}</p>
+                    ) : (
+                        <p>{DEFAULT_PASSWORD}</p>
+                    )}
                     <label htmlFor="password">{DEFAULT_PASSWORD}</label>
                     <input
                         ref={passwordInputRef}

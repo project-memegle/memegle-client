@@ -65,11 +65,11 @@ export default function LogInEmailVerification() {
                 setMessage(t('REQUIRED_VERIFICATION_CODE'));
                 return;
             }
-            if (idError) {
+            if (idError || !id) {
                 errorInputCheck(idInputRef.current);
                 return;
             }
-            if (emailError) {
+            if (emailError || email === '') {
                 errorInputCheck(emailInputRef.current);
                 return;
             }
@@ -100,11 +100,11 @@ export default function LogInEmailVerification() {
     );
 
     const onChangeVerification = useCallback(async () => {
-        if (idError) {
+        if (idError || !id) {
             errorInputCheck(idInputRef.current);
             return;
         }
-        if (emailError) {
+        if (emailError || email === '') {
             errorInputCheck(emailInputRef.current);
             return;
         }
@@ -132,7 +132,11 @@ export default function LogInEmailVerification() {
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
                 <div className="c-login__section">
-                    <p>{idError ? idError : DEFAULT_ID}</p>
+                    {idError ? (
+                        <p className="error-message">{idError}</p>
+                    ) : (
+                        <p>{DEFAULT_ID}</p>
+                    )}
                     <label htmlFor="id">아이디</label>
                     <input
                         ref={idInputRef}
