@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ToastMessage from '../../components/UI/ToastMessage/ToastMessage';
 import { SearchResultItemDTO } from 'services/dto/ResultDto';
 import handleCopyImage from 'utils/Event/handleCopyImage';
@@ -12,7 +12,15 @@ import getValidationMessages from 'components/Validations/ValidationMessages';
 export default function ResultItem(result: SearchResultItemDTO) {
     const [toast, setToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
+    const [favoriteList, setFavoriteList] = useState<
+        { id: number; imageUrl: string }[]
+    >([]);
     const ValidationMessages = getValidationMessages();
+
+    useEffect(() => {
+        const favorites = getArraySessionStorages(SESSION_STORAGE_KEY);
+        setFavoriteList(favorites || []);
+    }, []);
 
     async function handleCopy() {
         await handleCopyImage(result.imageUrl, setToastMessage, setToast);
@@ -44,6 +52,7 @@ export default function ResultItem(result: SearchResultItemDTO) {
     async function addToFavorite(item: SearchResultItemDTO) {
         try {
             addToFavoriteApi(item);
+            setFavoriteList((prev) => [...prev, item]);
             setToastMessage(ValidationMessages.SUCCESS_ADD_FAVORITE);
             setToast(true);
         } catch (error) {
@@ -52,6 +61,29 @@ export default function ResultItem(result: SearchResultItemDTO) {
             setToast(true);
         }
     }
+
+    async function removeFromFavorite(item: SearchResultItemDTO) {
+        try {
+            const updatedFavorites = favoriteList.filter(
+                (favorite) => favorite.id !== item.id
+            );
+            setArraySessionStorages({
+                key: SESSION_STORAGE_KEY,
+                value: updatedFavorites,
+            });
+            setFavoriteList(updatedFavorites);
+            setToastMessage(ValidationMessages.SUCCESS_DELETE_IMG);
+            setToast(true);
+        } catch (error) {
+            console.error(error);
+            setToastMessage(ValidationMessages.FAILED_EVENT);
+            setToast(true);
+        }
+    }
+
+    const isFavorite = favoriteList.some(
+        (favorite) => favorite.id === result.id
+    );
 
     return (
         <article className="result__item" onClick={handleCopy}>
@@ -62,11 +94,18 @@ export default function ResultItem(result: SearchResultItemDTO) {
                 className="result__item-favorite"
                 onClick={(e) => {
                     e.stopPropagation();
-                    addToFavorite(result);
+                    if (isFavorite) {
+                        removeFromFavorite(result);
+                    } else {
+                        addToFavorite(result);
+                    }
                 }}
             >
-                <i className="c-icon">heart_plus</i>
-                {/* <i className="c-icon">heart_check</i> */}
+                {isFavorite ? (
+                    <i className="c-icon c-icon--fill-warning">favorite</i>
+                ) : (
+                    <i className="c-icon">favorite_border</i>
+                )}
             </div>
             <img src={result.imageUrl} alt={`img-${result.id}`} />
             {toast && (
