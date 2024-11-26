@@ -6,6 +6,7 @@ import {
     setSessionStorages,
 } from 'utils/Storage/sessionStorage';
 import { useTranslation } from 'react-i18next';
+import StorageKeyword from 'Constant/StorageKeyword';
 
 interface ChatBotProps {
     onCategorySelect: (category: string) => void;
@@ -16,70 +17,94 @@ interface ChatBotProps {
 export default function ChatBot({
     onCategorySelect,
     onCategoryReset,
-    resetChatMessages, // Destructure resetChatMessages prop
+    resetChatMessages,
 }: ChatBotProps) {
     const { t, i18n } = useTranslation();
-    const date = new Date().toLocaleString();
     const initialMessages: ChatItemProps[] = [
         {
-            content: `${t('GREETING_CHAT')}🤖`,
-            date: date,
+            content: 'GREETING_CHAT',
+            date: new Date().toLocaleString(),
             chatDirection: 'incoming',
         },
         {
-            content: t('CHAT_REQUIRED_CAGTEGORY'),
-            date: date,
+            content: 'CHAT_REQUIRED_CAGTEGORY',
+            date: new Date().toLocaleString(),
             chatDirection: 'incoming',
         },
     ];
 
     const [isClicked, setIsClicked] = useState(false);
     const [showCategories, setShowCategories] = useState(true);
-    const [messages, setMessages] = useState<ChatItemProps[]>(() => {
+    const [messages, setMessages] = useState<ChatItemProps[]>(initialMessages);
+
+    useEffect(() => {
+        // 저장된 메시지 또는 카테고리 확인 후 상태 업데이트
         const savedMessages = getSessionStorages('chatMessages');
-        const chatbotCategory = getSessionStorages('chatbotCategory');
+        const chatbotCategory = getSessionStorages(
+            StorageKeyword.CHATBOT_CATEGORY
+        );
+
         if (savedMessages) {
-            return JSON.parse(savedMessages);
+            setMessages(JSON.parse(savedMessages));
+            return;
         }
 
         if (chatbotCategory) {
-            return [];
+            // 카테고리만 저장된 경우 초기 메시지 유지
+            setMessages(initialMessages);
+            return;
         }
 
-        return initialMessages;
-    });
+        setMessages(initialMessages);
+        return;
+    }, []);
 
-    useEffect(() => {}, [i18n.language, t]);
+    useEffect(() => {
+        // 언어 변경 시 메시지 재설정
+        setMessages((prevMessages) => {
+            const chatbotCategory = getSessionStorages(
+                StorageKeyword.CHATBOT_CATEGORY
+            );
+            if (!chatbotCategory) {
+                return initialMessages;
+            }
+            return prevMessages;
+        });
+    }, [i18n.language, t]);
 
     function selectCategory(
         event: React.MouseEvent<HTMLButtonElement>,
-        value: string
+        categoryKey: string
     ) {
         event.preventDefault();
+        const categoryValue = t(categoryKey);
         setIsClicked(true);
         setShowCategories(false);
+        setSessionStorages({
+            key: StorageKeyword.CHATBOT_CATEGORY,
+            value: categoryKey,
+        });
         setMessages((prevMessages) => [
             ...prevMessages,
             {
-                content: `${t('CHAT_SELECTED_CAGTEGORY-1')} "${value}" ${t(
-                    'CHAT_SELECTED_CAGTEGORY-2'
-                )}`,
-                date,
+                content: 'CHAT_SELECTED_CAGTEGORY-1',
+                additionalContent: categoryValue,
+                date: new Date().toLocaleString(),
                 chatDirection: 'incoming',
             },
             {
-                content: `${t('CHAT_REQUIRED_CONTENT')}🤠`,
-                date,
+                content: 'CHAT_REQUIRED_CONTENT', 
+                date: new Date().toLocaleString(),
                 chatDirection: 'incoming',
             },
         ]);
-        onCategorySelect(value);
+        onCategorySelect(categoryKey);
     }
 
     function showCategoryListAgain() {
         setShowCategories(true);
         setMessages(initialMessages);
-        deleteSessionStorage('chatbotCategory');
+        deleteSessionStorage(StorageKeyword.CHATBOT_CATEGORY);
         onCategoryReset();
         resetChatMessages();
     }
@@ -90,7 +115,13 @@ export default function ChatBot({
                 {messages.map((msg, index) => (
                     <ChatItem
                         key={index}
-                        content={msg.content}
+                        content={
+                            msg.additionalContent
+                                ? `${t(msg.content)} "${
+                                      msg.additionalContent
+                                  }" ${t('CHAT_SELECTED_CAGTEGORY-2')}`
+                                : t(msg.content)
+                        }
                         date={msg.date}
                         chatDirection={msg.chatDirection}
                     />
@@ -98,34 +129,19 @@ export default function ChatBot({
             </section>
             {showCategories ? (
                 <section className="c-chat__chatbot-category">
-                    <button
-                        onClick={(e) =>
-                            selectCategory(e, t('CHAT_CAGTEGORY-IMAGE'))
-                        }
-                    >
-                        {t('CHAT_CAGTEGORY-IMAGE')}
-                    </button>
-                    <button
-                        onClick={(e) =>
-                            selectCategory(e, t('CHAT_CAGTEGORY-ACCOUNT'))
-                        }
-                    >
-                        {t('CHAT_CAGTEGORY-ACCOUNT')}
-                    </button>
-                    <button
-                        onClick={(e) =>
-                            selectCategory(e, t('CHAT_CAGTEGORY-INFO'))
-                        }
-                    >
-                        {t('CHAT_CAGTEGORY-INFO')}
-                    </button>
-                    <button
-                        onClick={(e) =>
-                            selectCategory(e, t('CHAT_CAGTEGORY-OTHER'))
-                        }
-                    >
-                        {t('CHAT_CAGTEGORY-OTHER')}
-                    </button>
+                    {[
+                        'CHAT_CAGTEGORY-IMAGE',
+                        'CHAT_CAGTEGORY-ACCOUNT',
+                        'CHAT_CAGTEGORY-INFO',
+                        'CHAT_CAGTEGORY-OTHER',
+                    ].map((key) => (
+                        <button
+                            key={key}
+                            onClick={(e) => selectCategory(e, key)}
+                        >
+                            {t(key)}
+                        </button>
+                    ))}
                 </section>
             ) : (
                 <section className="c-chat__chatbot-category">

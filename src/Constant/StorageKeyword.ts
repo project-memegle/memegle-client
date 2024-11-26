@@ -15,6 +15,7 @@ const StorageKeyword: StorageProps = {
     ACCESS_TOKEN: 'access_token',
     REFRESH_TOKEN: 'refersh_token',
     LANGUAGE: 'language',
+    CHATBOT_CATEGORY: 'chatbotCategory',
 };
 
 export default StorageKeyword;

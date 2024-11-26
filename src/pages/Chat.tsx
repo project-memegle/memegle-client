@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ChatBot from 'components/UI/Chat/ChatBot';
 import ChatItem from '../components/UI/Chat/ChatItem';
 import { ChatItemDTO } from 'services/dto/ChatDto';
@@ -8,7 +8,7 @@ import StorageKeyword from 'Constant/StorageKeyword';
 import { useTranslation } from 'react-i18next';
 
 export default function Chat() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [isCategorySelected, setIsCategorySelected] = useState(false);
     const [message, setMessage] = useState('');
 
@@ -16,7 +16,7 @@ export default function Chat() {
 
     const [messages, setMessages] = useState<
         {
-            content: string;
+            contentKey: string; 
             date: string;
             chatDirection: 'incoming' | 'outgoing';
         }[]
@@ -39,23 +39,25 @@ export default function Chat() {
         if (message.trim()) {
             setMessages((prevMessages) => [
                 ...prevMessages,
-                { content: message, date, chatDirection: 'outgoing' },
+                { contentKey: message, date, chatDirection: 'outgoing' },
             ]);
             setMessage('');
         }
     }
 
     async function handleEndChat() {
-        const allMessages = messages.map((msg) => `${msg.content}`).join('\n');
+        const allMessages = messages
+            .map((msg) => `${msg.contentKey}`)
+            .join('\n');
         setMessages((prevMessages) => [
             ...prevMessages,
             {
-                content: t('COMPLETED_CHAT-1'),
+                contentKey: 'COMPLETED_CHAT-1',
                 date,
                 chatDirection: 'incoming',
             },
             {
-                content: t('COMPLETED_CHAT-2'),
+                contentKey: 'COMPLETED_CHAT-2',
                 date,
                 chatDirection: 'incoming',
             },
@@ -76,6 +78,10 @@ export default function Chat() {
         }
     }
 
+    useEffect(() => {
+        setMessages((prevMessages) => [...prevMessages]);
+    }, [i18n.language]);
+
     return (
         <div className="c-chat">
             <div className="main__container">
@@ -83,12 +89,12 @@ export default function Chat() {
                     <ChatBot
                         onCategorySelect={handleCategorySelect}
                         onCategoryReset={handleCategoryReset}
-                        resetChatMessages={() => setMessages([])} // Pass reset function
+                        resetChatMessages={() => setMessages([])} 
                     />
                     {messages.map((msg, index) => (
                         <ChatItem
                             key={index}
-                            content={msg.content}
+                            content={t(msg.contentKey)} 
                             date={msg.date}
                             chatDirection={msg.chatDirection}
                         />
