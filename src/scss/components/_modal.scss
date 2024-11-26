@@ -1,24 +1,29 @@
 @mixin styles() {
   .modal {
     left: 0;
-    top: 2rem;
+    top: 0;
     z-index: 999;
-    width: 100%;
     height: auto;
-    position: absolute;
+    width: 100%;
+    position: fixed;
     display: flex;
     justify-content: center;
+    height: 100dvh;
+    background-color: #000000a3;
+    align-items: center;
+
     &:hover {
       cursor: pointer;
     }
   }
 
-  .modal::backdrop {
-    background: rgba(0, 0, 0, 0.6);
-  }
-
   .modal__content {
+    border-radius: 16px 16px 16px 16px / 16px 16px 16px 16px;
+    overflow: hidden;
+    display: flex;
     position: relative;
+    justify-content: center;
+    align-items: center;
   }
 
   .modal__close {
