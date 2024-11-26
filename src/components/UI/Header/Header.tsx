@@ -14,8 +14,7 @@ interface HeaderProps {
 export default function Header({ searchTerm, onSearch }: HeaderProps) {
     const navigate = useCustomNavigate();
     const auth = useAuth();
-    const { i18n } = useTranslation();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
 
     useEffect(() => {

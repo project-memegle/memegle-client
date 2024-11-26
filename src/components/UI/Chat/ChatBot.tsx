@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ChatItem, { ChatItemProps } from './ChatItem';
 import {
     deleteSessionStorage,
@@ -18,7 +18,7 @@ export default function ChatBot({
     onCategoryReset,
     resetChatMessages, // Destructure resetChatMessages prop
 }: ChatBotProps) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const date = new Date().toLocaleString();
     const initialMessages: ChatItemProps[] = [
         {
@@ -48,6 +48,8 @@ export default function ChatBot({
 
         return initialMessages;
     });
+
+    useEffect(() => {}, [i18n.language, t]);
 
     function selectCategory(
         event: React.MouseEvent<HTMLButtonElement>,
@@ -79,7 +81,7 @@ export default function ChatBot({
         setMessages(initialMessages);
         deleteSessionStorage('chatbotCategory');
         onCategoryReset();
-        resetChatMessages(); 
+        resetChatMessages();
     }
 
     return (
