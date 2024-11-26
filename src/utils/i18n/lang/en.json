@@ -35,6 +35,8 @@
   "REGISTER_CATEGORY": "Register Category",
   "REQUIRED_SEARCH_INPUT": "Please enter a search term.",
   "REQUIRED_UPLOAD_FILE": "Select a file.",
+  "REQUIRED_UPLOAD_TAG": "Please enter at least one tag.",
+  "REQUIRED_UPLOAD_CATEGORY": "Please select a category.",
   "REQUIRED_DND_FILE": "Drag and drop a file to upload.",
   "REQUIRED_MESSAGE": "Please enter a message",
   "GREETING_CHAT": "Hello",

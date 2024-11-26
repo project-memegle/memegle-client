@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next';
 
 interface TagInputProps {
     onTagsChange: (tags: string[]) => void;
+    setErrorMessage: (message: string) => void; // 추가된 prop
 }
 
-export function TagInput({ onTagsChange }: TagInputProps) {
+export function TagInput({ onTagsChange, setErrorMessage }: TagInputProps) {
     const tagInputRef = useRef<HTMLInputElement>(null);
     const tagAreaRef = useRef<HTMLElement>(null);
     const ulRef = useRef<HTMLUListElement>(null);
@@ -15,7 +16,8 @@ export function TagInput({ onTagsChange }: TagInputProps) {
     const { t } = useTranslation();
     useEffect(() => {
         onTagsChange(tags);
-    }, [tags, onTagsChange]);
+        setErrorMessage('');
+    }, [tags, onTagsChange, setErrorMessage]);
 
     useEffect(() => {
         const tagInput = tagInputRef.current;

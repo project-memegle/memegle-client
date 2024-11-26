@@ -9,9 +9,13 @@ import {
 
 interface CategoryInputProps {
     onCategoryChange: (category: string) => void;
+    setErrorMessage: (message: string) => void; // 추가된 prop
 }
 
-export function CategoryInput({ onCategoryChange }: CategoryInputProps) {
+export function CategoryInput({
+    onCategoryChange,
+    setErrorMessage,
+}: CategoryInputProps) {
     const [categoryList, setCategoryList] =
         useState<CategoryResultSectionDTO | null>(null);
     const [selectCategory, setSelectCategory] = useState<string | null>(null);
@@ -23,8 +27,9 @@ export function CategoryInput({ onCategoryChange }: CategoryInputProps) {
     useEffect(() => {
         if (selectCategory) {
             onCategoryChange(selectCategory);
+            setErrorMessage('');
         }
-    }, [selectCategory, onCategoryChange]);
+    }, [selectCategory, onCategoryChange, setErrorMessage]);
 
     //todo: 서버에서 카테고리 리스트를 가져오기
     // useEffect(() => {
@@ -35,7 +40,7 @@ export function CategoryInput({ onCategoryChange }: CategoryInputProps) {
         // MOCK 데이터로 상태 초기화
         setCategoryList(mockCategoryList);
         setLoading(false);
-    }, [selectCategory]);
+    }, [mockCategoryList]);
 
     const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectCategory(e.target.value);

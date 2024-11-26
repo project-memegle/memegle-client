@@ -68,11 +68,18 @@ export default function Upload() {
         setFileName(t('REQUIRED_UPLOAD_FILE'));
         setImageUrl(undefined);
     };
-
     const upload = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!file) {
             setErrorMessage(t('REQUIRED_UPLOAD_FILE'));
+            return;
+        }
+        if (tags.length === 0) {
+            setErrorMessage(t('REQUIRED_UPLOAD_TAG'));
+            return;
+        }
+        if (!category) {
+            setErrorMessage(t('REQUIRED_UPLOAD_CATEGORY'));
             return;
         }
         const formData = new FormData();
@@ -180,8 +187,15 @@ export default function Upload() {
                         {t('IMAGE_UPLOAD')}
                     </button>
                 </section>
-                <TagInput onTagsChange={setTags} />
-                <CategoryInput onCategoryChange={setCategory} />
+                <TagInput
+                    onTagsChange={setTags}
+                    setErrorMessage={setErrorMessage}
+                />
+                <CategoryInput
+                    onCategoryChange={setCategory}
+                    setErrorMessage={setErrorMessage}
+                />
+                {errorMessage && <p className="font-warning">{errorMessage}</p>}
                 <section className="c-login__button-section">
                     <button
                         className="button__rounded button__light"
@@ -189,9 +203,6 @@ export default function Upload() {
                     >
                         {t('ASKED_UPLOAD')}
                     </button>
-                    {errorMessage && (
-                        <p className="font-warning">{errorMessage}</p>
-                    )}
                 </section>
             </form>
         </div>
