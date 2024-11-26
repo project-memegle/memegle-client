@@ -59,7 +59,9 @@ export default function ChatBot({
         setMessages((prevMessages) => [
             ...prevMessages,
             {
-                content: `${value} ${t('CHAT_SELECTED_CAGTEGORY')}`,
+                content: `${t('CHAT_SELECTED_CAGTEGORY-1')} "${value}" ${t(
+                    'CHAT_SELECTED_CAGTEGORY-2'
+                )}`,
                 date,
                 chatDirection: 'incoming',
             },
@@ -77,7 +79,7 @@ export default function ChatBot({
         setMessages(initialMessages);
         deleteSessionStorage('chatbotCategory');
         onCategoryReset();
-        resetChatMessages(); // Call resetChatMessages to reset messages in Chat component
+        resetChatMessages(); 
     }
 
     return (

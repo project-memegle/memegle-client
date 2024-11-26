@@ -50,7 +50,12 @@ export default function Chat() {
         setMessages((prevMessages) => [
             ...prevMessages,
             {
-                content: t('COMPLETED_CHAT'),
+                content: t('COMPLETED_CHAT-1'),
+                date,
+                chatDirection: 'incoming',
+            },
+            {
+                content: t('COMPLETED_CHAT-2'),
                 date,
                 chatDirection: 'incoming',
             },
