@@ -1,10 +1,8 @@
 export interface LoginVerifyIdEmailDTO {
-    id: string;
     email: string;
 }
 
 export interface LoginVerifyPasswordDTO {
-    id: string;
     email: string;
     verificationType: '비밀번호 찾기';
 }

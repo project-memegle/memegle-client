@@ -20,34 +20,25 @@ export default function LogInEmailVerification() {
     const navigate = useCustomNavigate();
     const ValidationMessages = getValidationMessages();
     const { t } = useTranslation();
-    const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
     const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
 
     const [verification, setVerification] = useState(false);
     const [isVerificationSuccessful, setIsVerificationSuccessful] =
         useState(false);
 
-    const [idError, setIdError] = useState(DEFAULT_ID);
-    const [emailError, setEmailError] = useState(DEFAULT_EMAIL);
+    const [emailError, setEmailError] = useState('');
 
-    const [id, setId] = useState('');
     const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
 
     const [message, setMessage] = useState('');
 
-    const idInputRef = useRef<HTMLInputElement>(null);
     const emailInputRef = useRef<HTMLInputElement>(null);
     const codeInputRef = useRef<HTMLInputElement>(null);
 
     const [hasTimerStarted, setHasTimerStarted] = useState(false);
 
     const { timer, startTimer, resetTimer, isActive } = useTimer(300);
-
-    const onChangeId = useCallback(
-        handleInputChange(setId, setIdError, validateId),
-        []
-    );
 
     const onChangeEmail = useCallback(
         handleInputChange(setEmail, setEmailError, validateEmail),
@@ -65,18 +56,13 @@ export default function LogInEmailVerification() {
                 setMessage(t('REQUIRED_VERIFICATION_CODE'));
                 return;
             }
-            if (idError || !id) {
-                errorInputCheck(idInputRef.current);
-                return;
-            }
             if (emailError || !email) {
                 errorInputCheck(emailInputRef.current);
                 return;
             }
-            if (id && email && code && isVerificationSuccessful) {
+            if (email && code && isVerificationSuccessful) {
                 setMessage('');
                 const userData: LoginVerifyPasswordDTO = {
-                    id,
                     email,
                     verificationType: '비밀번호 찾기',
                 };
@@ -88,34 +74,21 @@ export default function LogInEmailVerification() {
                 }
             }
         },
-        [
-            id,
-            email,
-            code,
-            idError,
-            emailError,
-            isVerificationSuccessful,
-            navigate,
-        ]
+        [email, code, emailError, isVerificationSuccessful, navigate]
     );
 
     const onChangeVerification = useCallback(async () => {
-        if (idError || !id) {
-            errorInputCheck(idInputRef.current);
-            return;
-        }
         if (emailError || !email) {
             errorInputCheck(emailInputRef.current);
             return;
         }
 
-        if (id && email) {
+        if (email) {
             setMessage('');
             startTimer();
             setHasTimerStarted(true);
             try {
                 const userData: LoginVerifyIdEmailDTO = {
-                    id,
                     email,
                 };
                 await verifyIdEmail(userData);
@@ -126,31 +99,17 @@ export default function LogInEmailVerification() {
                 setIsVerificationSuccessful(false);
             }
         }
-    }, [startTimer, email, emailError, id]);
+    }, [startTimer, email, emailError]);
 
     return (
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
-                <div className="c-login__section">
-                    {idError ? (
-                        <p className="error-message">{idError}</p>
-                    ) : (
-                        <p>{DEFAULT_ID}</p>
-                    )}
-                    <label htmlFor="id">아이디</label>
-                    <input
-                        ref={idInputRef}
-                        className="c-login__input"
-                        name="id"
-                        id="id"
-                        type="text"
-                        placeholder={ValidationMessages.REQUIRED_ID}
-                        value={id}
-                        onChange={onChangeId}
-                    />
-                </div>
                 <section className="c-login__section">
-                    <p>{emailError ? emailError : DEFAULT_EMAIL}</p>
+                    {emailError ? (
+                        <p className="error-message">{emailError}</p>
+                    ) : (
+                        <p>{DEFAULT_EMAIL}</p>
+                    )}
                     <section className="c-login__section-verification">
                         <div>
                             <label htmlFor="email">이메일</label>
@@ -202,6 +161,18 @@ export default function LogInEmailVerification() {
                         </p>
                     </section>
                 )}
+                <section className="c-login__button-section-bottom">
+                    <div className="c-login__button-section-bottom-text">
+                        <p>{t('REQUIRED_VERIFICATION_FOR_FIND_PASSWORD-1')}</p>
+                        <p>{t('REQUIRED_VERIFICATION_FOR_FIND_PASSWORD-2')}</p>
+                    </div>
+                    <button
+                        className="button__light-font"
+                        onClick={() => navigate('/verification')}
+                    >
+                        <p>{t('GO_VERIFY_EMAIL')}</p>
+                    </button>
+                </section>
                 <section className="c-login__button-section">
                     <button
                         className="button__rounded button__orange"
@@ -209,22 +180,6 @@ export default function LogInEmailVerification() {
                     >
                         {t('FIND_PASSWORD')}
                     </button>
-                    <section className="c-login__button-section-bottom">
-                        <div className="c-login__button-section-bottom-text">
-                            <p>
-                                {t('REQUIRED_VERIFICATION_FOR_FIND_PASSWORD-1')}
-                            </p>
-                            <p>
-                                {t('REQUIRED_VERIFICATION_FOR_FIND_PASSWORD-2')}
-                            </p>
-                        </div>
-                        <button
-                            className="button__light-font"
-                            onClick={() => navigate('/verification')}
-                        >
-                            <p>{t('GO_VERIFY_EMAIL')}</p>
-                        </button>
-                    </section>
                     {message && <p className="message">{message}</p>}
                 </section>
             </form>

@@ -177,7 +177,7 @@ export default function LogIn() {
                     >
                         {t('DEFAULT_SIGNUP')}
                     </button>
-                    <section className="c-login__button-section-bottom">
+                    <section className="c-login__button-section-center">
                         <button
                             className="button__light-font"
                             onClick={() => navigate('/id/verification')}

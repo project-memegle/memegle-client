@@ -155,12 +155,6 @@ export default function IdEmailVerification() {
                         </p>
                     </section>
                 )}
-                <button
-                    className="button__rounded button__orange"
-                    type="submit"
-                >
-                    {t('FIND_ID')}
-                </button>
                 <section className="c-login__button-section-bottom">
                     <div className="c-login__button-section-bottom-text">
                         <p>{t('REQUIRED_VERIFICATION_FOR_FIND_ID-1')}</p>
@@ -173,6 +167,12 @@ export default function IdEmailVerification() {
                         <p>{t('GO_VERIFY_EMAIL')}</p>
                     </button>
                 </section>
+                <button
+                    className="button__rounded button__orange"
+                    type="submit"
+                >
+                    {t('FIND_ID')}
+                </button>
                 {message && <p className="message">{message}</p>}
             </form>
         </div>

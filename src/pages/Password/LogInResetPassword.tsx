@@ -25,7 +25,7 @@ export default function LogInResetPassword() {
     const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
 
     const [passwordCheck, setPasswordCheck] = useState('');
-    const [passwordError, setPasswordError] = useState(DEFAULT_PASSWORD);
+    const [passwordError, setPasswordError] = useState('');
 
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const passwordCheckInputRef = useRef<HTMLInputElement>(null);
@@ -127,7 +127,7 @@ export default function LogInResetPassword() {
                 </div>
                 <button
                     className="button__rounded button__orange"
-                    type="submit" // Ensure this button submits the form
+                    type="submit" 
                 >
                     {t('CHANGE_PASSWORD')}
                 </button>
