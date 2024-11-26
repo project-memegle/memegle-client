@@ -28,6 +28,7 @@ import MOCK_CATEGORY_RESULT_SAD from 'mockData/__CategorySearchSad';
 import MOCK_CATEGORY_RESULT_ANGER from 'mockData/__CategorySearchAnger';
 import MOCK_CATEGORY_RESULT_HUNGRY from 'mockData/__CategorySearchHungry';
 import MOCK_CATEGORY_RESULT_HAPINESS from 'mockData/__CategorySearchHappiness';
+import ImageModal from 'components/UI/Result/ImageModal';
 
 type OutletContextType = {
     searchTerm: string;
@@ -36,6 +37,8 @@ type OutletContextType = {
 };
 
 export default function Result() {
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalImageUrl, setModalImageUrl] = useState('');
     const {
         searchTerm,
         searchHistory: initialSearchHistory,
@@ -51,10 +54,19 @@ export default function Result() {
     );
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const handleOpenModal = (imageUrl: string) => {
+        setModalImageUrl(imageUrl);
+        setModalVisible(true);
+    };
 
+    const handleCloseModal = () => {
+        setModalVisible(false);
+        setModalImageUrl('');
+    };
     useEffect(() => {
         setSearchHistory(getSearchHistory());
     }, [searchTerm]);
+
     useEffect(() => {
         if (searchTerm) {
             searchByTag(searchTerm, setLoading, setResultData, setError);
@@ -142,17 +154,28 @@ export default function Result() {
     useEffect(() => {
         if (loading) {
             setContent(<LoadingSpinner />);
-        } else if (error) {
-            setContent(<p>{error}</p>);
-        } else if (resultData && resultData.results.length > 0) {
-            setContent(<ResultSection results={resultData.results} />);
-        } else {
-            setContent(
-                <div className="c-result__emtpy">
-                    <img src={emptyIcon} alt="empty" />
-                </div>
-            );
+            return;
         }
+
+        if (error) {
+            setContent(<p>{error}</p>);
+            return;
+        }
+        if (resultData && resultData.results.length > 0) {
+            setContent(
+                <ResultSection
+                    results={resultData.results}
+                    onOpenModal={handleOpenModal}
+                />
+            );
+            return;
+        }
+
+        setContent(
+            <div className="c-result__emtpy">
+                <img src={emptyIcon} alt="empty" />
+            </div>
+        );
     }, [loading, error, resultData]);
 
     function searchWithHistory(searchText: string) {
@@ -189,6 +212,12 @@ export default function Result() {
                 </ul>
             </section>
             {content}
+            {modalVisible && (
+                <ImageModal
+                    imageUrl={modalImageUrl}
+                    onClose={handleCloseModal}
+                />
+            )}
         </main>
     );
 }

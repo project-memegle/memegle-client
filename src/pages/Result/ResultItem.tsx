@@ -10,7 +10,12 @@ import { SESSION_STORAGE_KEY } from 'pages/Favorite/Favorite';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import DownloadLink from 'components/UI/Result/DownloadLink';
 
-export default function ResultItem(result: SearchResultItemDTO) {
+interface ResultItemProps {
+    result: SearchResultItemDTO;
+    onOpenModal: (imageUrl: string) => void;
+}
+
+export default function ResultItem({ result, onOpenModal }: ResultItemProps) {
     const [toast, setToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [favoriteList, setFavoriteList] = useState<
@@ -24,7 +29,7 @@ export default function ResultItem(result: SearchResultItemDTO) {
     }, []);
 
     async function handleCopy() {
-        await handleCopyImage(result.imageUrl, setToastMessage, setToast);
+        await handleCopyImage(result.imageUrl, setToastMessage, setToast, () => onOpenModal(result.imageUrl));
     }
 
     //todo : API 로 바꾸기
@@ -90,6 +95,7 @@ export default function ResultItem(result: SearchResultItemDTO) {
         setToastMessage(ValidationMessages.SUCCESS_IMAGE_DOWNLOAD);
         setToast(true);
     }
+
     return (
         <article className="result__item" onClick={handleCopy}>
             <div className="result__item-copy">

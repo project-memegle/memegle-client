@@ -1,15 +1,31 @@
 @mixin styles() {
   .modal {
-    width: 480px;
-    height: 621px;
-    position: relative;
-    box-sizing: border-box;
-    margin: 50px auto;
-    padding: 20px;
-    background: #fff;
+    left: 0;
+    top: 2rem;
+    z-index: 999;
+    width: 100%;
+    height: auto;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .modal::backdrop {
     background: rgba(0, 0, 0, 0.6);
+  }
+
+  .modal__content {
+    position: relative;
+  }
+
+  .modal__close {
+    z-index: 2;
+    right: 1rem;
+    font-size: 2rem;
+    top: 0.5rem;
+    position: absolute;
   }
 }
