@@ -129,6 +129,7 @@
   "MISSING_TOKEN": "Token is required. Please log in again.",
   "UNMATCHED_TOKEN": "Authentication information does not match. Please log in again.",
   "SUCCESS_IMAGE_UPLOAD": "Upload request completed successfully.",
+  "SUCCESS_IMAGE_DOWNLOAD": "The image download was successfully completed.",
   "SUCCESS_DELETE_ACCOUNT": "Account deletion completed successfully.",
   "SUCCESS_VERIFICATION": "Verification completed successfully.",
   "GET_USER_INFO_FAIL": "Failed to retrieve user information.",

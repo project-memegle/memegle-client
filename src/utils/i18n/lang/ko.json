@@ -129,6 +129,7 @@
   "MISSING_TOKEN": "토큰이 필요합니다. 다시 로그인 해주세요.",
   "UNMATCHED_TOKEN": "인증 정보가 일치하지 않습니다. 다시 로그인 해주세요.",
   "SUCCESS_IMAGE_UPLOAD": "업로드 요청이 성공적으로 완료되었습니다.",
+  "SUCCESS_IMAGE_DOWNLOAD": "이미지 다운로드가 성공적으로 완료되었습니다.",
   "SUCCESS_DELETE_ACCOUNT": "계정삭제가 성공적으로 완료되었습니다.",
   "SUCCESS_VERIFICATION": "본인인증이 성공적으로 완료되었습니다.",
   "GET_USER_INFO_FAIL": "사용자 정보를 가져오지 못했습니다.",

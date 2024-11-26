@@ -8,6 +8,7 @@ import {
 } from 'utils/Storage/sessionStorage';
 import { SESSION_STORAGE_KEY } from 'pages/Favorite/Favorite';
 import getValidationMessages from 'components/Validations/ValidationMessages';
+import DownloadLink from 'components/UI/Result/DownloadLink';
 
 export default function ResultItem(result: SearchResultItemDTO) {
     const [toast, setToast] = useState(false);
@@ -85,11 +86,15 @@ export default function ResultItem(result: SearchResultItemDTO) {
         (favorite) => favorite.id === result.id
     );
 
+    function handleDownloadSuccess() {
+        setToastMessage(ValidationMessages.SUCCESS_IMAGE_DOWNLOAD);
+        setToast(true);
+    }
     return (
         <article className="result__item" onClick={handleCopy}>
             <div className="result__item-copy">
                 <i className="c-icon">file_copy</i>
-            </div>{' '}
+            </div>
             <div
                 className="result__item-favorite"
                 onClick={(e) => {
@@ -107,6 +112,11 @@ export default function ResultItem(result: SearchResultItemDTO) {
                     <i className="c-icon">favorite_border</i>
                 )}
             </div>
+            <DownloadLink
+                url={result.imageUrl}
+                filename={`${result.imageCategory}${result.id}`}
+                onDownload={handleDownloadSuccess}
+            />
             <img src={result.imageUrl} alt={`img-${result.id}`} />
             {toast && (
                 <ToastMessage

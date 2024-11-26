@@ -6,7 +6,6 @@
   border-radius: var(--primary__border-radius);
   width: calc(var(--primary__font-size) * 2.25);
   height: calc(var(--primary__font-size) * 2.25);
-  top: calc(var(--primary__font-size) / 2);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,6 +13,9 @@
   background-color: colors.$white;
   .c-icon {
     font-size: 1.5em;
+    &:hover {
+      color: colors.$warning;
+    }
   }
 }
 
@@ -51,17 +53,21 @@
 
     &-copy {
       right: calc(var(--primary__font-size) / 2);
+      top: calc(var(--primary__font-size) / 2);
+
+      @include icon-style();
+    }
+    &-download {
+      bottom: calc(var(--primary__font-size) / 2);
+      right: calc(var(--primary__font-size) / 2);
 
       @include icon-style();
     }
 
     &-favorite {
       left: calc(var(--primary__font-size) / 2);
+      top: calc(var(--primary__font-size) / 2);
       @include icon-style();
-
-      &:hover {
-        color: colors.$warning;
-      }
     }
   }
 
