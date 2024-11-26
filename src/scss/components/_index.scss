@@ -1,4 +1,5 @@
 @use "button.scss";
+@use "tooltip.scss";
 @use "toast.scss";
 @use "tag.scss";
 @use "dropdown.scss";
@@ -43,4 +44,5 @@
   @include mypage.styles;
   @include deleteAccount.styles;
   @include findid.styles;
+  @include tooltip.styles;
 }

@@ -125,8 +125,8 @@ export default function MypageEmailVerification() {
                             disabled={isActive}
                         >
                             {hasTimerStarted
-                                ? t('verification-resend-code')
-                                : t('verification-send-code')}
+                                ? t('VERIFICATION_RESEND_CODE')
+                                : t('VERIFICATION_SEND_CODE')}
                         </button>
                     </section>
                 </section>
@@ -141,8 +141,8 @@ export default function MypageEmailVerification() {
                             type="text"
                             placeholder={
                                 isActive
-                                    ? t('verification-write-code')
-                                    : t('verification-timeover')
+                                    ? t('VERIFICATION_ENTER_CODE')
+                                    : t('VERIFICATION_TIMEOVER')
                             }
                             disabled={!isActive}
                             value={code}

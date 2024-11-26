@@ -95,19 +95,19 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                                 className="c-top-bar-user__log button__white-font"
                                 onClick={logOutButtonClick}
                             >
-                                {t('signout')}
+                                {t('DEFAULT_SIGNOUT')}
                             </button>
                             <button
                                 className="c-top-bar-user__log button__white-font"
                                 onClick={() => navigate('/mypage')}
                             >
-                                {t('mypage')}
+                                {t('DEFAULT_MYPAGE')}
                             </button>
                             <button
                                 className="c-top-bar-user__log button__white-font"
                                 onClick={() => navigate('/upload')}
                             >
-                                {t('upload')}
+                                {t('DEFAULT_UPLOAD')}
                             </button>
                             <button
                                 className="c-top-bar-user__notification"
@@ -122,7 +122,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                             // onClick={() => navigate('/login')}
                             onClick={logInButtonClick}
                         >
-                            {t('login')}
+                            {t('DEFAULT_LOGIN')}
                         </button>
                     )}
                 </section>

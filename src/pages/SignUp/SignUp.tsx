@@ -246,19 +246,19 @@ export default function SignUp() {
                 {signUpError && <p className="message">{signUpError}</p>}
                 <section className="c-login__button-section">
                     <div className="c-login__button-section-message">
-                        <p>{t('verification-notice-1')}</p>
-                        <p>{t('verification-notice-2')}</p>
-                        <p>{t('verification-notice-3')}</p>
+                        <p>{t('VERIFICATION_NOTICE-1')}</p>
+                        <p>{t('VERIFICATION_NOTICE-2')}</p>
+                        <p>{t('VERIFICATION_NOTICE-3')}</p>
                     </div>
                     <button
                         className="button__rounded button__orange"
                         type="button"
                         onClick={onClickVerification}
                     >
-                        {t('verification-navigate-button')}
+                        {t('VERIFICATION_NAVIGATE_BUTTON')}
                     </button>
                     <button className="button__rounded button__light">
-                        {t('signup')}
+                        {t('DEFAULT_SIGNUP')}
                     </button>
                 </section>
             </form>

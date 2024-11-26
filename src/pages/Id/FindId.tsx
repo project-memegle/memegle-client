@@ -20,7 +20,7 @@ export default function FindId() {
                         navigate('/login');
                     }}
                 >
-                    {t('confirm')}
+                    {t('CONFIRM')}
                 </button>
             </section>
         </div>

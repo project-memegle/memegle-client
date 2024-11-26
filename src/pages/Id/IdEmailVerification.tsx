@@ -126,8 +126,8 @@ export default function IdEmailVerification() {
                             disabled={isActive}
                         >
                             {hasTimerStarted
-                                ? t('verification-resend-code')
-                                : t('verification-send-code')}
+                                ? t('VERIFICATION_RESEND_CODE')
+                                : t('VERIFICATION_SEND_CODE')}
                         </button>
                     </section>
                 </section>
@@ -142,8 +142,8 @@ export default function IdEmailVerification() {
                             type="text"
                             placeholder={
                                 isActive
-                                    ? t('verification-write-code')
-                                    : t('verification-timeover')
+                                    ? t('VERIFICATION_ENTER_CODE')
+                                    : t('VERIFICATION_TIMEOVER')
                             }
                             disabled={!isActive}
                             value={code}
@@ -159,7 +159,7 @@ export default function IdEmailVerification() {
                     className="button__rounded button__orange"
                     type="submit"
                 >
-                    {t('findid')}
+                    {t('FIND_ID')}
                 </button>
                 <section className="c-login__button-section-bottom">
                     <div className="c-login__button-section-bottom-text">

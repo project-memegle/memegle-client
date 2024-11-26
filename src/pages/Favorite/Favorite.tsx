@@ -30,6 +30,7 @@ import {
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
+import Tooltip from 'components/UI/ToolTip';
 
 export const SESSION_STORAGE_KEY = 'favoriteList';
 
@@ -67,6 +68,7 @@ export default function Favorite() {
 
     const [toast, setToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
+    const [tooltipVisible, setTooltipVisible] = useState(true);
 
     const [activeItem, setActiveItem] = useState<SearchResultItemDTO>();
 
@@ -162,9 +164,16 @@ export default function Favorite() {
             setToast(true);
         }
     }
+    const tootTipMessage = t('FAVORITE_TOOLTIP');
 
+    function closeTooltip() {
+        setTooltipVisible(false);
+    }
     return (
         <main className="home__main c-favorite">
+            {tooltipVisible && (
+                <Tooltip message={tootTipMessage} onClose={closeTooltip} />
+            )}
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}

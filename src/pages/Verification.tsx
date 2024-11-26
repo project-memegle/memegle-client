@@ -213,8 +213,8 @@ export default function Verification() {
                             disabled={isActive}
                         >
                             {hasTimerStarted
-                                ? t('verification-resend-code')
-                                : t('verification-send-code')}
+                                ? t('VERIFICATION_RESEND_CODE')
+                                : t('VERIFICATION_SEND_CODE')}
                         </button>
                     </section>
                 </section>
@@ -229,8 +229,8 @@ export default function Verification() {
                             type="text"
                             placeholder={
                                 isActive
-                                    ? t('verification-write-code')
-                                    : t('verification-timeover')
+                                    ? t('VERIFICATION_ENTER_CODE')
+                                    : t('VERIFICATION_TIMEOVER')
                             }
                             disabled={!isActive}
                             value={code}
@@ -244,7 +244,7 @@ export default function Verification() {
                 )}
                 <section className="c-login__button-section">
                     <button className="button__rounded button__orange">
-                        {t('verification-complete')}
+                        {t('VERIFICATION_COMPLETE')}
                     </button>
                     <button
                         className="button__rounded button__light"

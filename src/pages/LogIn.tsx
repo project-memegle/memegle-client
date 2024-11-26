@@ -160,14 +160,14 @@ export default function LogIn() {
                         className="button__rounded button__orange"
                         type="submit"
                     >
-                        {t('login')}
+                        {t('DEFAULT_LOGIN')}
                     </button>
                     <button
                         onClick={() => navigate('/signup')}
                         className="button__rounded button__light"
                         type="submit"
                     >
-                        {t('signup')}
+                        {t('DEFAULT_SIGNUP')}
                     </button>
                     <section className="c-login__button-section-bottom">
                         <button
@@ -180,7 +180,7 @@ export default function LogIn() {
                             className="button__light-font"
                             onClick={() => navigate('/find/password')}
                         >
-                            {t('findpassword')}
+                            {t('FIND_PASSWORD')}
                         </button>
                     </section>
                 </section>

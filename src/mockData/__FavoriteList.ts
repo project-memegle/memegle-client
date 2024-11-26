@@ -45,13 +45,6 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
             modifiedAt: DATE,
         },
         {
-            id: 76,
-            imageUrl: resolveImagePath('/temp/Digimon/digimon-01.jpeg'),
-            imageCategory: 'digimon',
-            createdAt: DATE,
-            modifiedAt: DATE,
-        },
-        {
             id: 37,
             imageUrl: resolveImagePath('/temp/Mudo/mudo-01.webp'),
             imageCategory: 'mudo',
