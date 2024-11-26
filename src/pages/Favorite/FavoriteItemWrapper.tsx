@@ -8,12 +8,14 @@ type FavoriteItemWrapper = {
     item: SearchResultItemDTO;
     onDelete: (id: number) => void;
     onSave: () => void;
+    onOpenModal: (imageUrl: string) => void;
 } & HTMLAttributes<HTMLDivElement>;
 
 const FavoriteItemWrapper = ({
     item,
     onDelete,
     onSave,
+    onOpenModal,
     ...props
 }: FavoriteItemWrapper) => {
     const {
@@ -40,6 +42,7 @@ const FavoriteItemWrapper = ({
             isOpacityEnabled={isDragging}
             onDelete={onDelete}
             onSave={onSave}
+            onOpenModal={onOpenModal}
             {...props}
             {...attributes}
             {...listeners}

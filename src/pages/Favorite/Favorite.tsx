@@ -31,6 +31,7 @@ import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
 import Tooltip from 'components/UI/ToolTip';
+import ImageModal from 'components/UI/Result/ImageModal';
 
 export const SESSION_STORAGE_KEY = 'favoriteList';
 
@@ -71,7 +72,8 @@ export default function Favorite() {
     const [tooltipVisible, setTooltipVisible] = useState(true);
 
     const [activeItem, setActiveItem] = useState<SearchResultItemDTO>();
-
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalImageUrl, setModalImageUrl] = useState('');
     const sensors = useSensors(
         useSensor(TouchSensor),
         useSensor(PointerSensor, {
@@ -80,6 +82,15 @@ export default function Favorite() {
             },
         })
     );
+    const handleOpenModal = (imageUrl: string) => {
+        setModalImageUrl(imageUrl);
+        setModalVisible(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalVisible(false);
+        setModalImageUrl('');
+    };
 
     const handleDragStart = (event: DragStartEvent) => {
         const { active } = event;
@@ -198,6 +209,7 @@ export default function Favorite() {
                                 item={item}
                                 onDelete={handleDeleteItem}
                                 onSave={handleToast}
+                                onOpenModal={handleOpenModal}
                             />
                         ))}
                     </div>
@@ -208,6 +220,7 @@ export default function Favorite() {
                             item={activeItem}
                             onDelete={handleDeleteItem}
                             onSave={handleToast}
+                            onOpenModal={handleOpenModal}
                             isDragging
                         />
                     ) : null}
@@ -217,6 +230,12 @@ export default function Favorite() {
                 <ToastMessage
                     message={toastMessage}
                     onClose={() => setToast(false)}
+                />
+            )}
+            {modalVisible && (
+                <ImageModal
+                    imageUrl={modalImageUrl}
+                    onClose={handleCloseModal}
                 />
             )}
         </main>

@@ -7,7 +7,8 @@ import handleCopyImage from 'utils/Event/handleCopyImage';
 type FavoriteItemProps = {
     item: SearchResultItemDTO;
     isOpacityEnabled?: boolean;
-    isDragging?: boolean; 
+    isDragging?: boolean;
+    onOpenModal: (imageUrl: string) => void;
     onDelete: (id: number) => void;
     onSave: () => void;
 } & HTMLAttributes<HTMLDivElement>;
@@ -20,6 +21,7 @@ const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
             isDragging,
             onDelete,
             onSave,
+            onOpenModal,
             style,
             ...props
         },
@@ -41,7 +43,12 @@ const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
         };
 
         async function handleCopy() {
-            await handleCopyImage(item.imageUrl, setToastMessage, setToast);
+            await handleCopyImage(
+                item.imageUrl,
+                setToastMessage,
+                setToast,
+                () => onOpenModal(item.imageUrl)
+            );
         }
 
         return (

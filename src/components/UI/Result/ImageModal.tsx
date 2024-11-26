@@ -9,7 +9,9 @@ const ImageModal: React.FC<ImageModalProps> = ({ imageUrl, onClose }) => {
     return (
         <div className="modal" onClick={onClose}>
             <div className="modal__content">
-                <i className="modal__close c-icon">close</i>
+                <div className="modal__close">
+                    <i className="c-icon">close</i>
+                </div>
                 <img
                     src={imageUrl}
                     alt="Modal Content"
