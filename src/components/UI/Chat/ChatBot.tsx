@@ -38,16 +38,9 @@ export default function ChatBot({
     const [messages, setMessages] = useState<ChatItemProps[]>(initialMessages);
 
     useEffect(() => {
-        // 저장된 메시지 또는 카테고리 확인 후 상태 업데이트
-        const savedMessages = getSessionStorages('chatMessages');
         const chatbotCategory = getSessionStorages(
             StorageKeyword.CHATBOT_CATEGORY
         );
-
-        if (savedMessages) {
-            setMessages(JSON.parse(savedMessages));
-            return;
-        }
 
         if (chatbotCategory) {
             // 카테고리만 저장된 경우 초기 메시지 유지
@@ -93,7 +86,7 @@ export default function ChatBot({
                 chatDirection: 'incoming',
             },
             {
-                content: 'CHAT_REQUIRED_CONTENT', 
+                content: 'CHAT_REQUIRED_CONTENT',
                 date: new Date().toLocaleString(),
                 chatDirection: 'incoming',
             },
