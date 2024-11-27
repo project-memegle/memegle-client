@@ -29,3 +29,22 @@ export default i18n;
 
 export const languages = ['ko', 'en'] as const;
 export type Languages = (typeof languages)[number];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

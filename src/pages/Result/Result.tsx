@@ -29,6 +29,7 @@ import MOCK_CATEGORY_RESULT_ANGER from 'mockData/__CategorySearchAnger';
 import MOCK_CATEGORY_RESULT_HUNGRY from 'mockData/__CategorySearchHungry';
 import MOCK_CATEGORY_RESULT_HAPINESS from 'mockData/__CategorySearchHappiness';
 import ImageModal from 'components/UI/Result/ImageModal';
+import { useTranslation } from 'react-i18next';
 
 type OutletContextType = {
     searchTerm: string;
@@ -47,6 +48,7 @@ export default function Result() {
 
     const [searchHistory, setSearchHistory] =
         useState<string[]>(initialSearchHistory);
+    const { t } = useTranslation();
 
     const [content, setContent] = useState<ReactNode>(null);
     const [resultData, setResultData] = useState<SearchResultSectionDTO | null>(
@@ -205,7 +207,7 @@ export default function Result() {
                     {searchHistory.length > 0 && (
                         <li className="tag-list__clear">
                             <button onClick={clearSearchHistory}>
-                                전체삭제
+                                {t('DELETE_ALL')}
                             </button>
                         </li>
                     )}
