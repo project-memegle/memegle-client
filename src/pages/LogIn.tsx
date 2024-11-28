@@ -1,15 +1,10 @@
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { AxiosError, AxiosResponse } from 'axios';
 import validateId from '../components/Validations/ValidateId';
 import validateLogInPassword from '../components/Validations/ValidateLogInPassword';
-import { LogInRequestDTO, LogInResponseDTO } from '../services/dto/LogInDto';
-import { setCookie } from '../utils/Storage/cookies';
+import { LogInRequestDTO } from '../services/dto/LogInDto';
 import handleInputChange from '../utils/Event/handleInputChange';
 import { errorInputCheck } from '../utils/Event/errorInputCheck';
-import { getEnvVariableAsNumber } from 'utils/Storage/numberUntils';
 import { resetErrors } from 'utils/Event/resetError';
-import { post } from 'utils/API/fetcher';
-import { handleApiError } from 'utils/API/handleApiError';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { useAuth } from 'components/auth/ProvideAuth';
 import { logIn } from 'services/LogInService';
@@ -45,12 +40,21 @@ export default function LogIn() {
     const { t } = useTranslation();
 
     const onChangeId = useCallback(
-        handleInputChange(setId, setIdError, validateId),
+        handleInputChange(setId, setIdError, validateId, () => {
+            setMessage('');
+        }),
         []
     );
 
     const onChangePassword = useCallback(
-        handleInputChange(setPassword, setPasswordError, validateLogInPassword),
+        handleInputChange(
+            setPassword,
+            setPasswordError,
+            validateLogInPassword,
+            () => {
+                setMessage('');
+            }
+        ),
         []
     );
 
@@ -86,6 +90,10 @@ export default function LogIn() {
         }
     }, []);
 
+    useEffect(() => {
+        console.log('Updated message:', message);
+    }, [message]);
+
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
@@ -116,8 +124,16 @@ export default function LogIn() {
                     } else {
                         setMessage(ValidationMessages.GET_USER_INFO_FAIL);
                     }
-                } catch (error) {
-                    handleApiError(error as AxiosError, setMessage);
+                } catch (error: unknown) {
+                    if (error === 40401) {
+                        setMessage(ValidationMessages.NONEXIST_ID);
+                        return;
+                    }
+                    if (error === 40102) {
+                        setMessage(ValidationMessages.PASSWORD_MISMATCH);
+                        return;
+                    }
+                    setMessage(ValidationMessages.UNKNOWN_ERROR);
                 }
             }
         },
@@ -162,7 +178,9 @@ export default function LogIn() {
                         onChange={onChangePassword}
                     />
                 </div>
-                {message && <p className="c-login__message">{message}</p>}
+                {message && (
+                    <p className="c-login__message font-warning">{message}</p>
+                )}
                 <section className="c-login__button-section">
                     <button
                         className="button__rounded button__orange"

@@ -155,7 +155,7 @@ export default function ChangeNickname() {
                         <button
                             type="button"
                             className="button__rounded button__light"
-                            onClick={onCheckNickname} // Attach the onCheckNickname function
+                            onClick={onCheckNickname}
                         >
                             {t('CHECK_DUPLICATED')}
                         </button>
@@ -163,7 +163,7 @@ export default function ChangeNickname() {
                 </div>
                 <button
                     className="button__rounded button__orange"
-                    type="submit" // Ensure this button submits the form
+                    type="submit"
                 >
                     {t('CHANGE_NICKNAME')}
                 </button>

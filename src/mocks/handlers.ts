@@ -1,6 +1,11 @@
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse, passthrough } from 'msw';
+import { UPLOAD_URL } from 'pages/Upload';
 import { POST_CHAT_URL } from 'services/ChatService';
-import { POST_ID_SEARCH_URL, VERIFY_ID_CODE_URL } from 'services/IdService';
+import {
+    CHECK_ID_URL,
+    POST_ID_SEARCH_URL,
+    VERIFY_ID_CODE_URL,
+} from 'services/IdService';
 import { SIGN_IN_URL } from 'services/LogInService';
 import {
     CHANGE_NICKNAME_URL,
@@ -27,6 +32,36 @@ import {
 const baseURL = import.meta.env.VITE_BASE_URL;
 
 export const handlers = [
+    http.post(`${baseURL}${VERIFY_ID_CODE_URL}`, () => {
+        return passthrough();
+    }),
+    http.post(`${baseURL}${SIGN_IN_URL}`, () => {
+        return passthrough();
+    }),
+
+    http.post(`${baseURL}${SIGN_UP_URL}`, () => {
+        return passthrough();
+    }),
+    http.post(`${baseURL}${POST_VERIFICATION_URL}`, () => {
+        // return passthrough();
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
+        });
+    }),
+
+    http.get(`${baseURL}${CHECK_NICKNAME_URL}`, () => {
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
+        });
+    }),
+    http.get(`${baseURL}${CHECK_ID_URL}`, () => {
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
+        });
+    }),
     http.get(`${baseURL}${GET_USER_INFO_URL}`, () => {
         return HttpResponse.json({
             userId: 'testloginid3',
@@ -53,13 +88,6 @@ export const handlers = [
         });
     }),
 
-    http.get(`${baseURL}${CHECK_NICKNAME_URL}`, () => {
-        return new HttpResponse(null, {
-            status: 204,
-            statusText: 'OK',
-        });
-    }),
-
     http.get(`${baseURL}${CHANGE_NICKNAME_URL}`, () => {
         return new HttpResponse(null, {
             status: 204,
@@ -67,7 +95,7 @@ export const handlers = [
         });
     }),
 
-    http.post(`${baseURL}/images`, () => {
+    http.post(`${baseURL}${UPLOAD_URL}`, () => {
         return new HttpResponse(null, {
             status: 200,
             statusText: 'OK',
@@ -99,12 +127,7 @@ export const handlers = [
             statusText: 'OK',
         });
     }),
-    http.post(`${baseURL}${POST_VERIFICATION_URL}`, () => {
-        return new HttpResponse(null, {
-            status: 200,
-            statusText: 'OK',
-        });
-    }),
+
     http.post(`${baseURL}${VERIFY_VERIFICATION_URL}`, () => {
         return new HttpResponse(null, {
             status: 200,
@@ -123,23 +146,7 @@ export const handlers = [
             statusText: 'OK',
         });
     }),
-    http.post(`${baseURL}${VERIFY_ID_CODE_URL}`, () => {
-        return HttpResponse.json({
-            userId: 'testloginid3',
-        });
-    }),
-    http.post(`${baseURL}${SIGN_IN_URL}`, () => {
-        return new HttpResponse(null, {
-            status: 200,
-            statusText: 'OK',
-        });
-    }),
-    http.post(`${baseURL}${SIGN_UP_URL}`, () => {
-        return new HttpResponse(null, {
-            status: 200,
-            statusText: 'OK',
-        });
-    }),
+
     http.post(`${baseURL}${POST_CHAT_URL}`, () => {
         return new HttpResponse(null, {
             status: 200,
@@ -148,18 +155,6 @@ export const handlers = [
     }),
 
     http.get(`${baseURL}/tag`, () => {
-        return new HttpResponse(null, {
-            status: 204,
-            statusText: 'OK',
-        });
-    }),
-    http.get(`${baseURL}/users/sign/in`, () => {
-        return new HttpResponse(null, {
-            status: 204,
-            statusText: 'OK',
-        });
-    }),
-    http.get(`${baseURL}/users/sign/up`, () => {
         return new HttpResponse(null, {
             status: 204,
             statusText: 'OK',

@@ -1,3 +1,4 @@
+import { log } from 'console';
 import axios, { AxiosResponse } from 'axios';
 import { LogInRequestDTO } from 'services/dto/LogInDto';
 import { post } from 'utils/API/fetcher';
@@ -11,7 +12,6 @@ const REFRESH_TOKENE = 'refresh_token';
 export const SIGN_IN_URL = '/users/sign/in';
 
 export async function logIn(userData: LogInRequestDTO): Promise<void> {
-    const ValidationMessages = getValidationMessages();
     try {
         const response: AxiosResponse<void> = await post<void, LogInRequestDTO>(
             SIGN_IN_URL,
@@ -40,8 +40,8 @@ export async function logIn(userData: LogInRequestDTO): Promise<void> {
         setCookie(REFRESH_TOKENE, refreshToken, refreshTokenStore);
     } catch (error) {
         if (axios.isAxiosError(error)) {
-            throw error;
+            throw error.response?.data?.code;
         }
-        throw new Error(ValidationMessages.UNKNOWN_ERROR);
+        throw error;
     }
 }

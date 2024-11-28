@@ -14,6 +14,7 @@ import useCustomNavigate from 'hooks/useCustomNaviaget';
 import StorageKeyword from 'Constant/StorageKeyword';
 import getValidationMessages from '../components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
+export const UPLOAD_URL = '/images';
 
 export default function Upload() {
     const ValidationMessages = getValidationMessages();
@@ -68,6 +69,7 @@ export default function Upload() {
         setFileName(t('REQUIRED_UPLOAD_FILE'));
         setImageUrl(undefined);
     };
+
     const upload = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!file) {
@@ -89,7 +91,7 @@ export default function Upload() {
 
         try {
             const response = await post(
-                `/images?imageCategory=${category}`,
+                `${UPLOAD_URL}?imageCategory=${category}`,
                 formData,
                 {
                     headers: {

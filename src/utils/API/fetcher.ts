@@ -7,7 +7,9 @@ import axios, {
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import StorageKeyword from 'Constant/StorageKeyword';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
+import { UPLOAD_URL } from 'pages/Upload';
 import { useNavigate } from 'react-router-dom';
+import { GET_USER_INFO_URL } from 'services/UserInfoService';
 import { getAccessToken } from 'utils/Auth/authAuth';
 import { getCookie, setCookie } from 'utils/Storage/cookies';
 import { getEnvVariableAsNumber } from 'utils/Storage/numberUntils';
@@ -23,23 +25,24 @@ const instance = axios.create({
     // withCredentials: true,
 });
 
-const AUTH_REQUIRED_URLS = [''];
+const AUTH_REQUIRED_URLS = [GET_USER_INFO_URL, UPLOAD_URL];
 
 // 요청 인터셉터 추가
 instance.interceptors.request.use(
     (config) => {
-        const isAuthRequired = AUTH_REQUIRED_URLS.some((url) =>
-            config.url?.startsWith(url)
-        );
-
-        if (isAuthRequired) {
-            const token = getAccessToken();
-            if (token) {
-                const headers = config.headers
-                    ? new AxiosHeaders(config.headers)
-                    : new AxiosHeaders();
-                headers.set('Authorization', `Bearer ${token}`);
-                config.headers = headers;
+        if (AUTH_REQUIRED_URLS.length > 1) {
+            const isAuthRequired = AUTH_REQUIRED_URLS.some((url) =>
+                config.url?.includes(url)
+            );
+            if (isAuthRequired) {
+                const token = getAccessToken();
+                if (token) {
+                    const headers = config.headers
+                        ? new AxiosHeaders(config.headers)
+                        : new AxiosHeaders();
+                    headers.set('Authorization', `Bearer ${token}`);
+                    config.headers = headers;
+                }
             }
         }
         return config; // 수정된 config 반환
@@ -81,15 +84,14 @@ export const setupInterceptors = (navigate: (path: string) => void) => {
         (response) => response, // 성공적인 응답은 그대로 반환
         async (error: AxiosError) => {
             const originalRequest = error.config;
-
-            if (originalRequest) {
+            if (originalRequest && AUTH_REQUIRED_URLS.length > 1) {
                 const isAuthRequired = AUTH_REQUIRED_URLS.some((url) =>
                     originalRequest.url?.startsWith(url)
                 );
 
                 if (!isAuthRequired) {
                     // 인증이 필요 없는 요청은 에러만 반환
-                    return Promise.reject(error);
+                    return Promise.reject(error as AxiosError);
                 }
 
                 // 무한 루프 방지 플래그

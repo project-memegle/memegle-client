@@ -5,7 +5,7 @@ import { UserInfoResponseDTO } from './dto/UserInfoDto';
 import { setSessionStorages } from 'utils/Storage/sessionStorage';
 import StorageKeyword from 'Constant/StorageKeyword';
 
-export const GET_USER_INFO_URL = '/users/info';
+export const GET_USER_INFO_URL = '/users';
 
 export async function getUserInfo(): Promise<UserInfoResponseDTO | undefined> {
     try {

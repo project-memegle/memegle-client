@@ -18,42 +18,197 @@ import { setSessionStorages } from 'utils/Storage/sessionStorage';
 import StorageKeyword from 'Constant/StorageKeyword';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
+import { checkNickname } from 'services/NicknameService';
+import { checkId } from 'services/IdService';
+
+interface InputFieldProps {
+    label: string;
+    type: string;
+    name: string;
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    placeholder: string;
+    ref: React.RefObject<HTMLInputElement>;
+    className: string;
+}
+
+const InputField = ({
+    label,
+    type,
+    name,
+    value,
+    onChange,
+    placeholder,
+    ref,
+    className,
+}: InputFieldProps) => (
+    <div>
+        <label htmlFor={name}>{label}</label>
+        <input
+            ref={ref}
+            className={className}
+            name={name}
+            type={type}
+            id={name}
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+        />
+    </div>
+);
+
+interface ErrorMessageProps {
+    message: string;
+}
+
+const ErrorMessage = ({ message }: ErrorMessageProps) =>
+    message && <p className="error-message">{message}</p>;
+
+interface SuccessMessageProps {
+    message: string;
+}
+
+const SuccessMessage = ({ message }: SuccessMessageProps) =>
+    message && <p className="success-message">{message}</p>;
+
+interface ButtonProps {
+    className: string;
+    type: 'button' | 'submit';
+    onClick?: (e: FormEvent<HTMLButtonElement>) => void;
+    children: React.ReactNode;
+}
+
+const Button = ({ className, type, onClick, children }: ButtonProps) => (
+    <button className={className} type={type} onClick={onClick}>
+        {children}
+    </button>
+);
 
 export default function SignUp() {
     const navigate = useCustomNavigate();
     const auth = useAuth();
-    const ValidationMessages = getValidationMessages();
     const { t } = useTranslation();
-
+    const ValidationMessages = getValidationMessages();
     const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
-    const DEFALUT_NICKNAME = ValidationMessages.DEFAULT_NICKNAME;
+    const DEFAULT_NICKNAME = ValidationMessages.DEFAULT_NICKNAME;
     const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
-
-    const [idError, setIdError] = useState('');
-    const [nicknameError, setNicknameError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
-
-    const [id, setId] = useState('');
-    const [nickname, setNickname] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordCheck, setPasswordCheck] = useState('');
-    const [signUpError, setSignUpError] = useState('');
-
+    // ---------------------ID----------------------------
     const idInputRef = useRef<HTMLInputElement>(null);
+    const [id, setId] = useState<string>('');
+    const [idErrorMessage, setIdErrorMessage] = useState<string>('');
+    const [idSuccessMessage, setIdSuccessMessage] = useState<string>('');
+    const [isIdDupliacted, setIsIdDupliacted] = useState<boolean>(false);
+    const [isIdChecked, setIsIdChecked] = useState<boolean>(false);
+    // ---------------------NICKNAME----------------------
     const nicknameInputRef = useRef<HTMLInputElement>(null);
+    const [nickname, setNickname] = useState<string>('');
+    const [nicknameErrorMessage, setNicknameErrorMessage] =
+        useState<string>('');
+    const [nicknameSuccessMessage, setNicknameSuccessMessage] =
+        useState<string>('');
+    const [isNicknameDupliacted, setIsNicknameDupliacted] =
+        useState<boolean>(false);
+    const [isNicknameChecked, setIsNicknameChecked] = useState<boolean>(false);
+
+    // ---------------------PASSWORD----------------------
+    const [passwordError, setPasswordError] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [passwordCheck, setPasswordCheck] = useState<string>('');
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const passwordCheckInputRef = useRef<HTMLInputElement>(null);
 
+    // ---------------------SIGNUP-------------------------
+    const [signUpError, setSignUpError] = useState<string>('');
+
     const onChangeId = useCallback(
-        handleInputChange(setId, setIdError, validateId, () =>
-            setSignUpError('')
+        handleInputChange(setId, setIdErrorMessage, validateId, () => {
+            setSignUpError('');
+            setIdSuccessMessage('');
+            setIsIdDupliacted(false);
+            setIsIdChecked(false);
+        }),
+        []
+    );
+
+    const onSubmitCheckId = useCallback(
+        async (e: FormEvent<HTMLButtonElement>) => {
+            e.preventDefault();
+            setSignUpError('');
+            // 입력 값 유효성 검사
+            if (idErrorMessage || !id) {
+                errorInputCheck(idInputRef.current);
+                setIdErrorMessage(ValidationMessages.REQUIRED_ID);
+                setIdSuccessMessage('');
+                return;
+            }
+
+            try {
+                const response = await checkId({ loginId: id });
+                setIsIdChecked(true);
+                setIdErrorMessage('');
+                setIdSuccessMessage('');
+
+                if (response) {
+                    setIdSuccessMessage(ValidationMessages.CHECK_ID_SUCCESS);
+                    setIsIdDupliacted(false);
+                    return;
+                }
+            } catch (error) {
+                setIdErrorMessage(ValidationMessages.ERROR_CHECK_ID);
+            }
+        },
+        [id, idErrorMessage]
+    );
+
+    const onChangeNickname = useCallback(
+        handleInputChange(
+            setNickname,
+            setNicknameErrorMessage,
+            validateNickname,
+            () => {
+                setSignUpError('');
+                setNicknameSuccessMessage('');
+                setIsNicknameChecked(false);
+                setIsNicknameDupliacted(false);
+            }
         ),
         []
     );
 
-    const onChangeNickname = useCallback(
-        handleInputChange(setNickname, setNicknameError, validateNickname),
-        []
+    const onSubmitCheckNickname = useCallback(
+        async (e: FormEvent<HTMLButtonElement>) => {
+            e.preventDefault();
+            setSignUpError('');
+
+            // 입력 값 유효성 검사
+            if (nicknameErrorMessage || !nickname) {
+                errorInputCheck(nicknameInputRef.current);
+                setNicknameErrorMessage(ValidationMessages.REQUIRED_NICKNAME);
+                setNicknameSuccessMessage('');
+                return;
+            }
+
+            try {
+                const response = await checkNickname({ nickname });
+                setIsNicknameChecked(true);
+                setNicknameErrorMessage('');
+                setNicknameSuccessMessage('');
+
+                // 닉네임 중복 처리
+                if (response) {
+                    setNicknameSuccessMessage(
+                        ValidationMessages.CHECK_NICKNAME_SUCCESS
+                    );
+                    setIsNicknameDupliacted(false);
+                    return;
+                }
+            } catch (error) {
+                setNicknameErrorMessage(
+                    ValidationMessages.ERROR_CHECK_NICKNAME
+                );
+            }
+        },
+        [nickname, nicknameErrorMessage]
     );
 
     const onChangePassword = useCallback(
@@ -69,12 +224,28 @@ export default function SignUp() {
     const onClickVerification = useCallback(
         async (e: FormEvent<HTMLButtonElement>) => {
             e.preventDefault();
-
-            if (idError || !id) {
+            if (!id) {
                 errorInputCheck(idInputRef.current);
                 return;
             }
-            if (nicknameError || !nickname) {
+            if (!isIdChecked) {
+                setSignUpError(ValidationMessages.REQUIRED_CHECK_ID);
+                return;
+            }
+
+            if (!nickname) {
+                errorInputCheck(nicknameInputRef.current);
+                return;
+            }
+            if (!isNicknameChecked) {
+                setSignUpError(ValidationMessages.REQUIRED_CHECK_NICKNAME);
+                return;
+            }
+            if (idErrorMessage) {
+                errorInputCheck(idInputRef.current);
+                return;
+            }
+            if (nicknameErrorMessage) {
                 errorInputCheck(nicknameInputRef.current);
                 return;
             }
@@ -101,8 +272,12 @@ export default function SignUp() {
                     auth.login(() => {
                         navigate('/signup/verification', { state: loginData });
                     });
-                } catch (error) {
-                    handleApiError(error, setSignUpError);
+                } catch (error: unknown) {
+                    if (error === 40002) {
+                        setSignUpError(ValidationMessages.EXIST_USER);
+                        return;
+                    }
+                    setSignUpError(ValidationMessages.UNKNOWN_ERROR);
                 }
             }
         },
@@ -110,22 +285,39 @@ export default function SignUp() {
             id,
             password,
             nickname,
-            idError,
-            nicknameError,
+            idErrorMessage,
+            nicknameErrorMessage,
             passwordError,
             signUpError,
             navigate,
         ]
     );
 
-    const onSubmit = useCallback(
+    const onSignUpSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            if (idError || !id) {
+            if (!id) {
                 errorInputCheck(idInputRef.current);
                 return;
             }
-            if (nicknameError || !nickname) {
+            if (!isIdChecked) {
+                setSignUpError(ValidationMessages.REQUIRED_CHECK_ID);
+                return;
+            }
+
+            if (!nickname) {
+                errorInputCheck(nicknameInputRef.current);
+                return;
+            }
+            if (!isNicknameChecked) {
+                setSignUpError(ValidationMessages.REQUIRED_CHECK_NICKNAME);
+                return;
+            }
+            if (idErrorMessage) {
+                errorInputCheck(idInputRef.current);
+                return;
+            }
+            if (nicknameErrorMessage) {
                 errorInputCheck(nicknameInputRef.current);
                 return;
             }
@@ -133,7 +325,6 @@ export default function SignUp() {
                 errorInputCheck(passwordInputRef.current);
                 return;
             }
-
             if (nickname && id && password && passwordCheck) {
                 const userData: SignUpDTO = {
                     loginId: id,
@@ -141,7 +332,7 @@ export default function SignUp() {
                     password: password,
                 };
                 try {
-                    const response = await signUp(userData);
+                    await signUp(userData);
                     // 회원가입 후 자동 로그인
                     const loginData: LogInRequestDTO = {
                         loginId: id,
@@ -158,8 +349,12 @@ export default function SignUp() {
                     auth.login(() => {
                         navigate('/');
                     });
-                } catch (error) {
-                    handleApiError(error, setSignUpError);
+                } catch (error: unknown) {
+                    if (error === 40002) {
+                        setSignUpError(ValidationMessages.EXIST_USER);
+                        return;
+                    }
+                    setSignUpError(ValidationMessages.UNKNOWN_ERROR);
                 }
             }
         },
@@ -168,110 +363,150 @@ export default function SignUp() {
             nickname,
             password,
             passwordCheck,
-            idError,
+            idErrorMessage,
             passwordError,
-            nicknameError,
+            nicknameErrorMessage,
             signUpError,
         ]
     );
 
     return (
         <div className="main__container">
-            <form className="c-login" onSubmit={onSubmit}>
+            <form className="c-login" onSubmit={onSignUpSubmit}>
                 <div className="c-login__section">
-                    {idError ? (
-                        <p className="error-message">{idError}</p>
-                    ) : (
+                    <ErrorMessage message={idErrorMessage} />
+                    <SuccessMessage message={idSuccessMessage} />
+                    {!idErrorMessage && !idSuccessMessage && (
                         <p>{DEFAULT_ID}</p>
                     )}
-                    <label htmlFor="id">아이디</label>
-                    <input
-                        ref={idInputRef}
-                        className="c-login__input"
-                        name="id"
-                        id="id"
-                        type="text"
-                        placeholder={ValidationMessages.REQUIRED_ID}
-                        value={id}
-                        onChange={onChangeId}
-                    />
-                </div>
-                <div className="c-login__section">
-                    {nicknameError ? (
-                        <p className="error-message">{nicknameError}</p>
-                    ) : (
-                        <p>{DEFALUT_NICKNAME}</p>
-                    )}
-                    <label htmlFor="nickname">닉네임</label>
-                    <input
-                        ref={nicknameInputRef}
-                        className="c-login__input"
-                        name="nickname"
-                        id="nickname"
-                        type="text"
-                        placeholder={ValidationMessages.REQUIRED_NICKNAME}
-                        value={nickname}
-                        onChange={onChangeNickname}
-                    />
-                </div>
-                <div className="c-login__section">
-                    {passwordError ? (
-                        <p className="error-message">{passwordError}</p>
-                    ) : (
-                        <p>{DEFAULT_PASSWORD}</p>
-                    )}
-                    <section className="c-login__section-password">
-                        <div>
-                            <label htmlFor="password">비밀번호</label>
-                            <input
-                                ref={passwordInputRef}
-                                className="c-login__input"
-                                name="password"
-                                type="password"
-                                id="password"
-                                placeholder={
-                                    ValidationMessages.DEFAULT_PASSWORD
-                                }
-                                value={password}
-                                onChange={onChangePassword}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="password-check">
-                                비밀번호 확인
-                            </label>
-                            <input
-                                ref={passwordCheckInputRef}
-                                className="c-login__input"
-                                name="password-check"
-                                type="password"
-                                id="password-check"
-                                placeholder={
-                                    ValidationMessages.DEFAULT_PASSWORD_CHECK
-                                }
-                                value={passwordCheck}
-                                onChange={onChangePasswordCheck}
-                            />
-                        </div>
+                    <section className="c-login__section-verification">
+                        <InputField
+                            label="아이디"
+                            type="text"
+                            name="id"
+                            value={id}
+                            onChange={onChangeId}
+                            placeholder={ValidationMessages.REQUIRED_ID}
+                            ref={idInputRef}
+                            className={`c-login__input ${
+                                isIdChecked
+                                    ? isIdDupliacted
+                                        ? 'fail'
+                                        : 'success'
+                                    : ''
+                            }`}
+                        />
+                        {isIdChecked &&
+                            (isIdDupliacted ? (
+                                <i className="c-icon c-icon--fill-fail">
+                                    close
+                                </i>
+                            ) : (
+                                <i className="c-icon c-icon--fill-success">
+                                    check
+                                </i>
+                            ))}
+                        <Button
+                            className="button__rounded button__light"
+                            type="button"
+                            onClick={onSubmitCheckId}
+                        >
+                            {t('CHECK_DUPLICATED')}
+                        </Button>
                     </section>
                 </div>
-                {signUpError && <p className="message">{signUpError}</p>}
+                <div className="c-login__section">
+                    <ErrorMessage message={nicknameErrorMessage} />
+                    <SuccessMessage message={nicknameSuccessMessage} />
+                    {!nicknameErrorMessage && !nicknameSuccessMessage && (
+                        <p>{DEFAULT_NICKNAME}</p>
+                    )}
+                    <section className="c-login__section-verification">
+                        <InputField
+                            label="닉네임"
+                            type="text"
+                            name="nickname"
+                            value={nickname}
+                            onChange={onChangeNickname}
+                            placeholder={t('REQUIRED_NICKNAME')}
+                            ref={nicknameInputRef}
+                            className={`c-login__input ${
+                                isNicknameChecked
+                                    ? isNicknameDupliacted
+                                        ? 'fail'
+                                        : 'success'
+                                    : ''
+                            }`}
+                        />
+                        {isNicknameChecked &&
+                            (isNicknameDupliacted ? (
+                                <i className="c-icon c-icon--fill-fail">
+                                    close
+                                </i>
+                            ) : (
+                                <i className="c-icon c-icon--fill-success">
+                                    check
+                                </i>
+                            ))}
+                        <Button
+                            className="button__rounded button__light"
+                            type="button"
+                            onClick={onSubmitCheckNickname}
+                        >
+                            {t('CHECK_DUPLICATED')}
+                        </Button>
+                    </section>
+                </div>
+                <div className="c-login__section">
+                    <ErrorMessage message={passwordError} />
+                    {!passwordError && <p>{DEFAULT_PASSWORD}</p>}
+                    <section className="c-login__section-password">
+                        <InputField
+                            label="비밀번호"
+                            type="password"
+                            name="password"
+                            value={password}
+                            onChange={onChangePassword}
+                            placeholder={ValidationMessages.DEFAULT_PASSWORD}
+                            ref={passwordInputRef}
+                            className="c-login__input"
+                        />
+                        <InputField
+                            label="비밀번호 확인"
+                            type="password"
+                            name="password-check"
+                            value={passwordCheck}
+                            onChange={onChangePasswordCheck}
+                            placeholder={
+                                ValidationMessages.DEFAULT_PASSWORD_CHECK
+                            }
+                            ref={passwordCheckInputRef}
+                            className="c-login__input"
+                        />
+                    </section>
+                </div>
+                {signUpError && (
+                    <p className="message font-warning">{signUpError}</p>
+                )}
                 <section className="c-login__button-section">
                     <div className="c-login__button-section-message">
                         <p>{t('VERIFICATION_NOTICE-1')}</p>
                         <p>{t('VERIFICATION_NOTICE-2')}</p>
                         <p>{t('VERIFICATION_NOTICE-3')}</p>
                     </div>
-                    <button
+                    <Button
                         className="button__rounded button__orange"
                         type="button"
                         onClick={onClickVerification}
                     >
                         {t('VERIFICATION_NAVIGATE_BUTTON')}
-                    </button>
-                    <button className="button__rounded button__light">
+                    </Button>
+                    <Button
+                        className="button__rounded button__light"
+                        type="submit"
+                    >
                         {t('DEFAULT_SIGNUP')}
-                    </button>
+                    </Button>
                 </section>
             </form>
         </div>
