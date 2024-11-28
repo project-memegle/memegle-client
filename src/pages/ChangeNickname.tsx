@@ -61,13 +61,8 @@ export default function ChangeNickname() {
                 setSuccessMessage('');
 
                 // 닉네임 중복 처리
-                if (response?.isDuplicated) {
-                    setErrorMessage(ValidationMessages.EXIST_NICKNAME);
-                    setIsDuplicated(true);
-                } else {
-                    setSuccessMessage(
-                        ValidationMessages.CHECK_NICKNAME_SUCCESS
-                    );
+                if (response) {
+                    setErrorMessage(ValidationMessages.CHECK_NICKNAME_SUCCESS);
                     setIsDuplicated(false);
                 }
             } catch (error) {
