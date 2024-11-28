@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { get, post } from 'utils/API/fetcher';
+import { get, post, put } from 'utils/API/fetcher';
 import { handleApiError } from 'utils/API/handleApiError';
 import {
     NicknameChangeRequestDTO,
@@ -9,7 +9,7 @@ import { setSessionStorages } from 'utils/Storage/sessionStorage';
 import StorageKeyword from 'Constant/StorageKeyword';
 
 export const CHECK_NICKNAME_URL = '/auth/nickname';
-export const CHANGE_NICKNAME_URL = '/users/change/nickname';
+export const CHANGE_NICKNAME_URL = '/users/nickname';
 
 export async function checkNickname(
     userData: NicknameCheckRequestDTO
@@ -35,7 +35,7 @@ export async function changeNickname(
     userData: NicknameChangeRequestDTO
 ): Promise<void> {
     try {
-        const response: AxiosResponse<void> = await post<
+        const response: AxiosResponse<void> = await put<
             void,
             NicknameChangeRequestDTO
         >(CHANGE_NICKNAME_URL, userData);

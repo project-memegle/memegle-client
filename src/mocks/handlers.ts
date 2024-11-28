@@ -88,7 +88,7 @@ export const handlers = [
         });
     }),
 
-    http.get(`${baseURL}${CHANGE_NICKNAME_URL}`, () => {
+    http.put(`${baseURL}${CHANGE_NICKNAME_URL}`, () => {
         return new HttpResponse(null, {
             status: 204,
             statusText: 'OK',
