@@ -91,7 +91,6 @@ export default function LogIn() {
     }, []);
 
     useEffect(() => {
-        console.log('Updated message:', message);
     }, [message]);
 
     const onSubmit = useCallback(
@@ -168,6 +167,7 @@ export default function LogIn() {
                     )}
                     <label htmlFor="password">{DEFAULT_PASSWORD}</label>
                     <input
+                        autoComplete="on"
                         ref={passwordInputRef}
                         className="c-login__input"
                         name="password"

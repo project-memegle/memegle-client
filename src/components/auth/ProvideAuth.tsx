@@ -1,4 +1,3 @@
-// ProvideAuth.tsx
 import { createContext, useContext } from 'react';
 import { useProvideAuth } from '../../hooks/useProvideAuth';
 

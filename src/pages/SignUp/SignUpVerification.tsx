@@ -15,7 +15,6 @@ import useTimer from 'hooks/useTimer';
 import formatTime from 'utils/Format/formatTime';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { setSessionStorages } from 'utils/Storage/sessionStorage';
-import { SignUpDTO } from 'services/dto/SignUpDto';
 import {
     postVerificationCode,
     verifyVerificationCode,
@@ -23,7 +22,6 @@ import {
 import StorageKeyword from 'Constant/StorageKeyword';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from 'components/auth/ProvideAuth';
-import { signUp } from 'services/SignupService';
 import { LogInRequestDTO } from 'services/dto/LogInDto';
 import { logIn } from 'services/LogInService';
 import { useTranslation } from 'react-i18next';

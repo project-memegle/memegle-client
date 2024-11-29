@@ -45,6 +45,7 @@ const InputField = ({
     <div>
         <label htmlFor={name}>{label}</label>
         <input
+            autoComplete="on"
             ref={ref}
             className={className}
             name={name}

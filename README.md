@@ -31,7 +31,7 @@
   
   
 
-## 📋 Key Features
+## 📋 Key Features (In Progress)
 
   
 
@@ -66,25 +66,14 @@
 	- Chatbot
 
   
-  
-  
-
-
-
-  
 
 <br/><br/>
 
-  
-  
 
 ## ⚒ Tech Stack
 
-  
 
 ### Major Libraries and Tools
-
-  
 
 -  **React**: For developing the user interface
 

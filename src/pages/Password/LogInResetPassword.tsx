@@ -98,6 +98,7 @@ export default function LogInResetPassword() {
                         <div>
                             <label htmlFor="password">비밀번호</label>
                             <input
+                                autoComplete="on"
                                 ref={passwordInputRef}
                                 className="c-login__input"
                                 name="password"
@@ -127,7 +128,7 @@ export default function LogInResetPassword() {
                 </div>
                 <button
                     className="button__rounded button__orange"
-                    type="submit" 
+                    type="submit"
                 >
                     {t('CHANGE_PASSWORD')}
                 </button>

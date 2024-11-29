@@ -16,6 +16,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
     const auth = useAuth();
     const { t, i18n } = useTranslation();
     const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
+    const [language, setLanguage] = useState<string>('ko');
 
     useEffect(() => {
         setLocalSearchTerm(searchTerm);
@@ -50,7 +51,6 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
         event.preventDefault();
         setLocalSearchTerm('');
     }
-    const [language, setLanguage] = useState<string>('ko');
     useEffect(() => {
         const language = getSessionStorages(StorageKeyword.LANGUAGE);
         if (language) {

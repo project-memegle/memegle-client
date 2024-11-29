@@ -24,6 +24,7 @@ const LoginItem = forwardRef<HTMLInputElement, LogInItemProps>(
                     </div>
                     <div>
                         <input
+                            autoComplete="on"
                             name="password"
                             className="password"
                             type="password"
