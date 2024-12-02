@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import { clearLocalStorage } from 'utils/Storage/localStorage';
-import { deleteCookie, getCookie } from 'utils/Storage/cookies';
+import { clearCookies, deleteCookie, getCookie } from 'utils/Storage/cookies';
 import StorageKeyword from 'Constant/StorageKeyword';
+import {
+    clearSessionStorage,
+    deleteSessionStorage,
+} from 'utils/Storage/sessionStorage';
 
 export function useProvideAuth() {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -21,8 +25,10 @@ export function useProvideAuth() {
     const logout = (callback: VoidFunction) => {
         setIsAuthenticated(false);
         clearLocalStorage();
-        deleteCookie(StorageKeyword.ACCESS_TOKEN);
-        deleteCookie(StorageKeyword.REFRESH_TOKEN);
+        // deleteCookie(StorageKeyword.ACCESS_TOKEN);
+        // deleteCookie(StorageKeyword.REFRESH_TOKEN);
+        clearCookies();
+        clearSessionStorage();
         callback();
     };
 

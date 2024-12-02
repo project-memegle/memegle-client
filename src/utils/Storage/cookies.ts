@@ -9,7 +9,7 @@ export const setCookie = (name: string, value: string, days?: number): void => {
         date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
         expires = `; expires=${date.toUTCString()}`;
     }
-    
+
     document.cookie = `${name}=${
         value || ''
     }${expires}; path=/; secure; samesite=strict`;
@@ -36,3 +36,12 @@ export const getCookie = (name: string): string | null => {
 export const deleteCookie = (name: string): void => {
     document.cookie = `${name}=; Max-Age=-99999999; path=/`;
 };
+
+export function clearCookies() {
+    const cookies = document.cookie.split(';');
+    cookies.forEach((cookie) => {
+        const eqPos = cookie.indexOf('=');
+        const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        deleteCookie(name.trim());
+    });
+}

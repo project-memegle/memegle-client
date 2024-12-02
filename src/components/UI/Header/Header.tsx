@@ -6,6 +6,7 @@ import { useAuth } from 'components/auth/ProvideAuth';
 import { useTranslation } from 'react-i18next';
 import StorageKeyword from 'Constant/StorageKeyword';
 import { getSessionStorages } from 'utils/Storage/sessionStorage';
+
 interface HeaderProps {
     searchTerm: string;
     onSearch: (term: string) => void;
@@ -51,12 +52,12 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
         event.preventDefault();
         setLocalSearchTerm('');
     }
+
     useEffect(() => {
-        const language = getSessionStorages(StorageKeyword.LANGUAGE);
-        if (language) {
-            setLanguage(language);
-        }
-    }, [setLanguage]);
+        const language = getSessionStorages(StorageKeyword.LANGUAGE) || 'ko';
+        setLanguage(language);
+        i18n.changeLanguage(language);
+    }, [setLanguage, i18n]);
 
     const handleChangeLanguage = (
         event: React.ChangeEvent<HTMLInputElement>
@@ -118,7 +119,6 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                     ) : (
                         <button
                             className="c-top-bar-user__log button__white-font"
-                            // onClick={() => navigate('/login')}
                             onClick={logInButtonClick}
                         >
                             {t('DEFAULT_LOGIN')}
