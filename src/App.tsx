@@ -21,7 +21,8 @@ function App() {
 
     useEffect(() => {
         setSearchHistory(getSearchHistory());
-    }, [searchTerm]);
+        console.log('App searchTerm', searchTerm);
+    }, [searchTerm, setSearchHistory]);
 
     const handleSearch = (term: string) => {
         setSearchTerm(term);

@@ -6,6 +6,10 @@ import { CategoryResultSectionDTO } from 'services/dto/ResultDto';
 import { useMockCategoryList } from 'mockData/__CategoryList';
 import { t } from 'i18next';
 
+/**
+ *
+ * @returns Category list in the main page
+ */
 export default function CategorySection() {
     const navigate = useCustomNavigate();
     const [categoryList, setCategoryList] =
@@ -24,7 +28,6 @@ export default function CategorySection() {
     const mockCategoryList = useMockCategoryList();
 
     useEffect(() => {
-        // MOCK 데이터로 상태 초기화
         setCategoryList(mockCategoryList);
         setLoading(false);
     }, [mockCategoryList]);

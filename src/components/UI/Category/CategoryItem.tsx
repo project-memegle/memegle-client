@@ -15,7 +15,7 @@ export default function CategoryItem({
     const navigate = useCustomNavigate();
 
     function clickHandler() {
-        navigate(`/result/${keyword}`);
+        navigate(`/category/${keyword}`);
     }
 
     return (

@@ -2,7 +2,6 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import HomePage from './pages/Home';
 import LogIn from './pages/LogIn';
-import Result from './pages/Result/Result';
 import SignUp from './pages/SignUp/SignUp';
 import NotFoundPage from './pages/NotFound';
 import Notification from './components/UI/Notification/Notification';
@@ -22,6 +21,8 @@ import MypageEmailVerification from 'pages/Password/MypageEmailVerification';
 import LogInEmailVerification from './pages/Password/LogInEmailVerification';
 import LogInResetPassword from 'pages/Password/LogInResetPassword';
 import SignUpVerification from 'pages/SignUp/SignUpVerification';
+import { ResultCateogry } from 'pages/Result/ResultCategory';
+import { ResultTag } from 'pages/Result/ResultTag';
 
 const router = createBrowserRouter(
     [
@@ -39,13 +40,12 @@ const router = createBrowserRouter(
                     element: <PrivateRoute element={<Notification />} />,
                 },
                 {
-                    path: 'result',
-                    element: <Result />,
-                    children: [
-                        { path: ':category', element: <Result /> },
-                        { path: ':keyword', element: <Result /> },
-                        { path: ':tag', element: <Result /> },
-                    ],
+                    path: 'category/:keyword',
+                    element: <ResultCateogry />,
+                },
+                {
+                    path: 'tag/:tag',
+                    element: <ResultTag />,
                 },
                 {
                     path: 'login',

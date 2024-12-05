@@ -1,4 +1,4 @@
-import { useOutletContext } from 'react-router-dom';
+import { useLocation, useOutletContext } from 'react-router-dom';
 import { ReactNode, useEffect, useState } from 'react';
 import ResultSection from './ResultSection';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
@@ -14,9 +14,6 @@ import {
 } from 'utils/Storage/localStorage';
 
 import { SearchResultSectionDTO } from 'services/dto/ResultDto';
-
-import { searchByCategory } from 'services/CategoryService';
-import { searchById } from 'services/SearchService';
 import { searchByTag } from 'services/TagService';
 
 import MOCK_CATEGORY_RESULT_MUDO from 'mockData/__CategorySearchMudo';
@@ -28,8 +25,7 @@ import MOCK_CATEGORY_RESULT_SAD from 'mockData/__CategorySearchSad';
 import MOCK_CATEGORY_RESULT_ANGER from 'mockData/__CategorySearchAnger';
 import MOCK_CATEGORY_RESULT_HUNGRY from 'mockData/__CategorySearchHungry';
 import MOCK_CATEGORY_RESULT_HAPINESS from 'mockData/__CategorySearchHappiness';
-import ImageModal from 'components/UI/Result/ImageModal';
-import { useTranslation } from 'react-i18next';
+import Result from 'components/UI/Result/Result';
 
 type OutletContextType = {
     searchTerm: string;
@@ -37,7 +33,7 @@ type OutletContextType = {
     setSearchTerm: (term: string) => void;
 };
 
-export default function Result() {
+export function ResultTag() {
     const [modalVisible, setModalVisible] = useState(false);
     const [modalImageUrl, setModalImageUrl] = useState('');
     const {
@@ -48,7 +44,6 @@ export default function Result() {
 
     const [searchHistory, setSearchHistory] =
         useState<string[]>(initialSearchHistory);
-    const { t } = useTranslation();
 
     const [content, setContent] = useState<ReactNode>(null);
     const [resultData, setResultData] = useState<SearchResultSectionDTO | null>(
@@ -65,17 +60,9 @@ export default function Result() {
         setModalVisible(false);
         setModalImageUrl('');
     };
-    useEffect(() => {
-        setSearchHistory(getSearchHistory());
-    }, [searchTerm]);
 
     useEffect(() => {
-        console.log('====================================');
-        console.log('searchTerm', searchTerm);
-        console.log('====================================');
-        if (searchTerm) {
-            searchByTag(searchTerm, setLoading, setResultData, setError);
-        }
+        setSearchHistory(getSearchHistory());
     }, [searchTerm]);
 
     function handleTagRemove(index: number) {
@@ -174,41 +161,15 @@ export default function Result() {
         searchByTag(searchText, setLoading, setResultData, setError);
     }
     return (
-        <main className="home__main c-result">
-            <section className="c-result__searchHistory">
-                <ul className="tag-list">
-                    {searchHistory.map((tag, index) => (
-                        <li
-                            className="tag-list__item"
-                            key={index}
-                            onClick={() => searchWithHistory(tag)}
-                        >
-                            {tag}
-                            <span
-                                className="cross"
-                                onClick={(e) => {
-                                    e.stopPropagation(); // Prevent triggering searchWithHistory
-                                    handleTagRemove(index);
-                                }}
-                            ></span>
-                        </li>
-                    ))}
-                    {searchHistory.length > 0 && (
-                        <li className="tag-list__clear">
-                            <button onClick={clearSearchHistory}>
-                                {t('DELETE_ALL')}
-                            </button>
-                        </li>
-                    )}
-                </ul>
-            </section>
-            {content}
-            {modalVisible && (
-                <ImageModal
-                    imageUrl={modalImageUrl}
-                    onClose={handleCloseModal}
-                />
-            )}
-        </main>
+        <Result
+            searchHistory={searchHistory}
+            searchWithHistory={searchWithHistory}
+            handleTagRemove={handleTagRemove}
+            clearSearchHistory={clearSearchHistory}
+            content={content}
+            modalVisible={modalVisible}
+            modalImageUrl={modalImageUrl}
+            handleCloseModal={handleCloseModal}
+        />
     );
 }

@@ -6,6 +6,7 @@ import { useAuth } from 'components/auth/ProvideAuth';
 import { useTranslation } from 'react-i18next';
 import StorageKeyword from 'Constant/StorageKeyword';
 import { getSessionStorages } from 'utils/Storage/sessionStorage';
+import { useLocation } from 'react-router-dom';
 
 interface HeaderProps {
     searchTerm: string;
@@ -18,16 +19,17 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
     const { t, i18n } = useTranslation();
     const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
     const [language, setLanguage] = useState<string>('ko');
+    const location = useLocation();
 
+    useEffect(() => {
+        if (!location.pathname.startsWith('/tag/')) {
+            setLocalSearchTerm('');
+        }
+    }, [location]);
+    
     useEffect(() => {
         setLocalSearchTerm(searchTerm);
     }, [searchTerm]);
-
-    useEffect(() => {
-        if (location.pathname === '/') {
-            setLocalSearchTerm('');
-        }
-    }, [location.pathname]);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLocalSearchTerm(event.target.value);
@@ -40,10 +42,9 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
         if (trimmedTerm) {
             onSearch(trimmedTerm);
             addSearchHistory(trimmedTerm);
-            navigate(`/result/${trimmedTerm}`);
+            navigate(`/tag/${trimmedTerm}`);
         }
     };
-
     let logInButtonClick = () => {
         navigate('/login');
     };
