@@ -70,6 +70,9 @@ export default function Result() {
     }, [searchTerm]);
 
     useEffect(() => {
+        console.log('====================================');
+        console.log('searchTerm', searchTerm);
+        console.log('====================================');
         if (searchTerm) {
             searchByTag(searchTerm, setLoading, setResultData, setError);
         }

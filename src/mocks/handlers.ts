@@ -1,5 +1,6 @@
 import { http, HttpResponse, passthrough } from 'msw';
 import { UPLOAD_URL } from 'pages/Upload';
+import { SEARC_BY_CATEGORY_URL } from 'services/CategoryService';
 import { POST_CHAT_URL } from 'services/ChatService';
 import {
     CHECK_ID_URL,
@@ -23,6 +24,7 @@ import {
     VERIFY_EMAIL_ID_URL,
 } from 'services/PasswordService';
 import { SIGN_UP_URL } from 'services/SignupService';
+import { SEARC_BY_TAG_URL } from 'services/TagService';
 import { GET_USER_INFO_URL } from 'services/UserInfoService';
 import {
     POST_VERIFICATION_URL,
@@ -50,6 +52,18 @@ export const handlers = [
         });
     }),
 
+    http.get(`${baseURL}${SEARC_BY_CATEGORY_URL}`, () => {
+        return new HttpResponse(null, {
+            status: 204,
+            statusText: 'OK',
+        });
+    }),
+    http.get(`${baseURL}${SEARC_BY_TAG_URL}`, () => {
+        return new HttpResponse(null, {
+            status: 204,
+            statusText: 'OK',
+        });
+    }),
     http.get(`${baseURL}${CHECK_NICKNAME_URL}`, () => {
         return new HttpResponse(null, {
             status: 200,

@@ -19,7 +19,7 @@ export async function searchByTag<T extends string | number>(
     };
     try {
         const queryParams = new URLSearchParams({
-            imageTags: tag.toString(),
+            tagName: tag.toString(),
             page: pageData.page.toString(),
             size: pageData.size.toString(),
             criteria: pageData.criteria,

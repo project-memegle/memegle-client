@@ -24,14 +24,12 @@ export default function ErrorPage({ message }: ErrorPageProps) {
         </div>
     );
 }
-
 let root: Root | null = null;
+
 export function handleErrorPage(message: string) {
     const container = document.querySelector('main');
     if (container) {
-        if (!root) {
-            root = createRoot(container);
-        }
+        root = createRoot(container);
         root.render(
             <Router>
                 <ErrorPage message={message} />

@@ -23,6 +23,12 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
         setLocalSearchTerm(searchTerm);
     }, [searchTerm]);
 
+    useEffect(() => {
+        if (location.pathname === '/') {
+            setLocalSearchTerm('');
+        }
+    }, [location.pathname]);
+
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLocalSearchTerm(event.target.value);
     };
@@ -38,7 +44,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
         }
     };
 
-    let logInButtonClick = () => { 
+    let logInButtonClick = () => {
         navigate('/login');
     };
 
@@ -46,7 +52,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
         auth.logout(() => {
             navigate('/');
         });
-    };  
+    };
 
     function removeInputValue(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
