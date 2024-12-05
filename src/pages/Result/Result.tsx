@@ -74,6 +74,7 @@ export default function Result() {
             searchByTag(searchTerm, setLoading, setResultData, setError);
         }
     }, [searchTerm]);
+
     function handleTagRemove(index: number) {
         const newSearchHistory = searchHistory.filter((_, i) => i !== index);
         deleteSearchHistroy(index);
@@ -84,21 +85,6 @@ export default function Result() {
         clearLocalStorageSearchHistory();
         setSearchHistory([]);
     }
-
-    //todo 서버에서 카테고리 검색 결과 가져오기
-    // useEffect(() => {
-    //     const lastKeyword = getLastKeywordFromUrl<number | string>();
-    //     if (typeof lastKeyword === 'string') {
-    //         // searchByCategory({
-    //         //     keyword: lastKeyword,
-    //         //     setLoading,
-    //         //     setResultData,
-    //         //     setError,
-    //         // });
-    //     } else if (typeof lastKeyword === 'number') {
-    //         searchById(lastKeyword, setLoading, setResultData, setError);
-    //     }
-    // }, []);
 
     useEffect(() => {
         const lastKeyword = getLastKeywordFromUrl<number | string>();

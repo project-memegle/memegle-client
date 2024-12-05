@@ -38,7 +38,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
         }
     };
 
-    let logInButtonClick = () => {
+    let logInButtonClick = () => { 
         navigate('/login');
     };
 
@@ -46,7 +46,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
         auth.logout(() => {
             navigate('/');
         });
-    };
+    };  
 
     function removeInputValue(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();

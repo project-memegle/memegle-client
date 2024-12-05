@@ -1,5 +1,5 @@
 import errorIcon from '@memegle/assets/images/png/img_error.png';
-import { createRoot } from 'react-dom/client';
+import { createRoot, Root } from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 interface ErrorPageProps {
@@ -25,10 +25,13 @@ export default function ErrorPage({ message }: ErrorPageProps) {
     );
 }
 
+let root: Root | null = null;
 export function handleErrorPage(message: string) {
     const container = document.querySelector('main');
     if (container) {
-        const root = createRoot(container);
+        if (!root) {
+            root = createRoot(container);
+        }
         root.render(
             <Router>
                 <ErrorPage message={message} />

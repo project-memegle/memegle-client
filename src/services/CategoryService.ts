@@ -18,6 +18,8 @@ interface SearchByCategoryParams
     keyword: string;
 }
 
+export const SEARC_BY_CATEGORY_URL = '/images/category';
+
 export async function searchByCategory({
     keyword,
     setLoading,
@@ -39,8 +41,10 @@ export async function searchByCategory({
             size: pageData.size.toString(),
             criteria: pageData.criteria,
         });
-        const url = `/images/category?${queryParams.toString()}`;
-        const response = await get<SearchResultSectionDTO>(url);
+        const response = await get<SearchResultSectionDTO>(
+            SEARC_BY_CATEGORY_URL,
+            { params: { queryParams } }
+        );
 
         setResultData(response.data);
     } catch (error) {
