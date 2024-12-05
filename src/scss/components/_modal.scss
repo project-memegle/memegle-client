@@ -26,6 +26,9 @@
     position: relative;
     justify-content: center;
     align-items: center;
+    p {
+      color: colors.$white;
+    }
   }
 
   .modal__close {

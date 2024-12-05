@@ -36,6 +36,7 @@ export default function ChatBot({
     const [isClicked, setIsClicked] = useState(false);
     const [showCategories, setShowCategories] = useState(true);
     const [messages, setMessages] = useState<ChatItemProps[]>(initialMessages);
+    const [chosenCategory, setChosenCategory] = useState('');
 
     useEffect(() => {
         const chatbotCategory = getSessionStorages(
@@ -63,6 +64,9 @@ export default function ChatBot({
             }
             return prevMessages;
         });
+        if (chosenCategory) {
+            console.log('chosenCateogry: ', chosenCategory);
+        }
     }, [i18n.language, t]);
 
     function selectCategory(
@@ -71,12 +75,14 @@ export default function ChatBot({
     ) {
         event.preventDefault();
         const categoryValue = t(categoryKey);
+        setChosenCategory(t(categoryKey));
         setIsClicked(true);
         setShowCategories(false);
         setSessionStorages({
             key: StorageKeyword.CHATBOT_CATEGORY,
             value: categoryKey,
         });
+        console.log('key: ', categoryKey);
         setMessages((prevMessages) => [
             ...prevMessages,
             {
@@ -111,8 +117,8 @@ export default function ChatBot({
                         content={
                             msg.additionalContent
                                 ? `${t(msg.content)} "${
-                                      msg.additionalContent
-                                  }" ${t('CHAT_SELECTED_CAGTEGORY-2')}`
+                                        msg.additionalContent
+                                    }" ${t('CHAT_SELECTED_CAGTEGORY-2')}`
                                 : t(msg.content)
                         }
                         date={msg.date}

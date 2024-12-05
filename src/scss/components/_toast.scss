@@ -29,6 +29,7 @@
 
         p {
           margin: 0;
+          color: colors.$white;
         }
       }
     }
@@ -48,12 +49,12 @@
     0% {
       -webkit-transform: translate(-50%, 100px); /* 애니메이션 시작 위치 */
       transform: translate(-50%, 100px); /* 애니메이션 시작 위치 */
-      opacity: 0; /* 투명도 시작 값 */
+      opacity: 0;
     }
     100% {
       -webkit-transform: translate(-50%, 0); /* 애니메이션 끝 위치 */
       transform: translate(-50%, 0); /* 애니메이션 끝 위치 */
-      opacity: 1; /* 투명도 끝 값 */
+      opacity: 1;
     }
   }
 
@@ -61,12 +62,12 @@
     0% {
       -webkit-transform: translate(-50%, 100px); /* 애니메이션 시작 위치 */
       transform: translate(-50%, 100px); /* 애니메이션 시작 위치 */
-      opacity: 0; /* 투명도 시작 값 */
+      opacity: 0;
     }
     100% {
       -webkit-transform: translate(-50%, 0); /* 애니메이션 끝 위치 */
       transform: translate(-50%, 0); /* 애니메이션 끝 위치 */
-      opacity: 1; /* 투명도 끝 값 */
+      opacity: 1;
     }
   }
 
@@ -74,12 +75,12 @@
     0% {
       -webkit-transform: translate(-50%, 0); /* 애니메이션 시작 위치 */
       transform: translate(-50%, 0); /* 애니메이션 시작 위치 */
-      opacity: 1; /* 투명도 시작 값 */
+      opacity: 1;
     }
     100% {
-      -webkit-transform: translate(-50%, 100px); /* 애니메이션 끝 위치 */
-      transform: translate(-50%, 100px); /* 애니메이션 끝 위치 */
-      opacity: 0; /* 투명도 끝 값 */
+      -webkit-transform: translate(-50%, 100px);
+      transform: translate(-50%, 100px);
+      opacity: 0;
     }
   }
 
