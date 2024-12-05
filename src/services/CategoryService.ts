@@ -13,19 +13,21 @@ interface GetCategoryListParams<T> {
     setError: (error: string | null) => void;
 }
 
-interface SearchByCategoryParams
-    extends GetCategoryListParams<SearchResultSectionDTO> {
-    keyword: string;
+interface SearchByParams {
+    searchText: string;
+    setLoading: (loading: boolean) => void;
+    setResultData: (data: SearchResultSectionDTO | null) => void;
+    setError: (error: string | null) => void;
 }
 
 export const SEARC_BY_CATEGORY_URL = '/images/category';
 
 export async function searchByCategory({
-    keyword,
+    searchText,
     setLoading,
     setResultData,
     setError,
-}: SearchByCategoryParams) {
+}: SearchByParams) {
     setLoading(true);
 
     const pageData: PageableDTO = {
@@ -36,7 +38,7 @@ export async function searchByCategory({
 
     try {
         const queryParams = new URLSearchParams({
-            imageCategory: keyword,
+            imageCategory: searchText,
             page: pageData.page.toString(),
             size: pageData.size.toString(),
             criteria: pageData.criteria,
@@ -65,10 +67,7 @@ export async function getCategorylist({
     try {
         const queryParams = 'POPULARITY';
         const url = `/categories?criteria=${queryParams}`;
-
-        // CategoryResultSectionDTO를 받아옵니다
         const response = await get<CategoryResultSectionDTO>(url);
-        // 결과 배열만 추출하여 setResultData로 전달
         setResultData(response.data);
     } catch (error) {
         console.error('Error fetching categories:', error);

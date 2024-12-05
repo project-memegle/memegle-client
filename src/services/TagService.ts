@@ -4,13 +4,21 @@ import { SearchResultSectionDTO } from 'services/dto/ResultDto';
 import { handleApiError } from 'utils/API/handleApiError';
 import { AxiosError } from 'axios';
 
+interface SearchByParams {
+    searchText: string;
+    setLoading: (loading: boolean) => void;
+    setResultData: (data: SearchResultSectionDTO | null) => void;
+    setError: (error: string | null) => void;
+}
+
 export const SEARC_BY_TAG_URL = '/images/tag';
-export async function searchByTag<T extends string | number>(
-    tag: T,
-    setLoading: (loading: boolean) => void,
-    setResultData: (data: SearchResultSectionDTO) => void,
-    setError: (error: string | null) => void
-) {
+
+export async function searchByTag({
+    searchText,
+    setLoading,
+    setResultData,
+    setError,
+}: SearchByParams) {
     setLoading(true);
     const pageData: PageableDTO = {
         page: 1,
@@ -19,7 +27,7 @@ export async function searchByTag<T extends string | number>(
     };
     try {
         const queryParams = new URLSearchParams({
-            tagName: tag.toString(),
+            tagName: searchText,
             page: pageData.page.toString(),
             size: pageData.size.toString(),
             criteria: pageData.criteria,
@@ -28,8 +36,9 @@ export async function searchByTag<T extends string | number>(
             params: { queryParams },
         });
         setResultData(response.data);
-        setLoading(false);
     } catch (error) {
         handleApiError(error as AxiosError, setError);
+    } finally {
+        setLoading(false);
     }
 }

@@ -21,8 +21,8 @@ import MypageEmailVerification from 'pages/Password/MypageEmailVerification';
 import LogInEmailVerification from './pages/Password/LogInEmailVerification';
 import LogInResetPassword from 'pages/Password/LogInResetPassword';
 import SignUpVerification from 'pages/SignUp/SignUpVerification';
-import { ResultCateogry } from 'pages/Result/ResultCategory';
 import { ResultTag } from 'pages/Result/ResultTag';
+import { ResultCategory } from 'pages/Result/ResultCategory';
 
 const router = createBrowserRouter(
     [
@@ -41,7 +41,7 @@ const router = createBrowserRouter(
                 },
                 {
                     path: 'category/:keyword',
-                    element: <ResultCateogry />,
+                    element: <ResultCategory />,
                 },
                 {
                     path: 'tag/:tag',
