@@ -7,6 +7,7 @@ import axios, {
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import StorageKeyword from 'Constant/StorageKeyword';
 import { UPLOAD_URL } from 'pages/Upload';
+import { CHANGE_NICKNAME_URL } from 'services/NicknameService';
 import { GET_USER_INFO_URL } from 'services/UserInfoService';
 import { getAccessToken } from 'utils/Auth/authAuth';
 import { getCookie } from 'utils/Storage/cookies';
@@ -22,7 +23,7 @@ const instance = axios.create({
     // withCredentials: true,
 });
 
-const AUTH_REQUIRED_URLS = [GET_USER_INFO_URL, UPLOAD_URL];
+const AUTH_REQUIRED_URLS = [GET_USER_INFO_URL, UPLOAD_URL, CHANGE_NICKNAME_URL];
 
 instance.interceptors.request.use(
     (config) => {
@@ -32,6 +33,9 @@ instance.interceptors.request.use(
             );
             if (isAuthRequired) {
                 const token = getAccessToken();
+                console.log('token', token);
+                console.log('isAuthRequired', isAuthRequired);
+                console.log('AUTH_REQUIRED_URLS', AUTH_REQUIRED_URLS);
                 if (token) {
                     const headers = config.headers
                         ? new AxiosHeaders(config.headers)

@@ -72,25 +72,14 @@ export const handlers = [
             statusText: 'OK',
         });
     }),
-    http.get(`${baseURL}${CHECK_NICKNAME_URL}`, () => {
-        return new HttpResponse(null, {
-            status: 200,
-            statusText: 'OK',
-        });
-    }),
+
     http.get(`${baseURL}${CHECK_ID_URL}`, () => {
         return new HttpResponse(null, {
             status: 200,
             statusText: 'OK',
         });
     }),
-    http.get(`${baseURL}${GET_USER_INFO_URL}`, () => {
-        return HttpResponse.json({
-            userId: 'testloginid3',
-            nickname: '홍길동',
-            email: null,
-        });
-    }),
+
     http.get(`${baseURL}${GET_NOTIFICATION_STATE_URL}`, () => {
         return new HttpResponse(null, {
             status: 204,
@@ -104,13 +93,6 @@ export const handlers = [
         });
     }),
     http.get(`${baseURL}${LOGIN_RESET_PASSWORD_URL}`, () => {
-        return new HttpResponse(null, {
-            status: 204,
-            statusText: 'OK',
-        });
-    }),
-
-    http.put(`${baseURL}${CHANGE_NICKNAME_URL}`, () => {
         return new HttpResponse(null, {
             status: 204,
             statusText: 'OK',

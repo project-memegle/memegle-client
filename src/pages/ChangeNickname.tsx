@@ -46,7 +46,6 @@ export default function ChangeNickname() {
         async (e: FormEvent<HTMLButtonElement>) => {
             e.preventDefault();
 
-            // 입력 값 유효성 검사
             if (nicknameError || !nickname) {
                 errorInputCheck(nicknameInputRef.current);
                 setErrorMessage(ValidationMessages.REQUIRED_NICKNAME);
@@ -60,7 +59,6 @@ export default function ChangeNickname() {
                 setErrorMessage('');
                 setSuccessMessage('');
 
-                // 닉네임 중복 처리
                 if (response) {
                     setSuccessMessage(
                         ValidationMessages.CHECK_NICKNAME_SUCCESS
@@ -77,30 +75,33 @@ export default function ChangeNickname() {
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            const userId = getSessionStorages(StorageKeyword.USER_ID);
 
-            // 중복 체크가 되지 않은 경우 처리
-            if (isDuplicated || !isChecked) {
+            // if (isDuplicated || !isChecked) {
+            //     errorInputCheck(nicknameInputRef.current);
+            //     setErrorMessage(ValidationMessages.REQUIRED_DUPLICATED_CHECK);
+            //     setSuccessMessage('');
+            //     return;
+            // }
+
+            if (nicknameError || !nickname) {
                 errorInputCheck(nicknameInputRef.current);
-                setErrorMessage(ValidationMessages.REQUIRED_DUPLICATED_CHECK);
-                setSuccessMessage('');
-                return;
-            }
-
-            // 사용자 ID가 없는 경우 처리
-            if (!userId) {
-                setErrorMessage(ValidationMessages.MISSING_ID);
+                setErrorMessage(ValidationMessages.REQUIRED_NICKNAME);
                 setSuccessMessage('');
                 return;
             }
 
             try {
-                await changeNickname({ userId, nickname });
+                await changeNickname({ nickname });
                 setSuccessMessage(ValidationMessages.CHANGE_NICKNAME_SUCCESS);
                 setErrorMessage('');
-                navigate('/mypage');
+                // navigate('/mypage');
             } catch (error) {
-                handleApiError(error as AxiosError, setErrorMessage);
+                console.log('error', error);
+                if (error === 40004)
+                    setMessage(ValidationMessages.EXIST_NICKNAME); 
+                
+                if (error === 5000)
+                    setMessage(ValidationMessages.SERVER_ERROR);
             }
         },
         [nickname, isDuplicated, isChecked, navigate]
@@ -149,22 +150,22 @@ export default function ChangeNickname() {
                                     </i>
                                 ))}
                         </div>
-                        <button
+                        {/* <button
                             type="button"
                             className="button__rounded button__light"
                             onClick={onCheckNickname}
                         >
                             {t('CHECK_DUPLICATED')}
-                        </button>
+                        </button> */}
                     </section>
                 </div>
+                {message && <p className="font-warning">{message}</p>}
                 <button
                     className="button__rounded button__orange"
                     type="submit"
                 >
                     {t('CHANGE_NICKNAME')}
                 </button>
-                {message && <p className="message">{message}</p>}
             </form>
         </div>
     );

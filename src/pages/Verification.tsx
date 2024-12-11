@@ -110,7 +110,7 @@ export default function Verification() {
             const userData: VerificationRequestDTO = {
                 userName: name,
                 email: email,
-                authenticationCode: '본인인증',
+                authenticationCode: 'SIGN_UP',
             };
             setMessage('');
             startTimer();
@@ -151,14 +151,14 @@ export default function Verification() {
                     userName: name,
                     email: email,
                     code: code,
-                    authenticationCode: '본인인증',
+                    authenticationCode: 'SIGN_UP',
                 };
                 setMessage('');
                 try {
                     await verifyVerificationCode(userData);
                     getSignUpData();
                     setSessionStorages({
-                        key: StorageKeyword.SUCCESS_VERIFICATION,
+                        key: StorageKeyword.VERIFICATION_SUCCESS,
                         value: StorageKeyword.TRUE,
                     });
 

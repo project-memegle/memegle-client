@@ -4,6 +4,7 @@ import StorageKeyword from 'Constant/StorageKeyword';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getNotificationState } from 'services/NotificationService';
 import {
     deleteSessionStorage,
     getSessionStorages,
@@ -20,8 +21,7 @@ export default function Mypage() {
     const ValidationMessages = getValidationMessages();
 
     useEffect(() => {
-        // getNotificationState();
-
+        getNotificationState();
         const sessionStorageNickname = getSessionStorages(
             StorageKeyword.CHANGE_NICKNAME_SUCCESS
         );
