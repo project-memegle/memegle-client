@@ -18,7 +18,7 @@ import {
 } from 'services/NotificationService';
 import { RESET_PASSWORD_URL } from 'services/PasswordService';
 import { SIGN_UP_URL } from 'services/SignupService';
-import { SEARC_BY_TAG_URL } from 'services/TagService';
+import { SEARCH_BY_TAG_URL } from 'services/TagService';
 import { GET_USER_INFO_URL } from 'services/UserInfoService';
 import { VERIFY_VERIFICATION_URL } from 'services/VerificationService';
 
@@ -78,7 +78,7 @@ export const handlers = [
             statusText: 'OK',
         });
     }),
-    http.get(`${baseURL}${SEARC_BY_TAG_URL}`, () => {
+    http.get(`${baseURL}${SEARCH_BY_TAG_URL}`, () => {
         return new HttpResponse(null, {
             status: 204,
             statusText: 'OK',
