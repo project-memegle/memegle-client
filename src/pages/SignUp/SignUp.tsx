@@ -17,33 +17,9 @@ import { useTranslation } from 'react-i18next';
 import { checkNickname } from 'services/NicknameService';
 import { checkId } from 'services/IdService';
 import { InputField } from 'components/UI/InputField';
-
-interface ErrorMessageProps {
-    message: string;
-}
-
-const ErrorMessage = ({ message }: ErrorMessageProps) =>
-    message && <p className="error-message">{message}</p>;
-
-interface SuccessMessageProps {
-    message: string;
-}
-
-const SuccessMessage = ({ message }: SuccessMessageProps) =>
-    message && <p className="success-message">{message}</p>;
-
-interface ButtonProps {
-    className: string;
-    type: 'button' | 'submit';
-    onClick?: (e: FormEvent<HTMLButtonElement>) => void;
-    children: React.ReactNode;
-}
-
-const Button = ({ className, type, onClick, children }: ButtonProps) => (
-    <button className={className} type={type} onClick={onClick}>
-        {children}
-    </button>
-);
+import AuthButton from 'components/auth/Button';
+import SuccessMessage from 'components/UI/FontMessages/SuccessMessage';
+import ErrorMessage from 'components/UI/FontMessages/ErrorMessage';
 
 export default function SignUp() {
     const navigate = useCustomNavigate();
@@ -371,13 +347,13 @@ export default function SignUp() {
                                     : ''
                             }`}
                         />
-                        <Button
+                        <AuthButton
                             className="button__rounded button__light"
                             type="button"
                             onClick={onSubmitCheckId}
                         >
                             {t('CHECK_DUPLICATED')}
-                        </Button>
+                        </AuthButton>
                     </section>
                 </div>
                 <div className="c-login__section">
@@ -415,13 +391,13 @@ export default function SignUp() {
                                     check
                                 </i>
                             ))}
-                        <Button
+                        <AuthButton
                             className="button__rounded button__light"
                             type="button"
                             onClick={onSubmitCheckNickname}
                         >
                             {t('CHECK_DUPLICATED')}
-                        </Button>
+                        </AuthButton>
                     </section>
                 </div>
                 <div className="c-login__section">
@@ -461,19 +437,19 @@ export default function SignUp() {
                         <p>{t('VERIFICATION_NOTICE-2')}</p>
                         <p>{t('VERIFICATION_NOTICE-3')}</p>
                     </div>
-                    <Button
+                    <AuthButton
                         className="button__rounded button__orange"
                         type="button"
                         onClick={onClickVerification}
                     >
                         {t('VERIFICATION_NAVIGATE_BUTTON')}
-                    </Button>
-                    <Button
+                    </AuthButton>
+                    <AuthButton
                         className="button__rounded button__light"
                         type="submit"
                     >
                         {t('DEFAULT_SIGNUP')}
-                    </Button>
+                    </AuthButton>
                 </section>
             </form>
         </div>
