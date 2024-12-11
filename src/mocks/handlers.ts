@@ -36,10 +36,22 @@ export const handlers = [
     }),
 
     http.post(`${baseURL}${SEND_EMAIL_CODE}`, () => {
+        return passthrough();
         return new HttpResponse(null, {
             status: 200,
             statusText: 'OK',
         });
+    }),
+    http.post(`${baseURL}${VERIFY_ID_CODE_URL}`, () => {
+        return HttpResponse.json({
+            loginId: 'testloginid3',
+        });
+    }),
+    http.get(`${baseURL}${CHECK_NICKNAME_URL}`, () => {
+        return passthrough();
+    }),
+
+    http.get(`${baseURL}${CHECK_ID_URL}`, () => {
         return passthrough();
     }),
 
@@ -51,12 +63,6 @@ export const handlers = [
         return passthrough();
     }),
 
-    http.post(`${baseURL}${VERIFY_ID_CODE_URL}`, () => {
-        return HttpResponse.json({
-            loginId: 'testloginid3',
-        });
-        return passthrough();
-    }),
     http.get(`${baseURL}${SEARC_BY_CATEGORY_URL}`, () => {
         return new HttpResponse(null, {
             status: 204,

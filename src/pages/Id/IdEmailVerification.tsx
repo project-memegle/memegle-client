@@ -99,7 +99,7 @@ export default function IdEmailVerification() {
                 const userData: IdSearchResponseDTO = {
                     email: email,
                     authenticationCode: code,
-                    authenticationType: 'ID',
+                    authenticationType: StorageKeyword.VERIFICATION_CODE_ID,
                 };
                 setMessage('');
                 try {

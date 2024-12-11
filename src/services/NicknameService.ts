@@ -1,6 +1,5 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
-import { get, post, put } from 'utils/API/fetcher';
-import { handleApiError } from 'utils/API/handleApiError';
+import axios, { AxiosResponse } from 'axios';
+import { get, put } from 'utils/API/fetcher';
 import {
     NicknameChangeRequestDTO,
     NicknameCheckRequestDTO,

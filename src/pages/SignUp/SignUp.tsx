@@ -1,62 +1,22 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
-import axios, { AxiosError } from 'axios';
 import validateId from 'components/Validations/ValidateId';
 import validateNickname from 'components/Validations/ValidateNickname';
 import { SignUpDTO } from 'services/dto/SignUpDto';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import handleInputChange from 'utils/Event/handleInputChange';
 import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
-import { post } from 'utils/API/fetcher';
-import { handleApiError } from 'utils/API/handleApiError';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { signUp } from 'services/SignupService';
 import { LogInRequestDTO } from 'services/dto/LogInDto';
 import { logIn } from 'services/LogInService';
 import { useAuth } from 'components/auth/ProvideAuth';
-import { useLocation } from 'react-router-dom';
 import { setSessionStorages } from 'utils/Storage/sessionStorage';
 import StorageKeyword from 'Constant/StorageKeyword';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
 import { checkNickname } from 'services/NicknameService';
 import { checkId } from 'services/IdService';
-
-interface InputFieldProps {
-    label: string;
-    type: string;
-    name: string;
-    value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    placeholder: string;
-    ref: React.RefObject<HTMLInputElement>;
-    className: string;
-}
-
-const InputField = ({
-    label,
-    type,
-    name,
-    value,
-    onChange,
-    placeholder,
-    ref,
-    className,
-}: InputFieldProps) => (
-    <div>
-        <label htmlFor={name}>{label}</label>
-        <input
-            autoComplete="on"
-            ref={ref}
-            className={className}
-            name={name}
-            type={type}
-            id={name}
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-        />
-    </div>
-);
+import { InputField } from 'components/UI/InputField';
 
 interface ErrorMessageProps {
     message: string;
@@ -155,7 +115,14 @@ export default function SignUp() {
                     return;
                 }
             } catch (error) {
-                setIdErrorMessage(ValidationMessages.ERROR_CHECK_ID);
+                if (error === 40002) {
+                    setIdErrorMessage(ValidationMessages.EXIST_NICKNAME);
+                    return;
+                }
+                setNicknameErrorMessage(
+                    ValidationMessages.ERROR_CHECK_NICKNAME
+                );
+                return;
             }
         },
         [id, idErrorMessage]
@@ -204,9 +171,14 @@ export default function SignUp() {
                     return;
                 }
             } catch (error) {
+                if (error === 40004) {
+                    setNicknameErrorMessage(ValidationMessages.EXIST_NICKNAME);
+                    return;
+                }
                 setNicknameErrorMessage(
                     ValidationMessages.ERROR_CHECK_NICKNAME
                 );
+                return;
             }
         },
         [nickname, nicknameErrorMessage]
@@ -388,7 +360,9 @@ export default function SignUp() {
                             value={id}
                             onChange={onChangeId}
                             placeholder={ValidationMessages.REQUIRED_ID}
-                            ref={idInputRef}
+                            ref={nicknameInputRef}
+                            isDuplicated={isIdDupliacted}
+                            isChecked={isIdChecked}
                             className={`c-login__input ${
                                 isIdChecked
                                     ? isIdDupliacted
@@ -397,16 +371,6 @@ export default function SignUp() {
                                     : ''
                             }`}
                         />
-                        {isIdChecked &&
-                            (isIdDupliacted ? (
-                                <i className="c-icon c-icon--fill-fail">
-                                    close
-                                </i>
-                            ) : (
-                                <i className="c-icon c-icon--fill-success">
-                                    check
-                                </i>
-                            ))}
                         <Button
                             className="button__rounded button__light"
                             type="button"
@@ -431,6 +395,8 @@ export default function SignUp() {
                             onChange={onChangeNickname}
                             placeholder={t('REQUIRED_NICKNAME')}
                             ref={nicknameInputRef}
+                            isDuplicated={isNicknameDupliacted}
+                            isChecked={isNicknameChecked}
                             className={`c-login__input ${
                                 isNicknameChecked
                                     ? isNicknameDupliacted

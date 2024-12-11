@@ -15,6 +15,7 @@ import {
 } from 'services/dto/PasswordDto';
 import getValidationMessages from '../../components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
+import StorageKeyword from 'Constant/StorageKeyword';
 
 export default function LogInEmailVerification() {
     const navigate = useCustomNavigate();
@@ -64,7 +65,8 @@ export default function LogInEmailVerification() {
                 setMessage('');
                 const userData: LoginVerifyPasswordDTO = {
                     email,
-                    verificationType: '비밀번호 찾기',
+                    authenticationType:
+                        StorageKeyword.VERIFICATION_CODE_PASSWORD,
                 };
                 try {
                     await loginVerifyPassword(userData);

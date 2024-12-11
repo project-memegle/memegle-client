@@ -3,26 +3,27 @@ export interface LoginVerifyIdEmailDTO {
 }
 
 export interface LoginVerifyPasswordDTO {
+    userName: string;
     email: string;
-    verificationType: '비밀번호 찾기';
+    authenticationCode: string;
 }
 
 export interface LogInResetPassworddDTO {
     id: string;
     email: string;
-    verificationType: '비밀번호 찾기';
+    authenticationCode: string;
     password: string;
 }
 
 export interface MypageVerifyPasswordDTO {
     id: string;
     email: string;
-    verificationType: '비밀번호 변경';
+    authenticationCode: string;
 }
 
 export interface MypageResetPassworddDTO {
     id: string;
     email: string;
-    verificationType: '비밀번호 변경';
+    authenticationCode: string;
     password: string;
 }
