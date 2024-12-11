@@ -36,15 +36,12 @@ export default function ChatBot({
     const [isClicked, setIsClicked] = useState(false);
     const [showCategories, setShowCategories] = useState(true);
     const [messages, setMessages] = useState<ChatItemProps[]>(initialMessages);
-    const [chosenCategory, setChosenCategory] = useState('');
 
     useEffect(() => {
         const chatbotCategory = getSessionStorages(
             StorageKeyword.CHATBOT_CATEGORY
         );
-
         if (chatbotCategory) {
-            // 카테고리만 저장된 경우 초기 메시지 유지
             setMessages(initialMessages);
             return;
         }
@@ -54,7 +51,6 @@ export default function ChatBot({
     }, []);
 
     useEffect(() => {
-        // 언어 변경 시 메시지 재설정
         setMessages((prevMessages) => {
             const chatbotCategory = getSessionStorages(
                 StorageKeyword.CHATBOT_CATEGORY
@@ -64,9 +60,6 @@ export default function ChatBot({
             }
             return prevMessages;
         });
-        if (chosenCategory) {
-            console.log('chosenCateogry: ', chosenCategory);
-        }
     }, [i18n.language, t]);
 
     function selectCategory(
@@ -75,7 +68,6 @@ export default function ChatBot({
     ) {
         event.preventDefault();
         const categoryValue = t(categoryKey);
-        setChosenCategory(t(categoryKey));
         setIsClicked(true);
         setShowCategories(false);
         setSessionStorages({

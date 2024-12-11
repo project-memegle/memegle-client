@@ -38,6 +38,10 @@ export const handlers = [
         return passthrough();
     }),
     http.post(`${baseURL}${SIGN_IN_URL}`, () => {
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
+        });
         return passthrough();
     }),
 
