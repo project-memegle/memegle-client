@@ -1,11 +1,13 @@
 export interface LoginVerifyIdEmailDTO {
+    userName: string;
     email: string;
+    authenticationType: string;
 }
 
 export interface LoginVerifyPasswordDTO {
-    userName: string;
     email: string;
     authenticationCode: string;
+    authenticationType: string;
 }
 
 export interface LogInResetPassworddDTO {

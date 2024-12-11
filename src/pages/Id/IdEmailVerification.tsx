@@ -24,13 +24,13 @@ export default function IdEmailVerification() {
     const DEFAULT_NAME = ValidationMessages.DEFAULT_NAME;
 
     const [message, setMessage] = useState('');
-    const [nameError, setNameError] = useState(DEFAULT_NAME);
+    const [nameError, setNameError] = useState('');
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
 
-    const [emailError, setEmailError] = useState(DEFAULT_EMAIL);
+    const [emailError, setEmailError] = useState('');
     const nameInputRef = useRef<HTMLInputElement>(null);
     const emailInputRef = useRef<HTMLInputElement>(null);
     const codeInputRef = useRef<HTMLInputElement>(null);
@@ -80,7 +80,7 @@ export default function IdEmailVerification() {
                 handleApiError(error as AxiosError, setMessage);
             }
         }
-    }, [startTimer, email, emailError]);
+    }, [startTimer, email, emailError, name, nameError]);
 
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
@@ -119,7 +119,11 @@ export default function IdEmailVerification() {
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
                 <section className="c-login__section">
-                    <p>{nameError ? nameError : DEFAULT_NAME}</p>
+                    {nameError ? (
+                        <p className="error-message">{nameError}</p>
+                    ) : (
+                        <p>{DEFAULT_NAME}</p>
+                    )}
                     <label htmlFor="name">이름</label>
                     <input
                         ref={nameInputRef}
@@ -134,7 +138,11 @@ export default function IdEmailVerification() {
                     />
                 </section>
                 <section className="c-login__section">
-                    <p>{emailError ? emailError : DEFAULT_EMAIL}</p>
+                    {emailError ? (
+                        <p className="error-message">{emailError}</p>
+                    ) : (
+                        <p>{DEFAULT_EMAIL}</p>
+                    )}
                     <section className="c-login__section-verification">
                         <div>
                             <label htmlFor="email">이메일</label>

@@ -16,30 +16,40 @@ import {
 import getValidationMessages from '../../components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
 import StorageKeyword from 'Constant/StorageKeyword';
+import validateName from 'components/Validations/ValidateName';
 
 export default function LogInEmailVerification() {
     const navigate = useCustomNavigate();
     const ValidationMessages = getValidationMessages();
     const { t } = useTranslation();
     const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
+    const DEFAULT_NAME = ValidationMessages.DEFAULT_NAME;
 
     const [verification, setVerification] = useState(false);
     const [isVerificationSuccessful, setIsVerificationSuccessful] =
         useState(false);
 
     const [emailError, setEmailError] = useState('');
+    const [nameError, setNameError] = useState('');
 
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
 
     const [message, setMessage] = useState('');
 
+    const nameInputRef = useRef<HTMLInputElement>(null);
     const emailInputRef = useRef<HTMLInputElement>(null);
     const codeInputRef = useRef<HTMLInputElement>(null);
 
     const [hasTimerStarted, setHasTimerStarted] = useState(false);
 
     const { timer, startTimer, resetTimer, isActive } = useTimer(300);
+
+    const onChangeName = useCallback(
+        handleInputChange(setName, setNameError, validateName),
+        []
+    );
 
     const onChangeEmail = useCallback(
         handleInputChange(setEmail, setEmailError, validateEmail),
@@ -49,6 +59,38 @@ export default function LogInEmailVerification() {
     const onChangeCode = useCallback((e: FormEvent<HTMLInputElement>) => {
         setCode(e.currentTarget.value);
     }, []);
+
+    const onChangeVerification = useCallback(async () => {
+        if (nameError || !name) {
+            errorInputCheck(nameInputRef.current);
+            return;
+        }
+
+        if (emailError || !email) {
+            errorInputCheck(emailInputRef.current);
+            return;
+        }
+
+        if (email) {
+            setMessage('');
+            startTimer();
+            setHasTimerStarted(true);
+            try {
+                const userData: LoginVerifyIdEmailDTO = {
+                    userName: name,
+                    email: email,
+                    authenticationType:
+                        StorageKeyword.VERIFICATION_CODE_PASSWORD,
+                };
+                await verifyIdEmail(userData);
+                setVerification(true);
+                setIsVerificationSuccessful(true);
+            } catch (error) {
+                setMessage(ValidationMessages.INVALID_USER);
+                setIsVerificationSuccessful(false);
+            }
+        }
+    }, [startTimer, email, emailError, name, nameError]);
 
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
@@ -64,7 +106,8 @@ export default function LogInEmailVerification() {
             if (email && code && isVerificationSuccessful) {
                 setMessage('');
                 const userData: LoginVerifyPasswordDTO = {
-                    email,
+                    email: email,
+                    authenticationCode: code,
                     authenticationType:
                         StorageKeyword.VERIFICATION_CODE_PASSWORD,
                 };
@@ -79,33 +122,28 @@ export default function LogInEmailVerification() {
         [email, code, emailError, isVerificationSuccessful, navigate]
     );
 
-    const onChangeVerification = useCallback(async () => {
-        if (emailError || !email) {
-            errorInputCheck(emailInputRef.current);
-            return;
-        }
-
-        if (email) {
-            setMessage('');
-            startTimer();
-            setHasTimerStarted(true);
-            try {
-                const userData: LoginVerifyIdEmailDTO = {
-                    email,
-                };
-                await verifyIdEmail(userData);
-                setVerification(true);
-                setIsVerificationSuccessful(true);
-            } catch (error) {
-                setMessage(ValidationMessages.INVALID_USER);
-                setIsVerificationSuccessful(false);
-            }
-        }
-    }, [startTimer, email, emailError]);
-
     return (
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
+                <section className="c-login__section">
+                    {nameError ? (
+                        <p className="error-message">{nameError}</p>
+                    ) : (
+                        <p>{DEFAULT_NAME}</p>
+                    )}
+                    <label htmlFor="name">이름</label>
+                    <input
+                        ref={nameInputRef}
+                        className="c-login__input"
+                        name="name"
+                        id="name"
+                        type="text"
+                        placeholder={ValidationMessages.REQUIRED_NAME}
+                        value={name}
+                        onChange={onChangeName}
+                        onInput={onChangeName}
+                    />
+                </section>
                 <section className="c-login__section">
                     {emailError ? (
                         <p className="error-message">{emailError}</p>
