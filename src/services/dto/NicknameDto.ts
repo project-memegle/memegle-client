@@ -5,6 +5,5 @@ export interface NicknameCheckRequestDTO {
 
 
 export interface NicknameChangeRequestDTO {
-    userId: string;
     nickname: string;
 }
