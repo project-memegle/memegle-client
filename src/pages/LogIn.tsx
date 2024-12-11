@@ -122,7 +122,7 @@ export default function LogIn() {
                     } else {
                         setMessage(ValidationMessages.GET_USER_INFO_FAIL);
                     }
-                } catch (error: unknown) {
+                } catch (error) {
                     if (error === 40401) {
                         setMessage(ValidationMessages.NONEXIST_ID);
                         return;

@@ -7,6 +7,7 @@ import axios, {
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import StorageKeyword from 'Constant/StorageKeyword';
 import { UPLOAD_URL } from 'pages/Upload';
+import { DELETE_ACCOUNT_URL } from 'services/deleteAccountService';
 import { CHANGE_NICKNAME_URL } from 'services/NicknameService';
 import { GET_USER_INFO_URL } from 'services/UserInfoService';
 import { getAccessToken } from 'utils/Auth/authAuth';
@@ -23,7 +24,12 @@ const instance = axios.create({
     // withCredentials: true,
 });
 
-const AUTH_REQUIRED_URLS = [GET_USER_INFO_URL, UPLOAD_URL, CHANGE_NICKNAME_URL];
+const AUTH_REQUIRED_URLS = [
+    GET_USER_INFO_URL,
+    UPLOAD_URL,
+    CHANGE_NICKNAME_URL,
+    DELETE_ACCOUNT_URL,
+];
 
 instance.interceptors.request.use(
     (config) => {

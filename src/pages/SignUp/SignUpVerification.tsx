@@ -117,7 +117,7 @@ export default function SignUpVerification() {
             const userData: VerificationRequestDTO = {
                 userName: name,
                 email: email,
-                authenticationCode: StorageKeyword.VERIFICATION_CODE_SIGNUP,
+                authenticationType: StorageKeyword.VERIFICATION_CODE_SIGNUP,
             };
 
             setMessage('');
@@ -158,7 +158,7 @@ export default function SignUpVerification() {
                 const userData: VerificationRequestDTO = {
                     userName: name,
                     email: email,
-                    authenticationCode: StorageKeyword.VERIFICATION_CODE_SIGNUP,
+                    authenticationType: StorageKeyword.VERIFICATION_CODE_SIGNUP,
                 };
                 setMessage('');
                 try {

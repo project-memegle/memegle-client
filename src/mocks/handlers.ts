@@ -40,6 +40,9 @@ export const handlers = [
         return passthrough();
     }),
 
+    http.get(`${baseURL}${CHANGE_NICKNAME_URL}`, () => {
+        return passthrough();
+    }),
     http.get(`${baseURL}${CHECK_NICKNAME_URL}`, () => {
         return passthrough();
     }),
