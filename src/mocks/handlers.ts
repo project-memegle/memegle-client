@@ -1,6 +1,6 @@
 import { http, HttpResponse, passthrough } from 'msw';
 import { UPLOAD_URL } from 'pages/Upload';
-import { SEARC_BY_CATEGORY_URL } from 'services/CategoryService';
+import { SEARCH_BY_CATEGORY_URL } from 'services/CategoryService';
 import { POST_CHAT_URL } from 'services/ChatService';
 import {
     CHECK_ID_URL,
@@ -64,7 +64,15 @@ export const handlers = [
         return passthrough();
     }),
 
-    http.get(`${baseURL}${SEARC_BY_CATEGORY_URL}`, () => {
+    http.post(`${baseURL}${UPLOAD_URL}`, () => {
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
+        });
+        return passthrough();
+    }),
+
+    http.get(`${baseURL}${SEARCH_BY_CATEGORY_URL}`, () => {
         return new HttpResponse(null, {
             status: 204,
             statusText: 'OK',
@@ -86,13 +94,6 @@ export const handlers = [
     http.get(`${baseURL}${GET_NOTIFICATION_LIST_URL}`, () => {
         return new HttpResponse(null, {
             status: 204,
-            statusText: 'OK',
-        });
-    }),
-
-    http.post(`${baseURL}${UPLOAD_URL}`, () => {
-        return new HttpResponse(null, {
-            status: 200,
             statusText: 'OK',
         });
     }),

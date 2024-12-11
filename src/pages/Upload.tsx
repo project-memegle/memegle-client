@@ -4,10 +4,8 @@ import { TagInput } from 'components/UI/Upload/Upload_tag';
 import { CategoryInput } from 'components/UI/Upload/Upload_category';
 import { handleApiError } from 'utils/API/handleApiError';
 import { post } from 'utils/API/fetcher';
-import { UploadDTO } from 'services/dto/UploadDto';
 import handleKeyDown from 'utils/Event/preventEnter';
 import {
-    getSessionStorages,
     setSessionStorages,
 } from 'utils/Storage/sessionStorage';
 import useCustomNavigate from 'hooks/useCustomNaviaget';

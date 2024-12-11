@@ -20,7 +20,7 @@ interface SearchByParams {
     setError: (error: string | null) => void;
 }
 
-export const SEARC_BY_CATEGORY_URL = '/images/category';
+export const SEARCH_BY_CATEGORY_URL = '/images/category';
 
 export async function searchByCategory({
     searchText,
@@ -44,7 +44,7 @@ export async function searchByCategory({
             criteria: pageData.criteria,
         });
         const response = await get<SearchResultSectionDTO>(
-            SEARC_BY_CATEGORY_URL,
+            SEARCH_BY_CATEGORY_URL,
             { params: { queryParams } }
         );
 
