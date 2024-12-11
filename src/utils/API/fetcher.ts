@@ -19,7 +19,7 @@ const REFRESH_TOKEN = StorageKeyword.REFRESH_TOKEN;
 const instance = axios.create({
     baseURL,
     timeout: 10000,
-    withCredentials: true,
+    // withCredentials: true,
 });
 
 const AUTH_REQUIRED_URLS = [GET_USER_INFO_URL, UPLOAD_URL];

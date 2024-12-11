@@ -35,14 +35,18 @@ const baseURL = import.meta.env.VITE_BASE_URL;
 
 export const handlers = [
     http.post(`${baseURL}${VERIFY_ID_CODE_URL}`, () => {
+        return HttpResponse.json({
+            loginId: 'testloginid3',
+        });
         return passthrough();
     }),
+
     http.post(`${baseURL}${SIGN_IN_URL}`, () => {
+        return passthrough();
         return new HttpResponse(null, {
             status: 200,
             statusText: 'OK',
         });
-        return passthrough();
     }),
 
     http.post(`${baseURL}${SIGN_UP_URL}`, () => {

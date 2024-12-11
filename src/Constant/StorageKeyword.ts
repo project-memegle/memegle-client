@@ -9,7 +9,7 @@ const StorageKeyword: StorageProps = {
     CHANGE_PASSWORD_SUCCESS: 'changePasswordSuccess',
     CREATE_ACCOUNT_SUCCESS: 'createAccountSuccess',
     DELETE_ACCOUNT_SUCCESS: 'deleteAccountSuccess',
-    USER_ID: 'userId',
+    USER_ID: 'loginId',
     USER_EMAIL: 'userEmail',
     USER_NICKNAME: 'userNickname',
     ACCESS_TOKEN: 'access_token',

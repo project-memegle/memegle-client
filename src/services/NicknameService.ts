@@ -40,6 +40,9 @@ export async function changeNickname(
             NicknameChangeRequestDTO
         >(CHANGE_NICKNAME_URL, userData);
     } catch (error) {
-        handleApiError(error as AxiosError);
+        if (axios.isAxiosError(error)) {
+            throw error.response?.data?.code;
+        }
+        throw error;
     }
 }

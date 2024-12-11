@@ -1,5 +1,5 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import validateEmail from 'components/Validations/ValidateEmail';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import useTimer from 'hooks/useTimer';
@@ -51,7 +51,7 @@ export default function IdEmailVerification() {
         if (email) {
             const userData: IdSearchRequestDTO = {
                 email: email,
-                authenticationCode: '이메일 인증',
+                authenticationCode: 'ID',
             };
             setMessage('');
             startTimer();
@@ -82,14 +82,14 @@ export default function IdEmailVerification() {
             if (email && code && verification) {
                 const userData: IdSearchResponseDTO = {
                     email: email,
-                    code: code,
-                    authenticationCode: '이메일 인증',
+                    authenticationCode: code,
+                    authenticationType: 'ID',
                 };
                 setMessage('');
                 try {
                     const response = await verifyIdSearchCode(userData);
                     navigate('/find/id', {
-                        state: { userId: response.data.userId },
+                        state: { loginId: response.data.loginId },
                     });
                 } catch (error) {
                     handleApiError(error as AxiosError, setMessage);
