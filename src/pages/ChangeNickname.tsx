@@ -97,11 +97,17 @@ export default function ChangeNickname() {
                 // navigate('/mypage');
             } catch (error) {
                 console.log('error', error);
-                if (error === 40004)
-                    setMessage(ValidationMessages.EXIST_NICKNAME); 
-                
-                if (error === 5000)
+                if (error === 40004) {
+                    setMessage(ValidationMessages.EXIST_NICKNAME);
+                    return;
+                }
+
+                if (error === 5000) {
                     setMessage(ValidationMessages.SERVER_ERROR);
+                    return;
+                }
+                setMessage(ValidationMessages.UNKNOWN_ERROR);
+                return;
             }
         },
         [nickname, isDuplicated, isChecked, navigate]

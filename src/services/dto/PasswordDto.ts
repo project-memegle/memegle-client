@@ -1,4 +1,4 @@
-export interface LoginVerifyIdEmailDTO {
+export interface SendPasswordCodeDTO {
     userName: string;
     email: string;
     authenticationType: string;
@@ -10,10 +10,11 @@ export interface LoginVerifyPasswordDTO {
     authenticationType: string;
 }
 
-export interface LogInResetPassworddDTO {
-    id: string;
+export interface LogInResetPasswordDTO {
     email: string;
     authenticationCode: string;
+    authenticationType: string;
+    loginId: string;
     password: string;
 }
 

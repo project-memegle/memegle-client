@@ -6,29 +6,38 @@ import validateEmail from 'components/Validations/ValidateEmail';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import { handleApiError } from 'utils/API/handleApiError';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
-import { loginVerifyPassword, verifyIdEmail } from 'services/PasswordService';
+import {
+    loginVerifyPassword,
+    sendPasswordCode,
+} from 'services/PasswordService';
 import useTimer from 'hooks/useTimer';
 import formatTime from 'utils/Format/formatTime';
 import {
-    LoginVerifyIdEmailDTO,
     LoginVerifyPasswordDTO,
+    SendPasswordCodeDTO,
 } from 'services/dto/PasswordDto';
 import getValidationMessages from '../../components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
 import StorageKeyword from 'Constant/StorageKeyword';
 import validateName from 'components/Validations/ValidateName';
+import { useLocation } from 'react-router-dom';
 
 export default function LogInEmailVerification() {
     const navigate = useCustomNavigate();
     const ValidationMessages = getValidationMessages();
     const { t } = useTranslation();
+    const location = useLocation();
+
     const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
     const DEFAULT_NAME = ValidationMessages.DEFAULT_NAME;
+    const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
 
     const [verification, setVerification] = useState(false);
     const [isVerificationSuccessful, setIsVerificationSuccessful] =
         useState(false);
 
+    const [id, setId] = useState('');
+    const [idError, setIdError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [nameError, setNameError] = useState('');
 
@@ -38,6 +47,7 @@ export default function LogInEmailVerification() {
 
     const [message, setMessage] = useState('');
 
+    const idInputRef = useRef<HTMLInputElement>(null);
     const nameInputRef = useRef<HTMLInputElement>(null);
     const emailInputRef = useRef<HTMLInputElement>(null);
     const codeInputRef = useRef<HTMLInputElement>(null);
@@ -45,6 +55,13 @@ export default function LogInEmailVerification() {
     const [hasTimerStarted, setHasTimerStarted] = useState(false);
 
     const { timer, startTimer, resetTimer, isActive } = useTimer(300);
+
+    const onChangeId = useCallback(
+        handleInputChange(setId, setIdError, validateId, () => {
+            setMessage('');
+        }),
+        []
+    );
 
     const onChangeName = useCallback(
         handleInputChange(setName, setNameError, validateName),
@@ -60,7 +77,7 @@ export default function LogInEmailVerification() {
         setCode(e.currentTarget.value);
     }, []);
 
-    const onChangeVerification = useCallback(async () => {
+    const onSubmitVerification = useCallback(async () => {
         if (nameError || !name) {
             errorInputCheck(nameInputRef.current);
             return;
@@ -76,13 +93,13 @@ export default function LogInEmailVerification() {
             startTimer();
             setHasTimerStarted(true);
             try {
-                const userData: LoginVerifyIdEmailDTO = {
+                const userData: SendPasswordCodeDTO = {
                     userName: name,
                     email: email,
                     authenticationType:
                         StorageKeyword.VERIFICATION_CODE_PASSWORD,
                 };
-                await verifyIdEmail(userData);
+                await sendPasswordCode(userData);
                 setVerification(true);
                 setIsVerificationSuccessful(true);
             } catch (error) {
@@ -113,18 +130,51 @@ export default function LogInEmailVerification() {
                 };
                 try {
                     await loginVerifyPassword(userData);
-                    navigate('/find/password/reset');
+                    navigate('/find/password/reset', {
+                        state: {
+                            email: email,
+                            authenticationCode: code,
+                            authenticationType:
+                                StorageKeyword.VERIFICATION_CODE_PASSWORD,
+                            loginId: 'testloginid1',
+                        },
+                    });
                 } catch (error) {
-                    handleApiError(error as AxiosError, setMessage);
+                    if (error === 40105) {
+                        setMessage(ValidationMessages.FAILED_VERIFICATION_CODE);
+                        return;
+                    }
+                    if (error === 5000) {
+                        setMessage(ValidationMessages.SERVER_ERROR);
+                        return;
+                    }
+                    setMessage(ValidationMessages.UNKNOWN_ERROR);
                 }
             }
         },
         [email, code, emailError, isVerificationSuccessful, navigate]
     );
-
     return (
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
+                <div className="c-login__section">
+                    {idError ? (
+                        <p className="error-message">{idError}</p>
+                    ) : (
+                        <p>{DEFAULT_ID}</p>
+                    )}
+                    <label htmlFor="id">{DEFAULT_ID}</label>
+                    <input
+                        ref={idInputRef}
+                        className="c-login__input"
+                        name="id"
+                        id="id"
+                        type="text"
+                        placeholder={ValidationMessages.REQUIRED_ID}
+                        value={id}
+                        onChange={onChangeId}
+                    />
+                </div>
                 <section className="c-login__section">
                     {nameError ? (
                         <p className="error-message">{nameError}</p>
@@ -168,7 +218,7 @@ export default function LogInEmailVerification() {
                         <button
                             type="button"
                             className="button__rounded button__light"
-                            onClick={onChangeVerification}
+                            onClick={onSubmitVerification}
                             disabled={isActive}
                         >
                             {hasTimerStarted
