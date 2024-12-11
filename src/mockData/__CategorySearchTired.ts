@@ -15,6 +15,7 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
             imageCategory: 'tiredness',
             createdAt: DATE,
             modifiedAt: DATE,
+            taglist: ['고양이', '시무룩', 'sadkitten', 'sadCat'],
         },
         {
             id: 22,
@@ -22,6 +23,7 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
             imageCategory: 'tiredness',
             createdAt: DATE,
             modifiedAt: DATE,
+            taglist: ['펭수', 'penguin'],
         },
         {
             id: 23,
@@ -29,6 +31,7 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
             imageCategory: 'tiredness',
             createdAt: DATE,
             modifiedAt: DATE,
+            taglist: ['홍진경', '나너무힘들어', 'funnylady', 'mustache'],
         },
         {
             id: 24,
@@ -36,6 +39,7 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
             imageCategory: 'tiredness',
             createdAt: DATE,
             modifiedAt: DATE,
+            taglist: ['정준하', '여기까지다', 'funnyman', 'simpson'],
         },
         {
             id: 25,
@@ -43,6 +47,7 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
             imageCategory: 'tiredness',
             createdAt: DATE,
             modifiedAt: DATE,
+            taglist: ['노홍철', '포기하고싶어요', 'funnyman', 'givingup'],
         },
     ],
 };

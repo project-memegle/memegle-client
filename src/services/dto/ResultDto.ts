@@ -27,4 +27,5 @@ export interface SearchResultItemDTO {
     imageCategory: string | 'MUDO';
     createdAt: string;
     modifiedAt: string;
+    taglist?: string[];
 }
