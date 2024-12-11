@@ -1,11 +1,9 @@
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { AxiosError } from 'axios';
-import ValidationMessages from 'components/Validations/ValidationMessages';
 import handleInputChange from 'utils/Event/handleInputChange';
 import validateEmail from 'components/Validations/ValidateEmail';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import { handleApiError } from 'utils/API/handleApiError';
-import { post } from 'utils/API/fetcher';
 import validateName from 'components/Validations/ValidateName';
 import { VerificationRequestDTO } from 'services/dto/VerificationDto';
 import useTimer from 'hooks/useTimer';

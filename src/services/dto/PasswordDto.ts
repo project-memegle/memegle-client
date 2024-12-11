@@ -4,29 +4,16 @@ export interface SendPasswordCodeDTO {
     authenticationType: string;
 }
 
-export interface LoginVerifyPasswordDTO {
+export interface VerifyCodePasswordDTO {
     email: string;
     authenticationCode: string;
     authenticationType: string;
 }
 
-export interface LogInResetPasswordDTO {
+export interface ResetPasswordDTO {
     email: string;
     authenticationCode: string;
     authenticationType: string;
     loginId: string;
-    password: string;
-}
-
-export interface MypageVerifyPasswordDTO {
-    id: string;
-    email: string;
-    authenticationCode: string;
-}
-
-export interface MypageResetPassworddDTO {
-    id: string;
-    email: string;
-    authenticationCode: string;
     password: string;
 }

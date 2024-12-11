@@ -1,32 +1,25 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
-import { AxiosError } from 'axios';
 import validateId from '../../components/Validations/ValidateId';
 import handleInputChange from 'utils/Event/handleInputChange';
 import validateEmail from 'components/Validations/ValidateEmail';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
-import { handleApiError } from 'utils/API/handleApiError';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
-import {
-    loginVerifyPassword,
-    sendPasswordCode,
-} from 'services/PasswordService';
+import { VerifyCodePassword, SendPasswordCode } from 'services/PasswordService';
 import useTimer from 'hooks/useTimer';
 import formatTime from 'utils/Format/formatTime';
 import {
-    LoginVerifyPasswordDTO,
+    VerifyCodePasswordDTO,
     SendPasswordCodeDTO,
 } from 'services/dto/PasswordDto';
 import getValidationMessages from '../../components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
 import StorageKeyword from 'Constant/StorageKeyword';
 import validateName from 'components/Validations/ValidateName';
-import { useLocation } from 'react-router-dom';
 
 export default function LogInEmailVerification() {
     const navigate = useCustomNavigate();
     const ValidationMessages = getValidationMessages();
     const { t } = useTranslation();
-    const location = useLocation();
 
     const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
     const DEFAULT_NAME = ValidationMessages.DEFAULT_NAME;
@@ -77,7 +70,7 @@ export default function LogInEmailVerification() {
         setCode(e.currentTarget.value);
     }, []);
 
-    const onSubmitVerification = useCallback(async () => {
+    const onSubmitSendCode = useCallback(async () => {
         if (nameError || !name) {
             errorInputCheck(nameInputRef.current);
             return;
@@ -99,7 +92,7 @@ export default function LogInEmailVerification() {
                     authenticationType:
                         StorageKeyword.VERIFICATION_CODE_PASSWORD,
                 };
-                await sendPasswordCode(userData);
+                await SendPasswordCode(userData);
                 setVerification(true);
                 setIsVerificationSuccessful(true);
             } catch (error) {
@@ -122,14 +115,14 @@ export default function LogInEmailVerification() {
             }
             if (email && code && isVerificationSuccessful) {
                 setMessage('');
-                const userData: LoginVerifyPasswordDTO = {
+                const userData: VerifyCodePasswordDTO = {
                     email: email,
                     authenticationCode: code,
                     authenticationType:
                         StorageKeyword.VERIFICATION_CODE_PASSWORD,
                 };
                 try {
-                    await loginVerifyPassword(userData);
+                    await VerifyCodePassword(userData);
                     navigate('/find/password/reset', {
                         state: {
                             email: email,
@@ -218,7 +211,7 @@ export default function LogInEmailVerification() {
                         <button
                             type="button"
                             className="button__rounded button__light"
-                            onClick={onSubmitVerification}
+                            onClick={onSubmitSendCode}
                             disabled={isActive}
                         >
                             {hasTimerStarted

@@ -16,11 +16,7 @@ import {
     GET_NOTIFICATION_LIST_URL,
     GET_NOTIFICATION_STATE_URL,
 } from 'services/NotificationService';
-import {
-    MYPAGE_VERIFY_PASSWORD_URL,
-    LOGIN_RESET_PASSWORD_URL,
-    MYPAGE_RESET_PASSWORD_URL,
-} from 'services/PasswordService';
+import { RESET_PASSWORD_URL } from 'services/PasswordService';
 import { SIGN_UP_URL } from 'services/SignupService';
 import { SEARC_BY_TAG_URL } from 'services/TagService';
 import { GET_USER_INFO_URL } from 'services/UserInfoService';
@@ -36,6 +32,7 @@ export const handlers = [
     http.post(`${baseURL}${SEND_EMAIL_CODE}`, () => {
         return passthrough();
     }),
+
     http.post(`${baseURL}${VERIFY_AUTH_CODE_URL}`, () => {
         return passthrough();
     }),
@@ -55,15 +52,17 @@ export const handlers = [
         return passthrough();
     }),
 
-    http.get(`${baseURL}${LOGIN_RESET_PASSWORD_URL}`, () => {
-        // return passthrough();
-        return new HttpResponse(null, {
-            status: 204,
-            statusText: 'OK',
-        });
+    http.post(`${baseURL}${SIGN_UP_URL}`, () => {
+        return passthrough();
     }),
 
-    http.post(`${baseURL}${SIGN_UP_URL}`, () => {}),
+    http.post(`${baseURL}${RESET_PASSWORD_URL}`, () => {
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
+        });
+        return passthrough();
+    }),
 
     http.get(`${baseURL}${SEARC_BY_CATEGORY_URL}`, () => {
         return new HttpResponse(null, {
@@ -74,13 +73,6 @@ export const handlers = [
     http.get(`${baseURL}${SEARC_BY_TAG_URL}`, () => {
         return new HttpResponse(null, {
             status: 204,
-            statusText: 'OK',
-        });
-    }),
-
-    http.get(`${baseURL}${CHECK_ID_URL}`, () => {
-        return new HttpResponse(null, {
-            status: 200,
             statusText: 'OK',
         });
     }),
@@ -99,20 +91,6 @@ export const handlers = [
     }),
 
     http.post(`${baseURL}${UPLOAD_URL}`, () => {
-        return new HttpResponse(null, {
-            status: 200,
-            statusText: 'OK',
-        });
-    }),
-
-    http.post(`${baseURL}${MYPAGE_VERIFY_PASSWORD_URL}`, () => {
-        return new HttpResponse(null, {
-            status: 200,
-            statusText: 'OK',
-        });
-    }),
-
-    http.post(`${baseURL}${MYPAGE_RESET_PASSWORD_URL}`, () => {
         return new HttpResponse(null, {
             status: 200,
             statusText: 'OK',

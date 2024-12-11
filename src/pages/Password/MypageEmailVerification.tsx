@@ -11,10 +11,21 @@ import handleInputChange from 'utils/Event/handleInputChange';
 import { getPreviousUrl } from 'utils/Event/saveUrl';
 import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
 import { resetErrors } from 'utils/Event/resetError';
-import { mypageVerifyPassword } from 'services/PasswordService';
-import { MypageVerifyPasswordDTO } from 'services/dto/PasswordDto';
+import {
+    VerifyCodePassword,
+    mypageVerifyPassword,
+    SendPasswordCode,
+} from 'services/PasswordService';
+import {
+    MypageVerifyPasswordDTO,
+    SendPasswordCodeDTO,
+    VerifyCodePasswordDTO,
+} from 'services/dto/PasswordDto';
 import { useTranslation } from 'react-i18next';
 import getValidationMessages from 'components/Validations/ValidationMessages';
+import StorageKeyword from 'Constant/StorageKeyword';
+import { getSessionStorages } from 'utils/Storage/sessionStorage';
+import validateName from 'components/Validations/ValidateName';
 
 export default function MypageEmailVerification() {
     const navigate = useCustomNavigate();
@@ -23,26 +34,30 @@ export default function MypageEmailVerification() {
     const [verification, setVerification] = useState(false);
 
     const [message, setMessage] = useState('');
-
+    const [name, setName] = useState('');
+    const [id, setId] = useState('');
     const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
 
+    const DEFAULT_NAME = ValidationMessages.DEFAULT_NAME;
     const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
+    const loginId = getSessionStorages(StorageKeyword.USER_ID);
 
-    const idInputRef = useRef<HTMLInputElement>(null);
+    const nameInputRef = useRef<HTMLInputElement>(null);
     const emailInputRef = useRef<HTMLInputElement>(null);
     const codeInputRef = useRef<HTMLInputElement>(null);
     const [hasTimerStarted, setHasTimerStarted] = useState(false);
 
     const { timer, startTimer, resetTimer, isActive, setIsActive } =
         useTimer(300);
+    const [isVerificationSuccessful, setIsVerificationSuccessful] =
+        useState(false);
 
     const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
 
+    const [nameError, setNameError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [idError, setIdError] = useState(DEFAULT_ID);
-    const [id, setId] = useState('');
-
     useEffect(() => {
         if (id && email) {
             resetErrors(setIdError, setEmailError);
@@ -55,6 +70,11 @@ export default function MypageEmailVerification() {
         }
     }, [email, setIsActive]);
 
+    const onChangeName = useCallback(
+        handleInputChange(setName, setNameError, validateName),
+        []
+    );
+
     const onChangeEmail = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             setMessage('');
@@ -64,13 +84,17 @@ export default function MypageEmailVerification() {
         },
         []
     );
-
     const onChangeCode = useCallback((e: FormEvent<HTMLInputElement>) => {
         setCode(e.currentTarget.value);
         setMessage('');
     }, []);
 
-    const onChangeVerification = useCallback(() => {
+    const onSubmitSendCode = useCallback(async () => {
+        if (nameError || !name) {
+            errorInputCheck(nameInputRef.current);
+            return;
+        }
+
         if (emailError || !email) {
             errorInputCheck(emailInputRef.current);
             return;
@@ -78,15 +102,33 @@ export default function MypageEmailVerification() {
 
         if (email) {
             setMessage('');
-            setVerification(true);
             startTimer();
             setHasTimerStarted(true);
+            try {
+                const userData: SendPasswordCodeDTO = {
+                    userName: name,
+                    email: email,
+                    authenticationType:
+                        StorageKeyword.VERIFICATION_CODE_PASSWORD,
+                };
+                await SendPasswordCode(userData);
+                setVerification(true);
+                setIsVerificationSuccessful(true);
+            } catch (error) {
+                setMessage(ValidationMessages.INVALID_USER);
+                setIsVerificationSuccessful(false);
+            }
         }
     }, [startTimer, email, emailError]);
 
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
+            if (!isVerificationSuccessful) {
+                setMessage(t('REQUIRED_VERIFICATION_CODE'));
+                return;
+            }
+
             if (emailError || !email) {
                 errorInputCheck(emailInputRef.current);
                 return;
@@ -101,23 +143,63 @@ export default function MypageEmailVerification() {
                 return;
             }
 
-            if (email && code) {
+            if (email && code && isVerificationSuccessful) {
                 setMessage('');
-                const userData: MypageVerifyPasswordDTO = {
-                    id,
-                    email,
-                    verificationType: '비밀번호 변경',
+                const userData: VerifyCodePasswordDTO = {
+                    email: email,
+                    authenticationCode: code,
+                    authenticationType:
+                        StorageKeyword.VERIFICATION_CODE_PASSWORD,
                 };
-                await mypageVerifyPassword(userData);
-                navigate('/password/change');
+                try {
+                    await VerifyCodePassword(userData);
+                    navigate('/password/change', {
+                        state: {
+                            email: email,
+                            authenticationCode: code,
+                            authenticationType:
+                                StorageKeyword.VERIFICATION_CODE_PASSWORD,
+                            loginId: loginId,
+                        },
+                    });
+                } catch (error) {
+                    if (error === 40105) {
+                        setMessage(ValidationMessages.FAILED_VERIFICATION_CODE);
+                        return;
+                    }
+                    if (error === 5000) {
+                        setMessage(ValidationMessages.SERVER_ERROR);
+                        return;
+                    }
+                    setMessage(ValidationMessages.UNKNOWN_ERROR);
+                }
             }
         },
-        [id, email, idError, emailError, code]
+        [id, email, idError, emailError, code, isVerificationSuccessful]
     );
 
     return (
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
+                <section className="c-login__section">
+                    {nameError ? (
+                        <p className="error-message">{nameError}</p>
+                    ) : (
+                        <p>{DEFAULT_NAME}</p>
+                    )}
+                    <label htmlFor="name">이름</label>
+                    <input
+                        ref={nameInputRef}
+                        className="c-login__input"
+                        name="name"
+                        id="name"
+                        type="text"
+                        placeholder={ValidationMessages.REQUIRED_NAME}
+                        value={name}
+                        onChange={onChangeName}
+                        onInput={onChangeName}
+                    />
+                </section>
                 <section className="c-login__section">
                     {emailError ? (
                         <p className="error-message">{emailError}</p>
@@ -142,7 +224,7 @@ export default function MypageEmailVerification() {
                         <button
                             type="button"
                             className="button__rounded button__light"
-                            onClick={onChangeVerification}
+                            onClick={onSubmitSendCode}
                             disabled={isActive}
                         >
                             {hasTimerStarted
@@ -175,13 +257,13 @@ export default function MypageEmailVerification() {
                         </p>
                     </section>
                 )}
+                {message && <p className="message">{message}</p>}
                 <button
                     className="button__rounded button__orange"
                     type="submit"
                 >
                     {t('CHANGE_PASSWORD')}
                 </button>
-                {message && <p className="message">{message}</p>}
             </form>
         </div>
     );

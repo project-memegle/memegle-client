@@ -1,14 +1,13 @@
 import { AxiosError } from 'axios';
-import ValidationMessages from 'components/Validations/ValidationMessages';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
-import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { FormEvent, useCallback, useRef, useState } from 'react';
 import { handleApiError } from 'utils/API/handleApiError';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
-import { loginResetPassword } from 'services/PasswordService';
+import { ResetPassword } from 'services/PasswordService';
 import StorageKeyword from 'Constant/StorageKeyword';
 import { setSessionStorages } from 'utils/Storage/sessionStorage';
-import { LogInResetPasswordDTO } from 'services/dto/PasswordDto';
+import { ResetPasswordDTO } from 'services/dto/PasswordDto';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
@@ -52,16 +51,15 @@ export default function LogInResetPassword() {
             }
 
             if (password && passwordCheck) {
-                const userData: LogInResetPasswordDTO = {
+                const userData: ResetPasswordDTO = {
                     loginId: loginId,
                     password: password,
                     email: email,
                     authenticationType: authenticationType,
                     authenticationCode: authenticationCode,
                 };
-
                 try {
-                    await loginResetPassword(userData);
+                    await ResetPassword(userData);
                     setMessage(ValidationMessages.CHANGE_PASSWORD_SUCCESS);
                     setSessionStorages({
                         key: StorageKeyword.CHANGE_PASSWORD_SUCCESS,
