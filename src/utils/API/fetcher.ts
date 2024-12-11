@@ -33,9 +33,6 @@ instance.interceptors.request.use(
             );
             if (isAuthRequired) {
                 const token = getAccessToken();
-                console.log('token', token);
-                console.log('isAuthRequired', isAuthRequired);
-                console.log('AUTH_REQUIRED_URLS', AUTH_REQUIRED_URLS);
                 if (token) {
                     const headers = config.headers
                         ? new AxiosHeaders(config.headers)

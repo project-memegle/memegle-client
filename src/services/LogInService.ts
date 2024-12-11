@@ -33,7 +33,6 @@ export async function logIn(userData: LogInRequestDTO): Promise<void> {
             import.meta.env.VITE_REFRESH_TOKEN_STORE,
             'VITE_REFRESH_TOKEN_STORE'
         );
-
         setCookie(ACCESS_TOKEN, accessToken, accessTokenStore);
         setCookie(REFRESH_TOKENE, refreshToken, refreshTokenStore);
     } catch (error) {

@@ -34,32 +34,30 @@ import {
 const baseURL = import.meta.env.VITE_BASE_URL;
 
 export const handlers = [
+    http.post(`${baseURL}${SIGN_IN_URL}`, () => {
+        return passthrough();
+    }),
+
+    http.post(`${baseURL}${POST_VERIFICATION_URL}`, () => {
+        return passthrough();
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
+        });
+    }),
+    http.get(`${baseURL}${GET_USER_INFO_URL}`, () => {
+        return passthrough();
+    }),
+    http.post(`${baseURL}${SIGN_UP_URL}`, () => {
+        return passthrough();
+    }),
+
     http.post(`${baseURL}${VERIFY_ID_CODE_URL}`, () => {
         return HttpResponse.json({
             loginId: 'testloginid3',
         });
         return passthrough();
     }),
-
-    http.post(`${baseURL}${SIGN_IN_URL}`, () => {
-        return passthrough();
-        return new HttpResponse(null, {
-            status: 200,
-            statusText: 'OK',
-        });
-    }),
-
-    http.post(`${baseURL}${SIGN_UP_URL}`, () => {
-        return passthrough();
-    }),
-    http.post(`${baseURL}${POST_VERIFICATION_URL}`, () => {
-        // return passthrough();
-        return new HttpResponse(null, {
-            status: 200,
-            statusText: 'OK',
-        });
-    }),
-
     http.get(`${baseURL}${SEARC_BY_CATEGORY_URL}`, () => {
         return new HttpResponse(null, {
             status: 204,
