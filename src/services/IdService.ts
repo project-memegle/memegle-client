@@ -7,7 +7,7 @@ import {
 } from './dto/IdDto';
 
 export const CHECK_ID_URL = '/auth/login-id';
-export const POST_ID_SEARCH_URL = '/user/verify/apply/id';
+export const SEND_EMAIL_CODE = '/auth/email/send';
 export const VERIFY_ID_CODE_URL = '/user/login-id';
 
 export async function checkId(userData: checkIdRequestDTO): Promise<boolean> {
@@ -27,8 +27,9 @@ export async function postIdSearchCode(
     userData: IdSearchRequestDTO
 ): Promise<void> {
     try {
-        await post<void, IdSearchRequestDTO>(POST_ID_SEARCH_URL, userData);
+        await post<void, IdSearchRequestDTO>(SEND_EMAIL_CODE, userData);
     } catch (error) {
+        SEND_EMAIL_CODE;
         if (axios.isAxiosError(error)) {
             throw error.response?.data?.code;
         }

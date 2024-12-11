@@ -1,12 +1,15 @@
 export interface checkIdRequestDTO {
     loginId: string;
 }
+
 export interface IdSearchRequestDTO {
+    userName: string;
     email: string;
-    authenticationCode: 'ID';
+    authenticationType: string;
 }
+
 export interface IdSearchResponseDTO {
     email: string;
     authenticationCode: string;
-    authenticationType: 'ID';
+    authenticationType: string;
 }

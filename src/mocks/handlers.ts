@@ -4,7 +4,7 @@ import { SEARC_BY_CATEGORY_URL } from 'services/CategoryService';
 import { POST_CHAT_URL } from 'services/ChatService';
 import {
     CHECK_ID_URL,
-    POST_ID_SEARCH_URL,
+    SEND_EMAIL_CODE,
     VERIFY_ID_CODE_URL,
 } from 'services/IdService';
 import { SIGN_IN_URL } from 'services/LogInService';
@@ -26,10 +26,7 @@ import {
 import { SIGN_UP_URL } from 'services/SignupService';
 import { SEARC_BY_TAG_URL } from 'services/TagService';
 import { GET_USER_INFO_URL } from 'services/UserInfoService';
-import {
-    POST_VERIFICATION_URL,
-    VERIFY_VERIFICATION_URL,
-} from 'services/VerificationService';
+import { VERIFY_VERIFICATION_URL } from 'services/VerificationService';
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -38,16 +35,18 @@ export const handlers = [
         return passthrough();
     }),
 
-    http.post(`${baseURL}${POST_VERIFICATION_URL}`, () => {
-        return passthrough();
+    http.post(`${baseURL}${SEND_EMAIL_CODE}`, () => {
         return new HttpResponse(null, {
             status: 200,
             statusText: 'OK',
         });
+        return passthrough();
     }),
+
     http.get(`${baseURL}${GET_USER_INFO_URL}`, () => {
         return passthrough();
     }),
+
     http.post(`${baseURL}${SIGN_UP_URL}`, () => {
         return passthrough();
     }),
@@ -136,12 +135,7 @@ export const handlers = [
             statusText: 'OK',
         });
     }),
-    http.post(`${baseURL}${POST_ID_SEARCH_URL}`, () => {
-        return new HttpResponse(null, {
-            status: 200,
-            statusText: 'OK',
-        });
-    }),
+
     http.post(`${baseURL}${VERIFY_EMAIL_ID_URL}`, () => {
         return new HttpResponse(null, {
             status: 200,

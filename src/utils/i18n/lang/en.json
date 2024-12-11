@@ -20,7 +20,7 @@
   "VERIFICATION_NOTICE-2": " the \"Find ID/Password\" service.",
   "VERIFICATION_NOTICE-3": "Signing up is available without identity verification.",
   "VERIFICATION_SEND_CODE": "Send Code",
-  "VERIFICATION_ENTER_CODE": "Enter Code",
+  "VERIFICATION_ENTER_CODE": "This feature is currently under development. Please enter any text",
   "VERIFICATION_RESEND_CODE": "resend",
   "VERIFICATION_TIMEOVER": "Time Over",
   "VERIFICATION_COMPLETE": "Verify Email",

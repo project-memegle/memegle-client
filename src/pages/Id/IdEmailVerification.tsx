@@ -11,6 +11,8 @@ import { postIdSearchCode, verifyIdSearchCode } from 'services/IdService';
 import { IdSearchRequestDTO, IdSearchResponseDTO } from 'services/dto/IdDto';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
+import validateName from 'components/Validations/ValidateName';
+import StorageKeyword from 'Constant/StorageKeyword';
 
 export default function IdEmailVerification() {
     const navigate = useCustomNavigate();
@@ -18,20 +20,28 @@ export default function IdEmailVerification() {
     const { t } = useTranslation();
     const [verification, setVerification] = useState(false);
 
-    const [message, setMessage] = useState('');
+    const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
+    const DEFAULT_NAME = ValidationMessages.DEFAULT_NAME;
 
+    const [message, setMessage] = useState('');
+    const [nameError, setNameError] = useState(DEFAULT_NAME);
+
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
 
-    const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
-
     const [emailError, setEmailError] = useState(DEFAULT_EMAIL);
-
+    const nameInputRef = useRef<HTMLInputElement>(null);
     const emailInputRef = useRef<HTMLInputElement>(null);
     const codeInputRef = useRef<HTMLInputElement>(null);
     const [hasTimerStarted, setHasTimerStarted] = useState(false);
 
     const { timer, startTimer, resetTimer, isActive } = useTimer(300);
+
+    const onChangeName = useCallback(
+        handleInputChange(setName, setNameError, validateName),
+        []
+    );
 
     const onChangeEmail = useCallback(
         handleInputChange(setEmail, setEmailError, validateEmail),
@@ -42,16 +52,22 @@ export default function IdEmailVerification() {
         setCode(e.currentTarget.value);
     }, []);
 
-    const onChangeVerification = useCallback(async () => {
-        if (emailError) {
+    const onSubmitVerification = useCallback(async () => {
+        if (nameError || !name) {
+            errorInputCheck(nameInputRef.current);
+            return;
+        }
+
+        if (emailError || !email) {
             errorInputCheck(emailInputRef.current);
             return;
         }
 
-        if (email) {
+        if (email && name) {
             const userData: IdSearchRequestDTO = {
+                userName: name,
                 email: email,
-                authenticationCode: 'ID',
+                authenticationType: StorageKeyword.VERIFICATION_CODE_ID,
             };
             setMessage('');
             startTimer();
@@ -103,6 +119,21 @@ export default function IdEmailVerification() {
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
                 <section className="c-login__section">
+                    <p>{nameError ? nameError : DEFAULT_NAME}</p>
+                    <label htmlFor="name">이름</label>
+                    <input
+                        ref={nameInputRef}
+                        className="c-login__input"
+                        name="name"
+                        id="name"
+                        type="text"
+                        placeholder={ValidationMessages.REQUIRED_NAME}
+                        value={name}
+                        onChange={onChangeName}
+                        onInput={onChangeName}
+                    />
+                </section>
+                <section className="c-login__section">
                     <p>{emailError ? emailError : DEFAULT_EMAIL}</p>
                     <section className="c-login__section-verification">
                         <div>
@@ -122,7 +153,7 @@ export default function IdEmailVerification() {
                         <button
                             type="button"
                             className="button__rounded button__light"
-                            onClick={onChangeVerification}
+                            onClick={onSubmitVerification}
                             disabled={isActive}
                         >
                             {hasTimerStarted

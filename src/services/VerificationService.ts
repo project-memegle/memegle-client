@@ -4,8 +4,8 @@ import {
     VerificationRequestDTO,
     VerificationResponseDTO,
 } from './dto/VerificationDto';
+import { SEND_EMAIL_CODE } from './IdService';
 
-export const POST_VERIFICATION_URL = '/user/verify/apply';
 export const VERIFY_VERIFICATION_URL = '/user/verify/check';
 export async function postVerificationCode(
     userData: VerificationRequestDTO
@@ -14,7 +14,7 @@ export async function postVerificationCode(
         const response: AxiosResponse<void> = await post<
             void,
             VerificationRequestDTO
-        >(POST_VERIFICATION_URL, userData);
+        >(SEND_EMAIL_CODE, userData);
     } catch (error) {
         throw error;
     }
