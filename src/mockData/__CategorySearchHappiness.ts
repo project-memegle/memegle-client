@@ -55,7 +55,7 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
             imageCategory: 'birthday',
             createdAt: DATE,
             modifiedAt: DATE,
-            tagList: ['재롱잔치', '강아지지', 'dog'],
+            tagList: ['재롱잔치', '강아지', 'dog'],
         },
     ],
 };

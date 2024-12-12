@@ -39,7 +39,7 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
             imageCategory: 'tiredness',
             createdAt: DATE,
             modifiedAt: DATE,
-            tagList: ['정준하', '여기까지다', 'funnyman', 'simpson'],
+            tagList: ['정준하', '여기까지다', 'funnyman', 'sweaty'],
         },
         {
             id: 25,

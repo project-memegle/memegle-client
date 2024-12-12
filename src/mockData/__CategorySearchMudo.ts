@@ -71,7 +71,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             imageCategory: 'mudo',
             createdAt: DATE,
             modifiedAt: DATE,
-            tagList: ['노홍철', '왠방해', 'funnyman', 'noDisturb'],
+            tagList: ['노홍철', '웬방해', 'funnyman', 'noDisturb'],
         },
         {
             id: 39,

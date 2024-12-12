@@ -15,6 +15,7 @@ import MOCK_CATEGORY_RESULT_ANGER from 'mockData/__CategorySearchAnger';
 import MOCK_CATEGORY_RESULT_HUNGRY from 'mockData/__CategorySearchHungry';
 import MOCK_CATEGORY_RESULT_HAPINESS from 'mockData/__CategorySearchHappiness';
 import { getLastKeywordFromUrl } from 'utils/Event/saveUrl';
+import { useLocation } from 'react-router-dom';
 
 const mockDataMap: { [key: string]: SearchResultSectionDTO } = {
     mudo: MOCK_CATEGORY_RESULT_MUDO,
@@ -31,22 +32,36 @@ const mockDataMap: { [key: string]: SearchResultSectionDTO } = {
 export function ResultTag() {
     const [tagData, setTagData] = useState<SearchResultItemDTO[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const location = useLocation();
 
     useEffect(() => {
         const lastKeyword = getLastKeywordFromUrl<string>();
+        const decodedKeyword = decodeURIComponent(lastKeyword); // Decode the URL-encoded keyword
         setLoading(false);
-        if (typeof lastKeyword === 'string') {
+        if (typeof decodedKeyword === 'string') {
+            const normalizedKeyword = decodedKeyword.normalize('NFC'); // Normalize the keyword
+            console.log('Normalized Keyword:', normalizedKeyword); // Debugging log
             const filteredResults: SearchResultItemDTO[] = [];
             for (const value of Object.values(mockDataMap)) {
-                const matchingItems = value.results.filter((item) =>
-                    item.tagList.includes(lastKeyword)
-                );
+                const matchingItems = value.results.filter((item) => {
+                    const matches = item.tagList.some((tag) => {
+                        const normalizedTag = tag.normalize('NFC'); // Normalize the tag
+                        console.log(
+                            'Comparing:',
+                            normalizedTag,
+                            'with',
+                            normalizedKeyword
+                        ); // Debugging log
+                        return normalizedTag.includes(normalizedKeyword);
+                    });
+                    return matches;
+                });
                 filteredResults.push(...matchingItems);
             }
             setTagData(filteredResults);
-            console.log('Filtered tagData:', filteredResults);
+            console.log('Filtered tagData:', filteredResults); // Debugging log
         }
-    }, []);
+    }, [location]);
 
     return <ResultCommon searchBy={searchByTag} results={tagData} />;
 }
