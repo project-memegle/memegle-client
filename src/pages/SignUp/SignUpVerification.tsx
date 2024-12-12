@@ -21,6 +21,7 @@ import { LogInRequestDTO } from 'services/dto/LogInDto';
 import { logIn } from 'services/LogInService';
 import { useTranslation } from 'react-i18next';
 import getValidationMessages from 'components/Validations/ValidationMessages';
+import { VerifyCodePasswordDTO } from 'services/dto/PasswordDto';
 
 export default function SignUpVerification() {
     const navigate = useCustomNavigate();
@@ -153,9 +154,9 @@ export default function SignUpVerification() {
             }
 
             if (name && email && code) {
-                const userData: VerificationRequestDTO = {
-                    userName: name,
+                const userData: VerifyCodePasswordDTO = {
                     email: email,
+                    authenticationCode: code,
                     authenticationType: StorageKeyword.VERIFICATION_CODE_SIGNUP,
                 };
                 setMessage('');

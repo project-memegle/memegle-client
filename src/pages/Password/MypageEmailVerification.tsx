@@ -1,23 +1,16 @@
-import { AxiosError } from 'axios';
 import validateEmail from 'components/Validations/ValidateEmail';
-import validateId from 'components/Validations/ValidateId';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import useTimer from 'hooks/useTimer';
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { handleApiError } from 'utils/API/handleApiError';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import formatTime from 'utils/Format/formatTime';
 import handleInputChange from 'utils/Event/handleInputChange';
-import { getPreviousUrl } from 'utils/Event/saveUrl';
-import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
 import { resetErrors } from 'utils/Event/resetError';
 import {
     VerifyCodePassword,
-    mypageVerifyPassword,
     SendPasswordCode,
 } from 'services/PasswordService';
 import {
-    MypageVerifyPasswordDTO,
     SendPasswordCodeDTO,
     VerifyCodePasswordDTO,
 } from 'services/dto/PasswordDto';

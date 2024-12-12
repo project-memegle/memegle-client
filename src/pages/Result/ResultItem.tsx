@@ -19,7 +19,7 @@ export default function ResultItem({ result, onOpenModal }: ResultItemProps) {
     const [toast, setToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [favoriteList, setFavoriteList] = useState<
-        { id: number; imageUrl: string }[]
+        { id: number; imageUrl: string; tagList: string[] }[]
     >([]);
     const ValidationMessages = getValidationMessages();
 

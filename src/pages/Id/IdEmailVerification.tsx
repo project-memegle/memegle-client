@@ -1,5 +1,5 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import  { AxiosError } from 'axios';
 import validateEmail from 'components/Validations/ValidateEmail';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import useTimer from 'hooks/useTimer';
@@ -8,7 +8,6 @@ import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import handleInputChange from 'utils/Event/handleInputChange';
 import formatTime from 'utils/Format/formatTime';
 import { postIdSearchCode, verifyIdSearchCode } from 'services/IdService';
-import { IdSearchRequestDTO } from 'services/dto/IdDto';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
 import validateName from 'components/Validations/ValidateName';
