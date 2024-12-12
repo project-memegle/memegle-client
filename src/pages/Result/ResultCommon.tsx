@@ -69,6 +69,8 @@ export function ResultCommon({ searchBy }: ResultCommonProps) {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [modalTagList, setModalTagList] = useState<string[]>([]);
+
+
     const handleOpenModal = (imageUrl: string, tagList: string[]) => {
         setModalImageUrl(imageUrl);
         setModalTagList(tagList);
