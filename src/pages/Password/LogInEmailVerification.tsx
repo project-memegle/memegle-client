@@ -137,6 +137,10 @@ export default function LogInEmailVerification() {
                         setMessage(ValidationMessages.FAILED_VERIFICATION_CODE);
                         return;
                     }
+                    if (error === 40001) {
+                        setMessage(ValidationMessages.INVALID_CODE_TYPE);
+                        return;
+                    }
                     if (error === 5000) {
                         setMessage(ValidationMessages.SERVER_ERROR);
                         return;
@@ -257,13 +261,13 @@ export default function LogInEmailVerification() {
                     </button>
                 </section>
                 <section className="c-login__button-section">
+                    {message && <p className="message">{message}</p>}
                     <button
                         className="button__rounded button__orange"
                         type="submit"
                     >
                         {t('FIND_PASSWORD')}
                     </button>
-                    {message && <p className="message">{message}</p>}
                 </section>
             </form>
         </div>

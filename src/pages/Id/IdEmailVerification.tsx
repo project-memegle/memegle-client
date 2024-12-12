@@ -8,11 +8,13 @@ import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import handleInputChange from 'utils/Event/handleInputChange';
 import formatTime from 'utils/Format/formatTime';
 import { postIdSearchCode, verifyIdSearchCode } from 'services/IdService';
-import { IdSearchRequestDTO, IdSearchResponseDTO } from 'services/dto/IdDto';
+import { IdSearchRequestDTO } from 'services/dto/IdDto';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
 import validateName from 'components/Validations/ValidateName';
 import StorageKeyword from 'Constant/StorageKeyword';
+import { VerifyCodePasswordDTO } from 'services/dto/PasswordDto';
+import { VerificationRequestDTO } from 'services/dto/VerificationDto';
 
 export default function IdEmailVerification() {
     const navigate = useCustomNavigate();
@@ -64,7 +66,7 @@ export default function IdEmailVerification() {
         }
 
         if (email && name) {
-            const userData: IdSearchRequestDTO = {
+            const userData: VerificationRequestDTO = {
                 userName: name,
                 email: email,
                 authenticationType: StorageKeyword.VERIFICATION_CODE_ID,
@@ -96,7 +98,7 @@ export default function IdEmailVerification() {
             }
 
             if (email && code && verification) {
-                const userData: IdSearchResponseDTO = {
+                const userData: VerifyCodePasswordDTO = {
                     email: email,
                     authenticationCode: code,
                     authenticationType: StorageKeyword.VERIFICATION_CODE_ID,
@@ -108,7 +110,19 @@ export default function IdEmailVerification() {
                         state: { loginId: response.data.loginId },
                     });
                 } catch (error) {
-                    handleApiError(error as AxiosError, setMessage);
+                    if (error === 40105) {
+                        setMessage(ValidationMessages.FAILED_VERIFICATION_CODE);
+                        return;
+                    }
+                    if (error === 40001) {
+                        setMessage(ValidationMessages.INVALID_CODE_TYPE);
+                        return;
+                    }
+                    if (error === 5000) {
+                        setMessage(ValidationMessages.SERVER_ERROR);
+                        return;
+                    }
+                    setMessage(ValidationMessages.UNKNOWN_ERROR);
                 }
             }
         },
@@ -206,13 +220,13 @@ export default function IdEmailVerification() {
                         <p>{t('GO_VERIFY_EMAIL')}</p>
                     </button>
                 </section>
+                {message && <p className="message">{message}</p>}
                 <button
                     className="button__rounded button__orange"
                     type="submit"
                 >
                     {t('FIND_ID')}
                 </button>
-                {message && <p className="message">{message}</p>}
             </form>
         </div>
     );

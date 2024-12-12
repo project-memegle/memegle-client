@@ -83,9 +83,10 @@ export const setupInterceptors = (navigate: (path: string) => void) => {
         async (error: AxiosError) => {
             const originalRequest = error.config;
             if (originalRequest && AUTH_REQUIRED_URLS.length > 1) {
-                const isAuthRequired = AUTH_REQUIRED_URLS.some((url) =>
-                    originalRequest.url?.startsWith(url)
-                );
+                const isAuthRequired =
+                    AUTH_REQUIRED_URLS.some((url) =>
+                        originalRequest.url?.startsWith(url)
+                    ) && !originalRequest.url?.includes('auth');
                 if (!isAuthRequired) {
                     return Promise.reject(error as AxiosError);
                 }
@@ -94,17 +95,17 @@ export const setupInterceptors = (navigate: (path: string) => void) => {
                     return Promise.reject(error);
                 }
                 if (error.response?.status === 401) {
-                    try {
-                        headers.set('x-retry', 'true');
-                        originalRequest.headers = headers;
-                        return await refreshAccessToken(
-                            originalRequest,
-                            navigate
-                        );
-                    } catch (refreshError) {
-                        navigate('/login');
-                        return Promise.reject(refreshError);
-                    }
+                    // try {
+                    //     headers.set('x-retry', 'true');
+                    //     originalRequest.headers = headers;
+                    //     return await refreshAccessToken(
+                    //         originalRequest,
+                    //         navigate
+                    //     );
+                    // } catch (refreshError) {
+                    //     navigate('/login');
+                    //     return Promise.reject(refreshError);
+                    // }
                 }
             }
             return Promise.reject(error);

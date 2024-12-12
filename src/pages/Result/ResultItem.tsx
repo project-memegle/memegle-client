@@ -81,7 +81,6 @@ export default function ResultItem({ result, onOpenModal }: ResultItemProps) {
             setToastMessage(ValidationMessages.SUCCESS_DELETE_IMG);
             setToast(true);
         } catch (error) {
-            console.error(error);
             setToastMessage(ValidationMessages.FAILED_EVENT);
             setToast(true);
         }

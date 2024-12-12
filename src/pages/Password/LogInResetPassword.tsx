@@ -123,6 +123,7 @@ export default function LogInResetPassword() {
                         </div>
                     </section>
                 </div>
+                {message && <p className="message">{message}</p>}
                 <button
                     className="button__rounded button__orange"
                     type="submit"
@@ -130,7 +131,6 @@ export default function LogInResetPassword() {
                     {t('CHANGE_PASSWORD')}
                 </button>
             </form>
-            {message && <p className="message">{message}</p>}
         </div>
     );
 }

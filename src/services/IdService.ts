@@ -9,6 +9,7 @@ import {
 export const CHECK_ID_URL = '/auth/login-id';
 export const SEND_EMAIL_CODE = '/auth/email/send';
 export const VERIFY_AUTH_CODE_URL = '/auth/email';
+export const FIND_USER_ID_URL = '/users/login-id';
 
 export async function checkId(userData: checkIdRequestDTO): Promise<boolean> {
     try {
@@ -44,7 +45,7 @@ export async function verifyIdSearchCode(
         const response: AxiosResponse<{ loginId: string }> = await post<
             { loginId: string },
             IdSearchResponseDTO
-        >(VERIFY_AUTH_CODE_URL, userData);
+        >(FIND_USER_ID_URL, userData);
         return response;
     } catch (error) {
         if (axios.isAxiosError(error)) {
