@@ -17,6 +17,22 @@
     &:hover {
       cursor: pointer;
     }
+
+    .tag-list__item {
+      padding: 0.3rem 0.8rem;
+    }
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .modal__container {
+    gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
   }
 
   .modal__content {
@@ -26,6 +42,9 @@
     position: relative;
     justify-content: center;
     align-items: center;
+
+    max-width: 500px;
+    max-height: 500px;
     p {
       color: colors.$white;
     }

@@ -1,11 +1,9 @@
-import { useState } from 'react';
 import { SearchResultItemDTO } from 'services/dto/ResultDto';
 import ResultItem from './ResultItem';
-import ImageModal from 'components/UI/Result/ImageModal';
 
 interface ResultSectionProps {
     results: SearchResultItemDTO[];
-    onOpenModal: (imageUrl: string) => void;
+    onOpenModal: (imageUrl: string, tagList: string[]) => void;
 }
 
 export default function ResultSection({
@@ -18,7 +16,9 @@ export default function ResultSection({
                 <ResultItem
                     key={result.id}
                     result={result}
-                    onOpenModal={onOpenModal}
+                    onOpenModal={() =>
+                        onOpenModal(result.imageUrl, result.tagList)
+                    }
                 />
             ))}
         </section>

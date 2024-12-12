@@ -9,7 +9,10 @@ import {
     deleteSearchHistroy,
     getSearchHistory,
 } from 'utils/Storage/localStorage';
-import { SearchResultSectionDTO } from 'services/dto/ResultDto';
+import {
+    SearchResultItemDTO,
+    SearchResultSectionDTO,
+} from 'services/dto/ResultDto';
 import Result from 'components/UI/Result/Result';
 
 import MOCK_CATEGORY_RESULT_MUDO from 'mockData/__CategorySearchMudo';
@@ -21,6 +24,7 @@ import MOCK_CATEGORY_RESULT_SAD from 'mockData/__CategorySearchSad';
 import MOCK_CATEGORY_RESULT_ANGER from 'mockData/__CategorySearchAnger';
 import MOCK_CATEGORY_RESULT_HUNGRY from 'mockData/__CategorySearchHungry';
 import MOCK_CATEGORY_RESULT_HAPINESS from 'mockData/__CategorySearchHappiness';
+import useCustomNavigate from 'hooks/useCustomNaviaget';
 
 type OutletContextType = {
     searchTerm: string;
@@ -37,6 +41,7 @@ interface SearchByParams {
 
 interface ResultCommonProps {
     searchBy: (params: SearchByParams) => void;
+    results?: SearchResultItemDTO[];
 }
 
 const mockDataMap: { [key: string]: any } = {
@@ -51,7 +56,7 @@ const mockDataMap: { [key: string]: any } = {
     happiness: MOCK_CATEGORY_RESULT_HAPINESS,
 };
 
-export function ResultCommon({ searchBy }: ResultCommonProps) {
+export function ResultCommon({ searchBy, results }: ResultCommonProps) {
     const [modalVisible, setModalVisible] = useState(false);
     const [modalImageUrl, setModalImageUrl] = useState('');
     const {
@@ -62,21 +67,24 @@ export function ResultCommon({ searchBy }: ResultCommonProps) {
 
     const [searchHistory, setSearchHistory] =
         useState<string[]>(initialSearchHistory);
-
     const [content, setContent] = useState<ReactNode>(null);
     const [resultData, setResultData] = useState<SearchResultSectionDTO | null>(
         null
     );
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const handleOpenModal = (imageUrl: string) => {
+    const [modalTagList, setModalTagList] = useState<string[]>([]);
+    const navigate = useCustomNavigate();
+
+    const handleOpenModal = (imageUrl: string, tagList: string[]) => {
         setModalImageUrl(imageUrl);
+        setModalTagList(tagList);
         setModalVisible(true);
     };
-
     const handleCloseModal = () => {
         setModalVisible(false);
         setModalImageUrl('');
+        setModalTagList([]);
     };
 
     useEffect(() => {
@@ -117,6 +125,16 @@ export function ResultCommon({ searchBy }: ResultCommonProps) {
             setContent(<p>{error}</p>);
             return;
         }
+
+        if (results && results.length > 0) {
+            setContent(
+                <ResultSection
+                    results={results}
+                    onOpenModal={handleOpenModal}
+                />
+            );
+            return;
+        }
         if (resultData && resultData.results.length > 0) {
             setContent(
                 <ResultSection
@@ -132,10 +150,11 @@ export function ResultCommon({ searchBy }: ResultCommonProps) {
                 <img src={emptyIcon} alt="empty" />
             </div>
         );
-    }, [loading, error, resultData]);
+    }, [loading, error, resultData, results]);
 
     function searchWithHistory(searchText: string) {
         setSearchTerm(searchText);
+        navigate(`/tag/${searchText}`);
         searchBy({ searchText, setLoading, setResultData, setError });
     }
 
@@ -149,6 +168,7 @@ export function ResultCommon({ searchBy }: ResultCommonProps) {
             modalVisible={modalVisible}
             modalImageUrl={modalImageUrl}
             handleCloseModal={handleCloseModal}
+            tagList={modalTagList}
         />
     );
 }

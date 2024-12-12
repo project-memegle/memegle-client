@@ -15,7 +15,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
             imageCategory: 'birthday',
             createdAt: DATE,
             modifiedAt: DATE,
-            taglist: ['고양이', 'cat', 'kitty'],
+            tagList: ['고양이', 'cat', 'kitty'],
         },
         {
             id: 52,
@@ -23,7 +23,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
             imageCategory: 'happiness',
             createdAt: DATE,
             modifiedAt: DATE,
-            taglist: ['전광렬', '노래부르기', 'singingman', 'happyman'],
+            tagList: ['전광렬', '노래부르기', 'singingman', 'happyman'],
         },
         {
             id: 23,
@@ -31,7 +31,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
             imageCategory: 'tiredness',
             createdAt: DATE,
             modifiedAt: DATE,
-            taglist: ['고양이', '시무룩', 'sadkitten', 'sadCat'],
+            tagList: ['고양이', '시무룩', 'sadkitten', 'sadCat'],
         },
         {
             id: 14,
@@ -39,7 +39,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
             imageCategory: 'what',
             createdAt: DATE,
             modifiedAt: DATE,
-            taglist: ['피글렛', '뭐야', 'piglet', 'huh'],
+            tagList: ['피글렛', '뭐야', 'piglet', 'huh'],
         },
         {
             id: 65,
@@ -47,7 +47,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,
-            taglist: ['플렉스', '카드긁기', 'card'],
+            tagList: ['플렉스', '카드긁기', 'card'],
         },
         {
             id: 37,
@@ -55,7 +55,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
             imageCategory: 'mudo',
             createdAt: DATE,
             modifiedAt: DATE,
-            taglist: ['유재석', '문잠가', 'funnyman'],
+            tagList: ['유재석', '문잠가', 'funnyman'],
         },
         {
             id: 98,
@@ -63,7 +63,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
             imageCategory: 'anger',
             createdAt: DATE,
             modifiedAt: DATE,
-            taglist: ['angryman', '돌팔매', '사라져라'],
+            tagList: ['angryman', '돌팔매', '사라져라'],
         },
         {
             id: 49,
@@ -71,7 +71,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
             imageCategory: 'hunger',
             createdAt: DATE,
             modifiedAt: DATE,
-            taglist: ['참이슬', '루피', 'soju', 'seal'],
+            tagList: ['참이슬', '루피', 'soju', 'seal'],
         },
     ],
 };

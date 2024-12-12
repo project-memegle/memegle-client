@@ -26,7 +26,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
             setLocalSearchTerm('');
         }
     }, [location]);
-    
+
     useEffect(() => {
         setLocalSearchTerm(searchTerm);
     }, [searchTerm]);
@@ -38,7 +38,6 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
     const handleSearchSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         const trimmedTerm = localSearchTerm.trim();
-
         if (trimmedTerm) {
             onSearch(trimmedTerm);
             addSearchHistory(trimmedTerm);
