@@ -4,13 +4,14 @@ import { useTranslation } from 'react-i18next';
 
 type ResultProps = {
     searchHistory: string[];
-    searchWithHistory?: (tag: string) => void | undefined;
+    searchWithHistory?: (searchItem: string) => void | undefined;
     handleTagRemove: (index: number) => void;
     clearSearchHistory: () => void;
     modalVisible: boolean;
     modalImageUrl: string;
     handleCloseModal: () => void;
     content: ReactNode;
+    tagList: string[];
 };
 
 export default function Result({
@@ -22,21 +23,23 @@ export default function Result({
     modalVisible,
     modalImageUrl,
     handleCloseModal,
+    tagList,
 }: ResultProps) {
     const { t } = useTranslation();
     return (
         <main className="home__main c-result">
             <section className="c-result__searchHistory">
                 <ul className="tag-list">
-                    {searchHistory.map((tag, index) => (
+                    {searchHistory.map((searchItem, index) => (
                         <li
                             className="tag-list__item"
                             key={index}
                             onClick={() =>
-                                searchWithHistory && searchWithHistory(tag)
+                                searchWithHistory &&
+                                searchWithHistory(searchItem)
                             }
                         >
-                            {tag}
+                            {searchItem}
                             <span
                                 className="cross"
                                 onClick={(e) => {
@@ -60,6 +63,7 @@ export default function Result({
                 <ImageModal
                     imageUrl={modalImageUrl}
                     onClose={handleCloseModal}
+                    tagList={tagList}
                 />
             )}
         </main>

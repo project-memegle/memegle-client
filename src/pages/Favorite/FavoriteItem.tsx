@@ -1,5 +1,4 @@
 import { CSSProperties, forwardRef, HTMLAttributes, useState } from 'react';
-import ValidationMessages from 'components/Validations/ValidationMessages';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 import { SearchResultItemDTO } from 'services/dto/ResultDto';
 import handleCopyImage from 'utils/Event/handleCopyImage';
@@ -8,7 +7,7 @@ type FavoriteItemProps = {
     item: SearchResultItemDTO;
     isOpacityEnabled?: boolean;
     isDragging?: boolean;
-    onOpenModal: (imageUrl: string) => void;
+    onOpenModal: (imageUrl: string, tagList: string[]) => void;
     onDelete: (id: number) => void;
     onSave: () => void;
 } & HTMLAttributes<HTMLDivElement>;
@@ -47,7 +46,7 @@ const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
                 item.imageUrl,
                 setToastMessage,
                 setToast,
-                () => onOpenModal(item.imageUrl)
+                () => onOpenModal(item.imageUrl, item.tagList)
             );
         }
 

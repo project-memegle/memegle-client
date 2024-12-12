@@ -62,21 +62,22 @@ export function ResultCommon({ searchBy }: ResultCommonProps) {
 
     const [searchHistory, setSearchHistory] =
         useState<string[]>(initialSearchHistory);
-
     const [content, setContent] = useState<ReactNode>(null);
     const [resultData, setResultData] = useState<SearchResultSectionDTO | null>(
         null
     );
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const handleOpenModal = (imageUrl: string) => {
+    const [modalTagList, setModalTagList] = useState<string[]>([]);
+    const handleOpenModal = (imageUrl: string, tagList: string[]) => {
         setModalImageUrl(imageUrl);
+        setModalTagList(tagList);
         setModalVisible(true);
     };
-
     const handleCloseModal = () => {
         setModalVisible(false);
         setModalImageUrl('');
+        setModalTagList([]);
     };
 
     useEffect(() => {
@@ -149,6 +150,7 @@ export function ResultCommon({ searchBy }: ResultCommonProps) {
             modalVisible={modalVisible}
             modalImageUrl={modalImageUrl}
             handleCloseModal={handleCloseModal}
+            tagList={modalTagList}
         />
     );
 }

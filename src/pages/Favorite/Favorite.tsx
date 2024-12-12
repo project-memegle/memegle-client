@@ -40,6 +40,17 @@ export default function Favorite() {
         useState<SearchResultSectionDTO>(MOCK_FAVORITE_LIST);
     const ValidationMessages = getValidationMessages();
     const { t } = useTranslation();
+    const tootTipMessage = t('FAVORITE_TOOLTIP');
+
+    const [toast, setToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+    const [tooltipVisible, setTooltipVisible] = useState(true);
+
+    const [activeItem, setActiveItem] = useState<SearchResultItemDTO>();
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalImageUrl, setModalImageUrl] = useState('');
+    const [modalTagList, setModalTagList] = useState<string[]>([]);
+
     useEffect(() => {
         const originFavoriteList = getArraySessionStorages(SESSION_STORAGE_KEY);
         if (originFavoriteList && originFavoriteList.length > 0) {
@@ -50,6 +61,7 @@ export default function Favorite() {
                     imageCategory: '',
                     createdAt: '',
                     modifiedAt: '',
+                    tagList: item.tagList,
                 })),
             }));
         } else {
@@ -62,18 +74,12 @@ export default function Favorite() {
                     imageCategory: item.imageCategory,
                     createdAt: item.createdAt,
                     modifiedAt: item.modifiedAt,
+                    tagList: item.tagList,
                 })),
             });
         }
     }, []);
 
-    const [toast, setToast] = useState(false);
-    const [toastMessage, setToastMessage] = useState('');
-    const [tooltipVisible, setTooltipVisible] = useState(true);
-
-    const [activeItem, setActiveItem] = useState<SearchResultItemDTO>();
-    const [modalVisible, setModalVisible] = useState(false);
-    const [modalImageUrl, setModalImageUrl] = useState('');
     const sensors = useSensors(
         useSensor(TouchSensor),
         useSensor(PointerSensor, {
@@ -82,14 +88,17 @@ export default function Favorite() {
             },
         })
     );
-    const handleOpenModal = (imageUrl: string) => {
+
+    const handleOpenModal = (imageUrl: string, tagList: string[]) => {
         setModalImageUrl(imageUrl);
+        setModalTagList(tagList);
         setModalVisible(true);
     };
 
     const handleCloseModal = () => {
         setModalVisible(false);
         setModalImageUrl('');
+        setModalTagList([]);
     };
 
     const handleDragStart = (event: DragStartEvent) => {
@@ -136,6 +145,7 @@ export default function Favorite() {
         const itemIds = items.results.map((item) => ({
             id: item.id,
             imageUrl: item.imageUrl,
+            tagList: item.tagList,
         }));
         setArraySessionStorages({
             key: SESSION_STORAGE_KEY,
@@ -160,6 +170,7 @@ export default function Favorite() {
                 value: updatedItems.map((item) => ({
                     id: item.id,
                     imageUrl: item.imageUrl,
+                    tagList: item.tagList,
                 })),
             });
             return { ...prev, results: updatedItems };
@@ -175,11 +186,11 @@ export default function Favorite() {
             setToast(true);
         }
     }
-    const tootTipMessage = t('FAVORITE_TOOLTIP');
 
     function closeTooltip() {
         setTooltipVisible(false);
     }
+
     return (
         <main className="home__main c-favorite">
             {tooltipVisible && (
@@ -236,6 +247,7 @@ export default function Favorite() {
                 <ImageModal
                     imageUrl={modalImageUrl}
                     onClose={handleCloseModal}
+                    tagList={modalTagList}
                 />
             )}
         </main>

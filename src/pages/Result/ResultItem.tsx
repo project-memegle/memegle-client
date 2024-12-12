@@ -12,7 +12,7 @@ import DownloadLink from 'components/UI/Result/DownloadLink';
 
 interface ResultItemProps {
     result: SearchResultItemDTO;
-    onOpenModal: (imageUrl: string) => void;
+    onOpenModal: (imageUrl: string, tagList: string[]) => void;
 }
 
 export default function ResultItem({ result, onOpenModal }: ResultItemProps) {
@@ -29,9 +29,10 @@ export default function ResultItem({ result, onOpenModal }: ResultItemProps) {
     }, []);
 
     async function handleCopy() {
-        await handleCopyImage(result.imageUrl, setToastMessage, setToast, () => onOpenModal(result.imageUrl));
+        await handleCopyImage(result.imageUrl, setToastMessage, setToast, () =>
+            onOpenModal(result.imageUrl, result.tagList)
+        );
     }
-
     //todo : API 로 바꾸기
     function addToFavoriteApi({
         id,
@@ -39,6 +40,7 @@ export default function ResultItem({ result, onOpenModal }: ResultItemProps) {
         imageCategory,
         createdAt,
         modifiedAt,
+        tagList,
     }: SearchResultItemDTO) {
         const favoriteList = getArraySessionStorages(SESSION_STORAGE_KEY) || [];
         const favoriteItem = {
@@ -47,6 +49,7 @@ export default function ResultItem({ result, onOpenModal }: ResultItemProps) {
             imageCategory,
             createdAt,
             modifiedAt,
+            tagList,
         };
         favoriteList.push(favoriteItem);
         setArraySessionStorages({
@@ -62,7 +65,6 @@ export default function ResultItem({ result, onOpenModal }: ResultItemProps) {
             setToastMessage(ValidationMessages.SUCCESS_ADD_FAVORITE);
             setToast(true);
         } catch (error) {
-            console.error(error);
             setToastMessage(ValidationMessages.FAILED_EVENT);
             setToast(true);
         }

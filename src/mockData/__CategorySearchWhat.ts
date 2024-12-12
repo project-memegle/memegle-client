@@ -15,7 +15,7 @@ const MOCK_CATEGORY_RESULT_WHAT: SearchResultSectionDTO = {
             imageCategory: 'what',
             createdAt: DATE,
             modifiedAt: DATE,
-            taglist: ['피글렛', '뭐야', 'piglet', 'huh'],
+            tagList: ['피글렛', '뭐야', 'piglet', 'huh'],
         },
         {
             id: 12,
@@ -23,7 +23,7 @@ const MOCK_CATEGORY_RESULT_WHAT: SearchResultSectionDTO = {
             imageCategory: 'what',
             createdAt: DATE,
             modifiedAt: DATE,
-            taglist: ['푸우', '뭐라고', 'pooh', 'hmm'],
+            tagList: ['푸우', '뭐라고', 'pooh', 'hmm'],
         },
         {
             id: 13,
@@ -31,7 +31,7 @@ const MOCK_CATEGORY_RESULT_WHAT: SearchResultSectionDTO = {
             imageCategory: 'what',
             createdAt: DATE,
             modifiedAt: DATE,
-            taglist: ['생선', '스폰지밥', 'awkward'],
+            tagList: ['생선', '스폰지밥', 'awkward'],
         },
         {
             id: 14,
@@ -39,7 +39,7 @@ const MOCK_CATEGORY_RESULT_WHAT: SearchResultSectionDTO = {
             imageCategory: 'what',
             createdAt: DATE,
             modifiedAt: DATE,
-            taglist: ['문상훈', '별일이다있네', 'funnyman'],
+            tagList: ['문상훈', '별일이다있네', 'funnyman'],
         },
     ],
 };

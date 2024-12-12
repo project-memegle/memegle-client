@@ -4,7 +4,7 @@ type sessionStorageType = {
 };
 type sessionStorageArrayType = {
     key: string;
-    value: { id: number; imageUrl: string }[];
+    value: { id: number; imageUrl: string; tagList: string[] }[];
 };
 
 export function setSessionStorages({ key, value }: sessionStorageType): void {
@@ -14,7 +14,7 @@ export function setArraySessionStorages({
     key,
     value,
 }: sessionStorageArrayType): void {
-    const jsonValue = JSON.stringify(value); // Convert array to JSON string
+    const jsonValue = JSON.stringify(value);
     sessionStorage.setItem(key, jsonValue);
 }
 
@@ -24,7 +24,7 @@ export function getSessionStorages(key: string): string | null {
 
 export function getArraySessionStorages(
     key: string
-): { id: number; imageUrl: string }[] | null {
+): { id: number; imageUrl: string; tagList: string[] }[] | null {
     const jsonValue = sessionStorage.getItem(key);
     return jsonValue ? JSON.parse(jsonValue) : null;
 }
