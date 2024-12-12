@@ -1,44 +1,65 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
-import { AxiosError } from 'axios';
 import validateId from '../../components/Validations/ValidateId';
 import handleInputChange from 'utils/Event/handleInputChange';
 import validateEmail from 'components/Validations/ValidateEmail';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
-import { handleApiError } from 'utils/API/handleApiError';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
-import { loginVerifyPassword, verifyIdEmail } from 'services/PasswordService';
+import { VerifyCodePassword, SendPasswordCode } from 'services/PasswordService';
 import useTimer from 'hooks/useTimer';
 import formatTime from 'utils/Format/formatTime';
 import {
-    LoginVerifyIdEmailDTO,
-    LoginVerifyPasswordDTO,
+    VerifyCodePasswordDTO,
+    SendPasswordCodeDTO,
 } from 'services/dto/PasswordDto';
 import getValidationMessages from '../../components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
+import StorageKeyword from 'Constant/StorageKeyword';
+import validateName from 'components/Validations/ValidateName';
 
 export default function LogInEmailVerification() {
     const navigate = useCustomNavigate();
     const ValidationMessages = getValidationMessages();
     const { t } = useTranslation();
+
     const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
+    const DEFAULT_NAME = ValidationMessages.DEFAULT_NAME;
+    const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
 
     const [verification, setVerification] = useState(false);
     const [isVerificationSuccessful, setIsVerificationSuccessful] =
         useState(false);
 
+    const [id, setId] = useState('');
+    const [idError, setIdError] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [nameError, setNameError] = useState('');
 
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
 
     const [message, setMessage] = useState('');
 
+    const idInputRef = useRef<HTMLInputElement>(null);
+    const nameInputRef = useRef<HTMLInputElement>(null);
     const emailInputRef = useRef<HTMLInputElement>(null);
     const codeInputRef = useRef<HTMLInputElement>(null);
 
     const [hasTimerStarted, setHasTimerStarted] = useState(false);
 
     const { timer, startTimer, resetTimer, isActive } = useTimer(300);
+
+    const onChangeId = useCallback(
+        handleInputChange(setId, setIdError, validateId, () => {
+            setMessage('');
+        }),
+        []
+    );
+
+    const onChangeName = useCallback(
+        handleInputChange(setName, setNameError, validateName),
+        []
+    );
 
     const onChangeEmail = useCallback(
         handleInputChange(setEmail, setEmailError, validateEmail),
@@ -48,6 +69,38 @@ export default function LogInEmailVerification() {
     const onChangeCode = useCallback((e: FormEvent<HTMLInputElement>) => {
         setCode(e.currentTarget.value);
     }, []);
+
+    const onSubmitSendCode = useCallback(async () => {
+        if (nameError || !name) {
+            errorInputCheck(nameInputRef.current);
+            return;
+        }
+
+        if (emailError || !email) {
+            errorInputCheck(emailInputRef.current);
+            return;
+        }
+
+        if (email) {
+            setMessage('');
+            startTimer();
+            setHasTimerStarted(true);
+            try {
+                const userData: SendPasswordCodeDTO = {
+                    userName: name,
+                    email: email,
+                    authenticationType:
+                        StorageKeyword.VERIFICATION_CODE_PASSWORD,
+                };
+                await SendPasswordCode(userData);
+                setVerification(true);
+                setIsVerificationSuccessful(true);
+            } catch (error) {
+                setMessage(ValidationMessages.INVALID_USER);
+                setIsVerificationSuccessful(false);
+            }
+        }
+    }, [startTimer, email, emailError, name, nameError]);
 
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
@@ -62,48 +115,82 @@ export default function LogInEmailVerification() {
             }
             if (email && code && isVerificationSuccessful) {
                 setMessage('');
-                const userData: LoginVerifyPasswordDTO = {
-                    email,
-                    verificationType: '비밀번호 찾기',
+                const userData: VerifyCodePasswordDTO = {
+                    email: email,
+                    authenticationCode: code,
+                    authenticationType:
+                        StorageKeyword.VERIFICATION_CODE_PASSWORD,
                 };
                 try {
-                    await loginVerifyPassword(userData);
-                    navigate('/find/password/reset');
+                    await VerifyCodePassword(userData);
+                    navigate('/find/password/reset', {
+                        state: {
+                            email: email,
+                            authenticationCode: code,
+                            authenticationType:
+                                StorageKeyword.VERIFICATION_CODE_PASSWORD,
+                            loginId: 'testloginid1',
+                        },
+                    });
                 } catch (error) {
-                    handleApiError(error as AxiosError, setMessage);
+                    if (error === 40105) {
+                        setMessage(ValidationMessages.FAILED_VERIFICATION_CODE);
+                        return;
+                    }
+                    if (error === 40001) {
+                        setMessage(ValidationMessages.INVALID_CODE_TYPE);
+                        return;
+                    }
+                    if (error === 5000) {
+                        setMessage(ValidationMessages.SERVER_ERROR);
+                        return;
+                    }
+                    setMessage(ValidationMessages.UNKNOWN_ERROR);
                 }
             }
         },
         [email, code, emailError, isVerificationSuccessful, navigate]
     );
-
-    const onChangeVerification = useCallback(async () => {
-        if (emailError || !email) {
-            errorInputCheck(emailInputRef.current);
-            return;
-        }
-
-        if (email) {
-            setMessage('');
-            startTimer();
-            setHasTimerStarted(true);
-            try {
-                const userData: LoginVerifyIdEmailDTO = {
-                    email,
-                };
-                await verifyIdEmail(userData);
-                setVerification(true);
-                setIsVerificationSuccessful(true);
-            } catch (error) {
-                setMessage(ValidationMessages.INVALID_USER);
-                setIsVerificationSuccessful(false);
-            }
-        }
-    }, [startTimer, email, emailError]);
-
     return (
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
+                <div className="c-login__section">
+                    {idError ? (
+                        <p className="error-message">{idError}</p>
+                    ) : (
+                        <p>{DEFAULT_ID}</p>
+                    )}
+                    <label htmlFor="id">{DEFAULT_ID}</label>
+                    <input
+                        ref={idInputRef}
+                        className="c-login__input"
+                        name="id"
+                        id="id"
+                        type="text"
+                        placeholder={ValidationMessages.REQUIRED_ID}
+                        value={id}
+                        onChange={onChangeId}
+                    />
+                </div>
+                <section className="c-login__section">
+                    {nameError ? (
+                        <p className="error-message">{nameError}</p>
+                    ) : (
+                        <p>{DEFAULT_NAME}</p>
+                    )}
+                    <label htmlFor="name">이름</label>
+                    <input
+                        ref={nameInputRef}
+                        className="c-login__input"
+                        name="name"
+                        id="name"
+                        type="text"
+                        placeholder={ValidationMessages.REQUIRED_NAME}
+                        value={name}
+                        onChange={onChangeName}
+                        onInput={onChangeName}
+                    />
+                </section>
                 <section className="c-login__section">
                     {emailError ? (
                         <p className="error-message">{emailError}</p>
@@ -128,7 +215,7 @@ export default function LogInEmailVerification() {
                         <button
                             type="button"
                             className="button__rounded button__light"
-                            onClick={onChangeVerification}
+                            onClick={onSubmitSendCode}
                             disabled={isActive}
                         >
                             {hasTimerStarted
@@ -174,13 +261,13 @@ export default function LogInEmailVerification() {
                     </button>
                 </section>
                 <section className="c-login__button-section">
+                    {message && <p className="message">{message}</p>}
                     <button
                         className="button__rounded button__orange"
                         type="submit"
                     >
                         {t('FIND_PASSWORD')}
                     </button>
-                    {message && <p className="message">{message}</p>}
                 </section>
             </form>
         </div>

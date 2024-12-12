@@ -1,78 +1,55 @@
-import { post } from 'utils/API/fetcher';
-import { handleApiError } from 'utils/API/handleApiError';
-import { AxiosError, AxiosResponse } from 'axios';
+import { post, put } from 'utils/API/fetcher';
+import axios, { AxiosResponse } from 'axios';
 import {
-    LogInResetPassworddDTO,
-    LoginVerifyIdEmailDTO,
-    LoginVerifyPasswordDTO,
-    MypageResetPassworddDTO,
-    MypageVerifyPasswordDTO,
+    VerifyCodePasswordDTO,
+    ResetPasswordDTO,
+    SendPasswordCodeDTO,
 } from './dto/PasswordDto';
+import { SEND_EMAIL_CODE, VERIFY_AUTH_CODE_URL } from './IdService';
 
-export const VERIFY_EMAIL_ID_URL = '/users/check/email';
-export const LOGIN_VERIFY_PASSWORD_URL = '/users/login/find/email';
-export const LOGIN_RESET_PASSWORD_URL = '/users/login/reset/password';
-export const MYPAGE_VERIFY_PASSWORD_URL = '/users/mypage/find/email';
-export const MYPAGE_RESET_PASSWORD_URL = '/users/mypage/reset/email';
+export const RESET_PASSWORD_URL = '/users/password';
 
-export async function verifyIdEmail(
-    userData: LoginVerifyIdEmailDTO
+export async function SendPasswordCode(
+    userData: SendPasswordCodeDTO
 ): Promise<void> {
     try {
         const response: AxiosResponse<void> = await post<
             void,
-            LoginVerifyIdEmailDTO
-        >(VERIFY_EMAIL_ID_URL, userData);
+            SendPasswordCodeDTO
+        >(SEND_EMAIL_CODE, userData);
         return response.data;
     } catch (error) {
+        if (axios.isAxiosError(error)) {
+            throw error.response?.data?.code;
+        }
         throw error;
     }
 }
-export async function loginVerifyPassword(
-    userData: LoginVerifyPasswordDTO
+export async function VerifyCodePassword(
+    userData: VerifyCodePasswordDTO
 ): Promise<void> {
     try {
         const response: AxiosResponse<void> = await post<
             void,
-            LoginVerifyPasswordDTO
-        >(LOGIN_VERIFY_PASSWORD_URL, userData);
+            VerifyCodePasswordDTO
+        >(VERIFY_AUTH_CODE_URL, userData);
     } catch (error) {
+        if (axios.isAxiosError(error)) {
+            throw error.response?.data?.code;
+        }
         throw error;
     }
 }
-export async function loginResetPassword(
-    userData: LogInResetPassworddDTO
-): Promise<void> {
+export async function ResetPassword(userData: ResetPasswordDTO): Promise<void> {
     try {
-        const response: AxiosResponse<void> = await post<
+        const response: AxiosResponse<void> = await put<
             void,
-            LogInResetPassworddDTO
-        >(LOGIN_RESET_PASSWORD_URL, userData);
+            ResetPasswordDTO
+        >(RESET_PASSWORD_URL, userData);
     } catch (error) {
-        handleApiError(error as AxiosError);
-    }
-}
-export async function mypageVerifyPassword(
-    userData: MypageVerifyPasswordDTO
-): Promise<void> {
-    try {
-        const response: AxiosResponse<void> = await post<
-            void,
-            MypageVerifyPasswordDTO
-        >(MYPAGE_VERIFY_PASSWORD_URL, userData);
-    } catch (error) {
-        handleApiError(error as AxiosError);
-    }
-}
-export async function mypageResetPassword(
-    userData: MypageResetPassworddDTO
-): Promise<void> {
-    try {
-        const response: AxiosResponse<void> = await post<
-            void,
-            MypageResetPassworddDTO
-        >(MYPAGE_RESET_PASSWORD_URL, userData);
-    } catch (error) {
-        handleApiError(error as AxiosError);
+        if (axios.isAxiosError(error)) {
+            throw error.response?.data?.code;
+        }
+        throw error;
     }
 }

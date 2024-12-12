@@ -11,7 +11,6 @@ const handleInputChange = (
         const error = validator(value);
         valueSetter(value);
         errorSetter(error);
-
         if (additionalCallback) {
             additionalCallback();
         }

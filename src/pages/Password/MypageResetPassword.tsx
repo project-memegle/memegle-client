@@ -1,24 +1,24 @@
 import { AxiosError } from 'axios';
-import ValidationMessages from 'components/Validations/ValidationMessages';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { handleApiError } from 'utils/API/handleApiError';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
-import { mypageResetPassword } from 'services/PasswordService';
 import StorageKeyword from 'Constant/StorageKeyword';
 import { setSessionStorages } from 'utils/Storage/sessionStorage';
-import { MypageResetPassworddDTO } from 'services/dto/PasswordDto';
+import { ResetPasswordDTO } from 'services/dto/PasswordDto';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
+import { ResetPassword } from 'services/PasswordService';
 
 export default function MypageResetPassword() {
     const navigate = useCustomNavigate();
     const ValidationMessages = getValidationMessages();
     const { t } = useTranslation();
     const [message, setMessage] = useState('');
+    const location = useLocation();
 
-    const [email, setEmail] = useState('');
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
 
@@ -29,6 +29,9 @@ export default function MypageResetPassword() {
 
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const passwordCheckInputRef = useRef<HTMLInputElement>(null);
+
+    const { email, authenticationCode, authenticationType, loginId } =
+        location.state || {};
 
     const onChangePassword = useCallback(
         passwordCheckHandler(setPassword, passwordCheck, setPasswordError, () =>
@@ -49,7 +52,6 @@ export default function MypageResetPassword() {
         const email = sessionStorage.getItem(StorageKeyword.USER_EMAIL);
         if (id && email) {
             setId(id);
-            setEmail(email);
         }
     }, []);
 
@@ -62,15 +64,16 @@ export default function MypageResetPassword() {
             }
 
             if (password && passwordCheck) {
-                const userData: MypageResetPassworddDTO = {
-                    id: id,
+                const userData: ResetPasswordDTO = {
+                    loginId: loginId,
                     password: password,
                     email: email,
-                    verificationType: '비밀번호 변경',
+                    authenticationType: authenticationType,
+                    authenticationCode: authenticationCode,
                 };
 
                 try {
-                    await mypageResetPassword(userData);
+                    await ResetPassword(userData);
                     setMessage(ValidationMessages.CHANGE_PASSWORD_SUCCESS);
                     setSessionStorages({
                         key: StorageKeyword.CHANGE_PASSWORD_SUCCESS,

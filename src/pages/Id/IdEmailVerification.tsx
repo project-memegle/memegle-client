@@ -1,5 +1,5 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import validateEmail from 'components/Validations/ValidateEmail';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import useTimer from 'hooks/useTimer';
@@ -8,9 +8,13 @@ import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import handleInputChange from 'utils/Event/handleInputChange';
 import formatTime from 'utils/Format/formatTime';
 import { postIdSearchCode, verifyIdSearchCode } from 'services/IdService';
-import { IdSearchRequestDTO, IdSearchResponseDTO } from 'services/dto/IdDto';
+import { IdSearchRequestDTO } from 'services/dto/IdDto';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
+import validateName from 'components/Validations/ValidateName';
+import StorageKeyword from 'Constant/StorageKeyword';
+import { VerifyCodePasswordDTO } from 'services/dto/PasswordDto';
+import { VerificationRequestDTO } from 'services/dto/VerificationDto';
 
 export default function IdEmailVerification() {
     const navigate = useCustomNavigate();
@@ -18,20 +22,28 @@ export default function IdEmailVerification() {
     const { t } = useTranslation();
     const [verification, setVerification] = useState(false);
 
-    const [message, setMessage] = useState('');
+    const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
+    const DEFAULT_NAME = ValidationMessages.DEFAULT_NAME;
 
+    const [message, setMessage] = useState('');
+    const [nameError, setNameError] = useState('');
+
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
 
-    const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
-
-    const [emailError, setEmailError] = useState(DEFAULT_EMAIL);
-
+    const [emailError, setEmailError] = useState('');
+    const nameInputRef = useRef<HTMLInputElement>(null);
     const emailInputRef = useRef<HTMLInputElement>(null);
     const codeInputRef = useRef<HTMLInputElement>(null);
     const [hasTimerStarted, setHasTimerStarted] = useState(false);
 
     const { timer, startTimer, resetTimer, isActive } = useTimer(300);
+
+    const onChangeName = useCallback(
+        handleInputChange(setName, setNameError, validateName),
+        []
+    );
 
     const onChangeEmail = useCallback(
         handleInputChange(setEmail, setEmailError, validateEmail),
@@ -42,16 +54,22 @@ export default function IdEmailVerification() {
         setCode(e.currentTarget.value);
     }, []);
 
-    const onChangeVerification = useCallback(async () => {
-        if (emailError) {
+    const onSubmitVerification = useCallback(async () => {
+        if (nameError || !name) {
+            errorInputCheck(nameInputRef.current);
+            return;
+        }
+
+        if (emailError || !email) {
             errorInputCheck(emailInputRef.current);
             return;
         }
 
-        if (email) {
-            const userData: IdSearchRequestDTO = {
+        if (email && name) {
+            const userData: VerificationRequestDTO = {
+                userName: name,
                 email: email,
-                authenticationCode: '이메일 인증',
+                authenticationType: StorageKeyword.VERIFICATION_CODE_ID,
             };
             setMessage('');
             startTimer();
@@ -64,7 +82,7 @@ export default function IdEmailVerification() {
                 handleApiError(error as AxiosError, setMessage);
             }
         }
-    }, [startTimer, email, emailError]);
+    }, [startTimer, email, emailError, name, nameError]);
 
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
@@ -80,19 +98,31 @@ export default function IdEmailVerification() {
             }
 
             if (email && code && verification) {
-                const userData: IdSearchResponseDTO = {
+                const userData: VerifyCodePasswordDTO = {
                     email: email,
-                    code: code,
-                    authenticationCode: '이메일 인증',
+                    authenticationCode: code,
+                    authenticationType: StorageKeyword.VERIFICATION_CODE_ID,
                 };
                 setMessage('');
                 try {
                     const response = await verifyIdSearchCode(userData);
                     navigate('/find/id', {
-                        state: { userId: response.data.userId },
+                        state: { loginId: response.data.loginId },
                     });
                 } catch (error) {
-                    handleApiError(error as AxiosError, setMessage);
+                    if (error === 40105) {
+                        setMessage(ValidationMessages.FAILED_VERIFICATION_CODE);
+                        return;
+                    }
+                    if (error === 40001) {
+                        setMessage(ValidationMessages.INVALID_CODE_TYPE);
+                        return;
+                    }
+                    if (error === 5000) {
+                        setMessage(ValidationMessages.SERVER_ERROR);
+                        return;
+                    }
+                    setMessage(ValidationMessages.UNKNOWN_ERROR);
                 }
             }
         },
@@ -103,7 +133,30 @@ export default function IdEmailVerification() {
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
                 <section className="c-login__section">
-                    <p>{emailError ? emailError : DEFAULT_EMAIL}</p>
+                    {nameError ? (
+                        <p className="error-message">{nameError}</p>
+                    ) : (
+                        <p>{DEFAULT_NAME}</p>
+                    )}
+                    <label htmlFor="name">이름</label>
+                    <input
+                        ref={nameInputRef}
+                        className="c-login__input"
+                        name="name"
+                        id="name"
+                        type="text"
+                        placeholder={ValidationMessages.REQUIRED_NAME}
+                        value={name}
+                        onChange={onChangeName}
+                        onInput={onChangeName}
+                    />
+                </section>
+                <section className="c-login__section">
+                    {emailError ? (
+                        <p className="error-message">{emailError}</p>
+                    ) : (
+                        <p>{DEFAULT_EMAIL}</p>
+                    )}
                     <section className="c-login__section-verification">
                         <div>
                             <label htmlFor="email">이메일</label>
@@ -122,7 +175,7 @@ export default function IdEmailVerification() {
                         <button
                             type="button"
                             className="button__rounded button__light"
-                            onClick={onChangeVerification}
+                            onClick={onSubmitVerification}
                             disabled={isActive}
                         >
                             {hasTimerStarted
@@ -167,13 +220,13 @@ export default function IdEmailVerification() {
                         <p>{t('GO_VERIFY_EMAIL')}</p>
                     </button>
                 </section>
+                {message && <p className="message">{message}</p>}
                 <button
                     className="button__rounded button__orange"
                     type="submit"
                 >
                     {t('FIND_ID')}
                 </button>
-                {message && <p className="message">{message}</p>}
             </form>
         </div>
     );

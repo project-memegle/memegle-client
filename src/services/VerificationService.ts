@@ -1,12 +1,9 @@
 import { AxiosResponse } from 'axios';
 import { post } from 'utils/API/fetcher';
-import {
-    VerificationRequestDTO,
-    VerificationResponseDTO,
-} from './dto/VerificationDto';
+import { VerificationRequestDTO } from './dto/VerificationDto';
+import { SEND_EMAIL_CODE, VERIFY_AUTH_CODE_URL } from './IdService';
+import { VerifyCodePasswordDTO } from './dto/PasswordDto';
 
-export const POST_VERIFICATION_URL = '/user/verify/apply';
-export const VERIFY_VERIFICATION_URL = '/user/verify/check';
 export async function postVerificationCode(
     userData: VerificationRequestDTO
 ): Promise<void> {
@@ -14,19 +11,19 @@ export async function postVerificationCode(
         const response: AxiosResponse<void> = await post<
             void,
             VerificationRequestDTO
-        >(POST_VERIFICATION_URL, userData);
+        >(SEND_EMAIL_CODE, userData);
     } catch (error) {
         throw error;
     }
 }
 export async function verifyVerificationCode(
-    userData: VerificationResponseDTO
+    userData: VerifyCodePasswordDTO
 ): Promise<void> {
     try {
         const response: AxiosResponse<void> = await post<
             void,
-            VerificationResponseDTO
-        >(VERIFY_VERIFICATION_URL, userData);
+            VerifyCodePasswordDTO
+        >(VERIFY_AUTH_CODE_URL, userData);
     } catch (error) {
         throw error;
     }

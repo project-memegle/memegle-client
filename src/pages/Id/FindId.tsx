@@ -5,13 +5,13 @@ export default function FindId() {
     const navigate = useCustomNavigate();
     const { t } = useTranslation();
     const location = useLocation();
-    const { userId } = location.state || { userId: '' };
+    const { loginId } = location.state || { loginId: '' };
     return (
         <div className="main__container">
             <section className="c-findid">
                 <div className="c-findid__container">
                     <p>{t('CONFIRM_ID-1')}</p>
-                    <h2>{userId}</h2>
+                    <h2>{loginId}</h2>
                     <p>{t('CONFIRM_ID-2')}</p>
                 </div>
                 <button

@@ -28,8 +28,8 @@ export default function LogIn() {
     const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
     const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
 
-    const [idError, setIdError] = useState(DEFAULT_ID);
-    const [passwordError, setPasswordError] = useState(DEFAULT_PASSWORD);
+    const [idError, setIdError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     const [id, setId] = useState('testloginid3');
     const [password, setPassword] = useState('qwerQ!1234');
@@ -90,8 +90,7 @@ export default function LogIn() {
         }
     }, []);
 
-    useEffect(() => {
-    }, [message]);
+    useEffect(() => {}, [message]);
 
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
@@ -123,7 +122,7 @@ export default function LogIn() {
                     } else {
                         setMessage(ValidationMessages.GET_USER_INFO_FAIL);
                     }
-                } catch (error: unknown) {
+                } catch (error) {
                     if (error === 40401) {
                         setMessage(ValidationMessages.NONEXIST_ID);
                         return;

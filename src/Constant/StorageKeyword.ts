@@ -9,13 +9,17 @@ const StorageKeyword: StorageProps = {
     CHANGE_PASSWORD_SUCCESS: 'changePasswordSuccess',
     CREATE_ACCOUNT_SUCCESS: 'createAccountSuccess',
     DELETE_ACCOUNT_SUCCESS: 'deleteAccountSuccess',
-    USER_ID: 'userId',
+    USER_ID: 'loginId',
     USER_EMAIL: 'userEmail',
     USER_NICKNAME: 'userNickname',
     ACCESS_TOKEN: 'access_token',
     REFRESH_TOKEN: 'refersh_token',
     LANGUAGE: 'language',
     CHATBOT_CATEGORY: 'chatbotCategory',
+    VERIFICATION_CODE_ID: 'ID',
+    VERIFICATION_CODE_PASSWORD: 'PASSWORD',
+    VERIFICATION_CODE_SIGNUP: 'SIGN_UP',
 };
 
+// todo: VERIFICATION_CODE_ID 값 변경
 export default StorageKeyword;

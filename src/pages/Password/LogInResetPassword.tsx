@@ -1,29 +1,27 @@
 import { AxiosError } from 'axios';
-import ValidationMessages from 'components/Validations/ValidationMessages';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
-import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { FormEvent, useCallback, useRef, useState } from 'react';
 import { handleApiError } from 'utils/API/handleApiError';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
-import { loginResetPassword } from 'services/PasswordService';
+import { ResetPassword } from 'services/PasswordService';
 import StorageKeyword from 'Constant/StorageKeyword';
 import { setSessionStorages } from 'utils/Storage/sessionStorage';
-import { LogInResetPassworddDTO } from 'services/dto/PasswordDto';
+import { ResetPasswordDTO } from 'services/dto/PasswordDto';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 
 export default function LogInResetPassword() {
     const navigate = useCustomNavigate();
     const ValidationMessages = getValidationMessages();
     const { t } = useTranslation();
+    const location = useLocation();
+    const { email, authenticationCode, authenticationType, loginId } =
+        location.state || {};
+
     const [message, setMessage] = useState('');
-
-    const [email, setEmail] = useState('');
-    const [id, setId] = useState('');
     const [password, setPassword] = useState('');
-
-    const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
-
     const [passwordCheck, setPasswordCheck] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
@@ -44,15 +42,6 @@ export default function LogInResetPassword() {
         [password]
     );
 
-    useEffect(() => {
-        const id = sessionStorage.getItem(StorageKeyword.USER_ID);
-        const email = sessionStorage.getItem(StorageKeyword.USER_EMAIL);
-        if (id && email) {
-            setId(id);
-            setEmail(email);
-        }
-    }, []);
-
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
@@ -62,15 +51,15 @@ export default function LogInResetPassword() {
             }
 
             if (password && passwordCheck) {
-                const userData: LogInResetPassworddDTO = {
-                    id: id,
+                const userData: ResetPasswordDTO = {
+                    loginId: loginId,
                     password: password,
                     email: email,
-                    verificationType: '비밀번호 찾기',
+                    authenticationType: authenticationType,
+                    authenticationCode: authenticationCode,
                 };
-
                 try {
-                    await loginResetPassword(userData);
+                    await ResetPassword(userData);
                     setMessage(ValidationMessages.CHANGE_PASSWORD_SUCCESS);
                     setSessionStorages({
                         key: StorageKeyword.CHANGE_PASSWORD_SUCCESS,
@@ -82,7 +71,15 @@ export default function LogInResetPassword() {
                 }
             }
         },
-        [id, email, password, passwordCheck, passwordError, navigate]
+        [
+            loginId,
+            email,
+            password,
+            passwordCheck,
+            passwordError,
+            authenticationType,
+            navigate,
+        ]
     );
 
     return (
@@ -92,7 +89,7 @@ export default function LogInResetPassword() {
                     {passwordError ? (
                         <p className="error-message">{passwordError}</p>
                     ) : (
-                        <p>{DEFAULT_PASSWORD}</p>
+                        <p>{ValidationMessages.DEFAULT_PASSWORD}</p>
                     )}
                     <section className="c-login__section-password">
                         <div>
@@ -126,6 +123,7 @@ export default function LogInResetPassword() {
                         </div>
                     </section>
                 </div>
+                {message && <p className="message">{message}</p>}
                 <button
                     className="button__rounded button__orange"
                     type="submit"
@@ -133,7 +131,6 @@ export default function LogInResetPassword() {
                     {t('CHANGE_PASSWORD')}
                 </button>
             </form>
-            {message && <p className="message">{message}</p>}
         </div>
     );
 }

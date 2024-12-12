@@ -20,16 +20,8 @@ export default function DeleteAccount() {
     const ValidationMessages = getValidationMessages();
     const { t } = useTranslation();
     const [reason, setReason] = useState<string>('');
-    const [id, setId] = useState<string>('');
     const [toastMessage, setToastMessage] = useState('');
     const [toast, setToast] = useState(false);
-
-    useEffect(() => {
-        const userId = getSessionStorages(StorageKeyword.USER_ID);
-        if (userId) {
-            setId(userId);
-        }
-    }, []);
 
     function onChangeReason(
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -48,18 +40,19 @@ export default function DeleteAccount() {
 
         try {
             const userData = {
-                userId: id,
                 reason: reason,
             };
-            await postDeleteAccount(userData);
-            clearSessionStorage();
+            // todo: 주석풀기
+            // await postDeleteAccount(userData);
+
+            auth.logout(() => {
+                // navigate('/');
+            });
             setSessionStorages({
                 key: StorageKeyword.DELETE_ACCOUNT_SUCCESS,
                 value: StorageKeyword.TRUE,
             });
-            auth.logout(() => {
-                navigate('/');
-            });
+            navigate('/');
         } catch (error) {
             setToastMessage(ValidationMessages.REQUIRED_REASON);
             setToast(true);

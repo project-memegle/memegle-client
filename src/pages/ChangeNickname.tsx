@@ -1,15 +1,16 @@
-import { AxiosError } from 'axios';
+import AuthButton from 'components/auth/Button';
+import ErrorMessage from 'components/UI/FontMessages/ErrorMessage';
+import SuccessMessage from 'components/UI/FontMessages/SuccessMessage';
 import validateNickname from 'components/Validations/ValidateNickname';
 import getValidationMessages from 'components/Validations/ValidationMessages';
-import ValidationMessages from 'components/Validations/ValidationMessages';
 import StorageKeyword from 'Constant/StorageKeyword';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { FormEvent, useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { changeNickname, checkNickname } from 'services/NicknameService';
-import { handleApiError } from 'utils/API/handleApiError';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
-import { getSessionStorages } from 'utils/Storage/sessionStorage';
+import handleInputChange from 'utils/Event/handleInputChange';
+import { setSessionStorages } from 'utils/Storage/sessionStorage';
 
 export default function ChangeNickname() {
     const ValidationMessages = getValidationMessages();
@@ -19,7 +20,6 @@ export default function ChangeNickname() {
     const navigate = useCustomNavigate();
     const [message, setMessage] = useState('');
     const [nickname, setNickname] = useState('');
-    const [nicknameError, setNicknameError] = useState('');
 
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
@@ -27,18 +27,18 @@ export default function ChangeNickname() {
     const nicknameInputRef = useRef<HTMLInputElement>(null);
     const [isDuplicated, setIsDuplicated] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+
     const onChangeNickname = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            const { value } = event.target;
-            const error = validateNickname(value);
-            setNickname(value);
-            setNicknameError(error);
-            setIsChecked(false);
-            setIsDuplicated(false);
-            setErrorMessage('');
-            setSuccessMessage('');
-            setMessage('');
-        },
+        handleInputChange(
+            setNickname,
+            setErrorMessage,
+            validateNickname,
+            () => {
+                setIsDuplicated(false);
+                setIsChecked(false);
+                setSuccessMessage('');
+            }
+        ),
         []
     );
 
@@ -46,7 +46,7 @@ export default function ChangeNickname() {
         async (e: FormEvent<HTMLButtonElement>) => {
             e.preventDefault();
 
-            if (nicknameError || !nickname) {
+            if (errorMessage || !nickname) {
                 errorInputCheck(nicknameInputRef.current);
                 setErrorMessage(ValidationMessages.REQUIRED_NICKNAME);
                 setSuccessMessage('');
@@ -66,24 +66,34 @@ export default function ChangeNickname() {
                     setIsDuplicated(false);
                 }
             } catch (error) {
-                setErrorMessage(ValidationMessages.ERROR_CHECK_NICKNAME);
+                if (error === 40004) {
+                    setErrorMessage(ValidationMessages.EXIST_NICKNAME);
+                    return;
+                }
+
+                if (error === 5000) {
+                    setErrorMessage(ValidationMessages.SERVER_ERROR);
+                    return;
+                }
+                setErrorMessage(ValidationMessages.UNKNOWN_ERROR);
+                return;
             }
         },
-        [nickname, nicknameError]
+        [nickname, errorMessage]
     );
 
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
 
-            // if (isDuplicated || !isChecked) {
-            //     errorInputCheck(nicknameInputRef.current);
-            //     setErrorMessage(ValidationMessages.REQUIRED_DUPLICATED_CHECK);
-            //     setSuccessMessage('');
-            //     return;
-            // }
+            if (isDuplicated || !isChecked) {
+                errorInputCheck(nicknameInputRef.current);
+                setErrorMessage(ValidationMessages.REQUIRED_DUPLICATED_CHECK);
+                setSuccessMessage('');
+                return;
+            }
 
-            if (nicknameError || !nickname) {
+            if (errorMessage || !nickname) {
                 errorInputCheck(nicknameInputRef.current);
                 setErrorMessage(ValidationMessages.REQUIRED_NICKNAME);
                 setSuccessMessage('');
@@ -92,16 +102,28 @@ export default function ChangeNickname() {
 
             try {
                 await changeNickname({ nickname });
-                setSuccessMessage(ValidationMessages.CHANGE_NICKNAME_SUCCESS);
-                setErrorMessage('');
-                // navigate('/mypage');
+                setSessionStorages({
+                    key: StorageKeyword.CHANGE_NICKNAME_SUCCESS,
+                    value: StorageKeyword.TRUE,
+                });
+                setSessionStorages({
+                    key: StorageKeyword.USER_NICKNAME,
+                    value: nickname,
+                });
+
+                navigate('/mypage');
             } catch (error) {
-                console.log('error', error);
-                if (error === 40004)
-                    setMessage(ValidationMessages.EXIST_NICKNAME); 
-                
-                if (error === 5000)
+                if (error === 40004) {
+                    setMessage(ValidationMessages.EXIST_NICKNAME);
+                    return;
+                }
+
+                if (error === 5000) {
                     setMessage(ValidationMessages.SERVER_ERROR);
+                    return;
+                }
+                setMessage(ValidationMessages.UNKNOWN_ERROR);
+                return;
             }
         },
         [nickname, isDuplicated, isChecked, navigate]
@@ -111,12 +133,8 @@ export default function ChangeNickname() {
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
                 <div className="c-login__section">
-                    {errorMessage && (
-                        <p className="error-message">{errorMessage}</p>
-                    )}
-                    {successMessage && (
-                        <p className="success-message">{successMessage}</p>
-                    )}
+                    <ErrorMessage message={errorMessage} />
+                    <SuccessMessage message={successMessage} />
                     {!errorMessage && !successMessage && (
                         <p>{DEFAULT_NICKNAME}</p>
                     )}
@@ -150,13 +168,13 @@ export default function ChangeNickname() {
                                     </i>
                                 ))}
                         </div>
-                        {/* <button
-                            type="button"
+                        <AuthButton
                             className="button__rounded button__light"
+                            type="button"
                             onClick={onCheckNickname}
                         >
                             {t('CHECK_DUPLICATED')}
-                        </button> */}
+                        </AuthButton>
                     </section>
                 </div>
                 {message && <p className="font-warning">{message}</p>}

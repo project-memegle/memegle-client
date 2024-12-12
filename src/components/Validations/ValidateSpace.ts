@@ -1,3 +1,5 @@
-export default function ValidateSpace(value: string): string {
-    return value.replace(/\s+/g, '');
-}
+const ValidateSpace = (value: string): string => {
+    return value.trim();
+};
+
+export default ValidateSpace;

@@ -1,5 +1,5 @@
 export interface UserInfoResponseDTO {
-    userId: string;
+    loginId: string;
     nickname: string;
     email: string | null;
 }

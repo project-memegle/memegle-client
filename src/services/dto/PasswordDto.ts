@@ -1,28 +1,19 @@
-export interface LoginVerifyIdEmailDTO {
+export interface SendPasswordCodeDTO {
+    userName: string;
     email: string;
+    authenticationType: string;
 }
 
-export interface LoginVerifyPasswordDTO {
+export interface VerifyCodePasswordDTO {
     email: string;
-    verificationType: '비밀번호 찾기';
+    authenticationCode: string;
+    authenticationType: string;
 }
 
-export interface LogInResetPassworddDTO {
-    id: string;
+export interface ResetPasswordDTO {
     email: string;
-    verificationType: '비밀번호 찾기';
-    password: string;
-}
-
-export interface MypageVerifyPasswordDTO {
-    id: string;
-    email: string;
-    verificationType: '비밀번호 변경';
-}
-
-export interface MypageResetPassworddDTO {
-    id: string;
-    email: string;
-    verificationType: '비밀번호 변경';
+    authenticationCode: string;
+    authenticationType: string;
+    loginId: string;
     password: string;
 }

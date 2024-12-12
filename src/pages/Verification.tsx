@@ -6,10 +6,7 @@ import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import { handleApiError } from 'utils/API/handleApiError';
 import { post } from 'utils/API/fetcher';
 import validateName from 'components/Validations/ValidateName';
-import {
-    VerificationRequestDTO,
-    VerificationResponseDTO,
-} from 'services/dto/VerificationDto';
+import { VerificationRequestDTO } from 'services/dto/VerificationDto';
 import useTimer from 'hooks/useTimer';
 import formatTime from 'utils/Format/formatTime';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
@@ -26,6 +23,7 @@ import {
 import StorageKeyword from 'Constant/StorageKeyword';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
+import { VerifyCodePasswordDTO } from 'services/dto/PasswordDto';
 
 export default function Verification() {
     const navigate = useCustomNavigate();
@@ -110,7 +108,7 @@ export default function Verification() {
             const userData: VerificationRequestDTO = {
                 userName: name,
                 email: email,
-                authenticationCode: 'SIGN_UP',
+                authenticationType: StorageKeyword.VERIFICATION_CODE_SIGNUP,
             };
             setMessage('');
             startTimer();
@@ -147,11 +145,10 @@ export default function Verification() {
             }
 
             if (name && email && code) {
-                const userData: VerificationResponseDTO = {
-                    userName: name,
+                const userData: VerifyCodePasswordDTO = {
                     email: email,
-                    code: code,
-                    authenticationCode: 'SIGN_UP',
+                    authenticationCode: code,
+                    authenticationType: StorageKeyword.VERIFICATION_CODE_SIGNUP,
                 };
                 setMessage('');
                 try {

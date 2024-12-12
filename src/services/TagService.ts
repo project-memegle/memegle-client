@@ -11,7 +11,7 @@ interface SearchByParams {
     setError: (error: string | null) => void;
 }
 
-export const SEARC_BY_TAG_URL = '/images/tag';
+export const SEARCH_BY_TAG_URL = '/images/tag';
 
 export async function searchByTag({
     searchText,
@@ -32,7 +32,7 @@ export async function searchByTag({
             size: pageData.size.toString(),
             criteria: pageData.criteria,
         });
-        const response = await get<SearchResultSectionDTO>(SEARC_BY_TAG_URL, {
+        const response = await get<SearchResultSectionDTO>(SEARCH_BY_TAG_URL, {
             params: { queryParams },
         });
         setResultData(response.data);

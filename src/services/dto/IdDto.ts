@@ -1,12 +1,15 @@
 export interface checkIdRequestDTO {
     loginId: string;
 }
+
 export interface IdSearchRequestDTO {
+    userName: string;
     email: string;
-    authenticationCode: '이메일 인증';
+    authenticationType: string;
 }
+
 export interface IdSearchResponseDTO {
     email: string;
-    code: string;
-    authenticationCode: '이메일 인증';
+    authenticationCode: string;
+    authenticationType: string;
 }

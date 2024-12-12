@@ -7,8 +7,9 @@ import {
 } from './dto/IdDto';
 
 export const CHECK_ID_URL = '/auth/login-id';
-export const POST_ID_SEARCH_URL = '/user/verify/apply/id';
-export const VERIFY_ID_CODE_URL = '/user/verify/check/id';
+export const SEND_EMAIL_CODE = '/auth/email/send';
+export const VERIFY_AUTH_CODE_URL = '/auth/email';
+export const FIND_USER_ID_URL = '/users/login-id';
 
 export async function checkId(userData: checkIdRequestDTO): Promise<boolean> {
     try {
@@ -27,8 +28,9 @@ export async function postIdSearchCode(
     userData: IdSearchRequestDTO
 ): Promise<void> {
     try {
-        await post<void, IdSearchRequestDTO>(POST_ID_SEARCH_URL, userData);
+        await post<void, IdSearchRequestDTO>(SEND_EMAIL_CODE, userData);
     } catch (error) {
+        SEND_EMAIL_CODE;
         if (axios.isAxiosError(error)) {
             throw error.response?.data?.code;
         }
@@ -38,13 +40,12 @@ export async function postIdSearchCode(
 
 export async function verifyIdSearchCode(
     userData: IdSearchResponseDTO
-): Promise<AxiosResponse<{ userId: string }>> {
+): Promise<AxiosResponse<{ loginId: string }>> {
     try {
-        const response: AxiosResponse<{ userId: string }> = await post<
-            { userId: string },
+        const response: AxiosResponse<{ loginId: string }> = await post<
+            { loginId: string },
             IdSearchResponseDTO
-        >(VERIFY_ID_CODE_URL, userData);
-
+        >(FIND_USER_ID_URL, userData);
         return response;
     } catch (error) {
         if (axios.isAxiosError(error)) {

@@ -1,89 +1,25 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
-import axios, { AxiosError } from 'axios';
 import validateId from 'components/Validations/ValidateId';
 import validateNickname from 'components/Validations/ValidateNickname';
 import { SignUpDTO } from 'services/dto/SignUpDto';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import handleInputChange from 'utils/Event/handleInputChange';
 import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
-import { post } from 'utils/API/fetcher';
-import { handleApiError } from 'utils/API/handleApiError';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { signUp } from 'services/SignupService';
 import { LogInRequestDTO } from 'services/dto/LogInDto';
 import { logIn } from 'services/LogInService';
 import { useAuth } from 'components/auth/ProvideAuth';
-import { useLocation } from 'react-router-dom';
 import { setSessionStorages } from 'utils/Storage/sessionStorage';
 import StorageKeyword from 'Constant/StorageKeyword';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
 import { checkNickname } from 'services/NicknameService';
 import { checkId } from 'services/IdService';
-
-interface InputFieldProps {
-    label: string;
-    type: string;
-    name: string;
-    value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    placeholder: string;
-    ref: React.RefObject<HTMLInputElement>;
-    className: string;
-}
-
-const InputField = ({
-    label,
-    type,
-    name,
-    value,
-    onChange,
-    placeholder,
-    ref,
-    className,
-}: InputFieldProps) => (
-    <div>
-        <label htmlFor={name}>{label}</label>
-        <input
-            autoComplete="on"
-            ref={ref}
-            className={className}
-            name={name}
-            type={type}
-            id={name}
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-        />
-    </div>
-);
-
-interface ErrorMessageProps {
-    message: string;
-}
-
-const ErrorMessage = ({ message }: ErrorMessageProps) =>
-    message && <p className="error-message">{message}</p>;
-
-interface SuccessMessageProps {
-    message: string;
-}
-
-const SuccessMessage = ({ message }: SuccessMessageProps) =>
-    message && <p className="success-message">{message}</p>;
-
-interface ButtonProps {
-    className: string;
-    type: 'button' | 'submit';
-    onClick?: (e: FormEvent<HTMLButtonElement>) => void;
-    children: React.ReactNode;
-}
-
-const Button = ({ className, type, onClick, children }: ButtonProps) => (
-    <button className={className} type={type} onClick={onClick}>
-        {children}
-    </button>
-);
+import { InputField } from 'components/UI/InputField';
+import AuthButton from 'components/auth/Button';
+import SuccessMessage from 'components/UI/FontMessages/SuccessMessage';
+import ErrorMessage from 'components/UI/FontMessages/ErrorMessage';
 
 export default function SignUp() {
     const navigate = useCustomNavigate();
@@ -155,7 +91,14 @@ export default function SignUp() {
                     return;
                 }
             } catch (error) {
-                setIdErrorMessage(ValidationMessages.ERROR_CHECK_ID);
+                if (error === 40002) {
+                    setIdErrorMessage(ValidationMessages.EXIST_NICKNAME);
+                    return;
+                }
+                setNicknameErrorMessage(
+                    ValidationMessages.ERROR_CHECK_NICKNAME
+                );
+                return;
             }
         },
         [id, idErrorMessage]
@@ -204,9 +147,14 @@ export default function SignUp() {
                     return;
                 }
             } catch (error) {
+                if (error === 40004) {
+                    setNicknameErrorMessage(ValidationMessages.EXIST_NICKNAME);
+                    return;
+                }
                 setNicknameErrorMessage(
                     ValidationMessages.ERROR_CHECK_NICKNAME
                 );
+                return;
             }
         },
         [nickname, nicknameErrorMessage]
@@ -388,7 +336,9 @@ export default function SignUp() {
                             value={id}
                             onChange={onChangeId}
                             placeholder={ValidationMessages.REQUIRED_ID}
-                            ref={idInputRef}
+                            ref={nicknameInputRef}
+                            isDuplicated={isIdDupliacted}
+                            isChecked={isIdChecked}
                             className={`c-login__input ${
                                 isIdChecked
                                     ? isIdDupliacted
@@ -397,23 +347,13 @@ export default function SignUp() {
                                     : ''
                             }`}
                         />
-                        {isIdChecked &&
-                            (isIdDupliacted ? (
-                                <i className="c-icon c-icon--fill-fail">
-                                    close
-                                </i>
-                            ) : (
-                                <i className="c-icon c-icon--fill-success">
-                                    check
-                                </i>
-                            ))}
-                        <Button
+                        <AuthButton
                             className="button__rounded button__light"
                             type="button"
                             onClick={onSubmitCheckId}
                         >
                             {t('CHECK_DUPLICATED')}
-                        </Button>
+                        </AuthButton>
                     </section>
                 </div>
                 <div className="c-login__section">
@@ -431,6 +371,8 @@ export default function SignUp() {
                             onChange={onChangeNickname}
                             placeholder={t('REQUIRED_NICKNAME')}
                             ref={nicknameInputRef}
+                            isDuplicated={isNicknameDupliacted}
+                            isChecked={isNicknameChecked}
                             className={`c-login__input ${
                                 isNicknameChecked
                                     ? isNicknameDupliacted
@@ -449,13 +391,13 @@ export default function SignUp() {
                                     check
                                 </i>
                             ))}
-                        <Button
+                        <AuthButton
                             className="button__rounded button__light"
                             type="button"
                             onClick={onSubmitCheckNickname}
                         >
                             {t('CHECK_DUPLICATED')}
-                        </Button>
+                        </AuthButton>
                     </section>
                 </div>
                 <div className="c-login__section">
@@ -495,19 +437,19 @@ export default function SignUp() {
                         <p>{t('VERIFICATION_NOTICE-2')}</p>
                         <p>{t('VERIFICATION_NOTICE-3')}</p>
                     </div>
-                    <Button
+                    <AuthButton
                         className="button__rounded button__orange"
                         type="button"
                         onClick={onClickVerification}
                     >
                         {t('VERIFICATION_NAVIGATE_BUTTON')}
-                    </Button>
-                    <Button
+                    </AuthButton>
+                    <AuthButton
                         className="button__rounded button__light"
                         type="submit"
                     >
                         {t('DEFAULT_SIGNUP')}
-                    </Button>
+                    </AuthButton>
                 </section>
             </form>
         </div>

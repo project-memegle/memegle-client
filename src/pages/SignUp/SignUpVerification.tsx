@@ -1,16 +1,11 @@
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { AxiosError } from 'axios';
-import ValidationMessages from 'components/Validations/ValidationMessages';
 import handleInputChange from 'utils/Event/handleInputChange';
 import validateEmail from 'components/Validations/ValidateEmail';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import { handleApiError } from 'utils/API/handleApiError';
-import { post } from 'utils/API/fetcher';
 import validateName from 'components/Validations/ValidateName';
-import {
-    VerificationRequestDTO,
-    VerificationResponseDTO,
-} from 'services/dto/VerificationDto';
+import { VerificationRequestDTO } from 'services/dto/VerificationDto';
 import useTimer from 'hooks/useTimer';
 import formatTime from 'utils/Format/formatTime';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
@@ -120,7 +115,7 @@ export default function SignUpVerification() {
             const userData: VerificationRequestDTO = {
                 userName: name,
                 email: email,
-                authenticationCode: '본인인증',
+                authenticationType: StorageKeyword.VERIFICATION_CODE_SIGNUP,
             };
 
             setMessage('');
@@ -158,11 +153,10 @@ export default function SignUpVerification() {
             }
 
             if (name && email && code) {
-                const userData: VerificationResponseDTO = {
+                const userData: VerificationRequestDTO = {
                     userName: name,
                     email: email,
-                    code: code,
-                    authenticationCode: '본인인증',
+                    authenticationType: StorageKeyword.VERIFICATION_CODE_SIGNUP,
                 };
                 setMessage('');
                 try {
@@ -186,7 +180,7 @@ export default function SignUpVerification() {
                         navigate('/');
                     });
                 } catch (error) {
-                    // handleApiError(error as AxiosError, setMessage);
+                    handleApiError(error as AxiosError, setMessage);
                 }
             }
         },
