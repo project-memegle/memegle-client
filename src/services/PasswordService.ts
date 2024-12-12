@@ -1,4 +1,4 @@
-import { post } from 'utils/API/fetcher';
+import { post, put } from 'utils/API/fetcher';
 import axios, { AxiosResponse } from 'axios';
 import {
     VerifyCodePasswordDTO,
@@ -42,7 +42,7 @@ export async function VerifyCodePassword(
 }
 export async function ResetPassword(userData: ResetPasswordDTO): Promise<void> {
     try {
-        const response: AxiosResponse<void> = await post<
+        const response: AxiosResponse<void> = await put<
             void,
             ResetPasswordDTO
         >(RESET_PASSWORD_URL, userData);

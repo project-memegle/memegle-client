@@ -61,10 +61,6 @@ export const handlers = [
     }),
 
     http.post(`${baseURL}${RESET_PASSWORD_URL}`, () => {
-        return new HttpResponse(null, {
-            status: 200,
-            statusText: 'OK',
-        });
         return passthrough();
     }),
 
