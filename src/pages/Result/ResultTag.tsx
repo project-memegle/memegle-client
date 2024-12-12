@@ -31,9 +31,6 @@ const mockDataMap: { [key: string]: SearchResultSectionDTO } = {
 export function ResultTag() {
     const [tagData, setTagData] = useState<SearchResultItemDTO[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const [resultData, setResultData] = useState<SearchResultSectionDTO | null>(
-        null
-    );
 
     useEffect(() => {
         const lastKeyword = getLastKeywordFromUrl<string>();
@@ -51,9 +48,5 @@ export function ResultTag() {
         }
     }, []);
 
-    useEffect(() => {
-        console.log('tagData', tagData);
-    }, [tagData]);
-
-    return <ResultCommon searchBy={searchByTag} />;
+    return <ResultCommon searchBy={searchByTag} results={tagData} />;
 }

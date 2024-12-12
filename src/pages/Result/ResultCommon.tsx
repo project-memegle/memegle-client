@@ -9,7 +9,10 @@ import {
     deleteSearchHistroy,
     getSearchHistory,
 } from 'utils/Storage/localStorage';
-import { SearchResultSectionDTO } from 'services/dto/ResultDto';
+import {
+    SearchResultItemDTO,
+    SearchResultSectionDTO,
+} from 'services/dto/ResultDto';
 import Result from 'components/UI/Result/Result';
 
 import MOCK_CATEGORY_RESULT_MUDO from 'mockData/__CategorySearchMudo';
@@ -37,6 +40,7 @@ interface SearchByParams {
 
 interface ResultCommonProps {
     searchBy: (params: SearchByParams) => void;
+    results?: SearchResultItemDTO[];
 }
 
 const mockDataMap: { [key: string]: any } = {
@@ -51,7 +55,7 @@ const mockDataMap: { [key: string]: any } = {
     happiness: MOCK_CATEGORY_RESULT_HAPINESS,
 };
 
-export function ResultCommon({ searchBy }: ResultCommonProps) {
+export function ResultCommon({ searchBy, results }: ResultCommonProps) {
     const [modalVisible, setModalVisible] = useState(false);
     const [modalImageUrl, setModalImageUrl] = useState('');
     const {
@@ -69,7 +73,6 @@ export function ResultCommon({ searchBy }: ResultCommonProps) {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [modalTagList, setModalTagList] = useState<string[]>([]);
-
 
     const handleOpenModal = (imageUrl: string, tagList: string[]) => {
         setModalImageUrl(imageUrl);
@@ -120,6 +123,16 @@ export function ResultCommon({ searchBy }: ResultCommonProps) {
             setContent(<p>{error}</p>);
             return;
         }
+
+        if (results && results.length > 0) {
+            setContent(
+                <ResultSection
+                    results={results}
+                    onOpenModal={handleOpenModal}
+                />
+            );
+            return;
+        }
         if (resultData && resultData.results.length > 0) {
             setContent(
                 <ResultSection
@@ -135,7 +148,7 @@ export function ResultCommon({ searchBy }: ResultCommonProps) {
                 <img src={emptyIcon} alt="empty" />
             </div>
         );
-    }, [loading, error, resultData]);
+    }, [loading, error, resultData, results]);
 
     function searchWithHistory(searchText: string) {
         setSearchTerm(searchText);
