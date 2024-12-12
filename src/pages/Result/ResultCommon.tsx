@@ -24,6 +24,7 @@ import MOCK_CATEGORY_RESULT_SAD from 'mockData/__CategorySearchSad';
 import MOCK_CATEGORY_RESULT_ANGER from 'mockData/__CategorySearchAnger';
 import MOCK_CATEGORY_RESULT_HUNGRY from 'mockData/__CategorySearchHungry';
 import MOCK_CATEGORY_RESULT_HAPINESS from 'mockData/__CategorySearchHappiness';
+import useCustomNavigate from 'hooks/useCustomNaviaget';
 
 type OutletContextType = {
     searchTerm: string;
@@ -73,6 +74,7 @@ export function ResultCommon({ searchBy, results }: ResultCommonProps) {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [modalTagList, setModalTagList] = useState<string[]>([]);
+    const navigate = useCustomNavigate();
 
     const handleOpenModal = (imageUrl: string, tagList: string[]) => {
         setModalImageUrl(imageUrl);
@@ -152,6 +154,7 @@ export function ResultCommon({ searchBy, results }: ResultCommonProps) {
 
     function searchWithHistory(searchText: string) {
         setSearchTerm(searchText);
+        navigate(`/tag/${searchText}`);
         searchBy({ searchText, setLoading, setResultData, setError });
     }
 

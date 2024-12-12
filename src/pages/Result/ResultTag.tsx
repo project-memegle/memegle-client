@@ -36,22 +36,15 @@ export function ResultTag() {
 
     useEffect(() => {
         const lastKeyword = getLastKeywordFromUrl<string>();
-        const decodedKeyword = decodeURIComponent(lastKeyword); // Decode the URL-encoded keyword
+        const decodedKeyword = decodeURIComponent(lastKeyword || ''); 
         setLoading(false);
         if (typeof decodedKeyword === 'string') {
-            const normalizedKeyword = decodedKeyword.normalize('NFC'); // Normalize the keyword
-            console.log('Normalized Keyword:', normalizedKeyword); // Debugging log
+            const normalizedKeyword = decodedKeyword.normalize('NFC');
             const filteredResults: SearchResultItemDTO[] = [];
             for (const value of Object.values(mockDataMap)) {
                 const matchingItems = value.results.filter((item) => {
                     const matches = item.tagList.some((tag) => {
-                        const normalizedTag = tag.normalize('NFC'); // Normalize the tag
-                        console.log(
-                            'Comparing:',
-                            normalizedTag,
-                            'with',
-                            normalizedKeyword
-                        ); // Debugging log
+                        const normalizedTag = tag.normalize('NFC'); 
                         return normalizedTag.includes(normalizedKeyword);
                     });
                     return matches;
@@ -59,7 +52,6 @@ export function ResultTag() {
                 filteredResults.push(...matchingItems);
             }
             setTagData(filteredResults);
-            console.log('Filtered tagData:', filteredResults); // Debugging log
         }
     }, [location]);
 
