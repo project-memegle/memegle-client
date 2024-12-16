@@ -71,7 +71,6 @@ export default function SignUp() {
         async (e: FormEvent<HTMLButtonElement>) => {
             e.preventDefault();
             setSignUpError('');
-            // 입력 값 유효성 검사
             if (idErrorMessage || !id) {
                 errorInputCheck(idInputRef.current);
                 setIdErrorMessage(ValidationMessages.REQUIRED_ID);
@@ -124,7 +123,6 @@ export default function SignUp() {
             e.preventDefault();
             setSignUpError('');
 
-            // 입력 값 유효성 검사
             if (nicknameErrorMessage || !nickname) {
                 errorInputCheck(nicknameInputRef.current);
                 setNicknameErrorMessage(ValidationMessages.REQUIRED_NICKNAME);
@@ -138,7 +136,6 @@ export default function SignUp() {
                 setNicknameErrorMessage('');
                 setNicknameSuccessMessage('');
 
-                // 닉네임 중복 처리
                 if (response) {
                     setNicknameSuccessMessage(
                         ValidationMessages.CHECK_NICKNAME_SUCCESS
@@ -211,7 +208,6 @@ export default function SignUp() {
                         password: password,
                     };
                     const response = await signUp(userData);
-                    // 회원가입 후 자동 로그인
                     const loginData: LogInRequestDTO = {
                         loginId: id,
                         password: password,
@@ -282,7 +278,6 @@ export default function SignUp() {
                 };
                 try {
                     await signUp(userData);
-                    // 회원가입 후 자동 로그인
                     const loginData: LogInRequestDTO = {
                         loginId: id,
                         password: password,
@@ -294,7 +289,6 @@ export default function SignUp() {
                         value: StorageKeyword.TRUE,
                     });
 
-                    // 로그인 상태를 업데이트하고 홈 페이지로 리다이렉트
                     auth.login(() => {
                         navigate('/');
                     });
