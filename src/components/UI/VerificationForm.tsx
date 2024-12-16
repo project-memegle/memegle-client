@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import { VerifyCodePasswordDTO } from 'services/dto/PasswordDto';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
+import { InputField } from 'components/UI/InputField';
 
 interface VerificationFormProps {
     onSubmit: (name: string, email: string, code: string) => void;
@@ -148,34 +149,30 @@ export default function VerificationForm({
         <form className="c-login" onSubmit={handleSubmit}>
             <section className="c-login__section">
                 <p>{nameError ? nameError : DEFAULT_NAME}</p>
-                <label htmlFor="name">이름</label>
-                <input
-                    ref={nameInputRef}
-                    className="c-login__input"
-                    name="name"
-                    id="name"
+                <InputField
+                    label="이름"
                     type="text"
-                    placeholder={ValidationMessages.REQUIRED_NAME}
+                    name="name"
                     value={name}
                     onChange={onChangeName}
-                    onInput={onChangeName}
+                    placeholder={ValidationMessages.REQUIRED_NAME}
+                    ref={nameInputRef}
+                    className="c-login__input"
                 />
             </section>
             <section className="c-login__section">
                 <p>{emailError ? emailError : DEFAULT_EMAIL}</p>
                 <section className="c-login__section-verification">
                     <div>
-                        <label htmlFor="email">이메일</label>
-                        <input
-                            ref={emailInputRef}
-                            className="c-login__input"
-                            name="email"
-                            id="email"
+                        <InputField
+                            label="이메일"
                             type="text"
-                            placeholder={ValidationMessages.REQUIRED_EMAIL}
+                            name="email"
                             value={email}
                             onChange={onChangeEmail}
-                            onInput={onChangeEmail}
+                            placeholder={ValidationMessages.REQUIRED_EMAIL}
+                            ref={emailInputRef}
+                            className="c-login__input"
                         />
                     </div>
                     <button
@@ -192,22 +189,19 @@ export default function VerificationForm({
             </section>
             {verification && (
                 <section className="c-login__section">
-                    <label htmlFor="verification">인증번호</label>
-                    <input
-                        ref={codeInputRef}
-                        className="c-login__input"
-                        name="verification"
-                        id="verification"
+                    <InputField
+                        label="인증번호"
                         type="text"
+                        name="verification"
+                        value={code}
+                        onChange={onChangeCode}
                         placeholder={
                             isActive
                                 ? t('VERIFICATION_ENTER_CODE')
                                 : t('VERIFICATION_TIMEOVER')
                         }
-                        disabled={!isActive}
-                        value={code}
-                        onChange={onChangeCode}
-                        onInput={onChangeCode}
+                        ref={codeInputRef}
+                        className="c-login__input"
                     />
                     <p className="c-login__section-timer">
                         {formatTime(timer)}
