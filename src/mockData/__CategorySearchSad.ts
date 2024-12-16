@@ -71,7 +71,7 @@ const MOCK_CATEGORY_RESULT_SAD: SearchResultSectionDTO = {
             imageCategory: 'Sad',
             createdAt: DATE,
             modifiedAt: DATE,
-            tagList: ['햄스터', '서함함', 'hamster'],
+            tagList: ['햄스터', '서운함', 'hamster'],
         },
         {
             id: 79,
