@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import StorageKeyword from 'Constant/StorageKeyword';
 import { getSessionStorages } from 'utils/Storage/sessionStorage';
 import { useLocation } from 'react-router-dom';
+import { normalizeString } from 'utils/Format/normalize';
 
 interface HeaderProps {
     searchTerm: string;
@@ -38,10 +39,11 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
     const handleSearchSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         const trimmedTerm = localSearchTerm.trim();
+        const normalizedTerm = normalizeString(trimmedTerm);
         if (trimmedTerm) {
             onSearch(trimmedTerm);
             addSearchHistory(trimmedTerm);
-            navigate(`/tag/${trimmedTerm}`);
+            navigate(`/tag/${normalizedTerm}`);
         }
     };
     let logInButtonClick = () => {
