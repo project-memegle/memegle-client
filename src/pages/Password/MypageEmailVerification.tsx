@@ -16,7 +16,6 @@ import { AxiosError } from 'axios';
 export default function MypageEmailVerification() {
     const navigate = useCustomNavigate();
     const ValidationMessages = getValidationMessages();
-    const { t } = useTranslation();
     const [verification, setVerification] = useState(false);
 
     const [message, setMessage] = useState('');

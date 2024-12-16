@@ -104,6 +104,7 @@
   "INVALID_USER": "Authentication information does not match.",
   "MISSING_ID": "User ID not found. Please log in again.",
   "NONEXIST_ID": "The ID does not exist.",
+  "NONEXIST_PAGE": "Page not found",
   "EXIST_ID": "ID already exists.",
   "EXIST_USER": "User already exists.",
   "EXIST_NICKNAME": "Nickname already exists.",
