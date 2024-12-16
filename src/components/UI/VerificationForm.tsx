@@ -17,6 +17,7 @@ import StorageKeyword from 'Constant/StorageKeyword';
 import { useTranslation } from 'react-i18next';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import { VerifyCodePasswordDTO } from 'services/dto/PasswordDto';
+import useCustomNavigate from 'hooks/useCustomNaviaget';
 
 interface VerificationFormProps {
     onSubmit: (name: string, email: string, code: string) => void;
@@ -24,6 +25,9 @@ interface VerificationFormProps {
     initialName?: string;
     initialEmail?: string;
     initialCode?: string;
+    message?: string;
+    category?: string;
+    setMessage?: (message: string) => void;
 }
 
 export default function VerificationForm({
@@ -32,6 +36,9 @@ export default function VerificationForm({
     initialName = '',
     initialEmail = '',
     initialCode = '',
+    message = '',
+    category = '',
+    setMessage = () => {},
 }: VerificationFormProps) {
     const { t } = useTranslation();
     const ValidationMessages = getValidationMessages();
@@ -45,7 +52,6 @@ export default function VerificationForm({
     const [email, setEmail] = useState(initialEmail);
     const [code, setCode] = useState(initialCode);
 
-    const [message, setMessage] = useState('');
     const [verification, setVerification] = useState(false);
 
     const { timer, startTimer, isActive } = useTimer(300);
@@ -54,6 +60,8 @@ export default function VerificationForm({
     const emailInputRef = useRef<HTMLInputElement>(null);
     const codeInputRef = useRef<HTMLInputElement>(null);
     const [hasTimerStarted, setHasTimerStarted] = useState(false);
+
+    const navigate = useCustomNavigate();
 
     const onChangeName = useCallback(
         handleInputChange(setName, setNameError, validateName),
@@ -80,10 +88,19 @@ export default function VerificationForm({
         }
 
         if (name && email) {
+            let authenticationType;
+            if (category === 'password') {
+                authenticationType = StorageKeyword.VERIFICATION_CODE_PASSWORD;
+            } else if (category === 'email') {
+                authenticationType = StorageKeyword.VERIFICATION_CODE_ID;
+            } else {
+                authenticationType = StorageKeyword.VERIFICATION_CODE_SIGNUP;
+            }
+
             const userData: VerificationRequestDTO = {
                 userName: name,
                 email: email,
-                authenticationType: StorageKeyword.VERIFICATION_CODE_SIGNUP,
+                authenticationType: authenticationType,
             };
 
             setMessage('');
@@ -97,7 +114,7 @@ export default function VerificationForm({
                 handleApiError(error as AxiosError, setMessage);
             }
         }
-    }, [startTimer, name, email, nameError, emailError]);
+    }, [startTimer, name, email, nameError, emailError, category]);
 
     const handleSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
@@ -116,6 +133,11 @@ export default function VerificationForm({
                 errorInputCheck(codeInputRef.current);
                 return;
             }
+
+            setSessionStorages({
+                key: StorageKeyword.VERIFICATION_SUCCESS,
+                value: StorageKeyword.TRUE,
+            });
 
             onSubmit(name, email, code);
         },
@@ -192,6 +214,34 @@ export default function VerificationForm({
                     </p>
                 </section>
             )}
+            {category && (
+                <section className="c-login__button-section-bottom">
+                    {category === 'password' ? (
+                        <div className="c-login__button-section-bottom-text">
+                            <p>
+                                {t('REQUIRED_VERIFICATION_FOR_FIND_PASSWORD-1')}
+                            </p>
+                            <p>
+                                {t('REQUIRED_VERIFICATION_FOR_FIND_PASSWORD-2')}
+                            </p>
+                        </div>
+                    ) : category === 'email' ? (
+                        <div className="c-login__button-section-bottom-text">
+                            <p>{t('REQUIRED_VERIFICATION_FOR_FIND_ID-1')}</p>
+                            <p>{t('REQUIRED_VERIFICATION_FOR_FIND_ID-2')}</p>
+                        </div>
+                    ) : null}
+                    {category && (
+                        <button
+                            className="button__light-font"
+                            onClick={() => navigate('/verification')}
+                        >
+                            <p>{t('GO_VERIFY_EMAIL')}</p>
+                        </button>
+                    )}
+                </section>
+            )}
+            {message && <p className="font-warning">{message}</p>}
             <section className="c-login__button-section">
                 <button className="button__rounded button__orange">
                     {t('VERIFICATION_COMPLETE')}
@@ -206,7 +256,6 @@ export default function VerificationForm({
                     </button>
                 )}
             </section>
-            {message && <p className="message">{message}</p>}
         </form>
     );
 }

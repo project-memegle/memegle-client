@@ -13,9 +13,12 @@ import StorageKeyword from 'Constant/StorageKeyword';
 import { VerifyCodePasswordDTO } from 'services/dto/PasswordDto';
 import VerificationForm from 'components/UI/VerificationForm';
 import { signUp } from 'services/SignupService';
+import getValidationMessages from 'components/Validations/ValidationMessages';
+import { handleVerificationApiError } from 'utils/API/handleVerificationAPIError';
 
 export default function Verification() {
     const navigate = useCustomNavigate();
+    const ValidationMessages = getValidationMessages();
 
     const [message, setMessage] = useState('');
 
@@ -24,6 +27,9 @@ export default function Verification() {
         deleteSessionStorage('nickname');
         deleteSessionStorage('password');
     };
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [code, setCode] = useState('');
 
     const getSignUpData = async () => {
         const id = getSessionStorages('id');
@@ -45,7 +51,7 @@ export default function Verification() {
         }
     };
 
-    const handleSubmit = useCallback(
+    const onSubmit = useCallback(
         async (name: string, email: string, code: string) => {
             const userData: VerifyCodePasswordDTO = {
                 email: email,
@@ -63,7 +69,7 @@ export default function Verification() {
 
                 navigate('/mypage');
             } catch (error) {
-                handleApiError(error as AxiosError, setMessage);
+                handleVerificationApiError(error as AxiosError, setMessage);
             }
         },
         [navigate]
@@ -71,8 +77,14 @@ export default function Verification() {
 
     return (
         <div className="main__container">
-            <VerificationForm onSubmit={handleSubmit} />
-            {message && <p className="message">{message}</p>}
+            <VerificationForm
+                onSubmit={onSubmit}
+                initialName={name}
+                initialEmail={email}
+                initialCode={code}
+                message={message}
+                setMessage={setMessage}
+            />
         </div>
     );
 }

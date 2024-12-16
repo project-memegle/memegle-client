@@ -30,7 +30,6 @@ export async function postIdSearchCode(
     try {
         await post<void, IdSearchRequestDTO>(SEND_EMAIL_CODE, userData);
     } catch (error) {
-        SEND_EMAIL_CODE;
         if (axios.isAxiosError(error)) {
             throw error.response?.data?.code;
         }

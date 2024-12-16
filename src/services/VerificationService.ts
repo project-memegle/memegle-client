@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { post } from 'utils/API/fetcher';
 import { VerificationRequestDTO } from './dto/VerificationDto';
 import { SEND_EMAIL_CODE, VERIFY_AUTH_CODE_URL } from './IdService';
@@ -13,6 +13,9 @@ export async function postVerificationCode(
             VerificationRequestDTO
         >(SEND_EMAIL_CODE, userData);
     } catch (error) {
+        if (axios.isAxiosError(error)) {
+            throw error.response?.data?.code;
+        }
         throw error;
     }
 }
@@ -25,6 +28,9 @@ export async function verifyVerificationCode(
             VerifyCodePasswordDTO
         >(VERIFY_AUTH_CODE_URL, userData);
     } catch (error) {
+        if (axios.isAxiosError(error)) {
+            throw error.response?.data?.code;
+        }
         throw error;
     }
 }
