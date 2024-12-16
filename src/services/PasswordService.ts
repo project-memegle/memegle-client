@@ -42,10 +42,10 @@ export async function VerifyCodePassword(
 }
 export async function ResetPassword(userData: ResetPasswordDTO): Promise<void> {
     try {
-        const response: AxiosResponse<void> = await put<
-            void,
-            ResetPasswordDTO
-        >(RESET_PASSWORD_URL, userData);
+        const response: AxiosResponse<void> = await put<void, ResetPasswordDTO>(
+            RESET_PASSWORD_URL,
+            userData
+        );
     } catch (error) {
         if (axios.isAxiosError(error)) {
             throw error.response?.data?.code;

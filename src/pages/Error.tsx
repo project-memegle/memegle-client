@@ -1,11 +1,13 @@
 import errorIcon from '@memegle/assets/images/png/img_error.png';
 import { createRoot, Root } from 'react-dom/client';
+import { useTranslation } from 'react-i18next';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 interface ErrorPageProps {
     message: string;
 }
 export default function ErrorPage({ message }: ErrorPageProps) {
+    const { t } = useTranslation();
     return (
         <div className="body__container">
             <main className="error__container">
@@ -16,7 +18,7 @@ export default function ErrorPage({ message }: ErrorPageProps) {
                             window.history.back();
                         }}
                     >
-                        뒤로가기
+                        {t('BACK_BUTTON')}
                     </button>
                 </div>
                 <img src={errorIcon} alt="icon" />

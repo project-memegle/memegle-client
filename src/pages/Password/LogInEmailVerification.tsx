@@ -15,6 +15,8 @@ import getValidationMessages from '../../components/Validations/ValidationMessag
 import { useTranslation } from 'react-i18next';
 import StorageKeyword from 'Constant/StorageKeyword';
 import validateName from 'components/Validations/ValidateName';
+import { handleVerificationApiError } from 'utils/API/handleVerificationAPIError';
+import { AxiosError } from 'axios';
 
 export default function LogInEmailVerification() {
     const navigate = useCustomNavigate();
@@ -133,19 +135,7 @@ export default function LogInEmailVerification() {
                         },
                     });
                 } catch (error) {
-                    if (error === 40105) {
-                        setMessage(ValidationMessages.FAILED_VERIFICATION_CODE);
-                        return;
-                    }
-                    if (error === 40001) {
-                        setMessage(ValidationMessages.INVALID_CODE_TYPE);
-                        return;
-                    }
-                    if (error === 5000) {
-                        setMessage(ValidationMessages.SERVER_ERROR);
-                        return;
-                    }
-                    setMessage(ValidationMessages.UNKNOWN_ERROR);
+                    handleVerificationApiError(error as AxiosError, setMessage);
                 }
             }
         },

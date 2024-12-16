@@ -16,6 +16,7 @@ import MOCK_CATEGORY_RESULT_HUNGRY from 'mockData/__CategorySearchHungry';
 import MOCK_CATEGORY_RESULT_HAPINESS from 'mockData/__CategorySearchHappiness';
 import { getLastKeywordFromUrl } from 'utils/Event/saveUrl';
 import { useLocation } from 'react-router-dom';
+import { normalizeString } from 'utils/Format/normalize';
 
 const mockDataMap: { [key: string]: SearchResultSectionDTO } = {
     mudo: MOCK_CATEGORY_RESULT_MUDO,
@@ -36,15 +37,15 @@ export function ResultTag() {
 
     useEffect(() => {
         const lastKeyword = getLastKeywordFromUrl<string>();
-        const decodedKeyword = decodeURIComponent(lastKeyword || ''); 
+        const decodedKeyword = decodeURIComponent(lastKeyword || '');
         setLoading(false);
         if (typeof decodedKeyword === 'string') {
-            const normalizedKeyword = decodedKeyword.normalize('NFC');
+            const normalizedKeyword = normalizeString(decodedKeyword);
             const filteredResults: SearchResultItemDTO[] = [];
             for (const value of Object.values(mockDataMap)) {
                 const matchingItems = value.results.filter((item) => {
                     const matches = item.tagList.some((tag) => {
-                        const normalizedTag = tag.normalize('NFC'); 
+                        const normalizedTag = normalizeString(tag);
                         return normalizedTag.includes(normalizedKeyword);
                     });
                     return matches;

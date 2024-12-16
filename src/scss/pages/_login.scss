@@ -99,6 +99,7 @@
       color: #0d0c22;
       transition: 0.3s ease;
       border: 2px solid colors.$secondary;
+      width: 100%;
 
       &::placeholder {
         color: colors.$secondary;
@@ -143,6 +144,7 @@
         align-items: flex-start;
         button {
           padding: 0;
+          text-decoration: underline;
         }
         p {
           margin: 0;

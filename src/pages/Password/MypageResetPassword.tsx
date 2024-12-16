@@ -130,7 +130,7 @@ export default function MypageResetPassword() {
                 </div>
                 <button
                     className="button__rounded button__orange"
-                    type="submit" // Ensure this button submits the form
+                    type="submit" 
                 >
                     {t('CHANGE_PASSWORD')}
                 </button>
