@@ -12,11 +12,10 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      height: var(--primary__item-height);
       border-radius: var(--primary__border-radius);
       aspect-ratio: 1 / 1;
       height: 100%;
-      overflow: hidden;
+      align-items: stretch;
       // background-color: var(--primary__color);
       &:hover {
         cursor: pointer;
