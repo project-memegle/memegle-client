@@ -14,13 +14,16 @@
       width: 100%;
       height: var(--primary__item-height);
       border-radius: var(--primary__border-radius);
-
+      aspect-ratio: 1 / 1;
+      height: 100%;
       overflow: hidden;
-      background-color: var(--primary__color);
-
+      // background-color: var(--primary__color);
+      &:hover {
+        cursor: pointer;
+      }
       &-delete {
         position: absolute;
-        top: calc(var(--primary__font-size) / 2);
+        top: calc(var(--primary__font-size) / 5.5);
         left: calc(var(--primary__font-size) / 2);
         z-index: 3;
         .c-icon {
@@ -30,7 +33,7 @@
           z-index: 2;
 
           &:hover {
-            color: colors.$warning;
+            color: colors.$black;
           }
         }
       }
@@ -38,6 +41,7 @@
         box-shadow:
           rgb(63 63 68 / 5%) 0px 0px 0px 1px,
           rgb(34 33 81 / 15%) 0px 1px 3px 0px;
+        border-radius: var(--primary__border-radius);
 
         object-fit: cover;
         width: 100%;
@@ -46,9 +50,8 @@
           box-shadow: none;
         }
         &:hover {
-          cursor: pointer;
           transition: 0.3s ease;
-          transform: scale(1.5);
+          transform: scale(1.05);
         }
 
         &:hover::before {

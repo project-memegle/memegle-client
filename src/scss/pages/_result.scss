@@ -1,23 +1,5 @@
 @use "../settings/colors" as colors;
-
-@mixin icon-style() {
-  z-index: 1;
-  opacity: 0.8;
-  border-radius: var(--primary__border-radius);
-  width: calc(var(--primary__font-size) * 2.25);
-  height: calc(var(--primary__font-size) * 2.25);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: absolute;
-  background-color: colors.$white;
-  .c-icon {
-    font-size: 1.5em;
-    &:hover {
-      color: colors.$warning;
-    }
-  }
-}
+@use "../components/_icon" as icon;
 
 @mixin styles() {
   .result__section {
@@ -29,45 +11,72 @@
 
   .result__item {
     display: flex;
-    align-items: center;
     justify-content: center;
     width: 100%;
     height: var(--primary__item-height);
     border-radius: var(--primary__border-radius);
     overflow: hidden;
     position: relative;
-    background-color: var(--primary__color);
-
-    & img {
-      width: 100%;
-
-      &:hover {
-        transition: 0.3s ease;
-        transform: scale(1.5);
-      }
-    }
-
-    &:hover {
-      cursor: pointer;
-    }
-
+    aspect-ratio: 1 / 1;
+    height: 100%;
     &-copy {
+      width: calc(var(--primary__font-size) * 1.75);
+      height: calc(var(--primary__font-size) * 1.75);
       right: calc(var(--primary__font-size) / 2);
       top: calc(var(--primary__font-size) / 2);
 
-      @include icon-style();
+      @include icon.icon-style();
+      i {
+        &:hover {
+          color: colors.$black;
+        }
+      }
     }
+
     &-download {
       bottom: calc(var(--primary__font-size) / 2);
       right: calc(var(--primary__font-size) / 2);
-
-      @include icon-style();
+      width: calc(var(--primary__font-size) * 2);
+      height: calc(var(--primary__font-size) * 2);
+      @include icon.styles();
+      @include icon.icon-style();
+      i {
+        &:hover {
+          color: colors.$black;
+        }
+      }
     }
 
     &-favorite {
       left: calc(var(--primary__font-size) / 2);
       top: calc(var(--primary__font-size) / 2);
-      @include icon-style();
+      width: calc(var(--primary__font-size) * 1.75);
+      height: calc(var(--primary__font-size) * 1.75);
+      z-index: 1;
+      opacity: 0.8;
+      border-radius: var(--primary__border-radius);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      justify-content: center;
+      .c-icon {
+        font-size: 1.5em;
+        color: colors.$warning;
+      }
+    }
+
+    & img {
+      width: 100%;
+      border-radius: 8px;
+      &:hover {
+        transition: 0.3s ease;
+        transform: scale(1.05);
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
     }
   }
 

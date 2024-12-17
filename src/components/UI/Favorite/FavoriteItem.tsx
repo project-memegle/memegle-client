@@ -7,7 +7,7 @@ type FavoriteItemProps = {
     item: SearchResultItemDTO;
     isOpacityEnabled?: boolean;
     isDragging?: boolean;
-    onOpenModal: (imageUrl: string, tagList: string[]) => void;
+    onOpenModal: (selectedResult: SearchResultItemDTO) => void;
     onDelete: (id: number) => void;
     onSave: () => void;
 } & HTMLAttributes<HTMLDivElement>;
@@ -46,20 +46,19 @@ const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
                 item.imageUrl,
                 setToastMessage,
                 setToast,
-                () => onOpenModal(item.imageUrl, item.tagList)
+                () => onOpenModal(item)
             );
         }
-
         return (
             <article
                 className="c-favorite__item"
-                onClick={handleCopy}
+                onClick={() => onOpenModal(item)}
                 ref={ref}
                 style={styles}
                 {...props}
             >
                 <div className="result__item-copy">
-                    <i className="c-icon">file_copy</i>
+                    <i className="c-icon">left_click</i>
                 </div>
                 <div
                     className="c-favorite__item-delete"

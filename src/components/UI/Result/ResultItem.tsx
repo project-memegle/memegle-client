@@ -1,18 +1,16 @@
 import { useEffect, useState } from 'react';
-import ToastMessage from '../../components/UI/ToastMessage/ToastMessage';
+import ToastMessage from '../ToastMessage/ToastMessage';
 import { SearchResultItemDTO } from 'services/dto/ResultDto';
-import handleCopyImage from 'utils/Event/handleCopyImage';
 import {
     getArraySessionStorages,
     setArraySessionStorages,
 } from 'utils/Storage/sessionStorage';
-import { SESSION_STORAGE_KEY } from 'pages/Favorite/Favorite';
+import { SESSION_STORAGE_KEY } from 'pages/Favorite';
 import getValidationMessages from 'components/Validations/ValidationMessages';
-import DownloadLink from 'components/UI/Result/DownloadLink';
 
 interface ResultItemProps {
     result: SearchResultItemDTO;
-    onOpenModal: (imageUrl: string, tagList: string[]) => void;
+    onOpenModal: (selectedResult: SearchResultItemDTO) => void;
     onImageLoad: () => void;
 }
 
@@ -23,51 +21,34 @@ export default function ResultItem({
 }: ResultItemProps) {
     const [toast, setToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
+    const [isFavorite, setIsFavorite] = useState(false);
     const [favoriteList, setFavoriteList] = useState<
         { id: number; imageUrl: string; tagList: string[] }[]
     >([]);
     const ValidationMessages = getValidationMessages();
 
     useEffect(() => {
-        const favorites = getArraySessionStorages(SESSION_STORAGE_KEY);
-        setFavoriteList(favorites || []);
-    }, []);
+        const favorites = getArraySessionStorages(SESSION_STORAGE_KEY) || [];
+        setFavoriteList(favorites);
+        setIsFavorite(favorites.some((item) => item.id === result.id));
+    }, [result.id]);
 
-    async function handleCopy() {
-        await handleCopyImage(result.imageUrl, setToastMessage, setToast, () =>
-            onOpenModal(result.imageUrl, result.tagList)
-        );
-    }
-    //todo : API 로 바꾸기
-    function addToFavoriteApi({
-        id,
-        imageUrl,
-        imageCategory,
-        createdAt,
-        modifiedAt,
-        tagList,
-    }: SearchResultItemDTO) {
-        const favoriteList = getArraySessionStorages(SESSION_STORAGE_KEY) || [];
-        const favoriteItem = {
-            id,
-            imageUrl,
-            imageCategory,
-            createdAt,
-            modifiedAt,
-            tagList,
-        };
-        favoriteList.push(favoriteItem);
-        setArraySessionStorages({
-            key: SESSION_STORAGE_KEY,
-            value: favoriteList,
-        });
-    }
-
-    async function addToFavorite(item: SearchResultItemDTO) {
+    function addToFavorite(item: SearchResultItemDTO) {
         try {
-            addToFavoriteApi(item);
-            setFavoriteList((prev) => [...prev, item]);
-            setToastMessage(ValidationMessages.SUCCESS_ADD_FAVORITE);
+            const favorites =
+                getArraySessionStorages(SESSION_STORAGE_KEY) || [];
+            if (!favorites.some((favorite) => favorite.id === item.id)) {
+                const updatedFavorites = [...favorites, item];
+                setArraySessionStorages({
+                    key: SESSION_STORAGE_KEY,
+                    value: updatedFavorites,
+                });
+                setFavoriteList(updatedFavorites);
+                setIsFavorite(true);
+                setToastMessage(ValidationMessages.SUCCESS_ADD_FAVORITE);
+            } else {
+                setToastMessage(ValidationMessages.ALREADY_ADDED);
+            }
             setToast(true);
         } catch (error) {
             setToastMessage(ValidationMessages.FAILED_EVENT);
@@ -75,9 +56,11 @@ export default function ResultItem({
         }
     }
 
-    async function removeFromFavorite(item: SearchResultItemDTO) {
+    function removeFromFavorite(item: SearchResultItemDTO) {
         try {
-            const updatedFavorites = favoriteList.filter(
+            const favorites =
+                getArraySessionStorages(SESSION_STORAGE_KEY) || [];
+            const updatedFavorites = favorites.filter(
                 (favorite) => favorite.id !== item.id
             );
             setArraySessionStorages({
@@ -85,6 +68,7 @@ export default function ResultItem({
                 value: updatedFavorites,
             });
             setFavoriteList(updatedFavorites);
+            setIsFavorite(false);
             setToastMessage(ValidationMessages.SUCCESS_DELETE_IMG);
             setToast(true);
         } catch (error) {
@@ -93,19 +77,10 @@ export default function ResultItem({
         }
     }
 
-    const isFavorite = favoriteList.some(
-        (favorite) => favorite.id === result.id
-    );
-
-    function handleDownloadSuccess() {
-        setToastMessage(ValidationMessages.SUCCESS_IMAGE_DOWNLOAD);
-        setToast(true);
-    }
-
     return (
-        <article className="result__item" onClick={handleCopy}>
+        <article className="result__item" onClick={() => onOpenModal(result)}>
             <div className="result__item-copy">
-                <i className="c-icon">file_copy</i>
+                <i className="c-icon">left_click</i>
             </div>
             <div
                 className="result__item-favorite"
@@ -119,16 +94,11 @@ export default function ResultItem({
                 }}
             >
                 {isFavorite ? (
-                    <i className="c-icon c-icon--fill-warning">favorite</i>
+                    <i className="c-icon c-icon--fill-favorite">favorite</i>
                 ) : (
-                    <i className="c-icon">favorite_border</i>
+                    <i className="c-icon c-icon-favorite">favorite_border</i>
                 )}
             </div>
-            <DownloadLink
-                url={result.imageUrl}
-                filename={`${result.imageCategory}${result.id}`}
-                onDownload={handleDownloadSuccess}
-            />
             <img
                 src={result.imageUrl}
                 alt={`img-${result.id}`}

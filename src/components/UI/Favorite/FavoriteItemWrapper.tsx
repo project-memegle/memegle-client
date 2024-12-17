@@ -8,7 +8,7 @@ type FavoriteItemWrapper = {
     item: SearchResultItemDTO;
     onDelete: (id: number) => void;
     onSave: () => void;
-    onOpenModal: (imageUrl: string, tagList: string[]) => void;
+    onOpenModal: (selectedResult: SearchResultItemDTO) => void;
 } & HTMLAttributes<HTMLDivElement>;
 
 const FavoriteItemWrapper = ({

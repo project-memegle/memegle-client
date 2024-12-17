@@ -16,8 +16,6 @@ import {
 } from '@dnd-kit/sortable';
 import { useEffect, useState } from 'react';
 
-import FavoriteItemWrapper from './FavoriteItemWrapper';
-import FavoriteItem from './FavoriteItem';
 import MOCK_FAVORITE_LIST from 'mockData/__FavoriteList';
 import {
     SearchResultItemDTO,
@@ -32,6 +30,8 @@ import getValidationMessages from 'components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
 import Tooltip from 'components/UI/ToolTip';
 import ImageModal from 'components/UI/Result/ImageModal';
+import FavoriteItemWrapper from 'components/UI/Favorite/FavoriteItemWrapper';
+import FavoriteItem from 'components/UI/Favorite/FavoriteItem';
 
 export const SESSION_STORAGE_KEY = 'favoriteList';
 
@@ -48,8 +48,8 @@ export default function Favorite() {
 
     const [activeItem, setActiveItem] = useState<SearchResultItemDTO>();
     const [modalVisible, setModalVisible] = useState(false);
-    const [modalImageUrl, setModalImageUrl] = useState('');
-    const [modalTagList, setModalTagList] = useState<string[]>([]);
+    const [selectedResult, setSelectedResult] =
+        useState<SearchResultItemDTO | null>(null);
 
     useEffect(() => {
         const originFavoriteList = getArraySessionStorages(SESSION_STORAGE_KEY);
@@ -89,16 +89,14 @@ export default function Favorite() {
         })
     );
 
-    const handleOpenModal = (imageUrl: string, tagList: string[]) => {
-        setModalImageUrl(imageUrl);
-        setModalTagList(tagList);
+    const handleOpenModal = (selectedResult: SearchResultItemDTO) => {
+        setSelectedResult(selectedResult);
         setModalVisible(true);
     };
 
     const handleCloseModal = () => {
         setModalVisible(false);
-        setModalImageUrl('');
-        setModalTagList([]);
+        setSelectedResult(null);
     };
 
     const handleDragStart = (event: DragStartEvent) => {
@@ -243,11 +241,13 @@ export default function Favorite() {
                     onClose={() => setToast(false)}
                 />
             )}
-            {modalVisible && (
+            {modalVisible && selectedResult && (
                 <ImageModal
-                    imageUrl={modalImageUrl}
                     onClose={handleCloseModal}
-                    tagList={modalTagList}
+                    result={selectedResult}
+                    onImageLoad={() => {}}
+                    handleDownloadSuccess={() => {}}
+                    onOpenModal={handleOpenModal}
                 />
             )}
         </main>
