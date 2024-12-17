@@ -16,8 +16,6 @@ import {
 } from '@dnd-kit/sortable';
 import { useEffect, useState } from 'react';
 
-import FavoriteItemWrapper from './FavoriteItemWrapper';
-import FavoriteItem from './FavoriteItem';
 import MOCK_FAVORITE_LIST from 'mockData/__FavoriteList';
 import {
     SearchResultItemDTO,
@@ -32,6 +30,8 @@ import getValidationMessages from 'components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
 import Tooltip from 'components/UI/ToolTip';
 import ImageModal from 'components/UI/Result/ImageModal';
+import FavoriteItemWrapper from 'components/UI/Favorite/FavoriteItemWrapper';
+import FavoriteItem from 'components/UI/Favorite/FavoriteItem';
 
 export const SESSION_STORAGE_KEY = 'favoriteList';
 
@@ -93,7 +93,6 @@ export default function Favorite() {
         setSelectedResult(selectedResult);
         setModalVisible(true);
     };
-
 
     const handleCloseModal = () => {
         setModalVisible(false);

@@ -5,7 +5,7 @@ import {
     getArraySessionStorages,
     setArraySessionStorages,
 } from 'utils/Storage/sessionStorage';
-import { SESSION_STORAGE_KEY } from 'pages/Favorite/Favorite';
+import { SESSION_STORAGE_KEY } from 'pages/Favorite';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 
 interface ResultItemProps {
