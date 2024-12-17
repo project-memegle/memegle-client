@@ -94,9 +94,9 @@ export default function ResultItem({
                 }}
             >
                 {isFavorite ? (
-                    <i className="c-icon c-icon--fill-warning">favorite</i>
+                    <i className="c-icon c-icon--fill-favorite">favorite</i>
                 ) : (
-                    <i className="c-icon">favorite_border</i>
+                    <i className="c-icon c-icon-favorite">favorite_border</i>
                 )}
             </div>
             <img

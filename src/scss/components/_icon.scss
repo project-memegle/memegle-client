@@ -56,6 +56,33 @@
         "opsz" 48;
       color: colors.$warning;
     }
+
+    &--fill-favorite {
+      font-variation-settings:
+        "FILL" 1,
+        "wght" 400,
+        "GRAD" 0,
+        "opsz" 48;
+      color: colors.$warning;
+    }
+
+    // &--fill-favorite:hover {
+    //   font-variation-settings:
+    //     "FILL" 0,
+    //     "wght" 400,
+    //     "GRAD" 0,
+    //     "opsz" 48;
+    //   color: colors.$warning;
+    // }
+
+    &-favorite:hover {
+      font-variation-settings:
+        "FILL" 1,
+        "wght" 400,
+        "GRAD" 0,
+        "opsz" 48;
+      color: colors.$warning;
+    }
   }
 }
 
