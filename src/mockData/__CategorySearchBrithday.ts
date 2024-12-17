@@ -11,7 +11,7 @@ const MOCK_CATEGORY_RESULT_BIRTHDAY: SearchResultSectionDTO = {
     results: [
         {
             id: 81,
-            imageUrl: resolveImagePath('/temp/birthday/birthday-01.png'),
+            imageUrl: resolveImagePath('/temp/birthday/birthday-01.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -19,7 +19,7 @@ const MOCK_CATEGORY_RESULT_BIRTHDAY: SearchResultSectionDTO = {
         },
         {
             id: 82,
-            imageUrl: resolveImagePath('/temp/birthday/birthday-02.png'),
+            imageUrl: resolveImagePath('/temp/birthday/birthday-02.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -27,7 +27,7 @@ const MOCK_CATEGORY_RESULT_BIRTHDAY: SearchResultSectionDTO = {
         },
         {
             id: 83,
-            imageUrl: resolveImagePath('/temp/birthday/birthday-03.png'),
+            imageUrl: resolveImagePath('/temp/birthday/birthday-03.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
             modifiedAt: DATE,

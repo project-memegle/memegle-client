@@ -13,9 +13,14 @@ import DownloadLink from 'components/UI/Result/DownloadLink';
 interface ResultItemProps {
     result: SearchResultItemDTO;
     onOpenModal: (imageUrl: string, tagList: string[]) => void;
+    onImageLoad: () => void;
 }
 
-export default function ResultItem({ result, onOpenModal }: ResultItemProps) {
+export default function ResultItem({
+    result,
+    onOpenModal,
+    onImageLoad,
+}: ResultItemProps) {
     const [toast, setToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [favoriteList, setFavoriteList] = useState<
@@ -124,7 +129,11 @@ export default function ResultItem({ result, onOpenModal }: ResultItemProps) {
                 filename={`${result.imageCategory}${result.id}`}
                 onDownload={handleDownloadSuccess}
             />
-            <img src={result.imageUrl} alt={`img-${result.id}`} />
+            <img
+                src={result.imageUrl}
+                alt={`img-${result.id}`}
+                onLoad={onImageLoad}
+            />
             {toast && (
                 <ToastMessage
                     message={toastMessage}

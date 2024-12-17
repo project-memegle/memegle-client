@@ -43,7 +43,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
         },
         {
             id: 35,
-            imageUrl: resolveImagePath('/temp/Mudo/mudo-05.jpg'),
+            imageUrl: resolveImagePath('/temp/Mudo/mudo-05.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -51,7 +51,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
         },
         {
             id: 36,
-            imageUrl: resolveImagePath('/temp/Mudo/mudo-06.jpg'),
+            imageUrl: resolveImagePath('/temp/Mudo/mudo-06.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -59,7 +59,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
         },
         {
             id: 37,
-            imageUrl: resolveImagePath('/temp/Mudo/mudo-07.jpg'),
+            imageUrl: resolveImagePath('/temp/Mudo/mudo-07.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -67,7 +67,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
         },
         {
             id: 38,
-            imageUrl: resolveImagePath('/temp/Mudo/mudo-08.jpg'),
+            imageUrl: resolveImagePath('/temp/Mudo/mudo-08.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -75,7 +75,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
         },
         {
             id: 39,
-            imageUrl: resolveImagePath('/temp/Mudo/mudo-09.jpeg'),
+            imageUrl: resolveImagePath('/temp/Mudo/mudo-09.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -91,7 +91,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
         },
         {
             id: 311,
-            imageUrl: resolveImagePath('/temp/Mudo/mudo-11.png'),
+            imageUrl: resolveImagePath('/temp/Mudo/mudo-11.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -99,7 +99,7 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
         },
         {
             id: 312,
-            imageUrl: resolveImagePath('/temp/Mudo/mudo-12.jpg'),
+            imageUrl: resolveImagePath('/temp/Mudo/mudo-12.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
             modifiedAt: DATE,

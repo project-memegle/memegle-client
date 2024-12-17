@@ -11,7 +11,7 @@ const MOCK_CATEGORY_RESULT_WHAT: SearchResultSectionDTO = {
     results: [
         {
             id: 11,
-            imageUrl: resolveImagePath('/temp/what/what-01.jpeg'),
+            imageUrl: resolveImagePath('/temp/what/what-01.webp'),
             imageCategory: 'what',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -19,7 +19,7 @@ const MOCK_CATEGORY_RESULT_WHAT: SearchResultSectionDTO = {
         },
         {
             id: 12,
-            imageUrl: resolveImagePath('/temp/what/what-02.jpg'),
+            imageUrl: resolveImagePath('/temp/what/what-02.webp'),
             imageCategory: 'what',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -27,7 +27,7 @@ const MOCK_CATEGORY_RESULT_WHAT: SearchResultSectionDTO = {
         },
         {
             id: 13,
-            imageUrl: resolveImagePath('/temp/what/what-03.png'),
+            imageUrl: resolveImagePath('/temp/what/what-03.webp'),
             imageCategory: 'what',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -35,7 +35,7 @@ const MOCK_CATEGORY_RESULT_WHAT: SearchResultSectionDTO = {
         },
         {
             id: 14,
-            imageUrl: resolveImagePath('/temp/what/what-04.jpg'),
+            imageUrl: resolveImagePath('/temp/what/what-04.webp'),
             imageCategory: 'what',
             createdAt: DATE,
             modifiedAt: DATE,

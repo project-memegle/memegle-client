@@ -11,7 +11,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
     results: [
         {
             id: 81,
-            imageUrl: resolveImagePath('/temp/birthday/birthday-02.png'),
+            imageUrl: resolveImagePath('/temp/birthday/birthday-02.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -19,7 +19,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
         },
         {
             id: 52,
-            imageUrl: resolveImagePath('/temp/Happiness/happiness-01.jpg'),
+            imageUrl: resolveImagePath('/temp/Happiness/happiness-01.webp'),
             imageCategory: 'happiness',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -27,7 +27,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
         },
         {
             id: 23,
-            imageUrl: resolveImagePath('/temp/Tired/tired-01.jpeg'),
+            imageUrl: resolveImagePath('/temp/Tired/tired-01.webp'),
             imageCategory: 'tiredness',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -35,7 +35,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
         },
         {
             id: 14,
-            imageUrl: resolveImagePath('/temp/what/what-01.jpeg'),
+            imageUrl: resolveImagePath('/temp/what/what-01.webp'),
             imageCategory: 'what',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -43,7 +43,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
         },
         {
             id: 65,
-            imageUrl: resolveImagePath('/temp/flex/flex-01.jpeg'),
+            imageUrl: resolveImagePath('/temp/flex/flex-01.webp'),
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -59,7 +59,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
         },
         {
             id: 98,
-            imageUrl: resolveImagePath('/temp/Anger/anger-01.jpeg'),
+            imageUrl: resolveImagePath('/temp/Anger/anger-01.webp'),
             imageCategory: 'anger',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -67,7 +67,7 @@ const MOCK_FAVORITE_LIST: SearchResultSectionDTO = {
         },
         {
             id: 49,
-            imageUrl: resolveImagePath('/temp/hungry/hungry-02.png'),
+            imageUrl: resolveImagePath('/temp/hungry/hungry-02.webp'),
             imageCategory: 'hunger',
             createdAt: DATE,
             modifiedAt: DATE,

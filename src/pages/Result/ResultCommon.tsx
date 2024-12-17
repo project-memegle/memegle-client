@@ -2,7 +2,7 @@ import { useEffect, useState, ReactNode } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import ResultSection from './ResultSection';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
-import emptyIcon from '@memegle/assets/images/png/img_result_empty.png';
+import emptyIcon from '@memegle/assets/images/png/img_result_empty.webp';
 import { getLastKeywordFromUrl } from 'utils/Event/saveUrl';
 import {
     clearSearchHistory as clearLocalStorageSearchHistory,
@@ -131,6 +131,7 @@ export function ResultCommon({ searchBy, results }: ResultCommonProps) {
                 <ResultSection
                     results={results}
                     onOpenModal={handleOpenModal}
+                    onAllImagesLoaded={() => setLoading(false)}
                 />
             );
             return;
@@ -140,6 +141,7 @@ export function ResultCommon({ searchBy, results }: ResultCommonProps) {
                 <ResultSection
                     results={resultData.results}
                     onOpenModal={handleOpenModal}
+                    onAllImagesLoaded={() => setLoading(false)}
                 />
             );
             return;

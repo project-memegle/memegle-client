@@ -11,7 +11,7 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
     results: [
         {
             id: 51,
-            imageUrl: resolveImagePath('/temp/Happiness/happiness-01.jpg'),
+            imageUrl: resolveImagePath('/temp/Happiness/happiness-01.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -19,7 +19,7 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
         },
         {
             id: 52,
-            imageUrl: resolveImagePath('/temp/Happiness/happiness-02.png'),
+            imageUrl: resolveImagePath('/temp/Happiness/happiness-02.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -27,7 +27,7 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
         },
         {
             id: 53,
-            imageUrl: resolveImagePath('/temp/Happiness/happiness-03.jpg'),
+            imageUrl: resolveImagePath('/temp/Happiness/happiness-03.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -35,7 +35,7 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
         },
         {
             id: 54,
-            imageUrl: resolveImagePath('/temp/Happiness/happiness-04.jpg'),
+            imageUrl: resolveImagePath('/temp/Happiness/happiness-04.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -43,7 +43,7 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
         },
         {
             id: 55,
-            imageUrl: resolveImagePath('/temp/Happiness/happiness-05.jpg'),
+            imageUrl: resolveImagePath('/temp/Happiness/happiness-05.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -51,7 +51,7 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
         },
         {
             id: 56,
-            imageUrl: resolveImagePath('/temp/Happiness/happiness-06.jpg'),
+            imageUrl: resolveImagePath('/temp/Happiness/happiness-06.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
             modifiedAt: DATE,

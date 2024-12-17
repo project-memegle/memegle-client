@@ -1,4 +1,4 @@
-import errorIcon from '@memegle/assets/images/png/img_error.png';
+import errorIcon from '@memegle/assets/images/png/img_error.webp';
 import { createRoot, Root } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
 import { BrowserRouter as Router } from 'react-router-dom';
