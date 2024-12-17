@@ -11,7 +11,7 @@ const MOCK_CATEGORY_RESULT_SAD: SearchResultSectionDTO = {
     results: [
         {
             id: 71,
-            imageUrl: resolveImagePath('/temp/Sad/sad-01.jpg'),
+            imageUrl: resolveImagePath('/temp/Sad/sad-01.webp'),
             imageCategory: 'Sad',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -19,7 +19,7 @@ const MOCK_CATEGORY_RESULT_SAD: SearchResultSectionDTO = {
         },
         {
             id: 72,
-            imageUrl: resolveImagePath('/temp/Sad/sad-02.jpeg'),
+            imageUrl: resolveImagePath('/temp/Sad/sad-02.webp'),
             imageCategory: 'Sad',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -27,7 +27,7 @@ const MOCK_CATEGORY_RESULT_SAD: SearchResultSectionDTO = {
         },
         {
             id: 73,
-            imageUrl: resolveImagePath('/temp/Sad/sad-03.jpg'),
+            imageUrl: resolveImagePath('/temp/Sad/sad-03.webp'),
             imageCategory: 'Sad',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -35,7 +35,7 @@ const MOCK_CATEGORY_RESULT_SAD: SearchResultSectionDTO = {
         },
         {
             id: 74,
-            imageUrl: resolveImagePath('/temp/Sad/sad-04.jpeg'),
+            imageUrl: resolveImagePath('/temp/Sad/sad-04.webp'),
             imageCategory: 'Sad',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -43,7 +43,7 @@ const MOCK_CATEGORY_RESULT_SAD: SearchResultSectionDTO = {
         },
         {
             id: 75,
-            imageUrl: resolveImagePath('/temp/Sad/sad-05.jpeg'),
+            imageUrl: resolveImagePath('/temp/Sad/sad-05.webp'),
             imageCategory: 'Sad',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -51,7 +51,7 @@ const MOCK_CATEGORY_RESULT_SAD: SearchResultSectionDTO = {
         },
         {
             id: 76,
-            imageUrl: resolveImagePath('/temp/Sad/sad-06.jpeg'),
+            imageUrl: resolveImagePath('/temp/Sad/sad-06.webp'),
             imageCategory: 'Sad',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -59,7 +59,7 @@ const MOCK_CATEGORY_RESULT_SAD: SearchResultSectionDTO = {
         },
         {
             id: 77,
-            imageUrl: resolveImagePath('/temp/Sad/sad-07.jpeg'),
+            imageUrl: resolveImagePath('/temp/Sad/sad-07.webp'),
             imageCategory: 'Sad',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -67,7 +67,7 @@ const MOCK_CATEGORY_RESULT_SAD: SearchResultSectionDTO = {
         },
         {
             id: 78,
-            imageUrl: resolveImagePath('/temp/Sad/sad-08.jpeg'),
+            imageUrl: resolveImagePath('/temp/Sad/sad-08.webp'),
             imageCategory: 'Sad',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -75,7 +75,7 @@ const MOCK_CATEGORY_RESULT_SAD: SearchResultSectionDTO = {
         },
         {
             id: 79,
-            imageUrl: resolveImagePath('/temp/Sad/sad-09.jpeg'),
+            imageUrl: resolveImagePath('/temp/Sad/sad-09.webp'),
             imageCategory: 'Sad',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -83,7 +83,7 @@ const MOCK_CATEGORY_RESULT_SAD: SearchResultSectionDTO = {
         },
         {
             id: 710,
-            imageUrl: resolveImagePath('/temp/Sad/sad-10.jpeg'),
+            imageUrl: resolveImagePath('/temp/Sad/sad-10.webp'),
             imageCategory: 'Sad',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -91,7 +91,7 @@ const MOCK_CATEGORY_RESULT_SAD: SearchResultSectionDTO = {
         },
         {
             id: 711,
-            imageUrl: resolveImagePath('/temp/Sad/sad-11.jpeg'),
+            imageUrl: resolveImagePath('/temp/Sad/sad-11.webp'),
             imageCategory: 'Sad',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -99,7 +99,7 @@ const MOCK_CATEGORY_RESULT_SAD: SearchResultSectionDTO = {
         },
         {
             id: 712,
-            imageUrl: resolveImagePath('/temp/Sad/sad-12.jpeg'),
+            imageUrl: resolveImagePath('/temp/Sad/sad-12.webp'),
             imageCategory: 'Sad',
             createdAt: DATE,
             modifiedAt: DATE,

@@ -11,7 +11,7 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
     results: [
         {
             id: 21,
-            imageUrl: resolveImagePath('/temp/Tired/tired-01.jpeg'),
+            imageUrl: resolveImagePath('/temp/Tired/tired-01.webp'),
             imageCategory: 'tiredness',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -19,7 +19,7 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
         },
         {
             id: 22,
-            imageUrl: resolveImagePath('/temp/Tired/tired-02.jpeg'),
+            imageUrl: resolveImagePath('/temp/Tired/tired-02.webp'),
             imageCategory: 'tiredness',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -27,7 +27,7 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
         },
         {
             id: 23,
-            imageUrl: resolveImagePath('/temp/Tired/tired-03.jpg'),
+            imageUrl: resolveImagePath('/temp/Tired/tired-03.webp'),
             imageCategory: 'tiredness',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -35,7 +35,7 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
         },
         {
             id: 24,
-            imageUrl: resolveImagePath('/temp/Tired/tired-04.jpg'),
+            imageUrl: resolveImagePath('/temp/Tired/tired-04.webp'),
             imageCategory: 'tiredness',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -43,7 +43,7 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
         },
         {
             id: 25,
-            imageUrl: resolveImagePath('/temp/Tired/tired-05.jpg'),
+            imageUrl: resolveImagePath('/temp/Tired/tired-05.webp'),
             imageCategory: 'tiredness',
             createdAt: DATE,
             modifiedAt: DATE,

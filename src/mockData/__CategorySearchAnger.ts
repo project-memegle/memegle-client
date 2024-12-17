@@ -11,7 +11,7 @@ const MOCK_CATEGORY_RESULT_ANGER: SearchResultSectionDTO = {
     results: [
         {
             id: 91,
-            imageUrl: resolveImagePath('/temp/Anger/anger-01.jpeg'),
+            imageUrl: resolveImagePath('/temp/Anger/anger-01.webp'),
             imageCategory: 'anger',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -19,7 +19,7 @@ const MOCK_CATEGORY_RESULT_ANGER: SearchResultSectionDTO = {
         },
         {
             id: 92,
-            imageUrl: resolveImagePath('/temp/Anger/anger-02.png'),
+            imageUrl: resolveImagePath('/temp/Anger/anger-02.webp'),
             imageCategory: 'anger',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -27,7 +27,7 @@ const MOCK_CATEGORY_RESULT_ANGER: SearchResultSectionDTO = {
         },
         {
             id: 93,
-            imageUrl: resolveImagePath('/temp/Anger/anger-03.jpg'),
+            imageUrl: resolveImagePath('/temp/Anger/anger-03.webp'),
             imageCategory: 'anger',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -35,7 +35,7 @@ const MOCK_CATEGORY_RESULT_ANGER: SearchResultSectionDTO = {
         },
         {
             id: 94,
-            imageUrl: resolveImagePath('/temp/Anger/anger-04.jpg'),
+            imageUrl: resolveImagePath('/temp/Anger/anger-04.webp'),
             imageCategory: 'anger',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -51,7 +51,7 @@ const MOCK_CATEGORY_RESULT_ANGER: SearchResultSectionDTO = {
         },
         {
             id: 96,
-            imageUrl: resolveImagePath('/temp/Anger/anger-06.jpg'),
+            imageUrl: resolveImagePath('/temp/Anger/anger-06.webp'),
             imageCategory: 'anger',
             createdAt: DATE,
             modifiedAt: DATE,

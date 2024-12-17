@@ -1,4 +1,4 @@
-import notfoundIcon from '@memegle/assets/images/png/img_404.png';
+import notfoundIcon from '@memegle/assets/images/png/img_404.webp';
 import Header from 'components/UI/Header/Header';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { useTranslation } from 'react-i18next';

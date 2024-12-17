@@ -11,7 +11,7 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
     results: [
         {
             id: 61,
-            imageUrl: resolveImagePath('/temp/flex/flex-01.jpeg'),
+            imageUrl: resolveImagePath('/temp/flex/flex-01.webp'),
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -19,7 +19,7 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
         },
         {
             id: 62,
-            imageUrl: resolveImagePath('/temp/flex/flex-02.jpeg'),
+            imageUrl: resolveImagePath('/temp/flex/flex-02.webp'),
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -27,7 +27,7 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
         },
         {
             id: 63,
-            imageUrl: resolveImagePath('/temp/flex/flex-03.jpeg'),
+            imageUrl: resolveImagePath('/temp/flex/flex-03.webp'),
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -35,7 +35,7 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
         },
         {
             id: 64,
-            imageUrl: resolveImagePath('/temp/flex/flex-04.jpeg'),
+            imageUrl: resolveImagePath('/temp/flex/flex-04.webp'),
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -43,7 +43,7 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
         },
         {
             id: 65,
-            imageUrl: resolveImagePath('/temp/flex/flex-05.jpeg'),
+            imageUrl: resolveImagePath('/temp/flex/flex-05.webp'),
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -51,7 +51,7 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
         },
         {
             id: 66,
-            imageUrl: resolveImagePath('/temp/flex/flex-06.jpeg'),
+            imageUrl: resolveImagePath('/temp/flex/flex-06.webp'),
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -59,7 +59,7 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
         },
         {
             id: 67,
-            imageUrl: resolveImagePath('/temp/flex/flex-07.jpeg'),
+            imageUrl: resolveImagePath('/temp/flex/flex-07.webp'),
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,

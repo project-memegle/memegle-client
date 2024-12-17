@@ -11,7 +11,7 @@ const MOCK_CATEGORY_RESULT_HUNGRY: SearchResultSectionDTO = {
     results: [
         {
             id: 41,
-            imageUrl: resolveImagePath('/temp/hungry/hungry-01.png'),
+            imageUrl: resolveImagePath('/temp/hungry/hungry-01.webp'),
             imageCategory: 'hungry',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -19,7 +19,7 @@ const MOCK_CATEGORY_RESULT_HUNGRY: SearchResultSectionDTO = {
         },
         {
             id: 42,
-            imageUrl: resolveImagePath('/temp/hungry/hungry-02.png'),
+            imageUrl: resolveImagePath('/temp/hungry/hungry-02.webp'),
             imageCategory: 'hungry',
             createdAt: DATE,
             modifiedAt: DATE,
@@ -27,7 +27,7 @@ const MOCK_CATEGORY_RESULT_HUNGRY: SearchResultSectionDTO = {
         },
         {
             id: 43,
-            imageUrl: resolveImagePath('/temp/hungry/hungry-03.png'),
+            imageUrl: resolveImagePath('/temp/hungry/hungry-03.webp'),
             imageCategory: 'hungry',
             createdAt: DATE,
             modifiedAt: DATE,
