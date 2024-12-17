@@ -1,5 +1,4 @@
 import { searchByTag } from 'services/TagService';
-import { ResultCommon } from './ResultCommon';
 import { useEffect, useState } from 'react';
 import {
     SearchResultSectionDTO,
@@ -17,6 +16,7 @@ import MOCK_CATEGORY_RESULT_HAPINESS from 'mockData/__CategorySearchHappiness';
 import { getLastKeywordFromUrl } from 'utils/Event/saveUrl';
 import { useLocation } from 'react-router-dom';
 import { normalizeString } from 'utils/Format/normalize';
+import { ResultPageForm } from 'components/UI/Result/ResultPageForm';
 
 const mockDataMap: { [key: string]: SearchResultSectionDTO } = {
     mudo: MOCK_CATEGORY_RESULT_MUDO,
@@ -33,6 +33,7 @@ const mockDataMap: { [key: string]: SearchResultSectionDTO } = {
 export function ResultTag() {
     const [tagData, setTagData] = useState<SearchResultItemDTO[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
     const location = useLocation();
 
     useEffect(() => {
@@ -56,5 +57,5 @@ export function ResultTag() {
         }
     }, [location]);
 
-    return <ResultCommon searchBy={searchByTag} results={tagData} />;
+    return <ResultPageForm results={tagData} loading={loading} error={error} />;
 }

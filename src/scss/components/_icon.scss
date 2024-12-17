@@ -58,3 +58,23 @@
     }
   }
 }
+
+@mixin icon-style() {
+  z-index: 1;
+  opacity: 0.8;
+  border-radius: var(--primary__border-radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  background-color: #ffffff87;
+  justify-content: center;
+  .c-icon {
+    font-size: 1.5em;
+  }
+}
+
+@mixin icon-scale() {
+  width: calc(var(--primary__font-size) * 2.25);
+  height: calc(var(--primary__font-size) * 2.25);
+}
