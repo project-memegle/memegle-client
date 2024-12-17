@@ -31,7 +31,7 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,
-            tagList: ['돈없음', '전재산탕진', 'nomeny', 'emptywallet'],
+            tagList: ['돈없음', '전재산탕진', 'noMoney', 'emptyWallet'],
         },
         {
             id: 64,
@@ -55,7 +55,7 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,
-            tagList: ['일어나', '돈벌자', 'wakeup', 'makemoney'],
+            tagList: ['일어나', '돈벌자', 'wakeUp', 'makeMoney'],
         },
         {
             id: 67,
@@ -63,7 +63,7 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
             imageCategory: 'flex',
             createdAt: DATE,
             modifiedAt: DATE,
-            tagList: ['돈냄새', '박명수수', 'moneysmell', 'funnyman'],
+            tagList: ['돈냄새', '박명수', 'money', 'funnyMan'],
         },
     ],
 };
