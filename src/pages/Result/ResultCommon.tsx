@@ -131,6 +131,7 @@ export function ResultCommon({ searchBy, results }: ResultCommonProps) {
                 <ResultSection
                     results={results}
                     onOpenModal={handleOpenModal}
+                    onAllImagesLoaded={() => setLoading(false)}
                 />
             );
             return;
@@ -140,6 +141,7 @@ export function ResultCommon({ searchBy, results }: ResultCommonProps) {
                 <ResultSection
                     results={resultData.results}
                     onOpenModal={handleOpenModal}
+                    onAllImagesLoaded={() => setLoading(false)}
                 />
             );
             return;
