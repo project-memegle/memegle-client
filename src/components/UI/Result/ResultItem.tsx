@@ -26,41 +26,29 @@ export default function ResultItem({
         { id: number; imageUrl: string; tagList: string[] }[]
     >([]);
     const ValidationMessages = getValidationMessages();
+
     useEffect(() => {
-        const favorites = getArraySessionStorages(SESSION_STORAGE_KEY);
-        setFavoriteList(favorites || []);
-        console.log(favorites);
-    }, []);
+        const favorites = getArraySessionStorages(SESSION_STORAGE_KEY) || [];
+        setFavoriteList(favorites);
+        setIsFavorite(favorites.some((item) => item.id === result.id));
+    }, [result.id]);
 
-    function addToFavoriteApi({
-        id,
-        imageUrl,
-        imageCategory,
-        createdAt,
-        modifiedAt,
-        tagList,
-    }: SearchResultItemDTO) {
-        const favoriteList = getArraySessionStorages(SESSION_STORAGE_KEY) || [];
-        const favoriteItem = {
-            id,
-            imageUrl,
-            imageCategory,
-            createdAt,
-            modifiedAt,
-            tagList,
-        };
-        favoriteList.push(favoriteItem);
-        setArraySessionStorages({
-            key: SESSION_STORAGE_KEY,
-            value: favoriteList,
-        });
-    }
-
-    async function addToFavorite(item: SearchResultItemDTO) {
+    function addToFavorite(item: SearchResultItemDTO) {
         try {
-            addToFavoriteApi(item);
-            setFavoriteList((prev) => [...prev, item]);
-            setToastMessage(ValidationMessages.SUCCESS_ADD_FAVORITE);
+            const favorites =
+                getArraySessionStorages(SESSION_STORAGE_KEY) || [];
+            if (!favorites.some((favorite) => favorite.id === item.id)) {
+                const updatedFavorites = [...favorites, item];
+                setArraySessionStorages({
+                    key: SESSION_STORAGE_KEY,
+                    value: updatedFavorites,
+                });
+                setFavoriteList(updatedFavorites);
+                setIsFavorite(true);
+                setToastMessage(ValidationMessages.SUCCESS_ADD_FAVORITE);
+            } else {
+                setToastMessage(ValidationMessages.ALREADY_ADDED);
+            }
             setToast(true);
         } catch (error) {
             setToastMessage(ValidationMessages.FAILED_EVENT);
@@ -68,7 +56,7 @@ export default function ResultItem({
         }
     }
 
-    async function removeFromFavorite(item: SearchResultItemDTO) {
+    function removeFromFavorite(item: SearchResultItemDTO) {
         try {
             const favorites =
                 getArraySessionStorages(SESSION_STORAGE_KEY) || [];
@@ -80,6 +68,7 @@ export default function ResultItem({
                 value: updatedFavorites,
             });
             setFavoriteList(updatedFavorites);
+            setIsFavorite(false);
             setToastMessage(ValidationMessages.SUCCESS_DELETE_IMG);
             setToast(true);
         } catch (error) {
@@ -87,6 +76,7 @@ export default function ResultItem({
             setToast(true);
         }
     }
+
     return (
         <article className="result__item" onClick={() => onOpenModal(result)}>
             <div className="result__item-copy">
@@ -96,14 +86,14 @@ export default function ResultItem({
                 className="result__item-favorite"
                 onClick={(e) => {
                     e.stopPropagation();
-                    if (favoriteList) {
+                    if (isFavorite) {
                         removeFromFavorite(result);
                     } else {
                         addToFavorite(result);
                     }
                 }}
             >
-                {favoriteList ? (
+                {isFavorite ? (
                     <i className="c-icon c-icon--fill-warning">favorite</i>
                 ) : (
                     <i className="c-icon">favorite_border</i>
