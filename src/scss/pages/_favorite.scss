@@ -14,10 +14,13 @@
       width: 100%;
       height: var(--primary__item-height);
       border-radius: var(--primary__border-radius);
-      align-items: flex-start;
+      aspect-ratio: 1 / 1;
+      height: 100%;
       overflow: hidden;
       // background-color: var(--primary__color);
-
+      &:hover {
+        cursor: pointer;
+      }
       &-delete {
         position: absolute;
         top: calc(var(--primary__font-size) / 5.5);
@@ -47,9 +50,8 @@
           box-shadow: none;
         }
         &:hover {
-          cursor: pointer;
           transition: 0.3s ease;
-          transform: scale(1.5);
+          transform: scale(1.05);
         }
 
         &:hover::before {
