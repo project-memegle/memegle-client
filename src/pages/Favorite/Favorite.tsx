@@ -48,8 +48,8 @@ export default function Favorite() {
 
     const [activeItem, setActiveItem] = useState<SearchResultItemDTO>();
     const [modalVisible, setModalVisible] = useState(false);
-    const [modalImageUrl, setModalImageUrl] = useState('');
-    const [modalTagList, setModalTagList] = useState<string[]>([]);
+    const [selectedResult, setSelectedResult] =
+        useState<SearchResultItemDTO | null>(null);
 
     useEffect(() => {
         const originFavoriteList = getArraySessionStorages(SESSION_STORAGE_KEY);
@@ -89,16 +89,15 @@ export default function Favorite() {
         })
     );
 
-    const handleOpenModal = (imageUrl: string, tagList: string[]) => {
-        setModalImageUrl(imageUrl);
-        setModalTagList(tagList);
+    const handleOpenModal = (selectedResult: SearchResultItemDTO) => {
+        setSelectedResult(selectedResult);
         setModalVisible(true);
     };
 
+
     const handleCloseModal = () => {
         setModalVisible(false);
-        setModalImageUrl('');
-        setModalTagList([]);
+        setSelectedResult(null);
     };
 
     const handleDragStart = (event: DragStartEvent) => {
@@ -243,11 +242,13 @@ export default function Favorite() {
                     onClose={() => setToast(false)}
                 />
             )}
-            {modalVisible && (
+            {modalVisible && selectedResult && (
                 <ImageModal
-                    imageUrl={modalImageUrl}
                     onClose={handleCloseModal}
-                    tagList={modalTagList}
+                    result={selectedResult}
+                    onImageLoad={() => {}}
+                    handleDownloadSuccess={() => {}}
+                    onOpenModal={handleOpenModal}
                 />
             )}
         </main>
