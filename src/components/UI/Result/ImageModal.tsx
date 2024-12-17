@@ -51,6 +51,8 @@ const ImageModal: React.FC<ImageModalProps> = ({
                         url={result.imageUrl}
                         filename={`${result.imageCategory}${result.id}`}
                         onDownload={handleDownloadSuccess}
+                        setToastMessage={setToastMessage}
+                        setToast={setToast}
                     />
                     {toast && (
                         <ToastMessage
