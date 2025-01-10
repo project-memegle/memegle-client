@@ -133,7 +133,7 @@
   "CONNECTION_REFUSED": "Unable to connect to the server. Please try again later.",
   "SERVICE_UNAVAILABLE": "Service is currently unavailable. Please try again later.",
   "INVALID_FILE_FORMAT": "Invalid file format.",
-  "INVALID_FILE_SIZE": "File size exceeds 5MB.",
+  "INVALID_FILE_SIZE": "File size exceeds 1MB.",
   "SUCCESS_COPY_IMG": "Image copied successfully.",
   "SUCCESS_DELETE_IMG": "Image deleted successfully.",
   "FAILED_EVENT": "Please try again later.",

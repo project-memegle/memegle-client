@@ -8,17 +8,14 @@ async function uploadImageAndSaveData(file: File, category: string, tags: string
     const storageRef = ref(storage, `images/${uniqueFileName}`);
     
     try {
-        // 이미지를 Firebase Storage에 업로드
         const snapshot = await uploadBytes(storageRef, file);
         console.log('Image uploaded successfully:', snapshot);
 
-        // 업로드된 이미지의 다운로드 URL 가져오기
         const downloadURL = await getDownloadURL(snapshot.ref);
         console.log('Download URL:', downloadURL);
 
-        // 이미지 URL과 다른 데이터를 Firestore에 저장
         const collectionName = 'memes';
-        const documentId = uniqueFileName; // 필요에 따라 다른 ID를 사용할 수 있습니다.
+        const documentId = uniqueFileName; 
         const data = {
             category: category,
             createdAt: new Date(),

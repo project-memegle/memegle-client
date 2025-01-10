@@ -41,7 +41,7 @@ export default function Upload() {
             'image/png',
             'image/webp',
         ];
-        const maxSizeInMB = 5;
+        const maxSizeInMB = 1;
         const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
 
         if (selectedFile) {
@@ -81,11 +81,6 @@ export default function Upload() {
             setErrorMessage(t('REQUIRED_UPLOAD_CATEGORY'));
             return;
         }
-        const formData = new FormData();
-        formData.append('memeImageFile', file);
-        formData.append('tags', Array.isArray(tags) ? tags.join(',') : tags);
-        formData.append('delimiter', ',');
-
         try {
             await uploadImageAndSaveData(
                 file,
