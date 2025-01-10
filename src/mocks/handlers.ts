@@ -45,11 +45,17 @@ export const handlers = [
         return passthrough();
     }),
     http.get(`${baseURL}${CHECK_NICKNAME_URL}`, () => {
-        return passthrough();
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
+        });
     }),
 
     http.get(`${baseURL}${CHECK_ID_URL}`, () => {
-        return passthrough();
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
+        });
     }),
 
     http.get(`${baseURL}${GET_USER_INFO_URL}`, () => {
@@ -57,7 +63,10 @@ export const handlers = [
     }),
 
     http.post(`${baseURL}${SIGN_UP_URL}`, () => {
-        return passthrough();
+        return new HttpResponse(null, {
+            status: 200,
+            statusText: 'OK',
+        });
     }),
 
     http.post(`${baseURL}${RESET_PASSWORD_URL}`, () => {

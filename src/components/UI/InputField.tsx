@@ -23,7 +23,7 @@ export const InputField = ({
     isChecked,
     isDuplicated,
 }: InputFieldProps) => (
-    <div>
+    <div style={{ position: 'relative' }}>
         <label htmlFor={name}>{label}</label>
         <input
             autoComplete="on"

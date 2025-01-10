@@ -163,7 +163,7 @@ export default function VerificationForm({
             <section className="c-login__section">
                 <p>{emailError ? emailError : DEFAULT_EMAIL}</p>
                 <section className="c-login__section-verification">
-                    <div>
+                    <div className='relative'>
                         <InputField
                             label="이메일"
                             type="text"

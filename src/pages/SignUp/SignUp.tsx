@@ -375,7 +375,7 @@ export default function SignUp() {
                                     : ''
                             }`}
                         />
-                        {isNicknameChecked &&
+                        {/* {isNicknameChecked &&
                             (isNicknameDupliacted ? (
                                 <i className="c-icon c-icon--fill-fail">
                                     close
@@ -384,7 +384,7 @@ export default function SignUp() {
                                 <i className="c-icon c-icon--fill-success">
                                     check
                                 </i>
-                            ))}
+                            ))} */}
                         <AuthButton
                             className="button__rounded button__light"
                             type="button"
