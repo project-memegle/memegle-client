@@ -17,8 +17,6 @@ export default function HomePage() {
     const ValidationMessages = getValidationMessages();
     const { t } = useTranslation();
     useEffect(() => {
-        // getNotificationState();
-
         const sessionStorageImage = getSessionStorages(
             StorageKeyword.UPLOAD_SUCCESS
         );

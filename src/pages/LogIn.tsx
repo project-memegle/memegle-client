@@ -8,7 +8,6 @@ import { resetErrors } from 'utils/Event/resetError';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { useAuth } from 'components/auth/ProvideAuth';
 import { logIn } from 'services/LogInService';
-import { getUserInfo } from 'services/UserInfoService';
 import StorageKeyword from 'Constant/StorageKeyword';
 import {
     deleteSessionStorage,

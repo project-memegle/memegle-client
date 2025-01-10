@@ -1,15 +1,15 @@
 import { useAuth } from 'components/auth/ProvideAuth';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
+import validateLogInPassword from 'components/Validations/ValidateLogInPassword';
 import getValidationMessages from 'components/Validations/ValidationMessages';
-import ValidationMessages from 'components/Validations/ValidationMessages';
 import StorageKeyword from 'Constant/StorageKeyword';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { postDeleteAccount } from 'services/deleteAccountService';
-import { clearLocalStorage } from 'utils/Storage/localStorage';
+import { deleteAccount } from 'services/deleteAccountService';
+import handleInputChange from 'utils/Event/handleInputChange';
+import addDeleteReason from 'utils/firebase/addDeleteReason';
 import {
-    clearSessionStorage,
     getSessionStorages,
     setSessionStorages,
 } from 'utils/Storage/sessionStorage';
@@ -22,7 +22,23 @@ export default function DeleteAccount() {
     const [reason, setReason] = useState<string>('');
     const [toastMessage, setToastMessage] = useState('');
     const [toast, setToast] = useState(false);
+    const [password, setPassword] = useState('qwerQ!1234');
+    const [passwordError, setPasswordError] = useState('');
+    const [message, setMessage] = useState('');
+    const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
 
+    const passwordInputRef = useRef<HTMLInputElement>(null);
+    const onChangePassword = useCallback(
+        handleInputChange(
+            setPassword,
+            setPasswordError,
+            validateLogInPassword,
+            () => {
+                setMessage('');
+            }
+        ),
+        []
+    );
     function onChangeReason(
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) {
@@ -39,20 +55,26 @@ export default function DeleteAccount() {
         }
 
         try {
+            const email = getSessionStorages(StorageKeyword.USER_EMAIL);
+            if (!email) {
+                setToastMessage(ValidationMessages.REQUIRED_LOGIN);
+                setToast(true);
+                return;
+            }
+            await addDeleteReason(reason);
             const userData = {
-                reason: reason,
+                email: email,
+                password: password,
             };
-            // todo: 주석풀기
-            // await postDeleteAccount(userData);
-
+            await deleteAccount(userData);
             auth.logout(() => {
-                // navigate('/');
+                navigate('/');
             });
+
             setSessionStorages({
                 key: StorageKeyword.DELETE_ACCOUNT_SUCCESS,
                 value: StorageKeyword.TRUE,
             });
-            navigate('/');
         } catch (error) {
             setToastMessage(ValidationMessages.REQUIRED_REASON);
             setToast(true);
@@ -137,7 +159,33 @@ export default function DeleteAccount() {
                             onChange={onChangeReason}
                         />
                     </section>
+                    <section className=" c-login ">
+                        <div className="c-login__section">
+                            {passwordError ? (
+                                <p className="error-message">{passwordError}</p>
+                            ) : (
+                                <p>{DEFAULT_PASSWORD}</p>
+                            )}
+                            <label htmlFor="password">{DEFAULT_PASSWORD}</label>
+                            <input
+                                autoComplete="on"
+                                ref={passwordInputRef}
+                                className="c-login__input"
+                                name="password"
+                                type="password"
+                                id="password"
+                                placeholder={
+                                    ValidationMessages.REQUIRED_PASSWORD
+                                }
+                                value={password}
+                                onChange={onChangePassword}
+                            />
+                        </div>
+                    </section>
                 </section>
+                {message && (
+                    <p className="c-login__message font-warning">{message}</p>
+                )}
                 <button
                     className="button__rounded button__orange"
                     type="submit"

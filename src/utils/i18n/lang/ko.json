@@ -37,6 +37,7 @@
   "REGISTER_TAG": "태그 등록",
   "REGISTER_CATEGORY": "카테고리 등록",
   "REQUIRED_SEARCH_INPUT": "검색어를 입력해주세요",
+  "REQUIRED_LOGIN": "재로그인이 필요합니다.",
   "REQUIRED_UPLOAD_FILE": "파일을 선택하세요.",
   "REQUIRED_UPLOAD_TAG": "태그를 한 개 이상 입력해주세요.",
   "REQUIRED_UPLOAD_CATEGORY": "카테고리를 선택해주세요.",

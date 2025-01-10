@@ -84,6 +84,7 @@
   "REQUIRED_EMAIL": "Please enter your email.",
   "REQUIRED_PASSWORD": "Please enter your password.",
   "REQUIRED_VERIFY_CODE": "Please enter the verification code.",
+  "REQUIRED_LOGIN": "Please log in again.",
   "REQUIRED_NICKNAME": "Please enter your nickname.",
   "REQUIRED_NAME": "Please enter your name.",
   "REQUIRED_FORM": "Please fill out all fields.",

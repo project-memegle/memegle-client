@@ -89,7 +89,10 @@ export default function SignUp() {
                 };
                 try {
                     await signUp(userData);
-                    console.log('SignUp success');
+                    setSessionStorages({
+                        key: StorageKeyword.CREATE_ACCOUNT_SUCCESS,
+                        value: StorageKeyword.TRUE,
+                    });
                     try {
                         await logIn(userData);
                         auth.login(() => {
