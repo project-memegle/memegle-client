@@ -154,10 +154,9 @@
           margin: 0;
         }
       }
-      &-center {
+      &-end {
         display: flex;
-        justify-content: space-evenly;
-        align-items: flex-start;
+        justify-content: flex-end;
         button {
           padding: 0;
         }

@@ -7,7 +7,6 @@ import {
     getSessionStorages,
     setSessionStorages,
 } from 'utils/Storage/sessionStorage';
-import { UserInfoDTO } from 'services/dto/UserInfoDTO';
 import { verifyVerificationCode } from 'services/VerificationService';
 import StorageKeyword from 'Constant/StorageKeyword';
 import { VerifyCodePasswordDTO } from 'services/dto/PasswordDto';
@@ -15,6 +14,7 @@ import VerificationForm from 'components/UI/VerificationForm';
 import { signUp } from 'services/SignupService';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import { handleVerificationApiError } from 'utils/API/handleVerificationAPIError';
+import { UserInfoDTO } from 'services/dto/UserInfoDto';
 
 export default function Verification() {
     const navigate = useCustomNavigate();
@@ -36,18 +36,6 @@ export default function Verification() {
         const nickname = getSessionStorages('nickname');
         const password = getSessionStorages('password');
         if (id && nickname && password) {
-            const userData: UserInfoDTO = {
-                loginId: id,
-                nickname: nickname,
-                password: password,
-            };
-            try {
-                await signUp(userData);
-                removeSignUpData();
-                navigate('/login');
-            } catch (error) {
-                handleApiError(error as AxiosError, setMessage);
-            }
         }
     };
 

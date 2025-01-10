@@ -1,21 +1,17 @@
 import { useEffect, useState } from 'react';
 import CategorySection from '../components/UI/Category/CategorySection';
-import { getNotificationState } from 'services/NotificationService';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 import {
     deleteSessionStorage,
     getSessionStorages,
-    setSessionStorages,
 } from 'utils/Storage/sessionStorage';
 import StorageKeyword from 'Constant/StorageKeyword';
 import getValidationMessages from 'components/Validations/ValidationMessages';
-import { useTranslation } from 'react-i18next';
 
 export default function HomePage() {
     const [toastMessage, setToastMessage] = useState('');
     const [toast, setToast] = useState(false);
     const ValidationMessages = getValidationMessages();
-    const { t } = useTranslation();
     useEffect(() => {
         const sessionStorageImage = getSessionStorages(
             StorageKeyword.UPLOAD_SUCCESS

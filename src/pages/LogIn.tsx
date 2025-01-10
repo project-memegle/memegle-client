@@ -183,13 +183,7 @@ export default function LogIn() {
                     >
                         {t('DEFAULT_SIGNUP')}
                     </button>
-                    <section className="c-login__button-section-center">
-                        <button
-                            className="button__light-font"
-                            onClick={() => navigate('/email/verification')}
-                        >
-                            {t('FIND_EMAIL')}
-                        </button>
+                    <section className="c-login__button-section-end">
                         <button
                             className="button__light-font"
                             onClick={() => navigate('/find/password')}
