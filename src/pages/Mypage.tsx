@@ -87,7 +87,7 @@ export default function Mypage() {
                 <button
                     type="button"
                     onClick={() => {
-                        navigate('/password/verification');
+                        navigate('/password/change');
                     }}
                 >
                     {t('CHANGE_PASSWORD')}

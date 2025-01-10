@@ -5,6 +5,7 @@ type ValidationMessagesProps = Record<string, string>;
 const getValidationMessages = (): ValidationMessagesProps => ({
     DEFAULT_ID: i18n.t('DEFAULT_ID'),
     DEFAULT_PASSWORD: i18n.t('DEFAULT_PASSWORD'),
+    DEFAULT_ORIGINAL_PASSWORD: i18n.t('DEFAULT_ORIGINAL_PASSWORD'),
     DEFAULT_NICKNAME: i18n.t('DEFAULT_NICKNAME'),
     DEFAULT_EMAIL: i18n.t('DEFAULT_EMAIL'),
     DEFAULT_NAME: i18n.t('DEFAULT_NAME'),

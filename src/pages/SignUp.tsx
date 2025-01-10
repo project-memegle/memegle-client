@@ -1,16 +1,13 @@
 import { FormEvent, useCallback, useRef, useState } from 'react';
-import { SignUpDTO } from 'services/dto/SignUpDto';
 import { errorInputCheck } from 'utils/Event/errorInputCheck';
 import handleInputChange from 'utils/Event/handleInputChange';
 import passwordCheckHandler from 'utils/SignUp/passwordCheckHandler';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { signUp } from 'services/SignupService';
-import { LogInRequestDTO } from 'services/dto/LogInDto';
 import { logIn } from 'services/LogInService';
 import { setSessionStorages } from 'utils/Storage/sessionStorage';
 import StorageKeyword from 'Constant/StorageKeyword';
 import { useTranslation } from 'react-i18next';
-import { checkNickname } from 'services/NicknameService';
 import { InputField } from 'components/UI/InputField';
 import AuthButton from 'components/auth/Button';
 import SuccessMessage from 'components/UI/FontMessages/SuccessMessage';
@@ -18,7 +15,7 @@ import ErrorMessage from 'components/UI/FontMessages/ErrorMessage';
 import { useAuth } from 'components/auth/ProvideAuth';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import validateEmail from 'components/Validations/ValidateEmail';
-import { FirebaseError } from 'firebase/app';
+import { UserInfoDTO } from 'services/dto/UserInfoDto';
 
 export default function SignUp() {
     const navigate = useCustomNavigate();
@@ -83,7 +80,7 @@ export default function SignUp() {
                 return;
             }
             if (email && password && passwordCheck) {
-                const userData: SignUpDTO = {
+                const userData: UserInfoDTO = {
                     email: email,
                     password: password,
                 };

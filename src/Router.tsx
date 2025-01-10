@@ -17,8 +17,8 @@ import DeleteAccount from 'pages/DeleteAccount';
 import FindId from 'pages/Id/FindId';
 import IdEmailVerification from 'pages/Id/IdEmailVerification';
 import MypageResetPassword from 'pages/Password/MypageResetPassword';
-import MypageEmailVerification from 'pages/Password/MypageEmailVerification';
-import LogInEmailVerification from './pages/Password/LogInEmailVerification';
+import MypageEmailVerification from 'pages/Password/__MypageEmailVerification';
+import LogInEmailVerification from './pages/Password/__LogInEmailVerification';
 import { ResultTag } from 'pages/Result/ResultTag';
 import { ResultCategory } from 'pages/Result/ResultCategory';
 import LogInResetPassword from 'pages/Password/LogInResetPassword';
@@ -71,10 +71,6 @@ const router = createBrowserRouter(
                     element: <FindId />,
                 },
                 {
-                    path: 'find/password',
-                    element: <LogInEmailVerification />,
-                },
-                {
                     path: 'find/password/reset',
                     element: <LogInResetPassword />,
                 },
@@ -95,14 +91,9 @@ const router = createBrowserRouter(
                     element: <IdEmailVerification />,
                 },
                 {
-                    path: 'password/verification',
-                    element: (
-                        <PrivateRoute element={<MypageEmailVerification />} />
-                    ),
-                },
-                {
                     path: 'password/change',
-                    element: <PrivateRoute element={<MypageResetPassword />} />,
+                    element: <MypageResetPassword />,
+                    // element: <PrivateRoute element={<MypageResetPassword />} />,
                 },
                 {
                     path: 'myimages',

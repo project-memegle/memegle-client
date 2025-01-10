@@ -1,10 +1,10 @@
-import { SignUpDTO } from './dto/SignUpDto';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { app } from '../../firebaseConfig';
 import { FirebaseError } from 'firebase/app';
 import getValidationMessages from 'components/Validations/ValidationMessages';
+import { UserInfoDTO } from './dto/UserInfoDto';
 
-export async function signUp(userData: SignUpDTO): Promise<void> {
+export async function signUp(userData: UserInfoDTO): Promise<void> {
     const { email, password } = userData;
     const ValidationMessages = getValidationMessages();
     const auth = getAuth(app);

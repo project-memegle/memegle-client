@@ -1,7 +1,5 @@
-import { DeleteAccountDTO } from './dto/DeleteAccountDto';
 import { app } from '../../firebaseConfig';
 import getValidationMessages from 'components/Validations/ValidationMessages';
-import { SignUpDTO } from './dto/SignUpDto';
 import { FirebaseError } from 'firebase/app';
 import {
     getAuth,
@@ -9,10 +7,11 @@ import {
     reauthenticateWithCredential,
     deleteUser,
 } from 'firebase/auth';
+import { UserInfoDTO } from './dto/UserInfoDto';
 
 export const DELETE_ACCOUNT_URL = '/users';
 
-export async function deleteAccount(userData: SignUpDTO): Promise<void> {
+export async function deleteAccount(userData: UserInfoDTO): Promise<void> {
     const { email, password } = userData;
     const auth = getAuth(app);
     const user = auth.currentUser;
@@ -23,7 +22,6 @@ export async function deleteAccount(userData: SignUpDTO): Promise<void> {
     }
 
     const authCredential = EmailAuthProvider.credential(email, password);
-
     try {
         await reauthenticateWithCredential(user, authCredential);
         await deleteUser(user);

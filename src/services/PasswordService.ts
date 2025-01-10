@@ -6,6 +6,11 @@ import {
     SendPasswordCodeDTO,
 } from './dto/PasswordDto';
 import { SEND_EMAIL_CODE, VERIFY_AUTH_CODE_URL } from './IdService';
+import { getAuth, updatePassword } from 'firebase/auth';
+import { app } from '../../firebaseConfig';
+import { reAuthenticationService } from './reAuthenticationService';
+import { FirebaseError } from 'firebase-admin';
+import getValidationMessages from 'components/Validations/ValidationMessages';
 
 export const RESET_PASSWORD_URL = '/users/password';
 
@@ -41,15 +46,34 @@ export async function VerifyCodePassword(
     }
 }
 export async function ResetPassword(userData: ResetPasswordDTO): Promise<void> {
+    const { email, password, newPassword } = userData;
+    const auth = getAuth(app);
+    const ValidationMessages = getValidationMessages();
+    const user = auth.currentUser;
+
+    if (!user) {
+        throw new Error(ValidationMessages.NONEXIST_USER);
+    }
+
     try {
-        const response: AxiosResponse<void> = await put<void, ResetPasswordDTO>(
-            RESET_PASSWORD_URL,
-            userData
-        );
+        await reAuthenticationService({ email, password });
+
+        await updatePassword(user, newPassword);
+        console.log('Password updated successfully');
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            throw error.response?.data?.code;
+        const firebaseError = error as FirebaseError;
+        const errorCode = firebaseError.code;
+        const errorMessage = firebaseError.message;
+        console.error('Password update error', errorMessage);
+
+        if (errorCode === 'auth/email-already-in-use') {
+            throw new Error(ValidationMessages.EXIST_EMAIL);
+        } else if (errorCode === 'auth/wrong-password') {
+            throw new Error(ValidationMessages.INVALID_PASSWORD);
+        } else if (errorCode === 'auth/user-not-found') {
+            throw new Error(ValidationMessages.NONEXIST_USER);
+        } else {
+            throw new Error(ValidationMessages.UNKNOWN_ERROR);
         }
-        throw error;
     }
 }

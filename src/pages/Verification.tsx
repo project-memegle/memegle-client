@@ -7,7 +7,7 @@ import {
     getSessionStorages,
     setSessionStorages,
 } from 'utils/Storage/sessionStorage';
-import { SignUpDTO } from 'services/dto/SignUpDto';
+import { UserInfoDTO } from 'services/dto/UserInfoDTO';
 import { verifyVerificationCode } from 'services/VerificationService';
 import StorageKeyword from 'Constant/StorageKeyword';
 import { VerifyCodePasswordDTO } from 'services/dto/PasswordDto';
@@ -36,7 +36,7 @@ export default function Verification() {
         const nickname = getSessionStorages('nickname');
         const password = getSessionStorages('password');
         if (id && nickname && password) {
-            const userData: SignUpDTO = {
+            const userData: UserInfoDTO = {
                 loginId: id,
                 nickname: nickname,
                 password: password,

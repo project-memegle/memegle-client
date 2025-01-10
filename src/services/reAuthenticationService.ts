@@ -1,4 +1,3 @@
-import { SignUpDTO } from './dto/SignUpDto';
 import {
     User,
     EmailAuthProvider,
@@ -8,9 +7,10 @@ import {
 import { app } from '../../firebaseConfig';
 import { FirebaseError } from 'firebase/app';
 import getValidationMessages from 'components/Validations/ValidationMessages';
+import { UserInfoDTO } from './dto/UserInfoDto';
 
 export async function reAuthenticationService(
-    userData: SignUpDTO
+    userData: UserInfoDTO
 ): Promise<void> {
     const { email, password } = userData;
     const ValidationMessages = getValidationMessages();
