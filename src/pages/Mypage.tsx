@@ -67,11 +67,7 @@ export default function Mypage() {
     return (
         <main className="home__main c-mypage">
             <section className="c-mypage__info">
-                <h2>
-                    {t('MYPAGE_GREETING_ENGLISH')}
-                    {nickname}
-                    {t('MYPAGE_GREETING_KOREAN')}
-                </h2>
+                <h2>{t('MYPAGE_GREETING')}</h2>
                 {email && <p>{email}</p>}
             </section>
             <section className="c-mypage__buttons">
@@ -81,7 +77,7 @@ export default function Mypage() {
                         navigate('/changenickname');
                     }}
                 >
-                    {t('CHANGE_NICKNAME')}
+                    {t('VIEW_MY_IMAGE_HISTORY')}
                     <i className="c-icon">chevron_right</i>
                 </button>
                 <button

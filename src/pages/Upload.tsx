@@ -5,13 +5,12 @@ import { CategoryInput } from 'components/UI/Upload/Upload_category';
 import { handleApiError } from 'utils/API/handleApiError';
 import { post } from 'utils/API/fetcher';
 import handleKeyDown from 'utils/Event/preventEnter';
-import {
-    setSessionStorages,
-} from 'utils/Storage/sessionStorage';
+import { setSessionStorages } from 'utils/Storage/sessionStorage';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import StorageKeyword from 'Constant/StorageKeyword';
 import getValidationMessages from '../components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
+import uploadImageAndSaveData from 'services/UploadService';
 export const UPLOAD_URL = '/images';
 
 export default function Upload() {
@@ -88,16 +87,11 @@ export default function Upload() {
         formData.append('delimiter', ',');
 
         try {
-            const response = await post(
-                `${UPLOAD_URL}?imageCategory=${category}`,
-                formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }
+            await uploadImageAndSaveData(
+                file,
+                category,
+                Array.isArray(tags) ? tags : tags.split(',')
             );
-
             setSessionStorages({
                 key: StorageKeyword.UPLOAD_SUCCESS,
                 value: StorageKeyword.TRUE,
