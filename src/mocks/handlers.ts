@@ -18,7 +18,6 @@ import {
     GET_NOTIFICATION_STATE_URL,
 } from 'services/NotificationService';
 import { RESET_PASSWORD_URL } from 'services/PasswordService';
-import { SIGN_UP_URL } from 'services/SignupService';
 import { SEARCH_BY_TAG_URL } from 'services/TagService';
 import { GET_USER_INFO_URL } from 'services/UserInfoService';
 
@@ -62,12 +61,6 @@ export const handlers = [
         return passthrough();
     }),
 
-    http.post(`${baseURL}${SIGN_UP_URL}`, () => {
-        return new HttpResponse(null, {
-            status: 200,
-            statusText: 'OK',
-        });
-    }),
 
     http.post(`${baseURL}${RESET_PASSWORD_URL}`, () => {
         return passthrough();

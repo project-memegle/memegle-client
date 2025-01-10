@@ -43,6 +43,7 @@ const getValidationMessages = (): ValidationMessagesProps => ({
     EXIST_ID: i18n.t('EXIST_ID'),
     EXIST_USER: i18n.t('EXIST_USER'),
     EXIST_NICKNAME: i18n.t('EXIST_NICKNAME'),
+    EXIST_EMAIL: i18n.t('EXIST_EMAIL'),
     NO_RESOURCE: i18n.t('NO_RESOURCE'),
     MISSING_FORM: i18n.t('MISSING_FORM'),
     SERVER_ERROR: i18n.t('SERVER_ERROR'),

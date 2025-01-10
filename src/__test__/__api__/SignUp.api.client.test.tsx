@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import axios from 'axios';
-import SignUp from '../../pages/SignUp/SignUp'; // Adjust the import path as necessary
+import SignUp from '../../pages/SignUp'; // Adjust the import path as necessary
 import getValidationMessages from '../../components/Validations/ValidationMessages';
 
 jest.mock('axios');

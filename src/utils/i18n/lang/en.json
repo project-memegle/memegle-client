@@ -108,6 +108,7 @@
   "EXIST_ID": "ID already exists.",
   "EXIST_USER": "User already exists.",
   "EXIST_NICKNAME": "Nickname already exists.",
+  "EXIST_EMAIL": "Email already exists.",
   "NO_RESOURCE": "Resource not found.",
   "NONEXIST_VARIFICATION_INFO": "Verification information is missing. Please verify your identity.",
   "MISSING_FORM": "Please fill out the required fields.",

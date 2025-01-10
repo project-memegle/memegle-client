@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import HomePage from './pages/Home';
 import LogIn from './pages/LogIn';
-import SignUp from './pages/SignUp/SignUp';
+import SignUp from './pages/SignUp';
 import NotFoundPage from './pages/NotFound';
 import Notification from './components/UI/Notification/Notification';
 import Favorite from './pages/Favorite';
@@ -19,7 +19,6 @@ import IdEmailVerification from 'pages/Id/IdEmailVerification';
 import MypageResetPassword from 'pages/Password/MypageResetPassword';
 import MypageEmailVerification from 'pages/Password/MypageEmailVerification';
 import LogInEmailVerification from './pages/Password/LogInEmailVerification';
-import SignUpVerification from 'pages/SignUp/SignUpVerification';
 import { ResultTag } from 'pages/Result/ResultTag';
 import { ResultCategory } from 'pages/Result/ResultCategory';
 import LogInResetPassword from 'pages/Password/LogInResetPassword';
@@ -58,10 +57,6 @@ const router = createBrowserRouter(
                 {
                     path: 'signup',
                     element: <SignUp />,
-                },
-                {
-                    path: 'signup/verification',
-                    element: <SignUpVerification />,
                 },
                 {
                     path: 'favorite',

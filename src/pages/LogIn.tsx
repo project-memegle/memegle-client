@@ -1,4 +1,3 @@
-
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import validateId from '../components/Validations/ValidateId';
 import validateLogInPassword from '../components/Validations/ValidateLogInPassword';
@@ -109,20 +108,12 @@ export default function LogIn() {
             if (id && password) {
                 resetErrors(setIdError, setPasswordError);
                 const userData: LogInRequestDTO = {
-                    loginId: id,
+                    email: id,
                     password: password,
                 };
 
                 try {
                     await logIn(userData);
-                    const userInfo = await getUserInfo();
-                    if (userInfo) {
-                        auth.login(() => {
-                            navigate('/');
-                        });
-                    } else {
-                        setMessage(ValidationMessages.GET_USER_INFO_FAIL);
-                    }
                 } catch (error) {
                     if (error === 40401) {
                         setMessage(ValidationMessages.NONEXIST_ID);

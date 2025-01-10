@@ -1,15 +1,31 @@
-import { post } from '../utils/API/fetcher';
 import { SignUpDTO } from './dto/SignUpDto';
-import axios from 'axios';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { app } from '../../firebaseConfig';
+import { FirebaseError } from 'firebase/app';
+import getValidationMessages from 'components/Validations/ValidationMessages';
 
-export const SIGN_UP_URL = '/users/sign/up';
 export async function signUp(userData: SignUpDTO): Promise<void> {
+    const { email, password } = userData;
+    const ValidationMessages = getValidationMessages();
+    const auth = getAuth(app);
     try {
-        await post<void, SignUpDTO>(SIGN_UP_URL, userData);
+        const userCredential = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+        const user = userCredential.user;
+        console.log(user);
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            throw error.response?.data?.code;
+        const firebaseError = error as FirebaseError;
+        const errorCode = firebaseError.code;
+        const errorMessage = firebaseError.message;
+        console.error('errorMessage', errorMessage);
+        console.error('error', error);
+        if (errorCode === 'auth/email-already-in-use') {
+            throw new Error(ValidationMessages.EXIST_EMAIL);
+        } else {
+            throw new Error('Unknown error');
         }
-        throw error;
     }
 }
