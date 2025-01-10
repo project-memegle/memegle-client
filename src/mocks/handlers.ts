@@ -8,7 +8,6 @@ import {
     SEND_EMAIL_CODE,
     VERIFY_AUTH_CODE_URL,
 } from 'services/IdService';
-import { SIGN_IN_URL } from 'services/LogInService';
 import {
     CHANGE_NICKNAME_URL,
     CHECK_NICKNAME_URL,
@@ -24,10 +23,6 @@ import { GET_USER_INFO_URL } from 'services/UserInfoService';
 const baseURL = import.meta.env.VITE_BASE_URL;
 
 export const handlers = [
-    http.post(`${baseURL}${SIGN_IN_URL}`, () => {
-        return passthrough();
-    }),
-
     http.post(`${baseURL}${SEND_EMAIL_CODE}`, () => {
         return passthrough();
     }),
@@ -60,7 +55,6 @@ export const handlers = [
     http.get(`${baseURL}${GET_USER_INFO_URL}`, () => {
         return passthrough();
     }),
-
 
     http.post(`${baseURL}${RESET_PASSWORD_URL}`, () => {
         return passthrough();

@@ -15,17 +15,14 @@ export async function signUp(userData: SignUpDTO): Promise<void> {
             password
         );
         const user = userCredential.user;
-        console.log(user);
     } catch (error) {
         const firebaseError = error as FirebaseError;
         const errorCode = firebaseError.code;
         const errorMessage = firebaseError.message;
-        console.error('errorMessage', errorMessage);
-        console.error('error', error);
         if (errorCode === 'auth/email-already-in-use') {
             throw new Error(ValidationMessages.EXIST_EMAIL);
         } else {
-            throw new Error('Unknown error');
+            throw new Error(ValidationMessages.UNKNOWN_ERROR);
         }
     }
 }

@@ -90,19 +90,27 @@ export default function SignUp() {
                 try {
                     await signUp(userData);
                     console.log('SignUp success');
-                } catch (error) {
-                    if (error instanceof Error) {
-                        console.error(error.message);
-                        setSignUpError(error.message);
+                    try {
+                        await logIn(userData);
+                        auth.login(() => {
+                            navigate('/');
+                        });
+                    } catch (loginError) {
+                        if (loginError instanceof Error) {
+                            console.error(loginError.message);
+                            setSignUpError(loginError.message);
+                        } else {
+                            setSignUpError(ValidationMessages.UNKNOWN_ERROR);
+                        }
+                    }
+                } catch (signUpError) {
+                    if (signUpError instanceof Error) {
+                        console.error(signUpError.message);
+                        setSignUpError(signUpError.message);
                     } else {
-                        console.error('Unknown error');
-                        setSignUpError('Unknown error');
+                        setSignUpError(ValidationMessages.UNKNOWN_ERROR);
                     }
                 }
-                const loginData: LogInRequestDTO = {
-                    email: email,
-                    password: password,
-                };
             }
         },
         [

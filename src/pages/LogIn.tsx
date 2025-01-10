@@ -1,5 +1,5 @@
 import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
-import validateId from '../components/Validations/ValidateId';
+import validateEmail from '../components/Validations/ValidateEmail';
 import validateLogInPassword from '../components/Validations/ValidateLogInPassword';
 import { LogInRequestDTO } from '../services/dto/LogInDto';
 import handleInputChange from '../utils/Event/handleInputChange';
@@ -25,22 +25,22 @@ export default function LogIn() {
     const [toastMessage, setToastMessage] = useState('');
     const [toast, setToast] = useState(false);
     const ValidationMessages = getValidationMessages();
-    const DEFAULT_ID = ValidationMessages.DEFAULT_ID;
+    const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
     const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
 
-    const [idError, setIdError] = useState('');
+    const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
-    const [id, setId] = useState('testloginid3');
+    const [email, setEmail] = useState('hatrix1014@gmail.com');
     const [password, setPassword] = useState('qwerQ!1234');
     const [message, setMessage] = useState('');
 
-    const idInputRef = useRef<HTMLInputElement>(null);
+    const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const { t } = useTranslation();
 
-    const onChangeId = useCallback(
-        handleInputChange(setId, setIdError, validateId, () => {
+    const onChangeEmail = useCallback(
+        handleInputChange(setEmail, setEmailError, validateEmail, () => {
             setMessage('');
         }),
         []
@@ -59,8 +59,8 @@ export default function LogIn() {
     );
 
     useEffect(() => {
-        if (id && password) {
-            resetErrors(setIdError, setPasswordError);
+        if (email && password) {
+            resetErrors(setEmailError, setPasswordError);
         }
     }, []);
 
@@ -90,13 +90,11 @@ export default function LogIn() {
         }
     }, []);
 
-    useEffect(() => {}, [message]);
-
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
-            if (idError || !id) {
-                errorInputCheck(idInputRef.current);
+            if (emailError || !email) {
+                errorInputCheck(emailInputRef.current);
                 return;
             }
 
@@ -105,49 +103,49 @@ export default function LogIn() {
                 return;
             }
 
-            if (id && password) {
-                resetErrors(setIdError, setPasswordError);
+            if (email && password) {
+                resetErrors(setEmailError, setPasswordError);
                 const userData: LogInRequestDTO = {
-                    email: id,
+                    email: email,
                     password: password,
                 };
 
                 try {
                     await logIn(userData);
+                    auth.login(() => {
+                        navigate('/');
+                    });
                 } catch (error) {
-                    if (error === 40401) {
-                        setMessage(ValidationMessages.NONEXIST_ID);
-                        return;
+                    if (error instanceof Error) {
+                        console.error(error.message);
+                        setMessage(error.message);
+                    } else {
+                        setMessage(ValidationMessages.UNKNOWN_ERROR);
                     }
-                    if (error === 40102) {
-                        setMessage(ValidationMessages.PASSWORD_MISMATCH);
-                        return;
-                    }
-                    setMessage(ValidationMessages.UNKNOWN_ERROR);
                 }
             }
         },
-        [id, password, idError, passwordError, auth, navigate]
+        [email, password, emailError, passwordError, auth, navigate]
     );
     return (
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
                 <div className="c-login__section">
-                    {idError ? (
-                        <p className="error-message">{idError}</p>
+                    {emailError ? (
+                        <p className="error-message">{emailError}</p>
                     ) : (
-                        <p>{DEFAULT_ID}</p>
+                        <p>{DEFAULT_EMAIL}</p>
                     )}
-                    <label htmlFor="id">{DEFAULT_ID}</label>
+                    <label htmlFor="email">{DEFAULT_EMAIL}</label>
                     <input
-                        ref={idInputRef}
+                        ref={emailInputRef}
                         className="c-login__input"
-                        name="id"
-                        id="id"
+                        name="email"
+                        id="email"
                         type="text"
-                        placeholder={ValidationMessages.REQUIRED_ID}
-                        value={id}
-                        onChange={onChangeId}
+                        placeholder={ValidationMessages.REQUIRED_EMAIL}
+                        value={email}
+                        onChange={onChangeEmail}
                     />
                 </div>
                 <div className="c-login__section">
@@ -182,16 +180,16 @@ export default function LogIn() {
                     <button
                         onClick={() => navigate('/signup')}
                         className="button__rounded button__light"
-                        type="submit"
+                        type="button"
                     >
                         {t('DEFAULT_SIGNUP')}
                     </button>
                     <section className="c-login__button-section-center">
                         <button
                             className="button__light-font"
-                            onClick={() => navigate('/id/verification')}
+                            onClick={() => navigate('/email/verification')}
                         >
-                            {t('FIND_ID')}
+                            {t('FIND_EMAIL')}
                         </button>
                         <button
                             className="button__light-font"
