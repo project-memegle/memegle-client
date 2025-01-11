@@ -18,9 +18,15 @@ export async function logIn(userData: LogInRequestDTO): Promise<void> {
             password
         );
         const user = userCredential.user;
+
+        console.log(user);
         setSessionStorages({
-            key: StorageKeyword.USER_EMAIL,
+            key: user.email as string,
             value: email,
+        });
+        setSessionStorages({
+            key: StorageKeyword.USER_UID,
+            value: user.uid,
         });
     } catch (error) {
         const firebaseError = error as FirebaseError;

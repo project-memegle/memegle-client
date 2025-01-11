@@ -1,7 +1,6 @@
 import { CSSProperties, forwardRef, HTMLAttributes, useState } from 'react';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 import { SearchResultItemDTO } from 'services/dto/ResultDto';
-import handleCopyImage from 'utils/Event/handleCopyImage';
 
 type FavoriteItemProps = {
     item: SearchResultItemDTO;
@@ -41,14 +40,6 @@ const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
             onSave();
         };
 
-        async function handleCopy() {
-            await handleCopyImage(
-                item.imageUrl,
-                setToastMessage,
-                setToast,
-                () => onOpenModal(item)
-            );
-        }
         return (
             <article
                 className="c-favorite__item"

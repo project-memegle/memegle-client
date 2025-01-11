@@ -11,6 +11,7 @@ const StorageKeyword: StorageProps = {
     DELETE_ACCOUNT_SUCCESS: 'deleteAccountSuccess',
     USER_ID: 'loginId',
     USER_EMAIL: 'userEmail',
+    USER_UID: 'userUid',
     USER_NICKNAME: 'userNickname',
     ACCESS_TOKEN: 'access_token',
     REFRESH_TOKEN: 'refersh_token',

@@ -6,6 +6,8 @@ import {
 } from 'services/dto/ResultDto';
 import { handleApiError } from 'utils/API/handleApiError';
 import { AxiosError, AxiosResponse } from 'axios';
+import { collection, getDocs, query } from 'firebase/firestore';
+import { db } from '../../firebaseConfig';
 
 interface GetCategoryListParams<T> {
     setLoading: (loading: boolean) => void;
@@ -74,5 +76,25 @@ export async function getCategorylist({
         handleApiError(error as AxiosError, setError);
     } finally {
         setLoading(false);
+    }
+}
+
+export async function getImagesByCategory(category: string) {
+    try {
+        const imagesCollectionRef = collection(
+            db,
+            'categories',
+            category,
+            'images'
+        );
+
+        const q = query(imagesCollectionRef);
+        const querySnapshot = await getDocs(q);
+
+        const images = querySnapshot.docs.map((doc) => doc.data());
+
+        return images;
+    } catch (error) {
+        return error;
     }
 }

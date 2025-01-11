@@ -2,5 +2,5 @@ export interface MemeDto {
     cateogry: string;
     createdAt: Date;
     imageUrl: string;
-    tags: string[];
+    tagList: string[];
 }

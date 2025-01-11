@@ -14,7 +14,6 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Tired/tired-01.webp'),
             imageCategory: 'tiredness',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['고양이', '시무룩', 'sadkitten', 'sadCat'],
         },
         {
@@ -22,7 +21,6 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Tired/tired-02.webp'),
             imageCategory: 'tiredness',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['펭수', 'penguin'],
         },
         {
@@ -30,7 +28,6 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Tired/tired-03.webp'),
             imageCategory: 'tiredness',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['홍진경', '나너무힘들어', 'funnylady', 'mustache'],
         },
         {
@@ -38,7 +35,6 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Tired/tired-04.webp'),
             imageCategory: 'tiredness',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['정준하', '여기까지다', 'funnyman', 'sweaty'],
         },
         {
@@ -46,7 +42,6 @@ const MOCK_CATEGORY_RESULT_TIREDNESS: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Tired/tired-05.webp'),
             imageCategory: 'tiredness',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['노홍철', '포기하고싶어요', 'funnyman', 'givingup'],
         },
     ],

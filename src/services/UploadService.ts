@@ -1,33 +1,65 @@
+import { collection, doc, setDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { addDataToFirestore } from 'utils/firebase/addDataToFirestore';
 import { v4 as uuidv4 } from 'uuid';
+import { db } from '../../firebaseConfig';
 
-async function uploadImageAndSaveData(file: File, category: string, tags: string[]): Promise<void> {
+async function uploadService(
+    userId: string,
+    file: File,
+    category: string,
+    tagList: string[]
+): Promise<void> {
     const storage = getStorage();
     const uniqueFileName = `${uuidv4()}-${file.name}`;
     const storageRef = ref(storage, `images/${uniqueFileName}`);
-    
+
     try {
         const snapshot = await uploadBytes(storageRef, file);
-        console.log('Image uploaded successfully:', snapshot);
-
         const downloadURL = await getDownloadURL(snapshot.ref);
-        console.log('Download URL:', downloadURL);
 
-        const collectionName = 'memes';
-        const documentId = uniqueFileName; 
+        const categoryCollection = 'categories';
+        const categoryDoc = category;
+        const imagesSubCollection = 'images';
+
         const data = {
+            id: uniqueFileName,
+            imageUrl: downloadURL,
             category: category,
             createdAt: new Date(),
-            imageUrl: downloadURL,
-            tags: tags,
+            tagList: tagList,
+            uploader: userId,
         };
 
-        await addDataToFirestore(collectionName, documentId, data);
+        const docRef = doc(
+            collection(
+                db,
+                categoryCollection,
+                categoryDoc,
+                imagesSubCollection
+            ),
+            uniqueFileName
+        );
+        await setDoc(docRef, data);
+
+        const userCollection = 'users';
+        const userFavoriteDoc = userId;
+        const userImagesSubCollection = 'uploadedImages';
+
+        const userDocRef = doc(
+            collection(
+                db,
+                userCollection,
+                userFavoriteDoc,
+                userImagesSubCollection
+            ),
+            uniqueFileName
+        );
+        await setDoc(userDocRef, data);
+
         console.log('Data added to Firestore successfully!');
     } catch (error) {
         console.error('Failed to upload image and save data:', error);
     }
 }
 
-export default uploadImageAndSaveData;
+export default uploadService;
