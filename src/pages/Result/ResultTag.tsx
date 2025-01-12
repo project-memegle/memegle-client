@@ -1,4 +1,3 @@
-import { searchByTag } from 'services/TagService';
 import { useEffect, useState } from 'react';
 import {
     SearchResultSectionDTO,
@@ -17,6 +16,7 @@ import { getLastKeywordFromUrl } from 'utils/Event/saveUrl';
 import { useLocation } from 'react-router-dom';
 import { normalizeString } from 'utils/Format/normalize';
 import { ResultPageForm } from 'components/UI/Result/ResultPageForm';
+import searchByTag from 'services/TagService';
 
 const mockDataMap: { [key: string]: SearchResultSectionDTO } = {
     mudo: MOCK_CATEGORY_RESULT_MUDO,
@@ -42,18 +42,17 @@ export function ResultTag() {
         setLoading(false);
         if (typeof decodedKeyword === 'string') {
             const normalizedKeyword = normalizeString(decodedKeyword);
-            const filteredResults: SearchResultItemDTO[] = [];
-            for (const value of Object.values(mockDataMap)) {
-                const matchingItems = value.results.filter((item) => {
-                    const matches = item.tagList.some((tag) => {
-                        const normalizedTag = normalizeString(tag);
-                        return normalizedTag.includes(normalizedKeyword);
-                    });
-                    return matches;
+            console.log(normalizedKeyword);
+            searchByTag(normalizedKeyword)
+                .then((result: SearchResultItemDTO[]) => {
+                    setTagData(result);
+                })
+                .catch((error) => {
+                    setError(error);
+                })
+                .finally(() => {
+                    setLoading(false);
                 });
-                filteredResults.push(...matchingItems);
-            }
-            setTagData(filteredResults);
         }
     }, [location]);
 

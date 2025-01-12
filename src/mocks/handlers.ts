@@ -16,7 +16,6 @@ import {
     GET_NOTIFICATION_STATE_URL,
 } from 'services/NotificationService';
 import { RESET_PASSWORD_URL } from 'services/PasswordService';
-import { SEARCH_BY_TAG_URL } from 'services/TagService';
 import { GET_USER_INFO_URL } from 'services/UserInfoService';
 
 const baseURL = import.meta.env.VITE_BASE_URL;
@@ -73,12 +72,6 @@ export const handlers = [
             statusText: 'OK',
         });
     }),
-    http.get(`${baseURL}${SEARCH_BY_TAG_URL}`, () => {
-        return new HttpResponse(null, {
-            status: 204,
-            statusText: 'OK',
-        });
-    }),
 
     http.get(`${baseURL}${GET_NOTIFICATION_STATE_URL}`, () => {
         return new HttpResponse(null, {
@@ -92,7 +85,6 @@ export const handlers = [
             statusText: 'OK',
         });
     }),
-
 
     http.get(`${baseURL}/tag`, () => {
         return new HttpResponse(null, {
