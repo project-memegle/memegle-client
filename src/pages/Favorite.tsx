@@ -16,10 +16,8 @@ import {
 } from '@dnd-kit/sortable';
 import { useEffect, useState } from 'react';
 
-import MOCK_FAVORITE_LIST from 'mockData/__FavoriteList';
 import { SearchResultItemDTO } from 'services/dto/ResultDto';
 import {
-    getArraySessionStorages,
     getSessionStorages,
     setArraySessionStorages,
 } from 'utils/Storage/sessionStorage';
@@ -130,7 +128,7 @@ export default function Favorite() {
         }
     };
 
-    const handleDeleteItem = (itemId: number) => {
+    const handleDeleteItem = (itemId: string) => {
         setItems((prev) => {
             const updatedItems = prev.filter((item) => item.id !== itemId);
             setArraySessionStorages({

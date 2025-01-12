@@ -6,7 +6,7 @@ import { SearchResultItemDTO } from 'services/dto/ResultDto';
 
 type FavoriteItemWrapper = {
     item: SearchResultItemDTO;
-    onDelete: (id: number) => void;
+    onDelete: (id: string) => void;
     onSave: () => void;
     onOpenModal: (selectedResult: SearchResultItemDTO) => void;
 } & HTMLAttributes<HTMLDivElement>;
