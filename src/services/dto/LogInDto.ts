@@ -1,5 +1,5 @@
 export interface LogInRequestDTO {
-    loginId: string;
+    email: string;
     password: string;
 }
 

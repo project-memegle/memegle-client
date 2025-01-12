@@ -22,10 +22,21 @@ export interface SearchResultSectionDTO {
 }
 
 export interface SearchResultItemDTO {
-    id: number;
+    category: string;
+    createdAt: Date;
+    id: string;
     imageUrl: string;
-    imageCategory: string | 'MUDO';
-    createdAt: string;
-    modifiedAt: string;
     tagList: string[];
+    uploader: string;
+}
+
+export interface FavoriteItemDTO {
+    id: string;
+    createdAt: Date;
+    imageUrl: string;
+    category: string;
+    tagList: string[];
+    imageId: string;
+    uploader: string;
+    order: number;
 }

@@ -49,7 +49,7 @@ const ImageModal: React.FC<ImageModalProps> = ({
                     />
                     <DownloadLink
                         url={result.imageUrl}
-                        filename={`${result.imageCategory}${result.id}`}
+                        filename={`${result.category}${result.id}`}
                         onDownload={handleDownloadSuccess}
                         setToastMessage={setToastMessage}
                         setToast={setToast}

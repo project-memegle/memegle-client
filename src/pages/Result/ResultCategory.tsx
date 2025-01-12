@@ -1,26 +1,32 @@
 import { ResultPageForm } from 'components/UI/Result/ResultPageForm';
-import { mockDataMap } from 'mockData/__MockDataMap';
 import { useEffect, useState } from 'react';
-import { SearchResultItemDTO } from 'services/dto/ResultDto';
+import { getImagesByCategory } from 'services/CategoryService';
 import { getLastKeywordFromUrl } from 'utils/Event/saveUrl';
 
 export function ResultCategory() {
-    const [categoryData, setCategoryData] = useState<SearchResultItemDTO[]>([]);
+    const [categoryData, setCategoryData] = useState<any>();
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [searchText, setSearchText] = useState<string>('');
 
     useEffect(() => {
         const lastKeyword = getLastKeywordFromUrl<string>();
-        setLoading(false);
+
+        setLoading(true);
         if (typeof lastKeyword === 'string') {
             setSearchText(lastKeyword);
-            for (const [key, value] of Object.entries(mockDataMap)) {
-                if (lastKeyword.includes(key)) {
-                    setCategoryData(value.results);
-                    return;
+            const fetchData = async () => {
+                try {
+                    const result = await getImagesByCategory(lastKeyword);
+                    setCategoryData(result);
+                } catch (error) {
+                    setError('Error fetching images');
+                } finally {
+                    setLoading(false);
                 }
-            }
+            };
+
+            fetchData();
         }
     }, []);
 

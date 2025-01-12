@@ -5,7 +5,7 @@ import MOCK_CATEGORY_RESULT_WHAT from 'mockData/__CategorySearchWhat';
 import MOCK_CATEGORY_RESULT_FLEX from 'mockData/__CategorySearchflex';
 import MOCK_CATEGORY_RESULT_SAD from 'mockData/__CategorySearchSad';
 import MOCK_CATEGORY_RESULT_ANGER from 'mockData/__CategorySearchAnger';
-import MOCK_CATEGORY_RESULT_HUNGRY from 'mockData/__CategorySearchHungry';
+import MOCK_CATEGORY_RESULT_HUNGRY from 'mockData/__CategorySearchOther';
 import MOCK_CATEGORY_RESULT_HAPINESS from 'mockData/__CategorySearchHappiness';
 
 export const mockDataMap: { [key: string]: any } = {
@@ -16,6 +16,6 @@ export const mockDataMap: { [key: string]: any } = {
     flex: MOCK_CATEGORY_RESULT_FLEX,
     sad: MOCK_CATEGORY_RESULT_SAD,
     anger: MOCK_CATEGORY_RESULT_ANGER,
-    hunger: MOCK_CATEGORY_RESULT_HUNGRY,
+    other: MOCK_CATEGORY_RESULT_HUNGRY,
     happiness: MOCK_CATEGORY_RESULT_HAPINESS,
 };

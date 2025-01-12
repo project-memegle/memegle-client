@@ -1,44 +1,41 @@
-import axios, { AxiosResponse } from 'axios';
 import { LogInRequestDTO } from 'services/dto/LogInDto';
-import { post } from 'utils/API/fetcher';
-import { getEnvVariableAsNumber } from 'utils/Storage/numberUntils';
-import { setCookie } from 'utils/Storage/cookies';
-
-const ACCESS_TOKEN = 'access_token';
-const REFRESH_TOKENE = 'refresh_token';
-
-export const SIGN_IN_URL = '/users/sign/in';
+import getValidationMessages from 'components/Validations/ValidationMessages';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { FirebaseError } from 'firebase/app';
+import { app } from '../../firebaseConfig';
+import { setSessionStorages } from 'utils/Storage/sessionStorage';
+import StorageKeyword from 'Constant/StorageKeyword';
 
 export async function logIn(userData: LogInRequestDTO): Promise<void> {
+    const { email, password } = userData;
+    const ValidationMessages = getValidationMessages();
+    const auth = getAuth(app);
+
     try {
-        const response: AxiosResponse<void> = await post<void, LogInRequestDTO>(
-            SIGN_IN_URL,
-            userData
+        const userCredential = await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
         );
-        const accessToken = response.headers['authorization']?.replace(
-            'Bearer ',
-            ''
-        );
-        const refreshToken = response.headers['refresh-token']?.replace(
-            'Bearer ',
-            ''
-        );
+        const user = userCredential.user;
 
-        const accessTokenStore = getEnvVariableAsNumber(
-            import.meta.env.VITE_ACCESS_TOKEN_STORE,
-            'VITE_ACCESS_TOKEN_STORE'
-        );
-
-        const refreshTokenStore = getEnvVariableAsNumber(
-            import.meta.env.VITE_REFRESH_TOKEN_STORE,
-            'VITE_REFRESH_TOKEN_STORE'
-        );
-        setCookie(ACCESS_TOKEN, accessToken, accessTokenStore);
-        setCookie(REFRESH_TOKENE, refreshToken, refreshTokenStore);
+        console.log(user);
+        setSessionStorages({
+            key: user.email as string,
+            value: email,
+        });
+        setSessionStorages({
+            key: StorageKeyword.USER_UID,
+            value: user.uid,
+        });
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            throw error.response?.data?.code;
+        const firebaseError = error as FirebaseError;
+        const errorCode = firebaseError.code;
+        const errorMessage = firebaseError.message;
+        if (errorCode === 'auth/invalid-credential') {
+            throw new Error(ValidationMessages.NONEXIST_AUTH);
+        } else {
+            throw new Error(ValidationMessages.UNKNOWN_ERROR);
         }
-        throw error;
     }
 }

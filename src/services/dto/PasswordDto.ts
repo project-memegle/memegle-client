@@ -12,8 +12,6 @@ export interface VerifyCodePasswordDTO {
 
 export interface ResetPasswordDTO {
     email: string;
-    authenticationCode: string;
-    authenticationType: string;
-    loginId: string;
     password: string;
+    newPassword: string;
 }

@@ -14,7 +14,6 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Mudo/mudo-01.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['유재석', '문잠가', 'funnyman'],
         },
         {
@@ -22,7 +21,6 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Mudo/mudo-02.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['유재석', '뭐하는거야', 'glassesman', 'soju'],
         },
         {
@@ -30,7 +28,6 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Mudo/mudo-03.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['길', '망했어요', 'screaming', 'soju'],
         },
         {
@@ -38,7 +35,6 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Mudo/mudo-04.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['유재석', '말잇못', 'glassesman', 'funnyman'],
         },
         {
@@ -46,7 +42,6 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Mudo/mudo-05.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['박명수', '먹을거', 'funnnyman'],
         },
         {
@@ -54,7 +49,6 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Mudo/mudo-06.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['박명수', '무관심', 'noInterests', 'funnnyman'],
         },
         {
@@ -62,7 +56,6 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Mudo/mudo-07.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['박명수', '울컥', 'babo'],
         },
         {
@@ -70,7 +63,6 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Mudo/mudo-08.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['노홍철', '웬방해', 'funnyman', 'noDisturb'],
         },
         {
@@ -78,7 +70,6 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Mudo/mudo-09.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['박명수', '할수있다', 'funnyman', 'icandoit'],
         },
         {
@@ -86,7 +77,6 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Mudo/mudo-10.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['유재석', '술만마셨어', 'funnyman', 'soju'],
         },
         {
@@ -94,7 +84,6 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Mudo/mudo-11.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['정형돈', '거리두두자', 'distance'],
         },
         {
@@ -102,7 +91,6 @@ const MOCK_CATEGORY_RESULT_MUDO: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Mudo/mudo-12.webp'),
             imageCategory: 'mudo',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['유재석', '지겨움', 'boring'],
         },
     ],

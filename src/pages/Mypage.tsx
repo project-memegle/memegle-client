@@ -67,41 +67,28 @@ export default function Mypage() {
     return (
         <main className="home__main c-mypage">
             <section className="c-mypage__info">
-                <h2>
-                    {t('MYPAGE_GREETING_ENGLISH')}
-                    {nickname}
-                    {t('MYPAGE_GREETING_KOREAN')}
-                </h2>
+                <h2>{t('MYPAGE_GREETING')}</h2>
                 {email && <p>{email}</p>}
             </section>
             <section className="c-mypage__buttons">
                 <button
                     type="button"
                     onClick={() => {
-                        navigate('/changenickname');
+                        navigate('/myimages');
                     }}
                 >
-                    {t('CHANGE_NICKNAME')}
+                    {t('VIEW_MY_IMAGE_HISTORY')}
                     <i className="c-icon">chevron_right</i>
                 </button>
                 <button
                     type="button"
                     onClick={() => {
-                        navigate('/password/verification');
+                        navigate('/password/change');
                     }}
                 >
                     {t('CHANGE_PASSWORD')}
                     <i className="c-icon">chevron_right</i>
                 </button>
-                {/* <button
-                    type="button"
-                    onClick={() => {
-                        navigate('/myimages');
-                    }}
-                >
-                    내가 업로드한 이미지 목록 보기
-                    <i className="c-icon">chevron_right</i>
-                </button> */}
                 <button type="button" onClick={() => navigate('/delete')}>
                     {t('DELETE_ACCOUNT')}
                 </button>

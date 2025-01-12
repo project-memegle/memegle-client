@@ -9,29 +9,44 @@ import { setSessionStorages } from 'utils/Storage/sessionStorage';
 import { ResetPasswordDTO } from 'services/dto/PasswordDto';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 import { ResetPassword } from 'services/PasswordService';
+import ErrorMessage from 'components/UI/FontMessages/ErrorMessage';
+import { InputField } from 'components/UI/InputField';
+import handleInputChange from 'utils/Event/handleInputChange';
+import { validatePassword } from 'firebase/auth';
+import validateLogInPassword from 'components/Validations/ValidateLogInPassword';
 
 export default function MypageResetPassword() {
     const navigate = useCustomNavigate();
     const ValidationMessages = getValidationMessages();
     const { t } = useTranslation();
     const [message, setMessage] = useState('');
-    const location = useLocation();
 
-    const [id, setId] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [currentPassword, setCurrentPassword] = useState('');
 
     const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
+    const DEFAULT_CURRENT_PASSWORD =
+        ValidationMessages.DEFAULT_ORIGINAL_PASSWORD;
 
     const [passwordCheck, setPasswordCheck] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [currentPasswordError, setCurrentPasswordError] = useState('');
 
     const passwordInputRef = useRef<HTMLInputElement>(null);
+    const currentPasswordInputRef = useRef<HTMLInputElement>(null);
     const passwordCheckInputRef = useRef<HTMLInputElement>(null);
 
-    const { email, authenticationCode, authenticationType, loginId } =
-        location.state || {};
+    const onChangeCurrentPassword = useCallback(
+        handleInputChange(
+            setCurrentPassword,
+            setCurrentPasswordError,
+            validateLogInPassword,
+            () => setMessage('')
+        ),
+        []
+    );
 
     const onChangePassword = useCallback(
         passwordCheckHandler(setPassword, passwordCheck, setPasswordError, () =>
@@ -48,28 +63,29 @@ export default function MypageResetPassword() {
     );
 
     useEffect(() => {
-        const id = sessionStorage.getItem(StorageKeyword.USER_ID);
         const email = sessionStorage.getItem(StorageKeyword.USER_EMAIL);
-        if (id && email) {
-            setId(id);
+        if (email) {
+            setEmail(email);
         }
     }, []);
 
     const onSubmit = useCallback(
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
+            if (currentPasswordError || !currentPassword) {
+                errorInputCheck(currentPasswordInputRef.current);
+                return;
+            }
             if (passwordError || !password) {
                 errorInputCheck(passwordInputRef.current);
                 return;
             }
 
-            if (password && passwordCheck) {
+            if (currentPassword && password && passwordCheck) {
                 const userData: ResetPasswordDTO = {
-                    loginId: loginId,
-                    password: password,
+                    password: currentPassword,
                     email: email,
-                    authenticationType: authenticationType,
-                    authenticationCode: authenticationCode,
+                    newPassword: password,
                 };
 
                 try {
@@ -85,12 +101,38 @@ export default function MypageResetPassword() {
                 }
             }
         },
-        [id, email, password, passwordCheck, passwordError, navigate]
+        [
+            email,
+            currentPassword,
+            password,
+            passwordCheck,
+            passwordError,
+            currentPasswordError,
+            navigate,
+        ]
     );
 
     return (
         <div className="main__container">
             <form className="c-login" onSubmit={onSubmit}>
+                <div className="c-login__section">
+                    <ErrorMessage message={currentPasswordError} />
+                    {!currentPasswordError && <p>{DEFAULT_CURRENT_PASSWORD}</p>}
+                    <section className="c-login__section-password">
+                        <InputField
+                            label="기존 비밀번호"
+                            type="password"
+                            name="password"
+                            value={currentPassword}
+                            onChange={onChangeCurrentPassword}
+                            placeholder={
+                                ValidationMessages.DEFAULT_ORIGINAL_PASSWORD
+                            }
+                            ref={currentPasswordInputRef}
+                            className="c-login__input"
+                        />
+                    </section>
+                </div>
                 <div className="c-login__section">
                     {passwordError ? (
                         <p className="error-message">{passwordError}</p>
@@ -130,7 +172,7 @@ export default function MypageResetPassword() {
                 </div>
                 <button
                     className="button__rounded button__orange"
-                    type="submit" 
+                    type="submit"
                 >
                     {t('CHANGE_PASSWORD')}
                 </button>

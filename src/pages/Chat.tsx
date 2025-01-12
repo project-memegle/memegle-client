@@ -16,7 +16,7 @@ export default function Chat() {
 
     const [messages, setMessages] = useState<
         {
-            contentKey: string; 
+            contentKey: string;
             date: string;
             chatDirection: 'incoming' | 'outgoing';
         }[]
@@ -63,18 +63,24 @@ export default function Chat() {
             },
         ]);
         setIsCategorySelected(false);
-        const userId = getSessionStorages(StorageKeyword.USER_ID);
-
+        const userId = getSessionStorages(StorageKeyword.USER_UID);
+        console.log('userId:', userId);
         if (!allMessages) {
             return;
         }
         if (userId) {
             const chatData: ChatItemDTO = {
-                loginId: userId,
+                userId: userId,
                 content: allMessages,
                 category: category,
             };
-            await postChat(chatData);
+
+            try {
+                await postChat(chatData);
+                console.log('Chat data posted successfully');
+            } catch (error) {
+                console.error('Error posting chat data:', error);
+            }
         }
     }
 
@@ -89,12 +95,12 @@ export default function Chat() {
                     <ChatBot
                         onCategorySelect={handleCategorySelect}
                         onCategoryReset={handleCategoryReset}
-                        resetChatMessages={() => setMessages([])} 
+                        resetChatMessages={() => setMessages([])}
                     />
                     {messages.map((msg, index) => (
                         <ChatItem
                             key={index}
-                            content={t(msg.contentKey)} 
+                            content={t(msg.contentKey)}
                             date={msg.date}
                             chatDirection={msg.chatDirection}
                         />

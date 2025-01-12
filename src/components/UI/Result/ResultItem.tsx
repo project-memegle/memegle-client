@@ -3,9 +3,15 @@ import ToastMessage from '../ToastMessage/ToastMessage';
 import { SearchResultItemDTO } from 'services/dto/ResultDto';
 import {
     getArraySessionStorages,
+    getSessionStorages,
     setArraySessionStorages,
 } from 'utils/Storage/sessionStorage';
-import { SESSION_STORAGE_KEY } from 'pages/Favorite';
+import StorageKeyword from 'Constant/StorageKeyword';
+import {
+    addFavoriteItem,
+    deleteFavoriteItem,
+    getFavoriteItems,
+} from 'services/FavoriteService';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 
 interface ResultItemProps {
@@ -22,58 +28,81 @@ export default function ResultItem({
     const [toast, setToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [isFavorite, setIsFavorite] = useState(false);
-    const [favoriteList, setFavoriteList] = useState<
-        { id: number; imageUrl: string; tagList: string[] }[]
-    >([]);
+    const [loading, setLoading] = useState(false);
     const ValidationMessages = getValidationMessages();
 
     useEffect(() => {
-        const favorites = getArraySessionStorages(SESSION_STORAGE_KEY) || [];
-        setFavoriteList(favorites);
-        setIsFavorite(favorites.some((item) => item.id === result.id));
+        const userId = getSessionStorages(StorageKeyword.USER_UID);
+        if (!userId) return;
+        getFavoriteItems(userId)
+            .then((items) => {
+                setIsFavorite(items.some((item) => item.id === result.id));
+            })
+            .catch((error) => console.error('Error fetching items:', error));
     }, [result.id]);
 
-    function addToFavorite(item: SearchResultItemDTO) {
+    useEffect(() => {
+        const favoriteItems = getArraySessionStorages(
+            StorageKeyword.FAVORITE_ITEMS
+        );
+        if (!favoriteItems) return;
+    });
+
+    async function addToFavorite(item: SearchResultItemDTO) {
+        if (loading) return;
+        setLoading(true);
         try {
-            const favorites =
-                getArraySessionStorages(SESSION_STORAGE_KEY) || [];
-            if (!favorites.some((favorite) => favorite.id === item.id)) {
-                const updatedFavorites = [...favorites, item];
-                setArraySessionStorages({
-                    key: SESSION_STORAGE_KEY,
-                    value: updatedFavorites,
-                });
-                setFavoriteList(updatedFavorites);
-                setIsFavorite(true);
-                setToastMessage(ValidationMessages.SUCCESS_ADD_FAVORITE);
-            } else {
-                setToastMessage(ValidationMessages.ALREADY_ADDED);
-            }
+            const userId = getSessionStorages(StorageKeyword.USER_UID);
+            if (!userId) return;
+
+            const favoriteItems =
+                getArraySessionStorages(StorageKeyword.FAVORITE_ITEMS) || [];
+
+            await addFavoriteItem({
+                userId: userId,
+                imageUrl: item.imageUrl,
+                category: item.category,
+                tagList: item.tagList,
+                imageId: item.id.toString(),
+                uploader: item.uploader,
+                order: favoriteItems.length + 1,
+            });
+
+            const updatedFavorites = [...favoriteItems, item];
+
+            setArraySessionStorages({
+                key: StorageKeyword.FAVORITE_ITEMS,
+                value: updatedFavorites,
+            });
+
+            setIsFavorite(true);
+            setToastMessage(ValidationMessages.SUCCESS_ADD_FAVORITE);
             setToast(true);
         } catch (error) {
             setToastMessage(ValidationMessages.FAILED_EVENT);
             setToast(true);
+        } finally {
+            setLoading(false);
         }
     }
 
-    function removeFromFavorite(item: SearchResultItemDTO) {
+    async function removeFromFavorite(item: SearchResultItemDTO) {
+        if (loading) return;
+        setLoading(true);
         try {
-            const favorites =
-                getArraySessionStorages(SESSION_STORAGE_KEY) || [];
-            const updatedFavorites = favorites.filter(
-                (favorite) => favorite.id !== item.id
-            );
-            setArraySessionStorages({
-                key: SESSION_STORAGE_KEY,
-                value: updatedFavorites,
-            });
-            setFavoriteList(updatedFavorites);
+            const userId = getSessionStorages(StorageKeyword.USER_UID);
+            if (!userId) return;
+
+            await deleteFavoriteItem(userId, item.id.toString());
+
             setIsFavorite(false);
             setToastMessage(ValidationMessages.SUCCESS_DELETE_IMG);
             setToast(true);
         } catch (error) {
             setToastMessage(ValidationMessages.FAILED_EVENT);
             setToast(true);
+        } finally {
+            setLoading(false);
         }
     }
 

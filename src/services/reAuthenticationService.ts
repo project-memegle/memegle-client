@@ -1,21 +1,21 @@
-import { app } from '../../firebaseConfig';
-import getValidationMessages from 'components/Validations/ValidationMessages';
-import { FirebaseError } from 'firebase/app';
 import {
-    getAuth,
+    User,
     EmailAuthProvider,
     reauthenticateWithCredential,
-    deleteUser,
+    getAuth,
 } from 'firebase/auth';
+import { app } from '../../firebaseConfig';
+import { FirebaseError } from 'firebase/app';
+import getValidationMessages from 'components/Validations/ValidationMessages';
 import { UserInfoDTO } from './dto/UserInfoDto';
 
-export const DELETE_ACCOUNT_URL = '/users';
-
-export async function deleteAccount(userData: UserInfoDTO): Promise<void> {
+export async function reAuthenticationService(
+    userData: UserInfoDTO
+): Promise<void> {
     const { email, password } = userData;
+    const ValidationMessages = getValidationMessages();
     const auth = getAuth(app);
     const user = auth.currentUser;
-    const ValidationMessages = getValidationMessages();
 
     if (!user) {
         throw new Error(ValidationMessages.NONEXIST_USER);
@@ -23,14 +23,17 @@ export async function deleteAccount(userData: UserInfoDTO): Promise<void> {
 
     const authCredential = EmailAuthProvider.credential(email, password);
     try {
-        await reauthenticateWithCredential(user, authCredential);
-        await deleteUser(user);
-        console.log('User deleted successfully');
+        const userCredential = await reauthenticateWithCredential(
+            user,
+            authCredential
+        );
+        const reauthenticatedUser = userCredential.user;
+        console.log('Reauthentication successful', reauthenticatedUser);
     } catch (error) {
         const firebaseError = error as FirebaseError;
         const errorCode = firebaseError.code;
         const errorMessage = firebaseError.message;
-        console.error('Delete account error', errorMessage);
+        console.error('Reauthentication error', errorMessage);
 
         if (errorCode === 'auth/email-already-in-use') {
             throw new Error(ValidationMessages.EXIST_EMAIL);

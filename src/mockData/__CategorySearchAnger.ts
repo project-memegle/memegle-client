@@ -14,7 +14,6 @@ const MOCK_CATEGORY_RESULT_ANGER: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Anger/anger-01.webp'),
             imageCategory: 'anger',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['angryman', '돌팔매', '사라져라'],
         },
         {
@@ -22,7 +21,6 @@ const MOCK_CATEGORY_RESULT_ANGER: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Anger/anger-02.webp'),
             imageCategory: 'anger',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['참기', 'patience', '참는중'],
         },
         {
@@ -30,7 +28,6 @@ const MOCK_CATEGORY_RESULT_ANGER: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Anger/anger-03.webp'),
             imageCategory: 'anger',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['노려보기', 'staring', '눈빛'],
         },
         {
@@ -38,7 +35,6 @@ const MOCK_CATEGORY_RESULT_ANGER: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Anger/anger-04.webp'),
             imageCategory: 'anger',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['마동석', 'fist', '주먹', 'DonLee'],
         },
         {
@@ -46,7 +42,6 @@ const MOCK_CATEGORY_RESULT_ANGER: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Anger/anger-05.jpg'),
             imageCategory: 'anger',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['마동석', 'fist', '주먹', 'DonLee'],
         },
         {
@@ -54,7 +49,6 @@ const MOCK_CATEGORY_RESULT_ANGER: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Anger/anger-06.webp'),
             imageCategory: 'anger',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['등짝스매싱', 'smashing', 'basketball'],
         },
     ],

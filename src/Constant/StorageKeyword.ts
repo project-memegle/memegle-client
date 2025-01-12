@@ -11,6 +11,7 @@ const StorageKeyword: StorageProps = {
     DELETE_ACCOUNT_SUCCESS: 'deleteAccountSuccess',
     USER_ID: 'loginId',
     USER_EMAIL: 'userEmail',
+    USER_UID: 'userUid',
     USER_NICKNAME: 'userNickname',
     ACCESS_TOKEN: 'access_token',
     REFRESH_TOKEN: 'refersh_token',
@@ -19,7 +20,7 @@ const StorageKeyword: StorageProps = {
     VERIFICATION_CODE_ID: 'ID',
     VERIFICATION_CODE_PASSWORD: 'PASSWORD',
     VERIFICATION_CODE_SIGNUP: 'SIGN_UP',
+    FAVORITE_ITEMS: 'favoriteItems',
 };
 
-// todo: VERIFICATION_CODE_ID 값 변경
 export default StorageKeyword;

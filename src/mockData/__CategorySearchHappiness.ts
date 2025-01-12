@@ -14,7 +14,6 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Happiness/happiness-01.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['전광렬', '노래부르기', 'singingman', 'happyman'],
         },
         {
@@ -22,7 +21,6 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Happiness/happiness-02.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['영자이모', '먹는게최고', 'happywoman'],
         },
         {
@@ -30,7 +28,6 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Happiness/happiness-03.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['햄스터', 'hamster'],
         },
         {
@@ -38,7 +35,6 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Happiness/happiness-04.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['헤헤', 'hehe', 'cartoon'],
         },
         {
@@ -46,7 +42,6 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Happiness/happiness-05.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['정재영', '뛰어가기', 'happyman'],
         },
         {
@@ -54,7 +49,6 @@ const MOCK_CATEGORY_RESULT_HAPINESS: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/Happiness/happiness-06.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['재롱잔치', '강아지', 'dog'],
         },
     ],

@@ -12,12 +12,12 @@ export function TagInput({ onTagsChange, setErrorMessage }: TagInputProps) {
     const ulRef = useRef<HTMLUListElement>(null);
     const labelRef = useRef<HTMLLabelElement>(null);
 
-    const [tags, setTags] = useState<string[]>([]);
+    const [tagList, setTaglist] = useState<string[]>([]);
     const { t } = useTranslation();
     useEffect(() => {
-        onTagsChange(tags);
+        onTagsChange(tagList);
         setErrorMessage('');
-    }, [tags, onTagsChange, setErrorMessage]);
+    }, [tagList, onTagsChange, setErrorMessage]);
 
     useEffect(() => {
         const tagInput = tagInputRef.current;
@@ -37,11 +37,11 @@ export function TagInput({ onTagsChange, setErrorMessage }: TagInputProps) {
 
         const handleTagInputBlur = (e: FocusEvent) => {
             tagArea.classList.remove('active');
-            if (tagInput.value === '' && tags.length === 0) {
+            if (tagInput.value === '' && tagList.length === 0) {
                 label.classList.remove('active');
             }
             if (!tagInput.value.match(/^\s+$/gi) && tagInput.value !== '') {
-                setTags((prevTags) => [...prevTags, tagInput.value.trim()]);
+                setTaglist((prevTags) => [...prevTags, tagInput.value.trim()]);
                 tagInput.value = '';
             }
         };
@@ -57,13 +57,13 @@ export function TagInput({ onTagsChange, setErrorMessage }: TagInputProps) {
 
             // 태그 추가 조건 (띄어쓰기가 없을 때만 추가)
             if ((e.key === ' ' || e.key === 'Enter') && value !== '') {
-                setTags((prevTags) => [...prevTags, value]);
+                setTaglist((prevTags) => [...prevTags, value]);
                 tagInput.value = '';
             }
 
             // 태그 삭제 (입력 값이 비어 있을 때 Backspace 키를 누르면)
             if (e.key === 'Backspace' && value === '') {
-                setTags((prevTags) => prevTags.slice(0, -1));
+                setTaglist((prevTags) => prevTags.slice(0, -1));
             }
         };
 
@@ -78,14 +78,14 @@ export function TagInput({ onTagsChange, setErrorMessage }: TagInputProps) {
             tagInput.removeEventListener('blur', handleTagInputBlur);
             tagInput.removeEventListener('keydown', handleTagInputKeyDown);
         };
-    }, [tags]);
+    }, [tagList]);
 
     const handleTagRemove = (index: number) => {
-        setTags((prevTags) => prevTags.filter((_, idx) => idx !== index));
+        setTaglist((prevTags) => prevTags.filter((_, idx) => idx !== index));
     };
 
     const renderTags = () => {
-        return tags.map((tag, index) => (
+        return tagList.map((tag, index) => (
             <li key={index} className="tag-list__item">
                 {tag}
                 <span

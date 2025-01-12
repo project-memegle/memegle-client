@@ -85,10 +85,10 @@ export const useMockCategoryList = (): CategoryResultSectionDTO => {
                 },
                 {
                     id: 9,
-                    categoryName: t('CATEGORY-hunger'),
-                    imageCategory: 'hunger',
+                    categoryName: t('CATEGORY-other'),
+                    imageCategory: 'other',
                     titleImageUrl: resolveImagePath(
-                        '/temp/hungry/hungry-02.webp'
+                        '/temp/Other/other-02.webp'
                     ),
                     lastMemeImageRegistTime: DATE,
                 },

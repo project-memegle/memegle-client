@@ -1,44 +1,32 @@
-import { PageableDTO } from 'services/dto/Pageable';
-import { get } from 'utils/API/fetcher';
-import { SearchResultSectionDTO } from 'services/dto/ResultDto';
-import { handleApiError } from 'utils/API/handleApiError';
-import { AxiosError } from 'axios';
+import {
+    getDocs,
+    query,
+    where,
+    collectionGroup,
+    getFirestore,
+} from 'firebase/firestore';
+import { SearchResultItemDTO } from './dto/ResultDto';
 
-interface SearchByParams {
-    searchText: string;
-    setLoading: (loading: boolean) => void;
-    setResultData: (data: SearchResultSectionDTO | null) => void;
-    setError: (error: string | null) => void;
-}
+const db = getFirestore();
 
-export const SEARCH_BY_TAG_URL = '/images/tag';
-
-export async function searchByTag({
-    searchText,
-    setLoading,
-    setResultData,
-    setError,
-}: SearchByParams) {
-    setLoading(true);
-    const pageData: PageableDTO = {
-        page: 1,
-        size: 10,
-        criteria: 'CREATED_AT',
-    };
+async function searchByTag(tag: string): Promise<SearchResultItemDTO[]> {
     try {
-        const queryParams = new URLSearchParams({
-            tagName: searchText,
-            page: pageData.page.toString(),
-            size: pageData.size.toString(),
-            criteria: pageData.criteria,
+        const images: any[] = [];
+        const q = query(
+            collectionGroup(db, 'images'),
+            where('tagList', 'array-contains', tag)
+        );
+
+        const imageSnapshot = await getDocs(q);
+
+        imageSnapshot.forEach((doc) => {
+            images.push(doc.data());
         });
-        const response = await get<SearchResultSectionDTO>(SEARCH_BY_TAG_URL, {
-            params: { queryParams },
-        });
-        setResultData(response.data);
+        return images;
     } catch (error) {
-        handleApiError(error as AxiosError, setError);
-    } finally {
-        setLoading(false);
+        console.error('Error searching images by tag:', error);
+        throw new Error('Failed to search images by tag');
     }
 }
+
+export default searchByTag;

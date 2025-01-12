@@ -15,14 +15,10 @@ import {
     SortableContext,
 } from '@dnd-kit/sortable';
 import { useEffect, useState } from 'react';
-
-import MOCK_FAVORITE_LIST from 'mockData/__FavoriteList';
-import {
-    SearchResultItemDTO,
-    SearchResultSectionDTO,
-} from 'services/dto/ResultDto';
+import { SearchResultItemDTO } from 'services/dto/ResultDto';
 import {
     getArraySessionStorages,
+    getSessionStorages,
     setArraySessionStorages,
 } from 'utils/Storage/sessionStorage';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
@@ -32,12 +28,11 @@ import Tooltip from 'components/UI/ToolTip';
 import ImageModal from 'components/UI/Result/ImageModal';
 import FavoriteItemWrapper from 'components/UI/Favorite/FavoriteItemWrapper';
 import FavoriteItem from 'components/UI/Favorite/FavoriteItem';
-
-export const SESSION_STORAGE_KEY = 'favoriteList';
+import StorageKeyword from 'Constant/StorageKeyword';
+import { deleteFavoriteItem } from 'services/FavoriteService';
 
 export default function Favorite() {
-    const [items, setItems] =
-        useState<SearchResultSectionDTO>(MOCK_FAVORITE_LIST);
+    const [items, setItems] = useState<any[]>([]);
     const ValidationMessages = getValidationMessages();
     const { t } = useTranslation();
     const tootTipMessage = t('FAVORITE_TOOLTIP');
@@ -46,38 +41,23 @@ export default function Favorite() {
     const [toastMessage, setToastMessage] = useState('');
     const [tooltipVisible, setTooltipVisible] = useState(true);
 
-    const [activeItem, setActiveItem] = useState<SearchResultItemDTO>();
+    const [activeItem, setActiveItem] = useState<SearchResultItemDTO | null>(
+        null
+    );
+    const [userUId, setUserUId] = useState<string | null>(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedResult, setSelectedResult] =
         useState<SearchResultItemDTO | null>(null);
 
     useEffect(() => {
-        const originFavoriteList = getArraySessionStorages(SESSION_STORAGE_KEY);
-        if (originFavoriteList && originFavoriteList.length > 0) {
-            setItems((prev) => ({
-                ...prev,
-                results: originFavoriteList.map((item) => ({
-                    ...item,
-                    imageCategory: '',
-                    createdAt: '',
-                    modifiedAt: '',
-                    tagList: item.tagList,
-                })),
-            }));
-        } else {
-            const favoriteList = items.results;
-            setArraySessionStorages({
-                key: SESSION_STORAGE_KEY,
-                value: favoriteList.map((item) => ({
-                    id: item.id,
-                    imageUrl: item.imageUrl,
-                    imageCategory: item.imageCategory,
-                    createdAt: item.createdAt,
-                    modifiedAt: item.modifiedAt,
-                    tagList: item.tagList,
-                })),
-            });
-        }
+        const favoriteItems = getArraySessionStorages(
+            StorageKeyword.FAVORITE_ITEMS
+        );
+        if (!favoriteItems) return;
+        setItems(favoriteItems);
+        const userId = getSessionStorages(StorageKeyword.USER_UID);
+        setUserUId(userId);
+        if (!userUId) return;
     }, []);
 
     const sensors = useSensors(
@@ -101,53 +81,37 @@ export default function Favorite() {
 
     const handleDragStart = (event: DragStartEvent) => {
         const { active } = event;
-        setActiveItem(items.results.find((item) => item.id === active.id));
+        setActiveItem(items.find((item) => item.id === active.id) || null);
     };
 
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
         if (!over) return;
 
-        const activeItem = items.results.find((item) => item.id === active.id);
-        const overItem = items.results.find((item) => item.id === over.id);
+        const activeItem = items.find((item) => item.id === active.id);
+        const overItem = items.find((item) => item.id === over.id);
 
         if (!activeItem || !overItem) {
             return;
         }
 
-        const activeIndex = items.results.findIndex(
-            (item) => item.id === active.id
-        );
-        const overIndex = items.results.findIndex(
-            (item) => item.id === over.id
-        );
+        const activeIndex = items.findIndex((item) => item.id === active.id);
+        const overIndex = items.findIndex((item) => item.id === over.id);
 
         if (activeIndex !== overIndex) {
-            setItems((prev) => ({
-                ...prev,
-                results: arrayMove<SearchResultItemDTO>(
-                    prev.results,
-                    activeIndex,
-                    overIndex
-                ),
-            }));
+            setItems((prev) => arrayMove(prev, activeIndex, overIndex));
         }
-        setActiveItem(undefined);
+        setActiveItem(null);
     };
 
     const handleDragCancel = () => {
-        setActiveItem(undefined);
+        setActiveItem(null);
     };
 
     const handleButtonClick = () => {
-        const itemIds = items.results.map((item) => ({
-            id: item.id,
-            imageUrl: item.imageUrl,
-            tagList: item.tagList,
-        }));
         setArraySessionStorages({
-            key: SESSION_STORAGE_KEY,
-            value: itemIds,
+            key: StorageKeyword.FAVORITE_ITEMS,
+            value: items,
         });
         try {
             setToastMessage(t('SAVED_CHANGES'));
@@ -158,20 +122,14 @@ export default function Favorite() {
         }
     };
 
-    const handleDeleteItem = (itemId: number) => {
-        setItems((prev) => {
-            const updatedItems = prev.results.filter(
-                (item) => item.id !== itemId
-            );
-            setArraySessionStorages({
-                key: SESSION_STORAGE_KEY,
-                value: updatedItems.map((item) => ({
-                    id: item.id,
-                    imageUrl: item.imageUrl,
-                    tagList: item.tagList,
-                })),
-            });
-            return { ...prev, results: updatedItems };
+    const handleDeleteItem = (itemId: string) => {
+        if (!userUId) return;
+        deleteFavoriteItem(userUId, itemId);
+        const updatedItems = items.filter((item) => item.id !== itemId);
+        setItems(updatedItems);
+        setArraySessionStorages({
+            key: StorageKeyword.FAVORITE_ITEMS,
+            value: updatedItems,
         });
     };
 
@@ -208,11 +166,11 @@ export default function Favorite() {
                     {t('SAVING_CHANGES')}
                 </button>
                 <SortableContext
-                    items={items.results.map((item) => item.id)}
+                    items={items.map((item) => item.id)}
                     strategy={rectSortingStrategy}
                 >
                     <div className="c-favorite__grid">
-                        {items.results.map((item) => (
+                        {items.map((item) => (
                             <FavoriteItemWrapper
                                 key={item.id}
                                 item={item}

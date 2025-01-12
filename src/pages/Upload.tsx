@@ -3,15 +3,16 @@ import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { TagInput } from 'components/UI/Upload/Upload_tag';
 import { CategoryInput } from 'components/UI/Upload/Upload_category';
 import { handleApiError } from 'utils/API/handleApiError';
-import { post } from 'utils/API/fetcher';
 import handleKeyDown from 'utils/Event/preventEnter';
 import {
+    getSessionStorages,
     setSessionStorages,
 } from 'utils/Storage/sessionStorage';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import StorageKeyword from 'Constant/StorageKeyword';
 import getValidationMessages from '../components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
+import uploadService from 'services/UploadService';
 export const UPLOAD_URL = '/images';
 
 export default function Upload() {
@@ -19,7 +20,7 @@ export default function Upload() {
     const { t } = useTranslation();
 
     const [file, setFile] = useState<File | undefined>();
-    const [tags, setTags] = useState<string[] | string>('');
+    const [tagList, setTaglist] = useState<string[] | string>('');
     const [category, setCategory] = useState<string | undefined>();
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -42,7 +43,7 @@ export default function Upload() {
             'image/png',
             'image/webp',
         ];
-        const maxSizeInMB = 5;
+        const maxSizeInMB = 1;
         const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
 
         if (selectedFile) {
@@ -74,7 +75,7 @@ export default function Upload() {
             setErrorMessage(t('REQUIRED_UPLOAD_FILE'));
             return;
         }
-        if (tags.length === 0) {
+        if (tagList.length === 0) {
             setErrorMessage(t('REQUIRED_UPLOAD_TAG'));
             return;
         }
@@ -82,22 +83,18 @@ export default function Upload() {
             setErrorMessage(t('REQUIRED_UPLOAD_CATEGORY'));
             return;
         }
-        const formData = new FormData();
-        formData.append('memeImageFile', file);
-        formData.append('tags', Array.isArray(tags) ? tags.join(',') : tags);
-        formData.append('delimiter', ',');
-
         try {
-            const response = await post(
-                `${UPLOAD_URL}?imageCategory=${category}`,
-                formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }
+            const useId = getSessionStorages(StorageKeyword.USER_UID);
+            if (!useId) {
+                setErrorMessage(t('REQUIRED_LOGIN'));
+                return;
+            }
+            await uploadService(
+                useId,
+                file,
+                category,
+                Array.isArray(tagList) ? tagList : tagList.split(',')
             );
-
             setSessionStorages({
                 key: StorageKeyword.UPLOAD_SUCCESS,
                 value: StorageKeyword.TRUE,
@@ -188,7 +185,7 @@ export default function Upload() {
                     </button>
                 </section>
                 <TagInput
-                    onTagsChange={setTags}
+                    onTagsChange={setTaglist}
                     setErrorMessage={setErrorMessage}
                 />
                 <CategoryInput
@@ -198,7 +195,7 @@ export default function Upload() {
                 {errorMessage && <p className="font-warning">{errorMessage}</p>}
                 <section className="c-login__button-section">
                     <button
-                        className="button__rounded button__light"
+                        className="button__rounded button__orange"
                         type="submit"
                     >
                         {t('ASKED_UPLOAD')}

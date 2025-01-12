@@ -14,7 +14,6 @@ const MOCK_CATEGORY_RESULT_BIRTHDAY: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/birthday/birthday-01.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['생일축하해', '선물은나야', 'presentIsMe'],
         },
         {
@@ -22,7 +21,6 @@ const MOCK_CATEGORY_RESULT_BIRTHDAY: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/birthday/birthday-02.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['고양이', 'cat', 'kitty'],
         },
         {
@@ -30,7 +28,6 @@ const MOCK_CATEGORY_RESULT_BIRTHDAY: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/birthday/birthday-03.webp'),
             imageCategory: 'birthday',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['노주현', '생일케익', 'happyman'],
         },
     ],

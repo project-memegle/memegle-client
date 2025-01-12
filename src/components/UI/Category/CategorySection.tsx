@@ -15,16 +15,7 @@ export default function CategorySection() {
     const [categoryList, setCategoryList] =
         useState<CategoryResultSectionDTO | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
 
-    //todo: 서버에서 카테고리 리스트를 가져오기
-    // useEffect(() => {
-    //     getCategorylist({
-    //         setLoading,
-    //         setResultData: setCategoryList,
-    //         setError,
-    //     });
-    // }, []);
     const mockCategoryList = useMockCategoryList();
 
     useEffect(() => {

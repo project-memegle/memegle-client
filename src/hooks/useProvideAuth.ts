@@ -1,20 +1,23 @@
 import { useState, useEffect } from 'react';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { clearLocalStorage } from 'utils/Storage/localStorage';
-import { clearCookies, deleteCookie, getCookie } from 'utils/Storage/cookies';
-import StorageKeyword from 'Constant/StorageKeyword';
-import {
-    clearSessionStorage,
-    deleteSessionStorage,
-} from 'utils/Storage/sessionStorage';
+import { clearCookies } from 'utils/Storage/cookies';
+import { clearSessionStorage } from 'utils/Storage/sessionStorage';
+import { auth } from '../../firebaseConfig';
 
 export function useProvideAuth() {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
     useEffect(() => {
-        const token = getCookie(StorageKeyword.ACCESS_TOKEN);
-        if (token) {
-            setIsAuthenticated(true);
-        }
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setIsAuthenticated(true);
+            } else {
+                setIsAuthenticated(false);
+            }
+        });
+
+        return () => unsubscribe();
     }, []);
 
     const login = (callback: VoidFunction) => {
@@ -23,13 +26,13 @@ export function useProvideAuth() {
     };
 
     const logout = (callback: VoidFunction) => {
-        setIsAuthenticated(false);
-        clearLocalStorage();
-        // deleteCookie(StorageKeyword.ACCESS_TOKEN);
-        // deleteCookie(StorageKeyword.REFRESH_TOKEN);
-        clearCookies();
-        clearSessionStorage();
-        callback();
+        signOut(auth).then(() => {
+            setIsAuthenticated(false);
+            clearLocalStorage();
+            clearCookies();
+            clearSessionStorage();
+            callback();
+        });
     };
 
     return {

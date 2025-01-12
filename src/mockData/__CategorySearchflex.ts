@@ -14,7 +14,6 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/flex/flex-01.webp'),
             imageCategory: 'flex',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['플렉스', '카드긁기', 'card'],
         },
         {
@@ -22,7 +21,6 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/flex/flex-02.webp'),
             imageCategory: 'flex',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['저거사자', '아기사자', 'lion'],
         },
         {
@@ -30,7 +28,6 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/flex/flex-03.webp'),
             imageCategory: 'flex',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['돈없음', '전재산탕진', 'noMoney', 'emptyWallet'],
         },
         {
@@ -38,7 +35,6 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/flex/flex-04.webp'),
             imageCategory: 'flex',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['전재산천원', '돈없음', '1000', 'nomoney'],
         },
         {
@@ -46,7 +42,6 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/flex/flex-05.webp'),
             imageCategory: 'flex',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['페페', '개츠비', 'pepe', 'gatsby'],
         },
         {
@@ -54,7 +49,6 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/flex/flex-06.webp'),
             imageCategory: 'flex',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['일어나', '돈벌자', 'wakeUp', 'makeMoney'],
         },
         {
@@ -62,7 +56,6 @@ const MOCK_CATEGORY_RESULT_FLEX: SearchResultSectionDTO = {
             imageUrl: resolveImagePath('/temp/flex/flex-07.webp'),
             imageCategory: 'flex',
             createdAt: DATE,
-            modifiedAt: DATE,
             tagList: ['돈냄새', '박명수', 'money', 'funnyMan'],
         },
     ],
