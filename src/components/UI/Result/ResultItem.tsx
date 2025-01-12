@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import ToastMessage from '../ToastMessage/ToastMessage';
 import { SearchResultItemDTO } from 'services/dto/ResultDto';
-import { getSessionStorages } from 'utils/Storage/sessionStorage';
+import {
+    getArraySessionStorages,
+    getSessionStorages,
+    setArraySessionStorages,
+} from 'utils/Storage/sessionStorage';
 import StorageKeyword from 'Constant/StorageKeyword';
 import {
     addFavoriteItem,
@@ -37,6 +41,13 @@ export default function ResultItem({
             .catch((error) => console.error('Error fetching items:', error));
     }, [result.id]);
 
+    useEffect(() => {
+        const favoriteItems = getArraySessionStorages(
+            StorageKeyword.FAVORITE_ITEMS
+        );
+        if (!favoriteItems) return;
+    });
+
     async function addToFavorite(item: SearchResultItemDTO) {
         if (loading) return;
         setLoading(true);
@@ -44,15 +55,8 @@ export default function ResultItem({
             const userId = getSessionStorages(StorageKeyword.USER_UID);
             if (!userId) return;
 
-            // Add logging to check the values
-            console.log('Adding to favorite:', {
-                userId: userId,
-                imageUrl: item.imageUrl,
-                category: item.category,
-                tagList: item.tagList,
-                imageId: item.id.toString(),
-                uploader: item.uploader,
-            });
+            const favoriteItems =
+                getArraySessionStorages(StorageKeyword.FAVORITE_ITEMS) || [];
 
             await addFavoriteItem({
                 userId: userId,
@@ -61,6 +65,14 @@ export default function ResultItem({
                 tagList: item.tagList,
                 imageId: item.id.toString(),
                 uploader: item.uploader,
+                order: favoriteItems.length + 1,
+            });
+
+            const updatedFavorites = [...favoriteItems, item];
+
+            setArraySessionStorages({
+                key: StorageKeyword.FAVORITE_ITEMS,
+                value: updatedFavorites,
             });
 
             setIsFavorite(true);

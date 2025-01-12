@@ -49,7 +49,6 @@ async function getUploadedImages(
         const favoriteItems: SearchResultItemDTO[] = querySnapshot.docs.map(
             (doc) => doc.data() as SearchResultItemDTO
         );
-        console.log('Favorite items:', favoriteItems);
         return favoriteItems;
     } catch (error) {
         console.error('Error fetching favorite items:', error);

@@ -31,10 +31,12 @@ export interface SearchResultItemDTO {
 }
 
 export interface FavoriteItemDTO {
-    userId: string;
+    id: string;
+    createdAt: Date;
     imageUrl: string;
     category: string;
     tagList: string[];
     imageId: string;
     uploader: string;
+    order: number;
 }

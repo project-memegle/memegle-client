@@ -20,7 +20,7 @@ const StorageKeyword: StorageProps = {
     VERIFICATION_CODE_ID: 'ID',
     VERIFICATION_CODE_PASSWORD: 'PASSWORD',
     VERIFICATION_CODE_SIGNUP: 'SIGN_UP',
+    FAVORITE_ITEMS: 'favoriteItems',
 };
 
-// todo: VERIFICATION_CODE_ID 값 변경
 export default StorageKeyword;

@@ -7,7 +7,7 @@ import {
     deleteDoc,
     Timestamp, // Timestamp 추가
 } from 'firebase/firestore';
-import { SearchResultItemDTO } from './dto/ResultDto';
+import { FavoriteItemDTO } from './dto/ResultDto';
 
 async function addFavoriteItem({
     userId,
@@ -16,6 +16,7 @@ async function addFavoriteItem({
     tagList,
     imageId,
     uploader,
+    order,
 }: {
     userId: string;
     imageUrl: string;
@@ -23,25 +24,21 @@ async function addFavoriteItem({
     tagList: string[];
     imageId: string;
     uploader: string;
+    order: number; // 순서 지정
 }): Promise<void> {
     const firestore = getFirestore();
 
-    try {
-        const favoriteItem = {
-            category: category,
-            createdAt: Timestamp.now(), 
-            id: imageId,
-            imageUrl: imageUrl,
-            tagList: tagList,
-            uploader: uploader,
-        };
-        console.log('userId:', userId);
-        console.log('imageUrl:', imageUrl);
-        console.log('category:', category);
-        console.log('tagList:', tagList);
-        console.log('imageId:', imageId);
-        console.log('uploader:', uploader);
+    const favoriteItem = {
+        category: category,
+        createdAt: Timestamp.now(),
+        id: imageId,
+        imageUrl: imageUrl,
+        tagList: tagList,
+        uploader: uploader,
+        order: order !== undefined ? order : 0,
+    };
 
+    try {
         const userFavoriteRef = doc(
             firestore,
             'users',
@@ -73,7 +70,6 @@ async function deleteFavoriteItem(
             uniqueFileName
         );
         await deleteDoc(userFavoriteRef);
-
         console.log('Favorite item deleted successfully!');
     } catch (error) {
         console.error('Error deleting favorite item:', error);
@@ -81,9 +77,7 @@ async function deleteFavoriteItem(
     }
 }
 
-async function getFavoriteItems(
-    userId: string
-): Promise<SearchResultItemDTO[]> {
+async function getFavoriteItems(userId: string): Promise<FavoriteItemDTO[]> {
     const firestore = getFirestore();
 
     try {
@@ -93,12 +87,12 @@ async function getFavoriteItems(
             userId,
             'favoriteImages'
         );
+
         const querySnapshot = await getDocs(favoriteImagesRef);
 
-        const favoriteItems: SearchResultItemDTO[] = querySnapshot.docs.map(
-            (doc) => doc.data() as SearchResultItemDTO
-        );
-        console.log('Favorite items:', favoriteItems);
+        const favoriteItems: FavoriteItemDTO[] = querySnapshot.docs
+            .map((doc) => doc.data() as FavoriteItemDTO)
+            .sort((a, b) => a.order - b.order);
         return favoriteItems;
     } catch (error) {
         console.error('Error fetching favorite items:', error);
@@ -106,4 +100,35 @@ async function getFavoriteItems(
     }
 }
 
-export { addFavoriteItem, deleteFavoriteItem, getFavoriteItems };
+async function updateFavoriteItemOrder(
+    userId: string,
+    imageId: string,
+    newOrder: number
+): Promise<void> {
+    const firestore = getFirestore();
+
+    try {
+        const userFavoriteRef = doc(
+            firestore,
+            'users',
+            userId,
+            'favoriteImages',
+            imageId
+        );
+
+        // 순서 업데이트
+        await setDoc(userFavoriteRef, { order: newOrder }, { merge: true });
+
+        console.log('Favorite item order updated successfully!');
+    } catch (error) {
+        console.error('Error updating favorite item order:', error);
+        throw new Error(`Failed to update favorite item order: ${error}`);
+    }
+}
+
+export {
+    addFavoriteItem,
+    deleteFavoriteItem,
+    getFavoriteItems,
+    updateFavoriteItemOrder,
+};

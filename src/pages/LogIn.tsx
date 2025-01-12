@@ -12,10 +12,12 @@ import StorageKeyword from 'Constant/StorageKeyword';
 import {
     deleteSessionStorage,
     getSessionStorages,
+    setArraySessionStorages,
 } from 'utils/Storage/sessionStorage';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 import { useTranslation } from 'react-i18next';
 import getValidationMessages from '../components/Validations/ValidationMessages';
+import { getFavoriteItems } from 'services/FavoriteService';
 
 export default function LogIn() {
     const navigate = useCustomNavigate();
@@ -111,6 +113,20 @@ export default function LogIn() {
 
                 try {
                     await logIn(userData);
+                    const userUId = getSessionStorages(StorageKeyword.USER_UID);
+                    if (!userUId) {
+                        return;
+                    }
+                    getFavoriteItems(userUId)
+                        .then((items) => {
+                            setArraySessionStorages({
+                                key: StorageKeyword.FAVORITE_ITEMS,
+                                value: items,
+                            });
+                        })
+                        .catch((error) =>
+                            console.error('Error fetching items:', error)
+                        );
                     auth.login(() => {
                         navigate('/');
                     });
