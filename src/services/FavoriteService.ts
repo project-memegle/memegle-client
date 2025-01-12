@@ -29,13 +29,12 @@ async function addFavoriteItem({
     try {
         const favoriteItem = {
             category: category,
-            createdAt: Timestamp.now(), // Firestore Timestamp 사용
+            createdAt: Timestamp.now(), 
             id: imageId,
             imageUrl: imageUrl,
             tagList: tagList,
             uploader: uploader,
         };
-        // 디버깅 로그 추가
         console.log('userId:', userId);
         console.log('imageUrl:', imageUrl);
         console.log('category:', category);
@@ -59,7 +58,6 @@ async function addFavoriteItem({
     }
 }
 
-// 즐겨찾기 삭제
 async function deleteFavoriteItem(
     userId: string,
     uniqueFileName: string
@@ -97,7 +95,6 @@ async function getFavoriteItems(
         );
         const querySnapshot = await getDocs(favoriteImagesRef);
 
-        // Firestore에서 데이터를 받아올 때, 타입을 정확히 지정
         const favoriteItems: SearchResultItemDTO[] = querySnapshot.docs.map(
             (doc) => doc.data() as SearchResultItemDTO
         );

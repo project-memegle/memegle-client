@@ -9,16 +9,11 @@ import Favorite from './pages/Favorite';
 import Upload from './pages/Upload';
 import Chat from 'pages/Chat';
 import PrivateRoute from 'components/auth/PrivateRoute';
-import Verification from 'pages/__Verification';
 import Mypage from 'pages/Mypage';
 import ChangeNickname from 'pages/ChangeNickname';
 import MyImages from 'pages/MyImages/MyImages';
 import DeleteAccount from 'pages/DeleteAccount';
-import FindId from 'pages/Id/__FindId';
-import IdEmailVerification from 'pages/Id/__IdEmailVerification';
 import MypageResetPassword from 'pages/Password/MypageResetPassword';
-import MypageEmailVerification from 'pages/Password/__MypageEmailVerification';
-import LogInEmailVerification from './pages/Password/__LogInEmailVerification';
 import { ResultTag } from 'pages/Result/ResultTag';
 import { ResultCategory } from 'pages/Result/ResultCategory';
 import LogInResetPassword from 'pages/Password/LogInResetPassword';
@@ -73,10 +68,6 @@ const router = createBrowserRouter(
                 {
                     path: 'mypage',
                     element: <PrivateRoute element={<Mypage />} />,
-                },
-                {
-                    path: 'changenickname',
-                    element: <PrivateRoute element={<ChangeNickname />} />,
                 },
                 {
                     path: 'password/change',

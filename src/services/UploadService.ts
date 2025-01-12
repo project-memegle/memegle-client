@@ -42,14 +42,14 @@ async function uploadService(
         await setDoc(docRef, data);
 
         const userCollection = 'users';
-        const userFavoriteDoc = userId;
+        const userUniqueId = userId;
         const userImagesSubCollection = 'uploadedImages';
 
         const userDocRef = doc(
             collection(
                 db,
                 userCollection,
-                userFavoriteDoc,
+                userUniqueId,
                 userImagesSubCollection
             ),
             uniqueFileName

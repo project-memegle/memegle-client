@@ -74,7 +74,7 @@ export default function Mypage() {
                 <button
                     type="button"
                     onClick={() => {
-                        navigate('/changenickname');
+                        navigate('/myimages');
                     }}
                 >
                     {t('VIEW_MY_IMAGE_HISTORY')}
@@ -89,15 +89,6 @@ export default function Mypage() {
                     {t('CHANGE_PASSWORD')}
                     <i className="c-icon">chevron_right</i>
                 </button>
-                {/* <button
-                    type="button"
-                    onClick={() => {
-                        navigate('/myimages');
-                    }}
-                >
-                    내가 업로드한 이미지 목록 보기
-                    <i className="c-icon">chevron_right</i>
-                </button> */}
                 <button type="button" onClick={() => navigate('/delete')}>
                     {t('DELETE_ACCOUNT')}
                 </button>
