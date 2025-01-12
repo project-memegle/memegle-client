@@ -1,5 +1,5 @@
 export interface ChatItemDTO {
-    loginId: string;
+    userId: string;
     content: string;
     category: string;
 }

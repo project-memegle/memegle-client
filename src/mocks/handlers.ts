@@ -1,7 +1,6 @@
 import { http, HttpResponse, passthrough } from 'msw';
 import { UPLOAD_URL } from 'pages/Upload';
 import { SEARCH_BY_CATEGORY_URL } from 'services/CategoryService';
-import { POST_CHAT_URL } from 'services/ChatService';
 import {
     CHECK_ID_URL,
     FIND_USER_ID_URL,
@@ -94,12 +93,6 @@ export const handlers = [
         });
     }),
 
-    http.post(`${baseURL}${POST_CHAT_URL}`, () => {
-        return new HttpResponse(null, {
-            status: 200,
-            statusText: 'OK',
-        });
-    }),
 
     http.get(`${baseURL}/tag`, () => {
         return new HttpResponse(null, {

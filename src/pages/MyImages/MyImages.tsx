@@ -1,5 +1,4 @@
 import MyImageItem from 'components/UI/MyImages/MyImageItem';
-import MyImageItemWrapper from 'components/UI/MyImages/MyImageItemWrapper';
 import StorageKeyword from 'Constant/StorageKeyword';
 import { useEffect, useState } from 'react';
 import { SearchResultItemDTO } from 'services/dto/ResultDto';
