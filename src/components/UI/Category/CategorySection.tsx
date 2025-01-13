@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import CategoryItem from '../Category/CategoryItem';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
-import { getCategorylist } from 'services/CategoryService';
 import { CategoryResultSectionDTO } from 'services/dto/ResultDto';
-import { useMockCategoryList } from 'mockData/__CategoryList';
 import { t } from 'i18next';
+import { useMockCategoryList } from './CategoryList';
 
 /**
  *
