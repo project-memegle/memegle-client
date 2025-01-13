@@ -18,11 +18,13 @@ import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 import { useTranslation } from 'react-i18next';
 import getValidationMessages from '../components/Validations/ValidationMessages';
 import { getFavoriteItems } from 'services/FavoriteService';
+import { FormProvider, useForm } from 'react-hook-form';
+import { SubmitButton } from 'components/UI/Buttons';
 
 export default function LogIn() {
     const navigate = useCustomNavigate();
     const auth = useAuth();
-
+    const methods = useForm();
     const [toastMessage, setToastMessage] = useState('');
     const [toast, setToast] = useState(false);
     const ValidationMessages = getValidationMessages();
@@ -39,6 +41,7 @@ export default function LogIn() {
     const emailInputRef = useRef<HTMLInputElement>(null);
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const { t } = useTranslation();
+    const [isPending, setIsPending] = useState(false);
 
     const onChangeEmail = useCallback(
         handleInputChange(setEmail, setEmailError, validateEmail, () => {
@@ -112,6 +115,7 @@ export default function LogIn() {
                 };
 
                 try {
+                    setIsPending(true);
                     await logIn(userData);
                     const userUId = getSessionStorages(StorageKeyword.USER_UID);
                     if (!userUId) {
@@ -137,6 +141,8 @@ export default function LogIn() {
                     } else {
                         setMessage(ValidationMessages.UNKNOWN_ERROR);
                     }
+                } finally {
+                    setIsPending(false);
                 }
             }
         },
@@ -144,77 +150,86 @@ export default function LogIn() {
     );
     return (
         <div className="main__container">
-            <form className="c-login" onSubmit={onSubmit}>
-                <div className="c-login__section">
-                    {emailError ? (
-                        <p className="error-message">{emailError}</p>
-                    ) : (
-                        <p>{DEFAULT_EMAIL}</p>
+            <FormProvider {...methods}>
+                <form className="c-login" onSubmit={onSubmit}>
+                    <div className="c-login__section">
+                        {emailError ? (
+                            <p className="error-message">{emailError}</p>
+                        ) : (
+                            <p>{DEFAULT_EMAIL}</p>
+                        )}
+                        <label htmlFor="email">{DEFAULT_EMAIL}</label>
+                        <input
+                            ref={emailInputRef}
+                            className="c-login__input"
+                            name="email"
+                            id="email"
+                            type="text"
+                            placeholder={ValidationMessages.REQUIRED_EMAIL}
+                            value={email}
+                            onChange={onChangeEmail}
+                        />
+                    </div>
+                    <div className="c-login__section">
+                        {passwordError ? (
+                            <p className="error-message">{passwordError}</p>
+                        ) : (
+                            <p>{DEFAULT_PASSWORD}</p>
+                        )}
+                        <label htmlFor="password">{DEFAULT_PASSWORD}</label>
+                        <input
+                            autoComplete="on"
+                            ref={passwordInputRef}
+                            className="c-login__input"
+                            name="password"
+                            type="password"
+                            id="password"
+                            placeholder={ValidationMessages.REQUIRED_PASSWORD}
+                            value={password}
+                            onChange={onChangePassword}
+                        />
+                    </div>
+                    {message && (
+                        <p className="c-login__message font-warning">
+                            {message}
+                        </p>
                     )}
-                    <label htmlFor="email">{DEFAULT_EMAIL}</label>
-                    <input
-                        ref={emailInputRef}
-                        className="c-login__input"
-                        name="email"
-                        id="email"
-                        type="text"
-                        placeholder={ValidationMessages.REQUIRED_EMAIL}
-                        value={email}
-                        onChange={onChangeEmail}
-                    />
-                </div>
-                <div className="c-login__section">
-                    {passwordError ? (
-                        <p className="error-message">{passwordError}</p>
-                    ) : (
-                        <p>{DEFAULT_PASSWORD}</p>
-                    )}
-                    <label htmlFor="password">{DEFAULT_PASSWORD}</label>
-                    <input
-                        autoComplete="on"
-                        ref={passwordInputRef}
-                        className="c-login__input"
-                        name="password"
-                        type="password"
-                        id="password"
-                        placeholder={ValidationMessages.REQUIRED_PASSWORD}
-                        value={password}
-                        onChange={onChangePassword}
-                    />
-                </div>
-                {message && (
-                    <p className="c-login__message font-warning">{message}</p>
-                )}
-                <section className="c-login__button-section">
-                    <button
-                        className="button__rounded button__orange"
-                        type="submit"
-                    >
-                        {t('DEFAULT_LOGIN')}
-                    </button>
-                    <button
-                        onClick={() => navigate('/signup')}
-                        className="button__rounded button__light"
-                        type="button"
-                    >
-                        {t('DEFAULT_SIGNUP')}
-                    </button>
-                    <section className="c-login__button-section-end">
-                        <button
-                            className="button__light-font"
-                            onClick={() => navigate('/find/password')}
+                    <section className="c-login__button-section">
+                        <SubmitButton
+                            isPending={isPending}
+                            text="DEFAULT_LOGIN"
+                        />
+
+                        {/* <button
+                            className="button__rounded button__orange"
+                            type="submit"
                         >
-                            {t('FIND_PASSWORD')}
+                            {t('DEFAULT_LOGIN')}
+                        </button> */}
+                        <button
+                            onClick={() => navigate('/signup')}
+                            className="button__rounded button__light"
+                            type="button"
+                        >
+                            {t('DEFAULT_SIGNUP')}
                         </button>
+                        <section className="c-login__button-section-end">
+                            <button
+                                className="button__light-font"
+                                onClick={() => navigate('/find/password')}
+                            >
+                                {t('FIND_PASSWORD')}
+                            </button>
+                        </section>
                     </section>
-                </section>
-            </form>
-            {toast && (
-                <ToastMessage
-                    message={toastMessage}
-                    onClose={() => setToast(false)}
-                />
-            )}
+                </form>
+                {toast && (
+                    <ToastMessage
+                        message={toastMessage}
+                        onClose={() => setToast(false)}
+                    />
+                )}
+            </FormProvider>
         </div>
     );
 }

@@ -1,6 +1,5 @@
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { useTranslation } from 'react-i18next';
-
 export function SubmitButton({
     isPending,
     text,
@@ -17,7 +16,7 @@ export function SubmitButton({
         >
             {isPending ? (
                 <>
-                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                    <ReloadIcon className="animated-spin" />
                 </>
             ) : (
                 t(text)

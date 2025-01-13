@@ -9,9 +9,8 @@ import StorageKeyword from 'Constant/StorageKeyword';
 import getValidationMessages from '../components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
 import uploadService from 'services/UploadService';
-import { SubmitButton } from 'components/UI/Buttons';
+import { SubmitButton } from 'components/UI/Buttons'
 import { FormProvider, useForm } from 'react-hook-form';
-export const UPLOAD_URL = '/images';
 
 export default function Upload() {
     const ValidationMessages = getValidationMessages();
@@ -26,12 +25,6 @@ export default function Upload() {
     const [isDragging, setIsDragging] = useState<boolean>(false);
     const navigate = useCustomNavigate();
     const [isPending, setIsPending] = useState(false);
-    const {
-        register,
-        watch,
-        formState: { errors },
-    } = useForm();
-
     const methods = useForm();
     const { handleSubmit } = methods;
     const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
