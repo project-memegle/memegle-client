@@ -24,13 +24,12 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig); // 앱을 초기화
-const db = getFirestore(app); // Firestore 초기화
+const app = initializeApp(firebaseConfig); 
+const db = getFirestore(app); 
 const auth = getAuth(app);
 
 setPersistence(auth, browserLocalPersistence)
     .then(() => {
-        console.log('Persistence set to local');
     })
     .catch((error) => {
         console.error('Error setting persistence:', error);

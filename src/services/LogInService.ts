@@ -19,7 +19,6 @@ export async function logIn(userData: LogInRequestDTO): Promise<void> {
         );
         const user = userCredential.user;
 
-        console.log(user);
         setSessionStorages({
             key: user.email as string,
             value: email,

@@ -74,7 +74,6 @@ export default function ChatBot({
             key: StorageKeyword.CHATBOT_CATEGORY,
             value: categoryKey,
         });
-        console.log('key: ', categoryKey);
         setMessages((prevMessages) => [
             ...prevMessages,
             {

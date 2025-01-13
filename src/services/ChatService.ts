@@ -25,10 +25,9 @@ export async function postChat({
             createdAt: new Date(),
         };
 
-        const docRef = doc(collection(db, 'inquiry'), userId); // 'inquiry' 컬렉션에 userId 문서 생성
+        const docRef = doc(collection(db, 'inquiry'), userId); 
         await setDoc(docRef, data);
 
-        console.log('Chat posted successfully!');
     } catch (error) {
         console.log(error);
         throw new Error(ValidationMessages.UNKNOWN_ERROR);

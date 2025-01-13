@@ -22,17 +22,23 @@ export default function MyImages() {
     const [toast, setToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const validationMessage = getValidationMessages();
-    const [useId, setUserId] = useState<string | null>(null);
+    const [userId, setUserId] = useState<string | null>(null);
     useEffect(() => {
-        setLoading(true);
         const userUId = getSessionStorages(StorageKeyword.USER_UID);
         if (!userUId) {
+            setError(validationMessage.USER_ID_MISSING);
+            setLoading(false);
             return;
         }
         setUserId(userUId);
+    }, []);
+
+    useEffect(() => {
+        if (!userId) return;
+
         const fetchData = async () => {
             try {
-                const result = await getUploadedImages(userUId);
+                const result = await getUploadedImages(userId);
                 setItems(result);
             } catch (error) {
                 setError(validationMessage.SERVER_ERROR);
@@ -42,17 +48,38 @@ export default function MyImages() {
         };
 
         fetchData();
-    }, []);
+    }, [userId]);
 
-    function onDelete(itemId: string) {
-        const newItems = items.filter((item) => item.id !== itemId);
-        setItems(newItems);
-        setToastMessage(validationMessage.SUCCESS_DELETE_IMG);
-        setToast(true);
-        if (!useId) {
+    async function onDelete({
+        category,
+        itemId,
+        userId,
+    }: {
+        category: string;
+        itemId: string;
+        userId: string;
+    }) {
+        if (!userId) {
+            setToastMessage(validationMessage.USER_ID_MISSING);
+            setToast(true);
             return;
         }
-        deleteUploadedImages(useId, itemId);
+
+        try {
+            await deleteUploadedImages({
+                userId: userId,
+                category: category,
+                uniqueFileName: itemId,
+            });
+            const newItems = items.filter((item) => item.id !== itemId);
+            setItems(newItems);
+            setToastMessage(validationMessage.SUCCESS_DELETE_IMG);
+        } catch (error) {
+            console.error('Delete failed:', error);
+            setToastMessage(validationMessage.SERVER_ERROR);
+        } finally {
+            setToast(true);
+        }
     }
 
     const handleOpenModal = (selectedResult: SearchResultItemDTO) => {

@@ -64,7 +64,6 @@ export default function Chat() {
         ]);
         setIsCategorySelected(false);
         const userId = getSessionStorages(StorageKeyword.USER_UID);
-        console.log('userId:', userId);
         if (!allMessages) {
             return;
         }
@@ -77,7 +76,6 @@ export default function Chat() {
 
             try {
                 await postChat(chatData);
-                console.log('Chat data posted successfully');
             } catch (error) {
                 console.error('Error posting chat data:', error);
             }

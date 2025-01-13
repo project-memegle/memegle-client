@@ -52,7 +52,6 @@ export async function searchByCategory({
 
         setResultData(response.data);
     } catch (error) {
-        console.error('Error fetching categories:', error);
         handleApiError(error as AxiosError, setError);
     } finally {
         setLoading(false);
@@ -72,7 +71,6 @@ export async function getCategorylist({
         const response = await get<CategoryResultSectionDTO>(url);
         setResultData(response.data);
     } catch (error) {
-        console.error('Error fetching categories:', error);
         handleApiError(error as AxiosError, setError);
     } finally {
         setLoading(false);
@@ -91,10 +89,16 @@ export async function getImagesByCategory(category: string) {
         const q = query(imagesCollectionRef);
         const querySnapshot = await getDocs(q);
 
-        const images = querySnapshot.docs.map((doc) => doc.data());
+        const images = querySnapshot.docs
+            .map((doc) => doc.data())
+            .filter((data) => data && Object.keys(data).length > 0); // 빈 객체 제외
+
+        if (images.length === 0) {
+        }
 
         return images;
     } catch (error) {
-        return error;
+        console.error('Error fetching images by category:', error);
+        throw new Error('Failed to fetch images by category');
     }
 }

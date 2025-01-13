@@ -48,7 +48,6 @@ async function addFavoriteItem({
         );
         await setDoc(userFavoriteRef, favoriteItem);
 
-        console.log('Favorite item added successfully!');
     } catch (error) {
         console.error('Error adding favorite item:', error);
         throw new Error(`Failed to add favorite: ${error}`);
@@ -70,7 +69,6 @@ async function deleteFavoriteItem(
             uniqueFileName
         );
         await deleteDoc(userFavoriteRef);
-        console.log('Favorite item deleted successfully!');
     } catch (error) {
         console.error('Error deleting favorite item:', error);
         throw new Error(`Failed to delete favorite item: ${error}`);
@@ -119,7 +117,6 @@ async function updateFavoriteItemOrder(
         // 순서 업데이트
         await setDoc(userFavoriteRef, { order: newOrder }, { merge: true });
 
-        console.log('Favorite item order updated successfully!');
     } catch (error) {
         console.error('Error updating favorite item order:', error);
         throw new Error(`Failed to update favorite item order: ${error}`);

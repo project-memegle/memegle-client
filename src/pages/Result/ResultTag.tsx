@@ -21,7 +21,6 @@ export function ResultTag() {
         setLoading(false);
         if (typeof decodedKeyword === 'string') {
             const normalizedKeyword = normalizeString(decodedKeyword);
-            console.log(normalizedKeyword);
             searchByTag(normalizedKeyword)
                 .then((result: SearchResultItemDTO[]) => {
                     setTagData(result);

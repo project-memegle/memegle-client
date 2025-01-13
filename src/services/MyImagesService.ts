@@ -6,26 +6,43 @@ import {
     deleteDoc,
 } from 'firebase/firestore';
 import { SearchResultItemDTO } from './dto/ResultDto';
+import { deleteObject, getStorage, ref } from 'firebase/storage';
+import { db } from '../../firebaseConfig';
 
-async function deleteUploadedImages(
-    userId: string,
-    uniqueFileName: string
-): Promise<void> {
+async function deleteUploadedImages({
+    userId,
+    category,
+    uniqueFileName,
+}: {
+    userId: string;
+    category: string;
+    uniqueFileName: string;
+}): Promise<void> {
     const firestore = getFirestore();
-
+    const storage = getStorage();
     try {
-        const userFavoriteRef = doc(
-            firestore,
-            'users',
-            userId,
-            'uploadedImages',
+        // 1. Firebase Storage에서 파일 삭제
+        const storageRef = ref(storage, `images/${uniqueFileName}`);
+        // await deleteObject(storageRef);
+
+        // 2. Firestore에서 사용자 업로드 이미지 문서 삭제
+        const userCollection = 'users';
+        const userImagesSubCollection = 'uploadedImages';
+        const userDocRef = doc(
+            collection(db, userCollection, userId, userImagesSubCollection),
             uniqueFileName
         );
-        await deleteDoc(userFavoriteRef);
+        await deleteDoc(userDocRef);
 
-        console.log('Favorite item deleted successfully!');
+        // 3. Firestore에서 카테고리 이미지 문서 삭제
+        const categoryCollection = 'categories';
+        const imagesSubCollection = 'images';
+        const categoryDocRef = doc(
+            collection(db, categoryCollection, category, imagesSubCollection),
+            uniqueFileName
+        );
+        await deleteDoc(categoryDocRef);
     } catch (error) {
-        console.error('Error deleting favorite item:', error);
         throw new Error(`Failed to delete favorite item: ${error}`);
     }
 }
@@ -49,7 +66,6 @@ async function getUploadedImages(
         );
         return favoriteItems;
     } catch (error) {
-        console.error('Error fetching favorite items:', error);
         throw new Error(`Failed to fetch favorite items: ${error}`);
     }
 }

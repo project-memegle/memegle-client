@@ -25,7 +25,6 @@ export async function deleteAccount(userData: UserInfoDTO): Promise<void> {
     try {
         await reauthenticateWithCredential(user, authCredential);
         await deleteUser(user);
-        console.log('User deleted successfully');
     } catch (error) {
         const firebaseError = error as FirebaseError;
         const errorCode = firebaseError.code;

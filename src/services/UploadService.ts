@@ -56,7 +56,6 @@ async function uploadService(
         );
         await setDoc(userDocRef, data);
 
-        console.log('Data added to Firestore successfully!');
     } catch (error) {
         console.error('Failed to upload image and save data:', error);
         throw new Error('Failed to upload image and save data');

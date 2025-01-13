@@ -59,7 +59,6 @@ export async function ResetPassword(userData: ResetPasswordDTO): Promise<void> {
         await reAuthenticationService({ email, password });
 
         await updatePassword(user, newPassword);
-        console.log('Password updated successfully');
     } catch (error) {
         const firebaseError = error as FirebaseError;
         const errorCode = firebaseError.code;
