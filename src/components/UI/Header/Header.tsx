@@ -8,6 +8,7 @@ import StorageKeyword from 'Constant/StorageKeyword';
 import { getSessionStorages } from 'utils/Storage/sessionStorage';
 import { useLocation } from 'react-router-dom';
 import { normalizeString } from 'utils/Format/normalize';
+
 interface HeaderProps {
     searchTerm: string;
     onSearch: (term: string) => void;
@@ -21,6 +22,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
     const [language, setLanguage] = useState<string>('ko');
     const location = useLocation();
     const [displayResponsiveMenu, setDisplayResponsiveMenu] = useState(false);
+
     useEffect(() => {
         if (!location.pathname.startsWith('/tag/')) {
             setLocalSearchTerm('');
@@ -45,20 +47,21 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
             navigate(`/tag/${normalizedTerm}`);
         }
     };
-    let logInButtonClick = () => {
+
+    const logInButtonClick = () => {
         navigate('/login');
     };
 
-    let logOutButtonClick = () => {
+    const logOutButtonClick = () => {
         auth.logout(() => {
             navigate('/');
         });
     };
 
-    function removeInputValue(event: React.MouseEvent<HTMLButtonElement>) {
+    const removeInputValue = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         setLocalSearchTerm('');
-    }
+    };
 
     useEffect(() => {
         const language = getSessionStorages(StorageKeyword.LANGUAGE) || 'ko';
@@ -96,15 +99,26 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                     </div>
                 </section>
                 <section className="c-top-bar__user c-top-bar__user responsive">
-                    <button
-                        type="button"
-                        className="c-top-bar__user-notification"
-                        onClick={() =>
-                            setDisplayResponsiveMenu(!displayResponsiveMenu)
-                        }
-                    >
-                        <i className="c-icon">menu</i>
-                    </button>
+                    {auth.isAuthenticated ? (
+                        <button
+                            type="button"
+                            className="c-top-bar__user-notification"
+                            onClick={() =>
+                                setDisplayResponsiveMenu(!displayResponsiveMenu)
+                            }
+                        >
+                            <i className="c-icon">menu</i>
+                        </button>
+                    ) : (
+                        <button
+                            className="c-top-bar__user__log button__white-font"
+                            onClick={() => {
+                                logInButtonClick();
+                            }}
+                        >
+                            {t('DEFAULT_LOGIN')}
+                        </button>
+                    )}
                 </section>
                 <section className="c-top-bar__user c-top-bar__user">
                     {auth.isAuthenticated ? (
@@ -144,6 +158,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                     )}
                 </section>
             </section>
+
             {displayResponsiveMenu && (
                 <aside className="c-top-bar__user c-top-bar__user-aside">
                     {auth.isAuthenticated ? (
@@ -183,7 +198,6 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                             >
                                 {t('DEFAULT_UPLOAD')}
                             </button>
-
                             <button
                                 className="c-top-bar__user__log button__white-font"
                                 onClick={() => {
@@ -197,7 +211,6 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                             </button>
                             <button
                                 className="c-top-bar__user__log button__white-font"
-                                // onClick={logOutButtonClick}
                                 onClick={() => {
                                     logOutButtonClick();
                                     setDisplayResponsiveMenu(
@@ -208,33 +221,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                                 {t('DEFAULT_SIGNOUT')}
                             </button>
                         </section>
-                    ) : (
-                        <div className="c-top-bar__user-flex">
-                            <button
-                                type="button"
-                                className="c-top-bar__user-notification"
-                                onClick={() =>
-                                    setDisplayResponsiveMenu(
-                                        !displayResponsiveMenu
-                                    )
-                                }
-                            >
-                                <i className="c-icon">close</i>
-                            </button>
-                            <button
-                                className="c-top-bar__user__log button__white-font"
-                                // onClick={logInButtonClick}
-                                onClick={() => {
-                                    logInButtonClick();
-                                    setDisplayResponsiveMenu(
-                                        !displayResponsiveMenu
-                                    );
-                                }}
-                            >
-                                {t('DEFAULT_LOGIN')}
-                            </button>
-                        </div>
-                    )}
+                    ) : null}
                 </aside>
             )}
             <section>
