@@ -9,13 +9,6 @@ import '@memegle/styles';
 import './utils/i18n/locales/i18n';
 
 async function startApp() {
-    if (import.meta.env.VITE_NODE_ENV === 'development') {
-        const { worker } = await import('./mocks/browser');
-        worker.start({
-            onUnhandledRequest: 'bypass',
-        });
-    }
-
     createRoot(document.getElementById('root')!).render(
         <StrictMode>
             <ProvideAuth>
