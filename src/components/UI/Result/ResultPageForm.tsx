@@ -1,7 +1,6 @@
 import { useEffect, useState, ReactNode } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import LoadingSpinner from '../LoadingSpinner';
-import emptyIcon from '@memegle/assets/images/png/img_result_empty.webp';
 import {
     clearSearchHistory as clearLocalStorageSearchHistory,
     deleteSearchHistroy,
@@ -12,6 +11,7 @@ import useCustomNavigate from 'hooks/useCustomNaviaget';
 import ImageModal from './ImageModal';
 import { useTranslation } from 'react-i18next';
 import ResultItem from './ResultItem';
+import EmptyForm from '../EmptyForm';
 
 type OutletContextType = {
     searchTerm: string;
@@ -92,11 +92,7 @@ export function ResultPageForm({ loading, results, error }: ResultCommonProps) {
             return;
         }
 
-        setContent(
-            <div className="c-result__emtpy">
-                <img src={emptyIcon} alt="empty" />
-            </div>
-        );
+        setContent(<EmptyForm />);
     }, [loading, error, results]);
 
     function searchWithHistory(searchText: string) {

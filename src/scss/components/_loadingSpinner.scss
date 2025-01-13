@@ -5,6 +5,14 @@
     justify-content: center;
   }
 
+  .loading {
+    filter: blur(10px);
+    clip-path: inset(0);
+  }
+  .loaded {
+    filter: blur(0px);
+    transition: filter 0.5s linear;
+  }
   .loader {
     width: 100px;
     height: 100px;

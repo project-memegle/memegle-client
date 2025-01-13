@@ -1,11 +1,9 @@
 import {
     doc,
     getFirestore,
-    setDoc,
     collection,
     getDocs,
     deleteDoc,
-    Timestamp, // Timestamp 추가
 } from 'firebase/firestore';
 import { SearchResultItemDTO } from './dto/ResultDto';
 

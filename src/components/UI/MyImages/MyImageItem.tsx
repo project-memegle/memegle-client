@@ -1,6 +1,7 @@
 import { CSSProperties, forwardRef, HTMLAttributes, useState } from 'react';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 import { SearchResultItemDTO } from 'services/dto/ResultDto';
+import ProgressiveImg from '../ProgressiveImg';
 
 type MyImageItemProps = {
     item: SearchResultItemDTO;
@@ -34,10 +35,11 @@ const MyImageItem = forwardRef<HTMLDivElement, MyImageItemProps>(
                 >
                     <i className="c-icon">delete</i>
                 </div>
-                <img
-                    className="c-favorite__item-img"
+                <ProgressiveImg
                     src={item.imageUrl}
                     alt={`img-${item.id}`}
+                    className="c-favorite__item-img"
+                    placeholderSrc="/assets/images/placeholder.svg"
                 />
                 {toast && (
                     <ToastMessage

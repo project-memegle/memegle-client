@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
 import { AxiosError } from 'axios';
-import { handleApiError } from 'utils/API/handleApiError';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import {
     deleteSessionStorage,
@@ -11,10 +10,8 @@ import { verifyVerificationCode } from 'services/VerificationService';
 import StorageKeyword from 'Constant/StorageKeyword';
 import { VerifyCodePasswordDTO } from 'services/dto/PasswordDto';
 import VerificationForm from 'components/UI/VerificationForm';
-import { signUp } from 'services/SignupService';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import { handleVerificationApiError } from 'utils/API/handleVerificationAPIError';
-import { UserInfoDTO } from 'services/dto/UserInfoDto';
 
 export default function Verification() {
     const navigate = useCustomNavigate();

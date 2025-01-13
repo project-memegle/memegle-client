@@ -6,7 +6,6 @@ import axios, {
 } from 'axios';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import StorageKeyword from 'Constant/StorageKeyword';
-import { UPLOAD_URL } from 'pages/Upload';
 import { DELETE_ACCOUNT_URL } from 'services/deleteAccountService';
 import { CHANGE_NICKNAME_URL } from 'services/NicknameService';
 import { GET_USER_INFO_URL } from 'services/UserInfoService';
@@ -21,12 +20,10 @@ const REFRESH_TOKEN = StorageKeyword.REFRESH_TOKEN;
 const instance = axios.create({
     baseURL,
     timeout: 10000,
-    // withCredentials: true,
 });
 
 const AUTH_REQUIRED_URLS = [
     GET_USER_INFO_URL,
-    UPLOAD_URL,
     CHANGE_NICKNAME_URL,
     DELETE_ACCOUNT_URL,
 ];

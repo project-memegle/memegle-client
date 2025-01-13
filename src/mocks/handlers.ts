@@ -1,5 +1,4 @@
 import { http, HttpResponse, passthrough } from 'msw';
-import { UPLOAD_URL } from 'pages/Upload';
 import { SEARCH_BY_CATEGORY_URL } from 'services/CategoryService';
 import {
     CHECK_ID_URL,
@@ -55,14 +54,6 @@ export const handlers = [
     }),
 
     http.post(`${baseURL}${RESET_PASSWORD_URL}`, () => {
-        return passthrough();
-    }),
-
-    http.post(`${baseURL}${UPLOAD_URL}`, () => {
-        return new HttpResponse(null, {
-            status: 200,
-            statusText: 'OK',
-        });
         return passthrough();
     }),
 

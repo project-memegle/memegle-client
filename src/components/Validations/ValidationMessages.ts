@@ -80,6 +80,7 @@ const getValidationMessages = (): ValidationMessagesProps => ({
     SUCCESS_DELETE_ACCOUNT: i18n.t('SUCCESS_DELETE_ACCOUNT'),
     SUCCESS_VERIFICATION: i18n.t('SUCCESS_VERIFICATION'),
     GET_USER_INFO_FAIL: i18n.t('GET_USER_INFO_FAIL'),
+    SENT_RESET_MAIL_SUCCESS: i18n.t('SENT_RESET_MAIL_SUCCESS'),
 });
 
 export default getValidationMessages;

@@ -10,7 +10,6 @@ import Upload from './pages/Upload';
 import Chat from 'pages/Chat';
 import PrivateRoute from 'components/auth/PrivateRoute';
 import Mypage from 'pages/Mypage';
-import ChangeNickname from 'pages/ChangeNickname';
 import MyImages from 'pages/MyImages/MyImages';
 import DeleteAccount from 'pages/DeleteAccount';
 import MypageResetPassword from 'pages/Password/MypageResetPassword';
