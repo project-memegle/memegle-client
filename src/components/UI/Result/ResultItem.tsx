@@ -13,6 +13,7 @@ import {
     getFavoriteItems,
 } from 'services/FavoriteService';
 import getValidationMessages from 'components/Validations/ValidationMessages';
+import ProgressiveImg from '../ProgressiveImg';
 
 interface ResultItemProps {
     result: SearchResultItemDTO;
@@ -46,7 +47,7 @@ export default function ResultItem({
             StorageKeyword.FAVORITE_ITEMS
         );
         if (!favoriteItems) return;
-    });
+    }, []);
 
     async function addToFavorite(item: SearchResultItemDTO) {
         if (loading) return;
@@ -128,10 +129,10 @@ export default function ResultItem({
                     <i className="c-icon c-icon-favorite">favorite_border</i>
                 )}
             </div>
-            <img
+            <ProgressiveImg
                 src={result.imageUrl}
                 alt={`img-${result.id}`}
-                onLoad={onImageLoad}
+                placeholderSrc="/assets/images/placeholder.svg"
             />
             {toast && (
                 <ToastMessage
