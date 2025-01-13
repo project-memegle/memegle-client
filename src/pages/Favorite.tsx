@@ -30,6 +30,7 @@ import FavoriteItemWrapper from 'components/UI/Favorite/FavoriteItemWrapper';
 import FavoriteItem from 'components/UI/Favorite/FavoriteItem';
 import StorageKeyword from 'Constant/StorageKeyword';
 import { deleteFavoriteItem } from 'services/FavoriteService';
+import EmptyForm from 'components/UI/EmptyForm';
 
 export default function Favorite() {
     const [items, setItems] = useState<any[]>([]);
@@ -165,6 +166,7 @@ export default function Favorite() {
                 >
                     {t('SAVING_CHANGES')}
                 </button>
+                {items.length === 0 && <EmptyForm />}
                 <SortableContext
                     items={items.map((item) => item.id)}
                     strategy={rectSortingStrategy}
