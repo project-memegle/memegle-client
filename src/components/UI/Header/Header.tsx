@@ -21,6 +21,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
     const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
     const [language, setLanguage] = useState<string>('ko');
     const location = useLocation();
+    const [displayResponsiveMenu, setDisplayResponsiveMenu] = useState(false);
 
     useEffect(() => {
         if (!location.pathname.startsWith('/tag/')) {
@@ -31,6 +32,12 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
     useEffect(() => {
         setLocalSearchTerm(searchTerm);
     }, [searchTerm]);
+
+    useEffect(() => {
+        const language = getSessionStorages(StorageKeyword.LANGUAGE) || 'ko';
+        setLanguage(language);
+        i18n.changeLanguage(language);
+    }, [i18n]);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLocalSearchTerm(event.target.value);
@@ -46,26 +53,21 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
             navigate(`/tag/${normalizedTerm}`);
         }
     };
-    let logInButtonClick = () => {
+
+    const logInButtonClick = () => {
         navigate('/login');
     };
 
-    let logOutButtonClick = () => {
+    const logOutButtonClick = () => {
         auth.logout(() => {
             navigate('/');
         });
     };
 
-    function removeInputValue(event: React.MouseEvent<HTMLButtonElement>) {
+    const removeInputValue = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         setLocalSearchTerm('');
-    }
-
-    useEffect(() => {
-        const language = getSessionStorages(StorageKeyword.LANGUAGE) || 'ko';
-        setLanguage(language);
-        i18n.changeLanguage(language);
-    }, [setLanguage, i18n]);
+    };
 
     const handleChangeLanguage = (
         event: React.ChangeEvent<HTMLInputElement>
@@ -75,6 +77,93 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
         setLocalStorage({ key: StorageKeyword.LANGUAGE, value: lang });
         setLanguage(lang);
     };
+
+    const renderAuthButtons = () => (
+        <>
+            <button
+                className="c-top-bar__user__log button__white-font"
+                onClick={logOutButtonClick}
+            >
+                {t('DEFAULT_SIGNOUT')}
+            </button>
+            <button
+                className="c-top-bar__user__log button__white-font"
+                onClick={() => navigate('/mypage')}
+            >
+                {t('DEFAULT_MYPAGE')}
+            </button>
+            <button
+                className="c-top-bar__user__log button__white-font"
+                onClick={() => navigate('/upload')}
+            >
+                {t('DEFAULT_UPLOAD')}
+            </button>
+            <button
+                className="c-top-bar__user-notification"
+                onClick={() => navigate('/notification')}
+            >
+                <i className="c-icon">notifications</i>
+            </button>
+        </>
+    );
+
+    const renderResponsiveMenu = () => (
+        <aside className="c-top-bar__user c-top-bar__user-aside">
+            {auth.isAuthenticated && (
+                <section className="c-top-bar__user c-top-bar__user-aside-wrapper">
+                    <div className="c-top-bar__user-flex">
+                        <button
+                            type="button"
+                            className="c-top-bar__user-notification"
+                            onClick={() =>
+                                setDisplayResponsiveMenu(!displayResponsiveMenu)
+                            }
+                        >
+                            <i className="c-icon">close</i>
+                        </button>
+                        <button
+                            className="c-top-bar__user-notification"
+                            onClick={() => {
+                                navigate('/notification');
+                                setDisplayResponsiveMenu(
+                                    !displayResponsiveMenu
+                                );
+                            }}
+                        >
+                            <i className="c-icon">notifications</i>
+                        </button>
+                    </div>
+                    <button
+                        className="c-top-bar__user__log button__white-font"
+                        onClick={() => {
+                            navigate('/upload');
+                            setDisplayResponsiveMenu(!displayResponsiveMenu);
+                        }}
+                    >
+                        {t('DEFAULT_UPLOAD')}
+                    </button>
+                    <button
+                        className="c-top-bar__user__log button__white-font"
+                        onClick={() => {
+                            navigate('/mypage');
+                            setDisplayResponsiveMenu(!displayResponsiveMenu);
+                        }}
+                    >
+                        {t('DEFAULT_MYPAGE')}
+                    </button>
+                    <button
+                        className="c-top-bar__user__log button__white-font"
+                        onClick={() => {
+                            logOutButtonClick();
+                            setDisplayResponsiveMenu(!displayResponsiveMenu);
+                        }}
+                    >
+                        {t('DEFAULT_SIGNOUT')}
+                    </button>
+                </section>
+            )}
+        </aside>
+    );
 
     return (
         <header className="c-header">
@@ -96,37 +185,32 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                         </label>
                     </div>
                 </section>
-                <section className="c-top-bar__user c-top-bar-user">
+                <section className="c-top-bar__user c-top-bar__user responsive">
                     {auth.isAuthenticated ? (
-                        <>
-                            <button
-                                className="c-top-bar-user__log button__white-font"
-                                onClick={logOutButtonClick}
-                            >
-                                {t('DEFAULT_SIGNOUT')}
-                            </button>
-                            <button
-                                className="c-top-bar-user__log button__white-font"
-                                onClick={() => navigate('/mypage')}
-                            >
-                                {t('DEFAULT_MYPAGE')}
-                            </button>
-                            <button
-                                className="c-top-bar-user__log button__white-font"
-                                onClick={() => navigate('/upload')}
-                            >
-                                {t('DEFAULT_UPLOAD')}
-                            </button>
-                            <button
-                                className="c-top-bar-user__notification"
-                                onClick={() => navigate('/notification')}
-                            >
-                                <i className="c-icon">notifications</i>
-                            </button>
-                        </>
+                        <button
+                            type="button"
+                            className="c-top-bar__user-notification"
+                            onClick={() =>
+                                setDisplayResponsiveMenu(!displayResponsiveMenu)
+                            }
+                        >
+                            <i className="c-icon">menu</i>
+                        </button>
                     ) : (
                         <button
-                            className="c-top-bar-user__log button__white-font"
+                            className="c-top-bar__user__log button__white-font"
+                            onClick={logInButtonClick}
+                        >
+                            {t('DEFAULT_LOGIN')}
+                        </button>
+                    )}
+                </section>
+                <section className="c-top-bar__user c-top-bar__user">
+                    {auth.isAuthenticated ? (
+                        renderAuthButtons()
+                    ) : (
+                        <button
+                            className="c-top-bar__user__log button__white-font"
                             onClick={logInButtonClick}
                         >
                             {t('DEFAULT_LOGIN')}
@@ -134,6 +218,9 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                     )}
                 </section>
             </section>
+
+            {displayResponsiveMenu && renderResponsiveMenu()}
+
             <section>
                 <form className="form" onSubmit={handleSearchSubmit}>
                     <div className="c-input">
