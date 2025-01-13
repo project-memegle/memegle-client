@@ -64,7 +64,6 @@ const FavoriteItem = forwardRef<HTMLDivElement, FavoriteItemProps>(
                     className="c-favorite__item-img"
                     placeholderSrc="/assets/images/placeholder.svg"
                 />
-
                 {toast && (
                     <ToastMessage
                         message={toastMessage}
