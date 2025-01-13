@@ -5,7 +5,6 @@ import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getNotificationState } from 'services/NotificationService';
-import { getUserInfo } from 'services/UserInfoService';
 import {
     deleteSessionStorage,
     getSessionStorages,
@@ -21,7 +20,6 @@ export default function Mypage() {
 
     useEffect(() => {
         getNotificationState();
-        getUserInfo();
         const sessionStorageNickname = getSessionStorages(
             StorageKeyword.CHANGE_NICKNAME_SUCCESS
         );

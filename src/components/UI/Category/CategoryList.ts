@@ -5,7 +5,7 @@ import resolveImagePath from 'utils/Event/resolveImagePath';
 
 const DATE = new Date().toISOString();
 
-export const useMockCategoryList = (): CategoryResultSectionDTO => {
+export const useCategoryList = (): CategoryResultSectionDTO => {
     const { t, i18n } = useTranslation();
     const [categoryList, setCategoryList] = useState<CategoryResultSectionDTO>({
         success: true,

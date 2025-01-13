@@ -3,7 +3,7 @@ import CategoryItem from '../Category/CategoryItem';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import { CategoryResultSectionDTO } from 'services/dto/ResultDto';
 import { t } from 'i18next';
-import { useMockCategoryList } from './CategoryList';
+import { useCategoryList } from './CategoryList';
 
 /**
  *
@@ -15,7 +15,7 @@ export default function CategorySection() {
         useState<CategoryResultSectionDTO | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const mockCategoryList = useMockCategoryList();
+    const mockCategoryList = useCategoryList();
 
     useEffect(() => {
         setCategoryList(mockCategoryList);

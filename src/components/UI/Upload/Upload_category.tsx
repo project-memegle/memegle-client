@@ -1,11 +1,10 @@
-import { useMockCategoryList } from 'mockData/__CategoryList';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getCategorylist } from 'services/CategoryService';
 import {
     CategoryResultItemDTO,
     CategoryResultSectionDTO,
 } from 'services/dto/ResultDto';
+import { useCategoryList } from '../Category/CategoryList';
 
 interface CategoryInputProps {
     onCategoryChange: (category: string) => void;
@@ -20,9 +19,8 @@ export function CategoryInput({
         useState<CategoryResultSectionDTO | null>(null);
     const [selectCategory, setSelectCategory] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
     const { t } = useTranslation();
-    const mockCategoryList = useMockCategoryList();
+    const mockCategoryList = useCategoryList();
 
     useEffect(() => {
         if (selectCategory) {
@@ -31,13 +29,7 @@ export function CategoryInput({
         }
     }, [selectCategory, onCategoryChange, setErrorMessage]);
 
-    //todo: 서버에서 카테고리 리스트를 가져오기
-    // useEffect(() => {
-    //     getCategorylist({ setLoading, setCategoryList, setError });
-    // }, []);
-
     useEffect(() => {
-        // MOCK 데이터로 상태 초기화
         setCategoryList(mockCategoryList);
         setLoading(false);
     }, [mockCategoryList]);
