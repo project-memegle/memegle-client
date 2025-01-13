@@ -5,7 +5,7 @@ import {
     SearchResultSectionDTO,
 } from 'services/dto/ResultDto';
 import { handleApiError } from 'utils/API/handleApiError';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
 import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
 

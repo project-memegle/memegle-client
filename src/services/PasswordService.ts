@@ -1,4 +1,4 @@
-import { post, put } from 'utils/API/fetcher';
+import { post} from 'utils/API/fetcher';
 import axios, { AxiosResponse } from 'axios';
 import {
     VerifyCodePasswordDTO,
