@@ -13,23 +13,31 @@ import StorageKeyword from 'Constant/StorageKeyword';
 import getValidationMessages from '../components/Validations/ValidationMessages';
 import { useTranslation } from 'react-i18next';
 import uploadService from 'services/UploadService';
+import { SubmitButton } from 'components/UI/Buttons';
+import { FormProvider, useForm } from 'react-hook-form';
 export const UPLOAD_URL = '/images';
 
 export default function Upload() {
     const ValidationMessages = getValidationMessages();
     const { t } = useTranslation();
-
     const [file, setFile] = useState<File | undefined>();
     const [tagList, setTaglist] = useState<string[] | string>('');
     const [category, setCategory] = useState<string | undefined>();
-
     const [errorMessage, setErrorMessage] = useState('');
     const [fileName, setFileName] = useState<string>(t('REQUIRED_UPLOAD_FILE'));
     const [imageUrl, setImageUrl] = useState<string | undefined>();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [isDragging, setIsDragging] = useState<boolean>(false);
-
     const navigate = useCustomNavigate();
+    const [isPending, setIsPending] = useState(false);
+    const {
+        register,
+        watch,
+        formState: { errors },
+    } = useForm();
+
+    const methods = useForm();
+    const { handleSubmit } = methods;
     const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target.files?.[0];
         handleFile(selectedFile);
@@ -68,9 +76,7 @@ export default function Upload() {
         setFileName(t('REQUIRED_UPLOAD_FILE'));
         setImageUrl(undefined);
     };
-
-    const upload = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const onSubmit = async (data: any) => {
         if (!file) {
             setErrorMessage(t('REQUIRED_UPLOAD_FILE'));
             return;
@@ -84,24 +90,23 @@ export default function Upload() {
             return;
         }
         try {
-            const useId = getSessionStorages(StorageKeyword.USER_UID);
-            if (!useId) {
-                setErrorMessage(t('REQUIRED_LOGIN'));
-                return;
-            }
+            setIsPending(true);
             await uploadService(
-                useId,
+                'userId',
                 file,
                 category,
                 Array.isArray(tagList) ? tagList : tagList.split(',')
             );
+
             setSessionStorages({
                 key: StorageKeyword.UPLOAD_SUCCESS,
                 value: StorageKeyword.TRUE,
             });
             navigate('/');
         } catch (error) {
-            handleApiError(error as AxiosError, setErrorMessage);
+            handleApiError(error, setErrorMessage);
+        } finally {
+            setIsPending(false); // 폼 제출 완료
         }
     };
 
@@ -130,78 +135,84 @@ export default function Upload() {
         const selectedFile = e.dataTransfer.files?.[0];
         handleFile(selectedFile);
     };
-
     return (
         <div className="main__container">
-            <form
-                onSubmit={upload}
-                encType="multipart/form-data"
-                className="c-upload"
-                onKeyDown={handleKeyDown}
-            >
-                <section
-                    className={`file-upload ${isDragging ? 'dragging' : ''}`}
-                    onDragOver={handleDragOver}
-                    onDragEnter={handleDragEnter}
-                    onDragLeave={handleDragLeave}
-                    onDrop={handleDrop}
+            <FormProvider {...methods}>
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    encType="multipart/form-data"
+                    className="c-upload"
+                    onKeyDown={handleKeyDown}
                 >
-                    <div className="file-upload__area">
-                        {imageUrl ? (
-                            <>
-                                <button
-                                    className="file-upload__delete"
-                                    onClick={resetFile}
-                                >
-                                    <i className="c-icon">delete</i>
-                                </button>
-                                <img
-                                    src={imageUrl}
-                                    alt="Uploaded file preview"
-                                    className="file-upload__preview"
-                                />
-                            </>
-                        ) : (
-                            <>
-                                <i className="file-upload__icon c-icon">
-                                    upload_file
-                                </i>
-                                <h4>{t('REQUIRED_DND_FILE')}</h4>
-                                <input
-                                    className="file-upload__input"
-                                    type="file"
-                                    onChange={onChangeFile}
-                                    ref={fileInputRef}
-                                />
-                            </>
-                        )}
-                    </div>
-                    <button
-                        type="button"
-                        onClick={handleUploadButtonClick}
-                        className="file-upload__button"
+                    <section
+                        className={`file-upload ${
+                            isDragging ? 'dragging' : ''
+                        }`}
+                        onDragOver={handleDragOver}
+                        onDragEnter={handleDragEnter}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
                     >
-                        {t('IMAGE_UPLOAD')}
-                    </button>
-                </section>
-                <TagInput
-                    onTagsChange={setTaglist}
-                    setErrorMessage={setErrorMessage}
-                />
-                <CategoryInput
-                    onCategoryChange={setCategory}
-                    setErrorMessage={setErrorMessage}
-                />
-                {errorMessage && <p className="font-warning">{errorMessage}</p>}
-                <section className="c-login__button-section">
+                        <div className="file-upload__area">
+                            {imageUrl ? (
+                                <>
+                                    <button
+                                        className="file-upload__delete"
+                                        onClick={resetFile}
+                                    >
+                                        <i className="c-icon">delete</i>
+                                    </button>
+                                    <img
+                                        src={imageUrl}
+                                        alt="Uploaded file preview"
+                                        className="file-upload__preview"
+                                    />
+                                </>
+                            ) : (
+                                <>
+                                    <i className="file-upload__icon c-icon">
+                                        upload_file
+                                    </i>
+                                    <h4>{t('REQUIRED_DND_FILE')}</h4>
+                                    <input
+                                        className="file-upload__input"
+                                        type="file"
+                                        onChange={onChangeFile}
+                                        ref={fileInputRef}
+                                    />
+                                </>
+                            )}
+                        </div>
+                        <button
+                            type="button"
+                            onClick={handleUploadButtonClick}
+                            className="file-upload__button"
+                        >
+                            {t('IMAGE_UPLOAD')}
+                        </button>
+                    </section>
+                    <TagInput
+                        onTagsChange={setTaglist}
+                        setErrorMessage={setErrorMessage}
+                    />
+                    <CategoryInput
+                        onCategoryChange={setCategory}
+                        setErrorMessage={setErrorMessage}
+                    />
+                    {errorMessage && (
+                        <p className="font-warning">{errorMessage}</p>
+                    )}
+                    {/* <section className="c-login__button-section">
                     <button
                         className="button__rounded button__orange"
                         type="submit"
                     >
                         {t('ASKED_UPLOAD')}
                     </button>
-                </section>
-            </form>
+                </section> */}
+                    <SubmitButton isPending={isPending} text="ASKED_UPLOAD" />
+                </form>
+            </FormProvider>
         </div>
     );
 }
