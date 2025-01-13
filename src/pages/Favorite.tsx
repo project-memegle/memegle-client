@@ -31,11 +31,13 @@ import FavoriteItem from 'components/UI/Favorite/FavoriteItem';
 import StorageKeyword from 'Constant/StorageKeyword';
 import { deleteFavoriteItem } from 'services/FavoriteService';
 import EmptyForm from 'components/UI/EmptyForm';
+import useCustomNavigate from 'hooks/useCustomNaviaget';
 
 export default function Favorite() {
     const [items, setItems] = useState<any[]>([]);
     const ValidationMessages = getValidationMessages();
     const { t } = useTranslation();
+    const navigate = useCustomNavigate();
     const tootTipMessage = t('FAVORITE_TOOLTIP');
 
     const [toast, setToast] = useState(false);
@@ -124,7 +126,10 @@ export default function Favorite() {
     };
 
     const handleDeleteItem = (itemId: string) => {
-        if (!userUId) return;
+        if (!userUId) {
+            navigate('/login');
+            return;
+        }
         deleteFavoriteItem(userUId, itemId);
         const updatedItems = items.filter((item) => item.id !== itemId);
         setItems(updatedItems);

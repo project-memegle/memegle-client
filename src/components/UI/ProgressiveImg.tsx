@@ -4,11 +4,13 @@ type ProgressiveImgProps = {
     placeholderSrc?: string;
     src: string;
     alt?: string;
+    className?: string;
 };
 
 const ProgressiveImg = ({
     placeholderSrc,
     src,
+    className,
     ...props
 }: ProgressiveImgProps) => {
     const [imgSrc, setImgSrc] = useState(placeholderSrc || src);
@@ -21,12 +23,16 @@ const ProgressiveImg = ({
             setImgSrc(src);
         };
     }, [src]);
+
+    const combinedClassName = `image ${customClass} ${className || ''}`.trim();
+
     return (
         <img
             {...{ src: imgSrc, ...props }}
             alt={props.alt || ''}
-            className={`image ${customClass}`}
+            className={combinedClassName}
         />
     );
 };
+
 export default ProgressiveImg;
