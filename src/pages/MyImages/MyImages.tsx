@@ -35,7 +35,7 @@ export default function MyImages() {
                 const result = await getUploadedImages(userUId);
                 setItems(result);
             } catch (error) {
-                setError('Error fetching images');
+                setError(validationMessage.SERVER_ERROR);
             } finally {
                 setLoading(false);
             }
