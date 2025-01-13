@@ -2,7 +2,10 @@ import MyImageItem from 'components/UI/MyImages/MyImageItem';
 import StorageKeyword from 'Constant/StorageKeyword';
 import { useEffect, useState } from 'react';
 import { SearchResultItemDTO } from 'services/dto/ResultDto';
-import { getUploadedImages } from 'services/MyImagesService';
+import {
+    deleteUploadedImages,
+    getUploadedImages,
+} from 'services/MyImagesService';
 import { getSessionStorages } from 'utils/Storage/sessionStorage';
 import ToastMessage from 'components/UI/ToastMessage/ToastMessage';
 import ImageModal from 'components/UI/Result/ImageModal';
@@ -19,13 +22,17 @@ export default function MyImages() {
     const [toast, setToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const validationMessage = getValidationMessages();
+    const [useId, setUserId] = useState<string | null>(null);
     useEffect(() => {
         setLoading(true);
-        const userId = getSessionStorages(StorageKeyword.USER_UID);
-        if (!userId) return;
+        const userUId = getSessionStorages(StorageKeyword.USER_UID);
+        if (!userUId) {
+            return;
+        }
+        setUserId(userUId);
         const fetchData = async () => {
             try {
-                const result = await getUploadedImages(userId);
+                const result = await getUploadedImages(userUId);
                 setItems(result);
             } catch (error) {
                 setError('Error fetching images');
@@ -42,6 +49,10 @@ export default function MyImages() {
         setItems(newItems);
         setToastMessage(validationMessage.SUCCESS_DELETE_IMG);
         setToast(true);
+        if (!useId) {
+            return;
+        }
+        deleteUploadedImages(useId, itemId);
     }
 
     const handleOpenModal = (selectedResult: SearchResultItemDTO) => {

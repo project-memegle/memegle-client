@@ -1,13 +1,9 @@
-import { AxiosError } from 'axios';
-import { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { TagInput } from 'components/UI/Upload/Upload_tag';
 import { CategoryInput } from 'components/UI/Upload/Upload_category';
 import { handleApiError } from 'utils/API/handleApiError';
 import handleKeyDown from 'utils/Event/preventEnter';
-import {
-    getSessionStorages,
-    setSessionStorages,
-} from 'utils/Storage/sessionStorage';
+import { setSessionStorages } from 'utils/Storage/sessionStorage';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
 import StorageKeyword from 'Constant/StorageKeyword';
 import getValidationMessages from '../components/Validations/ValidationMessages';
@@ -106,7 +102,7 @@ export default function Upload() {
         } catch (error) {
             handleApiError(error, setErrorMessage);
         } finally {
-            setIsPending(false); // 폼 제출 완료
+            setIsPending(false);
         }
     };
 
@@ -202,14 +198,6 @@ export default function Upload() {
                     {errorMessage && (
                         <p className="font-warning">{errorMessage}</p>
                     )}
-                    {/* <section className="c-login__button-section">
-                    <button
-                        className="button__rounded button__orange"
-                        type="submit"
-                    >
-                        {t('ASKED_UPLOAD')}
-                    </button>
-                </section> */}
                     <SubmitButton isPending={isPending} text="ASKED_UPLOAD" />
                 </form>
             </FormProvider>
