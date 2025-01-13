@@ -14,6 +14,7 @@ import {
 } from 'services/FavoriteService';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import ProgressiveImg from '../ProgressiveImg';
+import { useAuth } from 'components/auth/ProvideAuth';
 
 interface ResultItemProps {
     result: SearchResultItemDTO;
@@ -31,6 +32,7 @@ export default function ResultItem({
     const [isFavorite, setIsFavorite] = useState(false);
     const [loading, setLoading] = useState(false);
     const ValidationMessages = getValidationMessages();
+    const auth = useAuth();
 
     useEffect(() => {
         const userId = getSessionStorages(StorageKeyword.USER_UID);
@@ -123,11 +125,14 @@ export default function ResultItem({
                     }
                 }}
             >
-                {isFavorite ? (
-                    <i className="c-icon c-icon--fill-favorite">favorite</i>
-                ) : (
-                    <i className="c-icon c-icon-favorite">favorite_border</i>
-                )}
+                {auth.isAuthenticated &&
+                    (isFavorite ? (
+                        <i className="c-icon c-icon--fill-favorite">favorite</i>
+                    ) : (
+                        <i className="c-icon c-icon-favorite">
+                            favorite_border
+                        </i>
+                    ))}
             </div>
             <ProgressiveImg
                 src={result.imageUrl}
