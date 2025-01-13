@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SearchResultItemDTO } from 'services/dto/ResultDto';
 import ToastMessage from '../ToastMessage/ToastMessage';
 import DownloadLink from './DownloadLink';
 import handleCopyImage from 'utils/Event/handleCopyImage';
+import ProgressiveImg from '../ProgressiveImg';
 
 interface ImageModalProps {
     result: SearchResultItemDTO;
@@ -21,12 +22,18 @@ const ImageModal: React.FC<ImageModalProps> = ({
 }) => {
     const [toast, setToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
+    const [imageLoaded, setImageLoaded] = useState(false);
 
     async function handleCopy() {
         await handleCopyImage(result.imageUrl, setToastMessage, setToast, () =>
             onOpenModal(result)
         );
     }
+
+    const handleImageLoad = () => {
+        setImageLoaded(true);
+        onImageLoad();
+    };
 
     return (
         <div className="modal" onClick={onClose}>
@@ -35,24 +42,35 @@ const ImageModal: React.FC<ImageModalProps> = ({
                 onClick={(e) => e.stopPropagation()}
             >
                 <div className="modal__content">
-                    <div className="modal__content-copy" onClick={handleCopy}>
-                        <i className="c-icon">file_copy</i>
-                    </div>{' '}
-                    <div className="modal__content-close" onClick={onClose}>
-                        <i className="c-icon">close</i>
-                    </div>
-                    <img
+                    {imageLoaded && (
+                        <>
+                            <div
+                                className="modal__content-copy"
+                                onClick={handleCopy}
+                            >
+                                <i className="c-icon">file_copy</i>
+                            </div>
+                            <div
+                                className="modal__content-close"
+                                onClick={onClose}
+                            >
+                                <i className="c-icon">close</i>
+                            </div>
+                            <DownloadLink
+                                url={result.imageUrl}
+                                filename={`${result.category}${result.id}`}
+                                onDownload={handleDownloadSuccess}
+                                setToastMessage={setToastMessage}
+                                setToast={setToast}
+                            />
+                        </>
+                    )}
+                    <ProgressiveImg
                         src={result.imageUrl}
-                        alt="Modal Content"
+                        alt={`img-${result.id}`}
                         className="modal__image"
-                        onLoad={onImageLoad}
-                    />
-                    <DownloadLink
-                        url={result.imageUrl}
-                        filename={`${result.category}${result.id}`}
-                        onDownload={handleDownloadSuccess}
-                        setToastMessage={setToastMessage}
-                        setToast={setToast}
+                        placeholderSrc="/assets/images/loadingMotionBlur.svg"
+                        onLoad={handleImageLoad}
                     />
                     {toast && (
                         <ToastMessage
@@ -61,14 +79,16 @@ const ImageModal: React.FC<ImageModalProps> = ({
                         />
                     )}
                 </div>
-                <ul className="tag-list">
-                    {result.tagList &&
-                        result.tagList.map((tag, index) => (
-                            <li className="tag-list__item" key={index}>
-                                {tag}
-                            </li>
-                        ))}
-                </ul>
+                {imageLoaded && (
+                    <ul className="tag-list">
+                        {result.tagList &&
+                            result.tagList.map((tag, index) => (
+                                <li className="tag-list__item" key={index}>
+                                    {tag}
+                                </li>
+                            ))}
+                    </ul>
+                )}
             </div>
         </div>
     );

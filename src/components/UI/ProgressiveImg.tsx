@@ -5,24 +5,30 @@ type ProgressiveImgProps = {
     src: string;
     alt?: string;
     className?: string;
+    onLoad?: () => void;
 };
 
 const ProgressiveImg = ({
     placeholderSrc,
     src,
     className,
+    onLoad,
     ...props
 }: ProgressiveImgProps) => {
     const [imgSrc, setImgSrc] = useState(placeholderSrc || src);
     const customClass =
         placeholderSrc && imgSrc === placeholderSrc ? 'loading' : 'loaded';
+
     useEffect(() => {
         const img = new Image();
         img.src = src;
         img.onload = () => {
             setImgSrc(src);
+            if (onLoad) {
+                onLoad();
+            }
         };
-    }, [src]);
+    }, [src, onLoad]);
 
     const combinedClassName = `image ${customClass} ${className || ''}`.trim();
 
