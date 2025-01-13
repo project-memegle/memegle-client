@@ -13,11 +13,13 @@ import { ResetPassword } from 'services/PasswordService';
 import ErrorMessage from 'components/UI/FontMessages/ErrorMessage';
 import { InputField } from 'components/UI/InputField';
 import handleInputChange from 'utils/Event/handleInputChange';
-import { validatePassword } from 'firebase/auth';
+import { FormProvider, useForm } from 'react-hook-form';
 import validateLogInPassword from 'components/Validations/ValidateLogInPassword';
+import { SubmitButton } from 'components/UI/Buttons';
 
 export default function MypageResetPassword() {
     const navigate = useCustomNavigate();
+    const methods = useForm();
     const ValidationMessages = getValidationMessages();
     const { t } = useTranslation();
     const [message, setMessage] = useState('');
@@ -25,6 +27,8 @@ export default function MypageResetPassword() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [currentPassword, setCurrentPassword] = useState('');
+
+    const [isPending, setIsPending] = useState(false);
 
     const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
     const DEFAULT_CURRENT_PASSWORD =
@@ -114,70 +118,75 @@ export default function MypageResetPassword() {
 
     return (
         <div className="main__container">
-            <form className="c-login" onSubmit={onSubmit}>
-                <div className="c-login__section">
-                    <ErrorMessage message={currentPasswordError} />
-                    {!currentPasswordError && <p>{DEFAULT_CURRENT_PASSWORD}</p>}
-                    <section className="c-login__section-password">
-                        <InputField
-                            label="기존 비밀번호"
-                            type="password"
-                            name="password"
-                            value={currentPassword}
-                            onChange={onChangeCurrentPassword}
-                            placeholder={
-                                ValidationMessages.DEFAULT_ORIGINAL_PASSWORD
-                            }
-                            ref={currentPasswordInputRef}
-                            className="c-login__input"
-                        />
-                    </section>
-                </div>
-                <div className="c-login__section">
-                    {passwordError ? (
-                        <p className="error-message">{passwordError}</p>
-                    ) : (
-                        <p>{DEFAULT_PASSWORD}</p>
-                    )}
-                    <section className="c-login__section-password">
-                        <div>
-                            <label htmlFor="password">비밀번호</label>
-                            <input
-                                ref={passwordInputRef}
-                                className="c-login__input"
+            <FormProvider {...methods}>
+                <form className="c-login" onSubmit={onSubmit}>
+                    <div className="c-login__section">
+                        <ErrorMessage message={currentPasswordError} />
+                        {!currentPasswordError && (
+                            <p>{DEFAULT_CURRENT_PASSWORD}</p>
+                        )}
+                        <section className="c-login__section-password">
+                            <InputField
+                                label="기존 비밀번호"
+                                type="password"
                                 name="password"
-                                type="password"
-                                id="password"
-                                placeholder={t('DEFAULT_NEW_PASSWORD')}
-                                value={password}
-                                onChange={onChangePassword}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="password-check">
-                                비밀번호 확인
-                            </label>
-                            <input
-                                ref={passwordCheckInputRef}
+                                value={currentPassword}
+                                onChange={onChangeCurrentPassword}
+                                placeholder={
+                                    ValidationMessages.DEFAULT_ORIGINAL_PASSWORD
+                                }
+                                ref={currentPasswordInputRef}
                                 className="c-login__input"
-                                name="password-check"
-                                type="password"
-                                id="password-check"
-                                placeholder={t('DEFAULT_NEW_PASSWORD_CHECK')}
-                                value={passwordCheck}
-                                onChange={onChangePasswordCheck}
                             />
-                        </div>
-                    </section>
-                </div>
-                <button
-                    className="button__rounded button__orange"
-                    type="submit"
-                >
-                    {t('CHANGE_PASSWORD')}
-                </button>
-            </form>
-            {message && <p className="message">{message}</p>}
+                        </section>
+                    </div>
+                    <div className="c-login__section">
+                        {passwordError ? (
+                            <p className="error-message">{passwordError}</p>
+                        ) : (
+                            <p>{DEFAULT_PASSWORD}</p>
+                        )}
+                        <section className="c-login__section-password">
+                            <div>
+                                <label htmlFor="password">비밀번호</label>
+                                <input
+                                    ref={passwordInputRef}
+                                    className="c-login__input"
+                                    name="password"
+                                    type="password"
+                                    id="password"
+                                    placeholder={t('DEFAULT_NEW_PASSWORD')}
+                                    value={password}
+                                    onChange={onChangePassword}
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="password-check">
+                                    비밀번호 확인
+                                </label>
+                                <input
+                                    ref={passwordCheckInputRef}
+                                    className="c-login__input"
+                                    name="password-check"
+                                    type="password"
+                                    id="password-check"
+                                    placeholder={t(
+                                        'DEFAULT_NEW_PASSWORD_CHECK'
+                                    )}
+                                    value={passwordCheck}
+                                    onChange={onChangePasswordCheck}
+                                />
+                            </div>
+                        </section>
+                    </div>
+
+                    <SubmitButton
+                        isPending={isPending}
+                        text="CHANGE_PASSWORD"
+                    />
+                </form>
+                {message && <p className="message">{message}</p>}
+            </FormProvider>
         </div>
     );
 }
