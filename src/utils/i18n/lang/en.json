@@ -58,6 +58,7 @@
   "MYPAGE_GREETING": "MY PAGE 😎",
   "VIEW_MY_IMAGE_HISTORY": "My Uploaded Images",
   "CHANGE_PASSWORD": "Reset Password",
+  "SEND_PASSWORD_RESET_MAIL": "Send Password Reset Mail",
   "DELETE_ACCOUNT": "Delete Account",
   "CHECK_DUPLICATED": "Check Availability",
   "DEFAULT_ID": "ID",
@@ -159,5 +160,6 @@
   "CATEGORY-anger": "Angry",
   "CATEGORY-other": "Other",
   "CATEGORY-favorite": "Favorite",
-  "NOTIFICATION-empty": "No notifications have arrived"
+  "NOTIFICATION-empty": "No notifications have arrived",
+  "SENT_RESET_MAIL_SUCCESS": "Password reset mail sent successfully."
 }

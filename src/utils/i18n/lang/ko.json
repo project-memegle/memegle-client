@@ -45,6 +45,7 @@
   "MYPAGE_GREETING": "마이페이지 😎",
   "VIEW_MY_IMAGE_HISTORY": "내가 올린 이미지",
   "CHANGE_PASSWORD": "비밀번호 재설정",
+  "SEND_PASSWORD_RESET_MAIL": "비밀번호 재설정 메일 보내기",
   "DELETE_ACCOUNT": "계정 삭제",
   "REQUIRED_DND_FILE": "파일을 이곳으로 끌어다놓아주세요",
   "DEFAULT_ID": "아이디",
@@ -158,5 +159,6 @@
   "CATEGORY-anger": "분노",
   "CATEGORY-other": "기타",
   "CATEGORY-favorite": "즐겨찾기",
-  "NOTIFICATION-empty": "도착한 알람이 없어요"
+  "NOTIFICATION-empty": "도착한 알람이 없어요",
+  "SENT_RESET_MAIL_SUCCESS": "비밀번호 재설정 메일을 보냈습니다."
 }

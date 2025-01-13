@@ -16,11 +16,12 @@ import { useAuth } from 'components/auth/ProvideAuth';
 import getValidationMessages from 'components/Validations/ValidationMessages';
 import validateEmail from 'components/Validations/ValidateEmail';
 import { UserInfoDTO } from 'services/dto/UserInfoDto';
+import { FormProvider, useForm } from 'react-hook-form';
+import { SubmitButton } from 'components/UI/Buttons';
 
 export default function SignUp() {
     const navigate = useCustomNavigate();
     const auth = useAuth();
-    const { t } = useTranslation();
     const ValidationMessages = getValidationMessages();
     const DEFAULT_EMAIL = ValidationMessages.DEFAULT_EMAIL;
     const DEFAULT_PASSWORD = ValidationMessages.DEFAULT_PASSWORD;
@@ -41,6 +42,8 @@ export default function SignUp() {
 
     // ---------------------SIGNUP-------------------------
     const [signUpError, setSignUpError] = useState<string>('');
+    const [isPending, setIsPending] = useState(false);
+    const methods = useForm();
 
     const onChangeEmail = useCallback(
         handleInputChange(setemail, setemailErrorMessage, validateEmail, () => {
@@ -85,6 +88,7 @@ export default function SignUp() {
                     password: password,
                 };
                 try {
+                    setIsPending(true);
                     await signUp(userData);
                     setSessionStorages({
                         key: StorageKeyword.CREATE_ACCOUNT_SUCCESS,
@@ -110,6 +114,8 @@ export default function SignUp() {
                     } else {
                         setSignUpError(ValidationMessages.UNKNOWN_ERROR);
                     }
+                } finally {
+                    setIsPending(false);
                 }
             }
         },
@@ -125,74 +131,76 @@ export default function SignUp() {
 
     return (
         <div className="main__container">
-            <form className="c-login" onSubmit={onSignUpSubmit}>
-                <div className="c-login__section">
-                    <ErrorMessage message={emailErrorMessage} />
-                    <SuccessMessage message={emailSuccessMessage} />
-                    {!emailErrorMessage && !emailSuccessMessage && (
-                        <p>{DEFAULT_EMAIL}</p>
+            <FormProvider {...methods}>
+                <form className="c-login" onSubmit={onSignUpSubmit}>
+                    <div className="c-login__section">
+                        <ErrorMessage message={emailErrorMessage} />
+                        <SuccessMessage message={emailSuccessMessage} />
+                        {!emailErrorMessage && !emailSuccessMessage && (
+                            <p>{DEFAULT_EMAIL}</p>
+                        )}
+                        <section className="c-login__section-verification">
+                            <InputField
+                                label="이메일"
+                                type="text"
+                                name="email"
+                                value={email}
+                                onChange={onChangeEmail}
+                                placeholder={ValidationMessages.REQUIRED_EMAIL}
+                                ref={emailInputRef}
+                                isDuplicated={isEmailDupliacted}
+                                isChecked={isemailChecked}
+                                className={`c-login__input ${
+                                    isemailChecked
+                                        ? isEmailDupliacted
+                                            ? 'fail'
+                                            : 'success'
+                                        : ''
+                                }`}
+                            />
+                        </section>
+                    </div>
+                    <div className="c-login__section">
+                        <ErrorMessage message={passwordError} />
+                        {!passwordError && <p>{DEFAULT_PASSWORD}</p>}
+                        <section className="c-login__section-password">
+                            <InputField
+                                label="비밀번호"
+                                type="password"
+                                name="password"
+                                value={password}
+                                onChange={onChangePassword}
+                                placeholder={
+                                    ValidationMessages.DEFAULT_PASSWORD
+                                }
+                                ref={passwordInputRef}
+                                className="c-login__input"
+                            />
+                            <InputField
+                                label="비밀번호 확인"
+                                type="password"
+                                name="password-check"
+                                value={passwordCheck}
+                                onChange={onChangePasswordCheck}
+                                placeholder={
+                                    ValidationMessages.DEFAULT_PASSWORD_CHECK
+                                }
+                                ref={passwordCheckInputRef}
+                                className="c-login__input"
+                            />
+                        </section>
+                    </div>
+                    {signUpError && (
+                        <p className="message font-warning">{signUpError}</p>
                     )}
-                    <section className="c-login__section-verification">
-                        <InputField
-                            label="이메일"
-                            type="text"
-                            name="email"
-                            value={email}
-                            onChange={onChangeEmail}
-                            placeholder={ValidationMessages.REQUIRED_EMAIL}
-                            ref={emailInputRef}
-                            isDuplicated={isEmailDupliacted}
-                            isChecked={isemailChecked}
-                            className={`c-login__input ${
-                                isemailChecked
-                                    ? isEmailDupliacted
-                                        ? 'fail'
-                                        : 'success'
-                                    : ''
-                            }`}
+                    <section className="c-login__button-section">
+                        <SubmitButton
+                            isPending={isPending}
+                            text="DEFAULT_SIGNUP"
                         />
                     </section>
-                </div>
-                <div className="c-login__section">
-                    <ErrorMessage message={passwordError} />
-                    {!passwordError && <p>{DEFAULT_PASSWORD}</p>}
-                    <section className="c-login__section-password">
-                        <InputField
-                            label="비밀번호"
-                            type="password"
-                            name="password"
-                            value={password}
-                            onChange={onChangePassword}
-                            placeholder={ValidationMessages.DEFAULT_PASSWORD}
-                            ref={passwordInputRef}
-                            className="c-login__input"
-                        />
-                        <InputField
-                            label="비밀번호 확인"
-                            type="password"
-                            name="password-check"
-                            value={passwordCheck}
-                            onChange={onChangePasswordCheck}
-                            placeholder={
-                                ValidationMessages.DEFAULT_PASSWORD_CHECK
-                            }
-                            ref={passwordCheckInputRef}
-                            className="c-login__input"
-                        />
-                    </section>
-                </div>
-                {signUpError && (
-                    <p className="message font-warning">{signUpError}</p>
-                )}
-                <section className="c-login__button-section">
-                    <AuthButton
-                        className="button__rounded button__orange"
-                        type="submit"
-                    >
-                        {t('DEFAULT_SIGNUP')}
-                    </AuthButton>
-                </section>
-            </form>
+                </form>
+            </FormProvider>
         </div>
     );
 }

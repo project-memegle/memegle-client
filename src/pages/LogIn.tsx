@@ -70,7 +70,7 @@ export default function LogIn() {
 
     useEffect(() => {
         const sessionStoragePassword = getSessionStorages(
-            StorageKeyword.CHANGE_PASSWORD_SUCCESS
+            StorageKeyword.SENT_RESET_MAIL_SUCCESS
         );
         const sessionStorageVerification = getSessionStorages(
             StorageKeyword.VERIFICATION_SUCCESS
@@ -80,9 +80,9 @@ export default function LogIn() {
             sessionStoragePassword &&
             sessionStoragePassword === StorageKeyword.TRUE
         ) {
-            setToastMessage(ValidationMessages.CHANGE_PASSWORD_SUCCESS);
+            setToastMessage(ValidationMessages.SENT_RESET_MAIL_SUCCESS);
             setToast(true);
-            deleteSessionStorage(StorageKeyword.CHANGE_PASSWORD_SUCCESS);
+            deleteSessionStorage(StorageKeyword.SENT_RESET_MAIL_SUCCESS);
         }
         if (
             sessionStorageVerification &&
@@ -199,13 +199,6 @@ export default function LogIn() {
                             isPending={isPending}
                             text="DEFAULT_LOGIN"
                         />
-
-                        {/* <button
-                            className="button__rounded button__orange"
-                            type="submit"
-                        >
-                            {t('DEFAULT_LOGIN')}
-                        </button> */}
                         <button
                             onClick={() => navigate('/signup')}
                             className="button__rounded button__light"
@@ -216,7 +209,7 @@ export default function LogIn() {
                         <section className="c-login__button-section-end">
                             <button
                                 className="button__light-font"
-                                onClick={() => navigate('/find/password')}
+                                onClick={() => navigate('/find/password/reset')}
                             >
                                 {t('FIND_PASSWORD')}
                             </button>
