@@ -15,8 +15,6 @@ export default function Mypage() {
     const navigate = useCustomNavigate();
     const [toastMessage, setToastMessage] = useState('');
     const [toast, setToast] = useState(false);
-    const [userId, setUserId] = useState('');
-    const [nickname, setNickname] = useState('');
     const [email, setEmail] = useState('') || null;
     const { t } = useTranslation();
     const ValidationMessages = getValidationMessages();
@@ -49,18 +47,10 @@ export default function Mypage() {
             deleteSessionStorage(StorageKeyword.CHANGE_PASSWORD_SUCCESS);
         }
 
-        const userId = getSessionStorages(StorageKeyword.USER_ID);
         const email = getSessionStorages(StorageKeyword.USER_EMAIL);
-        const nickname = getSessionStorages(StorageKeyword.USER_NICKNAME);
 
-        if (userId) {
-            setUserId(userId);
-        }
         if (email) {
             setEmail(email);
-        }
-        if (nickname) {
-            setNickname(nickname);
         }
     }, []);
 
