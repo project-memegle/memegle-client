@@ -33,6 +33,12 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
         setLocalSearchTerm(searchTerm);
     }, [searchTerm]);
 
+    useEffect(() => {
+        const language = getSessionStorages(StorageKeyword.LANGUAGE) || 'ko';
+        setLanguage(language);
+        i18n.changeLanguage(language);
+    }, [i18n]);
+
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLocalSearchTerm(event.target.value);
     };
@@ -63,12 +69,6 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
         setLocalSearchTerm('');
     };
 
-    useEffect(() => {
-        const language = getSessionStorages(StorageKeyword.LANGUAGE) || 'ko';
-        setLanguage(language);
-        i18n.changeLanguage(language);
-    }, [setLanguage, i18n]);
-
     const handleChangeLanguage = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
@@ -77,6 +77,93 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
         setLocalStorage({ key: StorageKeyword.LANGUAGE, value: lang });
         setLanguage(lang);
     };
+
+    const renderAuthButtons = () => (
+        <>
+            <button
+                className="c-top-bar__user__log button__white-font"
+                onClick={logOutButtonClick}
+            >
+                {t('DEFAULT_SIGNOUT')}
+            </button>
+            <button
+                className="c-top-bar__user__log button__white-font"
+                onClick={() => navigate('/mypage')}
+            >
+                {t('DEFAULT_MYPAGE')}
+            </button>
+            <button
+                className="c-top-bar__user__log button__white-font"
+                onClick={() => navigate('/upload')}
+            >
+                {t('DEFAULT_UPLOAD')}
+            </button>
+            <button
+                className="c-top-bar__user-notification"
+                onClick={() => navigate('/notification')}
+            >
+                <i className="c-icon">notifications</i>
+            </button>
+        </>
+    );
+
+    const renderResponsiveMenu = () => (
+        <aside className="c-top-bar__user c-top-bar__user-aside">
+            {auth.isAuthenticated && (
+                <section className="c-top-bar__user c-top-bar__user-aside-wrapper">
+                    <div className="c-top-bar__user-flex">
+                        <button
+                            type="button"
+                            className="c-top-bar__user-notification"
+                            onClick={() =>
+                                setDisplayResponsiveMenu(!displayResponsiveMenu)
+                            }
+                        >
+                            <i className="c-icon">close</i>
+                        </button>
+                        <button
+                            className="c-top-bar__user-notification"
+                            onClick={() => {
+                                navigate('/notification');
+                                setDisplayResponsiveMenu(
+                                    !displayResponsiveMenu
+                                );
+                            }}
+                        >
+                            <i className="c-icon">notifications</i>
+                        </button>
+                    </div>
+                    <button
+                        className="c-top-bar__user__log button__white-font"
+                        onClick={() => {
+                            navigate('/upload');
+                            setDisplayResponsiveMenu(!displayResponsiveMenu);
+                        }}
+                    >
+                        {t('DEFAULT_UPLOAD')}
+                    </button>
+                    <button
+                        className="c-top-bar__user__log button__white-font"
+                        onClick={() => {
+                            navigate('/mypage');
+                            setDisplayResponsiveMenu(!displayResponsiveMenu);
+                        }}
+                    >
+                        {t('DEFAULT_MYPAGE')}
+                    </button>
+                    <button
+                        className="c-top-bar__user__log button__white-font"
+                        onClick={() => {
+                            logOutButtonClick();
+                            setDisplayResponsiveMenu(!displayResponsiveMenu);
+                        }}
+                    >
+                        {t('DEFAULT_SIGNOUT')}
+                    </button>
+                </section>
+            )}
+        </aside>
+    );
 
     return (
         <header className="c-header">
@@ -112,9 +199,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                     ) : (
                         <button
                             className="c-top-bar__user__log button__white-font"
-                            onClick={() => {
-                                logInButtonClick();
-                            }}
+                            onClick={logInButtonClick}
                         >
                             {t('DEFAULT_LOGIN')}
                         </button>
@@ -122,32 +207,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                 </section>
                 <section className="c-top-bar__user c-top-bar__user">
                     {auth.isAuthenticated ? (
-                        <>
-                            <button
-                                className="c-top-bar__user__log button__white-font"
-                                onClick={logOutButtonClick}
-                            >
-                                {t('DEFAULT_SIGNOUT')}
-                            </button>
-                            <button
-                                className="c-top-bar__user__log button__white-font"
-                                onClick={() => navigate('/mypage')}
-                            >
-                                {t('DEFAULT_MYPAGE')}
-                            </button>
-                            <button
-                                className="c-top-bar__user__log button__white-font"
-                                onClick={() => navigate('/upload')}
-                            >
-                                {t('DEFAULT_UPLOAD')}
-                            </button>
-                            <button
-                                className="c-top-bar__user-notification"
-                                onClick={() => navigate('/notification')}
-                            >
-                                <i className="c-icon">notifications</i>
-                            </button>
-                        </>
+                        renderAuthButtons()
                     ) : (
                         <button
                             className="c-top-bar__user__log button__white-font"
@@ -159,71 +219,8 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                 </section>
             </section>
 
-            {displayResponsiveMenu && (
-                <aside className="c-top-bar__user c-top-bar__user-aside">
-                    {auth.isAuthenticated ? (
-                        <section className="c-top-bar__user c-top-bar__user-aside-wrapper">
-                            <div className="c-top-bar__user-flex">
-                                <button
-                                    type="button"
-                                    className="c-top-bar__user-notification"
-                                    onClick={() =>
-                                        setDisplayResponsiveMenu(
-                                            !displayResponsiveMenu
-                                        )
-                                    }
-                                >
-                                    <i className="c-icon">close</i>
-                                </button>
-                                <button
-                                    className="c-top-bar__user-notification"
-                                    onClick={() => {
-                                        navigate('/notification');
-                                        setDisplayResponsiveMenu(
-                                            !displayResponsiveMenu
-                                        );
-                                    }}
-                                >
-                                    <i className="c-icon">notifications</i>
-                                </button>
-                            </div>
-                            <button
-                                className="c-top-bar__user__log button__white-font"
-                                onClick={() => {
-                                    navigate('/upload');
-                                    setDisplayResponsiveMenu(
-                                        !displayResponsiveMenu
-                                    );
-                                }}
-                            >
-                                {t('DEFAULT_UPLOAD')}
-                            </button>
-                            <button
-                                className="c-top-bar__user__log button__white-font"
-                                onClick={() => {
-                                    navigate('/mypage');
-                                    setDisplayResponsiveMenu(
-                                        !displayResponsiveMenu
-                                    );
-                                }}
-                            >
-                                {t('DEFAULT_MYPAGE')}
-                            </button>
-                            <button
-                                className="c-top-bar__user__log button__white-font"
-                                onClick={() => {
-                                    logOutButtonClick();
-                                    setDisplayResponsiveMenu(
-                                        !displayResponsiveMenu
-                                    );
-                                }}
-                            >
-                                {t('DEFAULT_SIGNOUT')}
-                            </button>
-                        </section>
-                    ) : null}
-                </aside>
-            )}
+            {displayResponsiveMenu && renderResponsiveMenu()}
+
             <section>
                 <form className="form" onSubmit={handleSearchSubmit}>
                     <div className="c-input">
