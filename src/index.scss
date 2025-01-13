@@ -101,6 +101,7 @@ h6 {
 ::-webkit-scrollbar {
   width: 6px;
   background-color: #f5f5f5;
+  display: none;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -119,7 +120,7 @@ h6 {
 
 @media (max-width: 600px) {
   #root {
-    box-shadow: none; /* 필요에 따라 그림자 제거 */
+    box-shadow: none;
     --container__max-width: 100%;
     --primary__grid-column: 1fr 1fr;
   }
