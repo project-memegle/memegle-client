@@ -26,7 +26,7 @@ export const useMockCategoryList = (): CategoryResultSectionDTO => {
                     categoryName: t('CATEGORY-birthday'),
                     imageCategory: 'birthday',
                     titleImageUrl: resolveImagePath(
-                        '/temp/birthday/birthday-02.webp'
+                        '/categorylist/birthday.webp'
                     ),
                     lastMemeImageRegistTime: DATE,
                 },
@@ -35,7 +35,7 @@ export const useMockCategoryList = (): CategoryResultSectionDTO => {
                     categoryName: t('CATEGORY-happiness'),
                     imageCategory: 'happiness',
                     titleImageUrl: resolveImagePath(
-                        '/temp/Happiness/happiness-01.webp'
+                        '/categorylist/happiness.webp'
                     ),
                     lastMemeImageRegistTime: DATE,
                 },
@@ -43,53 +43,49 @@ export const useMockCategoryList = (): CategoryResultSectionDTO => {
                     id: 3,
                     categoryName: t('CATEGORY-tiredness'),
                     imageCategory: 'tiredness',
-                    titleImageUrl: resolveImagePath(
-                        '/temp/Tired/tired-01.webp'
-                    ),
+                    titleImageUrl: resolveImagePath('/categorylist/tired.webp'),
                     lastMemeImageRegistTime: DATE,
                 },
                 {
                     id: 4,
                     categoryName: t('CATEGORY-what'),
                     imageCategory: 'what',
-                    titleImageUrl: resolveImagePath('/temp/what/what-01.webp'),
+                    titleImageUrl: resolveImagePath('/categorylist/what.webp'),
                     lastMemeImageRegistTime: DATE,
                 },
                 {
                     id: 5,
                     categoryName: t('CATEGORY-flex'),
                     imageCategory: 'flex',
-                    titleImageUrl: resolveImagePath('/temp/flex/flex-01.webp'),
+                    titleImageUrl: resolveImagePath('/categorylist/flex.webp'),
                     lastMemeImageRegistTime: DATE,
                 },
                 {
                     id: 6,
                     categoryName: t('CATEGORY-sad'),
                     imageCategory: 'sad',
-                    titleImageUrl: resolveImagePath('/temp/Sad/sad-07.webp'),
+                    titleImageUrl: resolveImagePath('/categorylist/sad.webp'),
                     lastMemeImageRegistTime: DATE,
                 },
                 {
                     id: 7,
                     categoryName: t('CATEGORY-mudo'),
                     imageCategory: 'mudo',
-                    titleImageUrl: resolveImagePath('/temp/Mudo/mudo-04.webp'),
+                    titleImageUrl: resolveImagePath('/categorylist/mudo.webp'),
                     lastMemeImageRegistTime: DATE,
                 },
                 {
                     id: 8,
                     categoryName: t('CATEGORY-anger'),
                     imageCategory: 'anger',
-                    titleImageUrl: resolveImagePath('/temp/Anger/anger-05.jpg'),
+                    titleImageUrl: resolveImagePath('/categorylist/anger.jpg'),
                     lastMemeImageRegistTime: DATE,
                 },
                 {
                     id: 9,
                     categoryName: t('CATEGORY-other'),
                     imageCategory: 'other',
-                    titleImageUrl: resolveImagePath(
-                        '/temp/Other/other-02.webp'
-                    ),
+                    titleImageUrl: resolveImagePath('/categorylist/other.webp'),
                     lastMemeImageRegistTime: DATE,
                 },
             ],
