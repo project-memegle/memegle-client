@@ -38,5 +38,18 @@
       align-items: center;
       gap: var(--primary__font-size);
     }
+    img {
+      @media (max-width: 600px) {
+        width: 80%;
+      }
+
+      @media (min-width: 601px) and (max-width: 1024px) {
+        width: 85%;
+      }
+
+      @media (min-width: 1025px) {
+        width: 90%;
+      }
+    }
   }
 }

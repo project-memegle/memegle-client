@@ -51,6 +51,20 @@
         color: colors.$white;
         white-space: nowrap;
         margin-bottom: 1.5em;
+
+        @media (max-width: 600px) {
+          font-size: calc(var(--primary__font-size) * 0.9);
+        }
+
+        // 중간 화면 (태블릿)
+        @media (min-width: 601px) and (max-width: 1024px) {
+          font-size: calc(var(--primary__font-size) * 1);
+        }
+
+        // 큰 화면 (데스크탑)
+        @media (min-width: 1025px) {
+          font-size: calc(var(--primary__font-size) * 1.1);
+        }
       }
     }
 
@@ -83,6 +97,20 @@
       &-content {
         padding: var(--primary__padding);
         // border-radius: var(--primary__border-radius);
+
+        @media (max-width: 600px) {
+          font-size: calc(var(--primary__font-size) * 0.9);
+        }
+
+        // 중간 화면 (태블릿)
+        @media (min-width: 601px) and (max-width: 1024px) {
+          font-size: calc(var(--primary__font-size) * 1);
+        }
+
+        // 큰 화면 (데스크탑)
+        @media (min-width: 1025px) {
+          font-size: calc(var(--primary__font-size) * 1.1);
+        }
       }
       &-incoming {
         @include gap-style;
