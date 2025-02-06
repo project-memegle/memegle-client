@@ -32,10 +32,12 @@ import StorageKeyword from 'Constant/StorageKeyword';
 import { deleteFavoriteItem } from 'services/FavoriteService';
 import EmptyForm from 'components/UI/EmptyForm';
 import useCustomNavigate from 'hooks/useCustomNaviaget';
+import { useAuth } from 'components/auth/ProvideAuth';
 
 export default function Favorite() {
     const [items, setItems] = useState<any[]>([]);
     const ValidationMessages = getValidationMessages();
+    const auth = useAuth();
     const { t } = useTranslation();
     const navigate = useCustomNavigate();
     const tootTipMessage = t('FAVORITE_TOOLTIP');
@@ -43,6 +45,7 @@ export default function Favorite() {
     const [toast, setToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [tooltipVisible, setTooltipVisible] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const [activeItem, setActiveItem] = useState<SearchResultItemDTO | null>(
         null
@@ -51,17 +54,26 @@ export default function Favorite() {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedResult, setSelectedResult] =
         useState<SearchResultItemDTO | null>(null);
+    useEffect(() => {
+        if (!auth.isAuthenticated) {
+            navigate('/login');
+            return;
+        }
+        setIsAuthenticated(auth.isAuthenticated);
+    }, [auth.isAuthenticated, navigate]);
 
     useEffect(() => {
-        const favoriteItems = getArraySessionStorages(
-            StorageKeyword.FAVORITE_ITEMS
-        );
-        if (!favoriteItems) return;
-        setItems(favoriteItems);
-        const userId = getSessionStorages(StorageKeyword.USER_UID);
-        setUserUId(userId);
-        if (!userUId) return;
-    }, []);
+        if (isAuthenticated) {
+            const favoriteItems = getArraySessionStorages(
+                StorageKeyword.FAVORITE_ITEMS
+            );
+            if (favoriteItems) {
+                setItems(favoriteItems);
+            }
+            const userId = getSessionStorages(StorageKeyword.USER_UID);
+            setUserUId(userId);
+        }
+    }, [isAuthenticated]);
 
     const sensors = useSensors(
         useSensor(TouchSensor),

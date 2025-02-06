@@ -12,9 +12,10 @@ import { normalizeString } from 'utils/Format/normalize';
 interface HeaderProps {
     searchTerm: string;
     onSearch: (term: string) => void;
+    isAuthenticated?: boolean;
 }
 
-export default function Header({ searchTerm, onSearch }: HeaderProps) {
+export default function Header({ searchTerm, onSearch, isAuthenticated }: HeaderProps) {
     const navigate = useCustomNavigate();
     const auth = useAuth();
     const { t, i18n } = useTranslation();
@@ -109,7 +110,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
 
     const renderResponsiveMenu = () => (
         <aside className="c-top-bar__user c-top-bar__user-aside">
-            {auth.isAuthenticated && (
+            {isAuthenticated && (
                 <section className="c-top-bar__user c-top-bar__user-aside-wrapper">
                     <div className="c-top-bar__user-flex">
                         <button
@@ -186,7 +187,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                     </div>
                 </section>
                 <section className="c-top-bar__user c-top-bar__user responsive">
-                    {auth.isAuthenticated ? (
+                    {isAuthenticated ? (
                         <button
                             type="button"
                             className="c-top-bar__user-notification"
@@ -206,7 +207,7 @@ export default function Header({ searchTerm, onSearch }: HeaderProps) {
                     )}
                 </section>
                 <section className="c-top-bar__user c-top-bar__user">
-                    {auth.isAuthenticated ? (
+                    {isAuthenticated ? (
                         renderAuthButtons()
                     ) : (
                         <button

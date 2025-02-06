@@ -11,9 +11,18 @@ function App() {
     const [searchHistory, setSearchHistory] = useState<string[]>(
         getSearchHistory()
     );
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const location = useLocation();
     const auth = useAuth();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (auth.isAuthenticated !== isAuthenticated) {
+            setIsAuthenticated(auth.isAuthenticated);
+        }
+        // console.log('auth.isAuthenticated', auth.isAuthenticated);
+        // console.log('isAuthenticated', isAuthenticated);
+    }, [auth.isAuthenticated, isAuthenticated]);
 
     useEffect(() => {
         setupInterceptors(navigate);
@@ -31,11 +40,20 @@ function App() {
 
     return (
         <div className="body__container">
-            <Header searchTerm={searchTerm} onSearch={handleSearch} />
-            <Outlet context={{ searchTerm, searchHistory, setSearchTerm }} />
-            {auth.isAuthenticated && location.pathname !== '/chat' && (
-                <ChatIcon />
-            )}
+            <Header
+                searchTerm={searchTerm}
+                onSearch={handleSearch}
+                isAuthenticated={isAuthenticated}
+            />
+            <Outlet
+                context={{
+                    searchTerm,
+                    searchHistory,
+                    setSearchTerm,
+                    isAuthenticated,
+                }}
+            />
+            {isAuthenticated && location.pathname !== '/chat' && <ChatIcon />}
         </div>
     );
 }
